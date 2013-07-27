@@ -1,0 +1,67 @@
+\usepackage{igo}
+
+\usepackage{pifont}
+\usepackage{dingbat}
+
+\usepackage{xetexko}
+
+\setmainhangulfont[Mapping=tex-text]{NanumMyeongjo}
+\setsanshangulfont[Mapping=tex-text]{NanumGothic}
+
+\newhangulfontfamily\titlehangul[Mapping=tex-text]{NanumGothic}
+
+\newcommand{\showqgoban}{\showgoban[j9,t19]}
+\newcommand{\showsgoban}{\showgoban[l10,t19]}
+
+\gdef\qtitle{}
+\newcounter{qnum}
+\newcommand{\questiontitle}[1]{\gdef \qtitle{#1}\stepcounter{qnum}
+  {\large \titlehangul \ding{113} 제 \theqnum 문 \ding{113} ~ \qtitle}}
+
+\newcommand{\answertitle}[1]{
+  {\large \titlehangul 제\theqnum문 해답 ~ \qtitle\ $\cdot$ #1}}
+  
+\newcounter{scnt}
+\newcommand{\step}{\par
+  \bigskip\bigskip\stepcounter{scnt}
+  {\titlehangul 그림\thescnt}~ }
+
+\newcommand{\question}[2]{
+  \begin{minipage}[t]{.4\columnwidth}
+  \questiontitle{#1}
+  \par\bigskip\bigskip{\titlehangul 힌트 \leftpointright~ } #2
+  \end{minipage}}
+
+\newcommand{\showquestiongoban}[1]{%
+  \hfill
+  \begin{minipage}[t]{.4\columnwidth}
+  \vspace{-12pt}
+  #1
+  \begin{center}
+  \showqgoban
+  \end{center}
+  \end{minipage}}
+
+\newenvironment{exercise}
+{\cleargoban\clearpage}
+{}
+
+\newenvironment{answer}
+{\clearpage}
+{}
+
+\newenvironment{solutiontext}
+{\begin{minipage}[t]{.45\columnwidth}\setcounter{scnt}{0}}
+{\end{minipage}}
+
+\newenvironment{solutionfigure}
+{\hfill\begin{minipage}[t]{.4\columnwidth}
+ \vspace{-13pt}\setcounter{scnt}{0}}
+{\end{minipage}}
+
+\newcommand{\stepgoban}{
+  \begin{center}
+  \stepcounter{scnt}
+  \shortstack{\showsgoban\\ \textsf{그림\thescnt}}
+  \end{center}}
+

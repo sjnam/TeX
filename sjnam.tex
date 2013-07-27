@@ -1,0 +1,48 @@
+
+\input xetexko.sty
+
+\hangulfont="NanumMyeongjo:mapping=tex-text" at 10pt
+
+% 기본 폰트를 한글을 포함하도록 다시 정의합니다.
+\def\hfontsize#1{\ifx\empty#1\empty\else
+ \edef\temp{\noexpand\hfontsizex\fontname\hangfnt\space\noexpand\nil}%
+ \temp{#1}\fi}
+\def\hfontsizex"#1" #2\nil#3{\font\hangfnt"#1" at #3}
+\def\hfontname#1{\ifx\empty#1\empty\else
+ \edef\temp{\noexpand\hfontnamex\fontname\hangfnt\space\noexpand\nil}%
+ \temp{#1}\fi}
+\def\hfontnamex"#1" #2\nil#3{\font\hangfnt"#3:mapping=tex-text" #2}
+\def\hfont#1#2{\hfontname{#1}\hfontsize{#2}}
+
+% 기본 글꼴 설정
+\hfont{NanumMyeongjo}{10pt}
+\expandafter\def\expandafter\tt\expandafter{\tt\hfontname{NanumGothic}}
+\expandafter\def\expandafter\sl\expandafter{\sl\hfontname{NanumGothic}}
+\expandafter\def\expandafter\it\expandafter{\it\hfontname{NanumGothic}}
+\expandafter\def\expandafter\bf\expandafter{\bf\hfontname{NanumMyeongjo ExtraBold}}
+
+% 각종 폰트를 한글을 포함하도록 재정의
+\let\orgninerm=\ninerm
+\def\ninerm{\hfont{NanumMyeongjo}{9pt}\orgninerm}
+\let\orgeightrm=\eightrm
+\def\eightrm{\hfont{NanumMyeongjo}{8pt}\orgeightrm}
+\let\orgsc=\sc
+\def\sc{\hfont{NanumMyeongjo}{8pt}\orgsc}
+\let\orgtentex=\tentex
+\def\tentex{\hfont{NanumGothic}{10pt}\orgtentex}
+
+% FIFO
+\def\fifo#1{\ifx\ofif#1\ofif\fi\process#1\fifo} 
+\def\ofif#1\fifo{\fi}
+
+% LIFO
+\def\lifo#1#2\ofil{\ifx\empty#2%
+  \empty\ofil\fi\lifo#2\ofil\process#1}
+\def\ofil#1\ofil{\fi}
+
+\parskip 3pt
+\baselineskip 16pt
+\abovedisplayskip=15pt plus 3pt minus 9pt
+\belowdisplayskip=15pt plus 3pt minus 9pt
+
+\endinput

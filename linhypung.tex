@@ -1,0 +1,92 @@
+\documentclass[12pt,b5paper]{article}
+
+\usepackage[text={110mm,5.5in}]{geometry}
+
+\usepackage{linhypung}
+
+\pagestyle{empty}
+
+\begin{document}
+
+\begin{exercise}
+  \question{백선}{살기 위해서 백은 어떻게 손질하면 좋을까? 착점은 한 곳이다.}
+  \showquestiongoban{
+    \white{r18,r17,s16,s15} 
+    \black{q18,q17,o17,r16,r15,r14,s14,r11}} 
+\end{exercise}
+
+\begin{answer}
+\begin{solutiontext}
+\answertitle{삶}
+\step 백 1의 꼬부림의 정해. 여러 가지 착점이 있을 것 같으나,
+이 한 수이다. 흑 2로 치중하더라도 백 3으로 귀에서 눌러 확실히 살아
+있다.
+\step 계속하여 흑 1의 젖힘에는 백 2로 이으면 그만.
+흑은 치중한 한 점을 이을 수 없다.
+\end{solutiontext}
+\begin{solutionfigure}
+\white[1]{s18,t17,t18}
+\stepgoban
+\clear{s18,t17,t18}
+\white{s18,t18}
+\black{t17}
+\black[1]{t15,s17}
+\stepgoban
+\end{solutionfigure}
+\end{answer}
+
+
+\begin{exercise}
+  \question{흑선}{위의 `제1문'에서 백이 뛰어 가일수한 형태.\par 
+  이렇게 되면 손질한 셈이 아니다.}
+  \showquestiongoban{
+    \white{r18,t18,r17,s16,s15} 
+    \black{q18,q17,o17,r16,r15,r14,s14,r11}} 
+\end{exercise}
+
+\begin{answer}
+\begin{solutiontext}
+\answertitle{백 죽음}
+\step 흑 1로 젖히는 착수가 좋으며, 이른바 젖혀서 죽이는
+유형이다. 백 2로 이으면 흑 3으로 둘 뿐. 실은 흑 1로 먼저 3에 두어도
+무방하지만, 대부분의 경우, 우선 젖힘부터 두는 것이 옳다고 기억해
+두기 바란다.
+\step 백 2로 누르면 흑 3으로 끊고, 5로 단수쳐 파호한다.
+\end{solutiontext}
+\begin{solutionfigure}
+\black[1]{t15,s17,s19}
+\stepgoban
+\clear{t15,s17,s19}
+\black[1]{t15,t16,s17,t17,r19}
+\stepgoban
+\end{solutionfigure}
+\end{answer}
+
+
+\begin{exercise}
+  \question{흑선}{이것은 `제1문'의 백이 호구쳐서 이은 형태.\par 
+  역시 손질이 정확하지 않으며, 수단의 여지가 있다.}
+  \showquestiongoban{
+    \white{r18,t17,r17,s16,s15} 
+    \black{q18,q17,o17,r16,r15,r14,s14,r11}} 
+\end{exercise}
+
+\begin{answer}
+\begin{solutiontext}
+\answertitle{패}
+\step 흑 1의 치중이 급소. 이 맥은 꼭 기억해 두기 바란다. 
+백 2로 가로막으면 흑 3으로 나와, 무조건 백 죽음이다.
+\step 따라서 백은 2로 받아 흑 3의 넘어감에 4로 눈을 갖게
+되는데, 흑 5로 먹여쳐서 패로 한다. 흑 1로 2에 붙이는 것은
+최악의 수. 백 1로 젖혀 살리고 만다.
+\end{solutiontext}
+\begin{solutionfigure}
+\black[1]{s19,r19,s18}
+\stepgoban
+\clear{s19,r19,s18}
+\black[1]{s19,s18,r19,t15,t18}
+\stepgoban
+\end{solutionfigure}
+\end{answer}
+
+\end{document}
