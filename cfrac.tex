@@ -1,0 +1,42 @@
+%% 연분수 매크로에 사용되는 유틸리티 매크로
+\newcount\k \newcount\m \newcount\n
+\newcount\r \newcount\q \newcount\t
+
+\def\bslash{/\mkern-4.5mu/}
+\def\reciprocal{\r=\n \n=\m \m=\r}
+\def\mymod#1#2{\m=#1 \n=#2 \t=0
+\ifnum\n=0 \else\ifnum\n<0 \n=-\n \m=-\m \ifnum\m<0 \t=-1 \fi
+\else\ifnum\m<0 \t=-1\fi\fi \r=\m
+\divide\m by\n \q=\m \multiply\m by\n
+\ifnum\t<0 \ifnum\m=\r \else\advance\q by-1
+\t=\q \multiply\t by\n \m=\t \fi\fi\advance\r-\m \fi}
+
+%% 연분수의 일반형과 리스형 표기법을 구현한 매크로
+\def\contfrac{\futurelet\optchar\optargcfrac}
+\def\optargcfrac{\ifx[\optchar \let\next\listcfrac
+\else\let\next\generalcfrac\fi \next}
+\def\listcfrac[#1]#2#3{\k=0 \if#1b [\blcfrac{#2}{#3}]
+\else\bslash\slcfrac{#2}{#3}\bslash\fi}
+\def\blcfrac#1#2{\advance\k by1 \mymod{#1}{#2}\number\q
+\ifnum\r>0 \ifnum\k=1;\else,\fi\blcfrac\n\r\fi}
+\def\slcfrac#1#2{\mymod{#1}{#2}\number\q
+\ifnum\r>0,\slcfrac\n\r \fi}
+\def\generalcfrac#1#2{\mymod{#1}{#2} \number\q
+\ifnum\r>0+{\strut1\hfill\over\displaystyle\generalcfrac\n\r}\fi}
+
+%% 리스트형 표기법의 연분수에서 분수를 구하는 매크로
+\def\reverse#1,#2\esrever{\ifx\empty#2\empty\esrever\fi
+\reverse#2\esrever\makefrac#1,}
+\def\esrever#1\esrever{\fi}
+\def\makefrac#1,{\reciprocal
+\r=\m \multiply\r by#1 \advance\r by\n \n=\r}
+\def\fraction[#1;#2]{\n=1 \m=0 \reverse#1,#2,\esrever
+\ifnum\m=1 \number\n \else{\number\n\over\number\m}\fi}
+
+%% 두 수의 최대공약수를 구하는 유클리드 알고리즘 매크로
+\newcount\a \newcount\b
+\def\euclid#1#2{\a=#1 \b=#2\unskip
+\ifnum\b>\a \k=\a \a=\b \b=\k\fi
+\ifnum\b=0 \ \number\a\else\mymod\a\b \euclid\b\r\fi}
+
+\endinput
