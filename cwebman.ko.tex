@@ -2,39 +2,12 @@
 
 \def\tangref{3} % where the main explanation of CTANGLing is given
 \input cwebmac
+\input hangulcweb
 \acrofalse\pdffalse\pdftexfalse
 \def\page{\box255 } \normalbottom
 \parskip 0pt plus 1pt
 \def\RA{\char'31 } % right arrow
 \def\hang{\hangindent 4em\ignorespaces}
-
-\input xetexko.sty
-
-\hangulfont="HCR Batang LVT:mapping=tex-text" at 10pt
-\hanjafont="HCR Batang LVT:mapping=tex-text" at 10pt
-
-% 기본 폰트를 한글을 포함하도록 다시 정의합니다.
-\def\hfontsize#1{\ifx\empty#1\empty\else
- \edef\temp{\noexpand\hfontsizex\fontname\hangfnt\space\noexpand\nil}%
- \temp{#1}\fi}
-\def\hfontsizex"#1" #2\nil#3{\font\hangfnt"#1" at #3}
-\def\hfontname#1{\ifx\empty#1\empty\else
- \edef\temp{\noexpand\hfontnamex\fontname\hangfnt\space\noexpand\nil}%
- \temp{#1}\fi}
-\def\hfontnamex"#1" #2\nil#3{\font\hangfnt"#3:mapping=tex-text" #2}
-\def\hfont#1#2{\hfontname{#1}\hfontsize{#2}}
-
-% 기본 글꼴 설정
-\hfont{HCR Batang LVT}{10pt}
-\expandafter\def\expandafter\tt\expandafter{\tt\hfontname{HCR Dotum LVT}}
-\expandafter\def\expandafter\sl\expandafter{\sl\hfontname{HCR Dotum LVT}}
-\expandafter\def\expandafter\it\expandafter{\it\hfontname{HCR Dotum LVT}}
-\expandafter\def\expandafter\bf\expandafter{\bf\hfontname{HCR Batang LVT Bold}}
-
-\let\otitlefont=\titlefont \def\titlefont{\hfont{HCR Batang LVT}{12pt}\otitlefont}
-\let\orninerm=\ninerm \def\ninerm{\hfont{HCR Batang LVT}{9pt}\orninerm}
-\let\orgtentex=\tentex \def\tentex{\hfontname{HCR Batang LVT}\orgtentex}
-
 \font\eightrm=cmr8
 \font\ninerm=cmr9
 \font\ninett=cmtt9
@@ -58,19 +31,19 @@
 \setpage
 
 \outer\def\section #1.{\penalty-500\bigskip
-        \centerline{\sectionfont\hfont{HCR Batang LVT Bold}{12pt}
+        \centerline{\sectionfont\hfont{nanummjb}{at 12pt}
         \def\.##1{{\twelvett##1}} #1}\nobreak\vskip 6pt}
 
 \def\lheader{\mainfont\the\pageno\hfill\runninghead\hfill}
 \def\rheader{\hfill\runninghead\hfill\mainfont\the\pageno}
-\def\runninghead{{\tt CWEB} \hfont{HCR Dotum LVT}{10pt}사용자 설명서 (버전 3.64)}
+\def\runninghead{{\tt CWEB} \hfont{nanumgtm}{at 9pt}사용자 설명서 (버전 3.64)}
 
 % This verbatim mode assumes that ! marks are !! in the text being copied.
 \def\verbatim{\begingroup
   \def\do##1{\catcode`##1=12 } \dospecials
   \parskip 0pt \parindent 0pt \let\!=!
   \catcode`\ =13 \catcode`\^^M=13
-  \tt\hfontname{HCR Dotum LVT} \catcode`\!=0 \verbatimdefs \verbatimgobble}
+  \tt\hfontname{nanumgtm} \catcode`\!=0 \verbatimdefs \verbatimgobble}
 {\catcode`\^^M=13{\catcode`\ =13\gdef\verbatimdefs{\def^^M{\ \par}\let =\ }} %
   \gdef\verbatimgobble#1^^M{}}
 
@@ -121,7 +94,7 @@ contains current info about \.{CWEB} and related topics.
 \centerline{\titlefont 구조적 문서화를 위한 {\ttitlefont CWEB} 시스템}
 \vskip 18pt\centerline{(버전 3.64 --- 2002년 2월)}
 \vskip 24pt
-\centerline{\hfont{HCR Batang LVT}{11pt} 도널드 크누스와 실비오 레비}
+\centerline{\hfont{nanummjm}{at 11pt} 도널드 크누스와 실비오 레비}
 \vfill
 
 \noindent
@@ -163,7 +136,7 @@ Acrobat Reader는 어도비 시스템즈사의 등록상표 이다.
 \centerline{\titlefont 구조적 문서화를 위한 {\ttitlefont CWEB} 시스템}
 
 \vskip 15pt plus 3pt minus 3pt
-\centerline{\hfontsize{11pt}도널드 크누스, 실비오 레비}
+\centerline{\hfont{nanummjm}{at 11pt}도널드 크누스, 실비오 레비}
 
 \vskip 24pt plus 3pt minus 3pt
 \noindent
@@ -372,7 +345,8 @@ Acrobat Reader는 어도비 시스템즈사의 등록상표 이다.
 %or less self-contained.  Each section has three parts:
 \.{CWEB} 파일은 마디({\sl section\/})라고 하는 하나의 온전한 의미가
 있는 단위들로 구성된다. 각 마디는 다음과 같은 세 개의
-부(部, part)를 가지고 있다.
+부(part)를 가지고 있다.
+%부(部, part)를 가지고 있다.
 
 %\yskip\item{$\bullet$} A \TEX/ part, containing explanatory material about what
 %is going on in the section.
@@ -1323,7 +1297,7 @@ $\langle\,$foo$\,\rangle$는 정의되는 것이 아니라 사용되는 것이�
 %limbo, with \.{@i}, can identify itself with \.{@q} comments.
 %Another use is to balance unbalanced parentheses in C strings,
 %so that your text editor's parenthesis matcher doesn't go into a tailspin.
-\@{q} [LTMCc] $*$ 이 명령어의 명령 텍스트는 오로지
+\@{q} [LTMCc] $*$ 명령 텍스트는 오로지
 \.{CWEB} 파일을 읽는 사람에게만 해당하는 주석이어서 \.{CTANGLE}과
 \.{CWEAVE}은 이 명령 텍스트를 완전히 무시한다.
 이 명령어는 \.{@i}를 이용해서 in limbo에 포함될 파일들을 주로 \.{@q}를
@@ -2208,7 +2182,7 @@ Andreas Scherer 에게 감사한다.
 
 \vfil\eject\titletrue
 
-\def\headlinefont{\rm\hfont{HCR Dotum LVT}{10pt}}
+\def\headlinefont{\rm\hfont{nanumgtm}{at 10pt}}
 \def\runninghead{\headlinefont 부록 A --- {\tt CWEB} 파일 포멧}
 \section 부록 A: \.{CWEB} 프로그램에서 발췌한 예제.
 \noindent
@@ -2238,7 +2212,7 @@ Andreas Scherer 에게 감사한다.
 \.{CWEAVE}가 만들어낸 \TEX/ 코드 출력물이다. 네 번째는 최종 출력 문서이다.
 
 \vskip 10pt
-\begingroup \def\tt{\eighttt} \baselineskip9pt \hfontsize{8pt}
+\begingroup \def\tt{\eighttt} \baselineskip9pt \hfont{nanumgtm}{at 8pt}
 \verbatim
 @ 프로시저 |prime_the_change_buffer|는 계속되는 매칭 과정에서 다음
 매칭 동작을 위해서 |change_buffer|를 세팅한다. 수정 파일에 있는 빈 줄은 매칭에
@@ -2377,7 +2351,7 @@ A --- {\tt CWEAVE}의 변환 결과 \TEX/ 코드}
 \.{common.tex} 파일에서 앞의 페이지들에 해당하는 부분을 발췌한 것이다.
 
 \vskip8pt
-\begingroup \def\tt{\eighttt} \baselineskip9pt \hfontsize{8pt}
+\begingroup \def\tt{\eighttt} \baselineskip9pt \hfont{nanumgtm}{at 8pt}
 \verbatim
 \M{12}프로시저 \PB{\\{prime\_the\_change\_buffer}}는 계속되는 매칭 과정에서 다음 
 매칭 동작을 위해서 \PB{\\{change\_buffer}}를 세팅한다. 수정 파일에 있는 빈 줄은 매칭에
@@ -2453,7 +2427,7 @@ ${}\\{strncpy}(\\{change\_buffer},\39\\{buffer},\39\\{limit}-\\{buffer}+%
 \vfil\eject
 
 \def\inote#1#2#3.{\Y\noindent{\hangindent2em%
-  \baselineskip10pt\eightrm\hfontsize{7pt}%
+  \baselineskip10pt\eightrm\hfont{nanummjm}{at 7pt}%
     #1~\ifacro{\pdfnote#3.}\else#3\fi#2.\par}}
 \def\U{\inote{이 코드는}{번 섹션에서 사용됩니다}}
 
@@ -2462,7 +2436,7 @@ ${}\\{strncpy}(\\{change\_buffer},\39\\{buffer},\39\\{limit}-\\{buffer}+%
 앞 페이지에 해당하는 부분을 최종 문서로 만들어 낸 결과이다.
 
 {
-\baselineskip13pt \hfontsize{9pt}
+\baselineskip13pt \hfont{nanummjm}{at 9pt}
 \M{12}프로시저 \PB{\\{prime\_the\_change\_buffer}}는 계속되는 매칭 과정에서 다음 
 매칭 동작을 위해서 \PB{\\{change\_buffer}}를 세팅한다. 수정 파일에 있는 빈 줄은 매칭에
 쓰이지 않기 때문에, \PB{$(\\{change\_limit}\E\\{change\_buffer}\W\R\R%
@@ -2711,7 +2685,7 @@ $$\lpile{\.{\\def\\topofcontents\{\\null\\vfill}\cr
   \.{ { }\\def\\rheader\{\\mainfont The \{\\tt CWEAVE\}{ }processor\\hfil\}}\cr
   \.{ { }\\centerline\{\\titlefont The \{\\ttitlefont CWEAVE\}{ }processor\}}\cr
   \.{ { }\\vskip 15pt \\centerline\{(Version 3.64)\}{ }\\vfill\}}\cr}$$
-위와 같은 경우에 목차 페이지의 상단에 원하는 정보를 나타낼 때는
+위와 같이 목차 페이지 상단에 원하는 정보를 나타낼 때는
 오른쪽 페이지들의 면주를 결정하는 \.{\\rheader} 매크로를 재정의
 하면 된다.
 
