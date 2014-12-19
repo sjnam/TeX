@@ -133,8 +133,6 @@ Acrobat Reader는 어도비 시스템즈사의 등록상표 이다.
 
 \pageno=0 \titletrue\eject
 
-\baselineskip=14pt
-
 \titletrue
 \centerline{\titlefont 구조적 문서화를 위한 {\ttitlefont CWEB} 시스템}
 
@@ -393,15 +391,13 @@ Acrobat Reader는 어도비 시스템즈사의 등록상표 이다.
 나타낸다. 마디는 그다음 마디가 시작하는 곳에서 끝나거나
 (즉, 다음의 `\.{@\ }' 또는 `\.{@*}') 파일의 끝에서 끝난다. 또한, \.{CWEB} 
 파일에는 어떠한 마디에도 포함되지 않는 텍스트가 있다. 이른바 맨 첫 번째
-마디 앞에 나오는 텍스트로 그러한 텍스트를 ``in limbo''라고 부른다.
-\.{CTNAGLE}은 이 텍스트를 완전히 무시하지만 \.{CWEAVE}는 \TEX/ 파일에
-그대로 복사한다. %이 텍스트는 \TEX/ 파일을 작성할때 흔히 파일 윗부분에 작성하는
-%매크로 정의나 문서를 만드는데 필요한 명령어들에 해당한다. 앞 절에서의 설명처럼 
-\.{CWEB} 프로그램을 작성하는 것은 \TEX/ 파일을 작성하는 것과 크게 다르지
-않으므로 \TEX/ 파일을 작성할 때와 마찬가지로
-in limbo 부분에 특별한 글꼴을 불러오거나 매크로를 정의 
+마디 앞에 나오는 텍스트로 그러한 텍스트를 ``인림보(in limbo)''라고 부른다.
+\.{CTNAGLE}은 인림보를 완전히 무시하지만 \.{CWEAVE}는 \TEX/ 파일에
+글자 그대로 복사한다. 인림보의 기능은 원하는 \TEX/ 출력 결과를 얻기 위한 문서
+포멧팅 명령어들을 제공하는 것이다.
+인림보에 특별한 글꼴을 불러오거나 매크로를 정의 
 하거나 페이지의 크기를 정한다거나 혹은 타이틀 페이지를 만드는 코드 등을
-담아서 파일의 맨 윗부분에 두는 것이 관례이다.
+인림보에 담아서 \.{CWEB}파일을 시작하는 관례이다.
 
 %Sections are numbered consecutively, starting with 1. These numbers appear
 %at the beginning of each section of the \TEX/ documentation output by
@@ -899,11 +895,11 @@ $\T{\^200}$이라고 출력한다. \.{CWEAVE}은 8진수는 이탤릭체를 사�
 %is a two-character combination of which the first is `\.@'.
 %We've already seen the meaning of several control codes; it's time to
 %list them more methodically.
-\section 명령어.
+\section 제어 부호.
 \noindent
-\.{CWEB}의 명령어({\sl control code\/})는 첫 번째 문자가 `\.@'인 두글자의 조합으로
-이루어진다. 이미 앞에서 여러 명령어를 살펴봤는데, 이제 \.{CWEB}의
-모든 명령어들을 체계적이고 자세히 알아볼 시간이 됐다.
+\.{CWEB}의 제어 부호({\sl control code\/})는 첫 번째 문자가 `\.@'인 두글자의 결합이다.
+이미 앞에서 여러 제어 부호를 살펴봤는데, 이제 \.{CWEB}의
+모든 제어 부호를 좀 더 순차적으로 나열해 볼 시간이 됐다.
 
 %In the following list,
 %the letters in brackets after a control code indicate in what contexts that
@@ -916,16 +912,16 @@ $\T{\^200}$이라고 출력한다. \.{CWEAVE}은 8진수는 이탤릭체를 사�
 %arrow.  Thus $[LTMC\to T]$ next to \.{@\ } indicates that this control
 %code can occur in limbo, or in any of the three parts of a section, and
 %that it starts the (possibly empty) \TEX/ part of the following section.
-앞으로 설명할 명령어들에서 명령어 다음에 나오는 대괄호 안의
-글자들은 그 명령어가 어떤 환경에서 사용될 수 있는가를 설명한다.
+앞으로 나열하는 리스트에서 제어 부호 다음에 나오는 대괄호 안의
+글자는 그 제어 부호가 어떤 환경에서 사용될 수 있는가를 설명한다.
 $L$은 명령어가 in limbo에서 사용될 수 있다는 것을 뜻하고,
 $T$는 \TEX/부에서, $M$는 중간부에서, $C$는 \CEE/언어부와 같은 최상위
 수준에서 사용될 수 있다는 것을 나타낸다. 최상위 수준이라 함은, `\pb'나
-마디 이름과 같은 환경 이외의 것을 말한다. 화살표 $\to$는 명령어를 사용함으로
+마디 이름과 같은 환경 이외의 것을 말한다. 화살표 $\to$는 제어 부호를 사용함으로
 해서 현재 환경을 마감하고 화살표 다음에 나오는 글자가 뜻하는 새로운
-환경이 시작된다는 것을 의미한다. 따라서 명령어 \.{@\ } 다음에 나오는
-$[LTMC\to T]$가 뜻하는 바는 이 명령어는 in limbo와 마디의 \TEX/부,
-중간부, \CEE/언어부에서 사용할 수 있고, 이 명령어를 사용하면,
+환경이 시작된다는 것을 의미한다. 따라서 제어 부호 \.{@\ } 다음에 나오는
+$[LTMC\to T]$가 뜻하는 바는 이 제어 부호는 in limbo와 마디의 \TEX/부,
+중간부, \CEE/언어부에서 사용할 수 있고, 이 제어 부호를 사용하면,
 새로운 마디의 \TEX/부가 시작된다는 의미이다.
 
 %Two other abbreviations can occur in these brackets: The letter $r$ stands for
@@ -945,13 +941,13 @@ $[LTMC\to T]$가 뜻하는 바는 이 명령어는 in limbo와 마디의 \TEX/�
 환경은 `\pb'안에 있는 \CEE/ 텍스트가 그것이다. 이때 `\pb'는 주석문 안에
 사용된 `\pb'는 해당하지만, 다른 제한된 환경에서 나타나는 `\pb'는
 제외된다. 대괄호 다음에 나오는 $*$는 현재
-설명하는 명령어는 \.{@>}와 짝을 이루고 그러한 명령어들로 이루어지는
+설명하는 제어 부호는 \.{@>}와 짝을 이루고 그러한 명령어들로 이루어지는
 환경이 제한된(restricted) 환경이라는 뜻이다.
  
 %Control codes involving letters are case-insensitive; thus \.{@d} and
 %\.{@D} are equivalent. Only the lowercase versions are mentioned
 %specifically below.
-\.{CWEB} 명령어를 구성하는 두 문자중 `\.{@}'를 제외한 나머지 한 문자가
+\.{CWEB} 제어 부호를 구성하는 두 문자중 `\.{@}'를 제외한 나머지 한 문자가
 기호가 아닌 알파벳인 명령어들은 \.{CWEB}이 대소문자를 구분하지 
 않기 때문에 \.{@d}와 \.{@D}는 같은 명령어가 된다. 이 글에서는 소문자만 다룰
 것이다.
@@ -966,20 +962,20 @@ $[LTMC\to T]$가 뜻하는 바는 이 명령어는 in limbo와 마디의 \TEX/�
 %Note that you must use this convention if you are giving an internet
 %email address in a \.{CWEB} file (e.g., \.{levy@@math.berkeley.edu}).
 \@{@} [LTMCrc] 기호 \.@를 두 번 중복해서 사용하면, 문서에는 `\.@' 하나만
-나타난다. 이 명령어는 모든 환경에서 사용할 수 있는 유일한 명령어이며, 
+나타난다. 이 제어 부호는 모든 환경에서 사용할 수 있는 유일한 것이며, 
 주로 \.{CWEB} 파일 내에서 이메일 주소를 나타낼 때
 사용된다. (예, \.{levy@@math.berkeley.edu}).
 
 %\subsec
 %Here are the codes that introduce the \TEX/ part of a section.
 \subsec
-다음 명령어를 사용하면 마디의 \TEX/부가 시작된다.
+다음 제어 부호를 사용하면 마디의 \TEX/부가 시작된다.
 
 %\@\ [LTMC\to T] This denotes the beginning of a new (unstarred)
 %section. A tab mark or form feed or
 %end-of-line character is equivalent to a space when it follows an \.@
 %sign (and in most other cases).
-\@\ [LTMC\to T] 이 명령어를 사용하면 별표가 아닌 새로운 마디가 시작된다.
+\@\ [LTMC\to T] 이 제어 부호를 사용하면 별표가 아닌 새로운 마디가 시작된다.
 빈칸 대신에 탭, 용지먹임(form feed), 줄의 끝(end-of-line) 문자 등이 \.@ 다음에
 올 수 있고, 그것들은 빈칸과 같은 효과를 나타낸다.
 
@@ -991,7 +987,7 @@ $[LTMC\to T]$가 뜻하는 바는 이 명령어는 in limbo와 마디의 \TEX/�
 %print an asterisk on the terminal
 %followed by the current section number, so that the user
 %can see some indication of progress. The very first section should be starred.
-\@* [LTMC\to T] 이 명령어를 사용하면 새로운 별표 마디가 시작된다. 별표
+\@* [LTMC\to T] 이 제어 부호를 사용하면 새로운 별표 마디가 시작된다. 별표
 마디는 앞에서 설명했듯이, 여러 마디로 이루어지는 그룹을 대표하는
 마디이다. 이때 별표 마디는 제목을 갖는데, 그
 제목은 \.{@*} 다음에 나오고 제목 다음에는 반드시 마침표가 나와야
