@@ -1,0 +1,82 @@
+%
+% http://mathworld.wolfram.com/PeriodicContinuedFraction.html
+
+\documentclass{article}
+
+\usepackage{luacode}
+
+\begin{luacode*}
+local floor,sqrt = math.floor, math.sqrt
+local concat = table.concat
+local sformat = string.format
+
+-- integer square root of n
+function isqrt(n)
+  return floor(sqrt(n))
+end
+
+-- is n square?
+function isSqrt(n)
+   local s = isqrt(n)
+   return s*s == n
+end
+
+-- periodic continued fraction
+function periodCF(n)
+   local period = {}
+   local a0 = isqrt(n)
+   local m, d = a0, n-a0*a0
+   if d == 0 then
+      return a0
+   end
+   local m0, d0 = m, d
+
+   repeat
+      local a = floor((a0+m)/d)
+      period[#period+1] = a
+      m = d*a - m
+      d = (n-m*m)/d
+   until m==m0 and d==d0
+
+   return sformat("[%d;\\overline{%s}]",a0,concat(period,','))
+end
+\end{luacode*}
+
+\newcommand*{\periodCF}[2]{%
+  \begin{tabular}{rl}
+  \luaexec{
+    for i=#1,#2 do
+      if not isSqrt(i) then
+        tex.sprint("$\\sqrt{"..i.."}$&$"..periodCF(i).."$\\\\")
+      end
+    end
+  }%
+  \end{tabular}
+}
+
+\begin{document}
+
+\section*{Periodic continued fraction}
+A periodic continued fraction $[a_0;a_1,a_2,\ldots]$ is periodic
+if the sequence eventually repeats,
+i.e there exists some $m$, $n$ with $a_{m+i}=a_{n+i}$ for all $i\ge0.$
+A continued fraction,
+$[1;2,2,...],$ is periodic and turned out to be $\sqrt2.$
+
+If $r > 1$ is a rational number that is not a perfect square, then
+$$\sqrt r = [a_0;\overline{a_1,a_2,\ldots,a_2,a_1,2a_0}].$$
+
+In particular, if $r$ is any non-square positive integer,
+the regular continued fraction expansion of $\sqrt r$ contains
+a repeating block of length $m$, in which the first
+$m-1$ partial denominators form a palindromic string.
+
+\bigskip
+
+\hskip-3cm
+\hbox{\hss
+\periodCF{1}{35}~\periodCF{37}{68}~\periodCF{69}{99}
+\hss}
+
+\end{document}
+
