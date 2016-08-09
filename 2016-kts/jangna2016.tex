@@ -1,0 +1,351 @@
+% 2016 KTS
+% LuaTeX 활용
+
+\documentclass{beamer}
+
+\usetheme{metropolis}
+\metroset{inner/sectionpage=none}
+\metroset{outer/progressbar=head}
+\metroset{color/block=fill}
+\usefonttheme[onlymath]{serif}
+
+\usepackage{luatexko}
+\usepackage{luamplib}
+\usepackage{mathtools}
+\usepackage{booktabs}
+\usepackage{hologo}
+\usepackage{array}
+\usepackage{luacode}
+\usepackage{pgfplots}
+
+%\setsanshangulfont{HANDotum-LVT}[
+%  InterLatinCJK=.125em,
+%  Expansion, Protrusion,
+%]
+
+
+\pgfplotsset{compat=1.5} % to avoid warning
+
+\hypersetup{pdfencoding=auto}
+
+\newcommand{\luatex}{\hologo{LuaTeX}}
+\newcommand{\luatexko}{\luatex-\textsf{k}\kern-.0625em\textit{o}}
+
+% title
+\title{\luatex\ 활용}
+\subtitle{프로그래밍 언어와 조판 시스템의 콜라보}
+\author{남수진 (Kakao)}
+\date{2016년 1월 30일}
+\institute{
+  2016 한국텍학회 학술대회 및 정기총회 \\
+  고려대학교 하나과학관 B206호}
+
+%%
+\begin{document}
+
+\maketitle
+
+% 차례
+\makeatletter
+\patchcmd{\beamer@sectionintoc}{\vskip1.5em}{\vskip0.5em}{}{}
+\makeatother
+
+\begin{frame}{차례}
+  \setbeamertemplate{section in toc}[sections numbered]
+  \tableofcontents
+\end{frame}
+
+%%
+\section{Lua 프로그래밍 언어}
+
+%
+\begin{frame}{Lua 프로그래밍 언어}
+  \begin{itemize}
+  \item \href{http://www.lua.org}{Lua}, 포루투갈어로 달(Moon)
+  \item 1993년, 브라질 PUC-RIO 대학 Tecgraf 연구소 멤버들에 의해서 개발
+  \item 기존 응용프로그램을 확장하는 목적
+    
+    \begin{quote}
+      \small
+      Lua was originally designed in 1993 as a language for
+      \alert{extending software applications} to meet the increasing demand
+      for customization at the time.
+    \end{quote}
+    
+  \item 확장성, 단순함, 효율성, 이식성, 개발 편의성에 중점
+  \item 현재 버전 5.3.2
+  \end{itemize}
+\end{frame}
+
+%%
+\section{\luatex}
+
+%
+\begin{frame}{\luatex}
+  \begin{itemize}
+  \item \luatex 은 Lua 스크립트 엔진을 내장한 \hologo{pdfTeX}의 확장판이다.
+  \item Lua를 통하여 매크로만으로는 한계가 있던 \TeX\ 내부의 깊은 곳도
+    건드릴 수 있다.
+  \item \TeX 의 기능을 확장하는데 더 이상 무거운 프로그래밍은 필요없다.
+    Lua 스크립트로 손 쉽게 가능하다.
+  \item 다양한 Lua 라이브러리를 제공,
+    \href{http://ftp.ktug.org/tex-archive/systems/doc/luatex/luatexref-t.pdf}%
+    {\luatex\ Reference}
+  \item \hologo{METAPOST}를 라이브러리화 한 자매 프로젝트 \texttt{mplib}으로
+    \TeX 에 그래픽 엔진도 심었다.
+  \item 현재 버전, {\texttt{\small beta-0.80.0 (TeX Live 2015) (rev 5238)}}
+  \end{itemize}
+\end{frame}
+
+%
+\begin{frame}{\luatex}
+
+  \begin{alertblock}{\ \luatex 의 전형적인 사용례}
+    \begin{itemize}
+    \item \href{https://github.com/dohyunkim/luatexko}{\luatexko}
+    \item \href{https://github.com/lualatex/luamplib}{luamplib}
+    \end{itemize}
+  \end{alertblock}
+  \begin{exampleblock}{\ \luatex\ 관련 필독서}
+    \begin{itemize}
+    \item \href{http://ftp.ktug.org/tex-archive/documentation/luatex/lualatex-doc/lualatex-doc.pdf}%
+      {A guide to \hologo{LuaLaTeX}}
+    \item \href{http://ftp.ktug.org/tex-archive/macros/luatex/latex/luacode/luacode.pdf}%
+      {The {\small\texttt{luacode}} package}
+    \item \href{http://ftp.ktug.org/tex-archive/macros/luatex/generic/luatexko/luatexko-doc.pdf}%
+      {\luatexko\ 간단 메뉴얼}
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+%
+\begin{frame}[fragile]{\luatex}
+  \begin{itemize}
+  \item \verb+\directlua{<lua code>}+
+  \item \verb+\usepackage{luacode}+
+    \begin{itemize}
+    \item \verb+\luadirect+
+    \item \verb+\luaexec+
+    \item \texttt{luacode(*)} 환경
+    \end{itemize}
+  \end{itemize}
+  \begin{exampleblock}{\ 입력}
+    \verb+the standard approximation+\\
+    \verb+$\pi=\directlua{tex.sprint(math.pi)}$+
+  \end{exampleblock}
+  \begin{alertblock}{\ 결과}
+    the standard approximation
+    $\pi = \directlua{tex.sprint(math.pi)}$
+  \end{alertblock}
+\end{frame}
+
+%
+\begin{frame}{\luatex}
+  Lua가 프로그래밍 언어라는 사실을 상기하면,
+  \TeX 만으로는 불가능했거나 어려웠던, 
+  \begin{itemize}
+  \item 데이타베이스와의 연동 
+  \item 네트웍 관련 프로그래밍
+  \item 복잡한 수학 계산
+  \end{itemize}
+  등 컴퓨터 프로그래밍을 동반한 조판이 가능하다.
+\end{frame}
+
+%%
+\section{예제}
+
+\subsection{오늘의 환율}
+
+%
+\begin{frame}{오늘의 환율}
+  \begin{center}
+    \Large \href{http://fixer.io}{\texttt{Fixer.io}}\\
+      {JSON API for foreign exchange rates and\\ 
+        currency conversion}
+  \end{center}
+\end{frame}
+
+%%
+\subsection{Periodic Continued Fraction}
+
+% continued fraction
+\makeatletter
+\def\ltcfrac[#1;#2]{\cfr@c#1,#2,\ldots,\end}
+\def\cfr@c#1,#2\end{\ifx#1\ldots\ddots\else#1\fi
+  \ifx#2\end\else+{\strut1\hfill\over\displaystyle\cfr@c#2\end}\fi}
+\makeatother
+
+%
+\begin{frame}{Periodic continued fraction}
+  \centering\href{http://kko.to/viBhWcdig}{Wofram MathWorld: Periodic continued fraction}
+  \begin{align*}
+    \sqrt{2}&=\ltcfrac[1;2,2]=[1;\overline{2}] \\
+    \sqrt{3}&=\ltcfrac[1;1,2]=[1;\overline{1,2}]
+  \end{align*}
+\end{frame}
+
+%%
+\subsection{로렌즈 끌개}
+
+%
+\begin{luacode*}
+  -- Differential equation of the Lorenz attractor
+  function f(x,y,z)
+     local sigma = 3
+     local rho = 26.5
+     local beta = 1
+     return {sigma*(y-x), -x*z + rho*x - y, x*y - beta*z}
+  end
+
+  -- Code to write PGFplots data as coordinates
+  function print_LorAttrWithEulerMethod(h,npoints,option)
+     -- The usual starting point (x0,y0,z0)
+     local x0 = 0.0
+     local y0 = 1.0
+     local z0 = 0.0
+     -- we add a random number between -0.25 and 0.25
+     local x = x0 + (math.random()-0.5)/2
+     local y = y0 + (math.random()-0.5)/2
+     local z = z0 + (math.random()-0.5)/2
+     if option~=[[]] then
+        tex.sprint("\\addplot3["..option.."] coordinates{")
+     else
+        tex.sprint("\\addplot3 coordinates{")
+     end
+     -- we dismiss the first 100 points to go into the attractor
+     for i=1, 100 do
+        m = f(x,y,z)
+        x = x + h * m[1]
+        y = y + h * m[2]
+        z = z + h * m[3]
+     end
+     for i=1, npoints do
+        m = f(x,y,z)
+        x = x + h * m[1]
+        y = y + h * m[2]
+        z = z + h * m[3]
+        tex.sprint("("..x..","..y..","..z..")")
+     end
+     tex.sprint("}")
+  end
+\end{luacode*}
+
+\newcommand\addLUADEDplot[3][]{%
+  \luadirect{print_LorAttrWithEulerMethod(#2,#3,[[#1]])}}
+
+\begin{frame}{로렌즈 끌개}
+  \begin{minipage}[c][1.0\height][c]{.6\textwidth}
+    \pgfplotsset{width=\textwidth}
+    \begin{tikzpicture}
+      \begin{axis}
+        \addLUADEDplot[color=red,smooth]{0.02}{1000};
+        \addLUADEDplot[color=green,smooth]{0.02}{1000};
+        \addLUADEDplot[color=blue,smooth]{0.02}{1000};
+        \addLUADEDplot[color=cyan,smooth]{0.02}{1000};
+        \addLUADEDplot[color=magenta,smooth]{0.02}{1000};
+        \addLUADEDplot[color=yellow,smooth]{0.02}{1000};
+      \end{axis}
+    \end{tikzpicture}
+  \end{minipage}%
+  \begin{minipage}[c][1.0\height][c]{.4\textwidth}
+    \small
+    \begin{align*}
+      x'(t) &= \sigma (y(t)-x(t)), \\
+      y'(t) &= -x(t) z(t) + \rho x(t) - y(t), \\
+      z'(t) &= x(t) y(t) - \beta z(t).
+    \end{align*}
+  \end{minipage}
+
+  \begin{center}
+    \href{http://www.unirioja.es/cu/jvarona/downloads/%
+      numerical-methods-luatex.pdf}{Numerical methods with \hologo{LuaLaTeX}}
+  \end{center}
+\end{frame}
+
+%%
+\subsection{복면산 (覆面算; Alphametics)}
+
+\newcolumntype{R}{>{\tt}r}
+
+\newcommand{\tal}[3]{%
+  \begin{array}{c@{\,}R}
+    & #1 \\
+    + & #2 \\
+    \cmidrule(lr){1-2}
+    & #3
+  \end{array}}
+%
+\begin{frame}[fragile]{복면산 (覆面算; Alphametics)}
+  \begin{itemize}
+  \item 문자를 이용하여 표현된 수식에서 각 문자가 나타내는 숫자를 알아내는 문제
+  \item 하나의 문자는 하나의 숫자를 나타내고, 첫 번째 자리의 숫자는 0이 아니다.
+  \end{itemize}
+  \medskip
+  {\Large
+  \[
+  \def\arraystretch{0.85}
+  \tal{SEND}{MORE}{MONEY}
+  \quad
+  \tal{BATMAN}{GOTHAM}{NIGHTS}
+  \quad
+  \tal{ZEROES}{ONES}{BINARY}
+  \]
+  
+  \[ \verb!VIOLIN+VIOLIN+VIOLA=TRIO+SONATA! \]
+  }
+\end{frame}
+
+% for alphametics
+\luadirect{dofile(kpse.find_file(\luastring{alphapuzzle.lua}))}
+\newcommand{\alphametics}[2][v]{%
+  \luadirect{puzzle(\luastring{#1},\luastring{#2})}}
+
+%
+\begin{frame}{복면산}
+  \vspace{-4mm}
+  \large
+  \def\arraystretch{0.85}
+  \alphametics{INTO+ONTO+CANON+INTACT+AMMONIA+OMISSION+DIACRITIC%
+    +STATISTICS+ASSOCIATION+ANTIMACASSAR+CONTORTIONIST+NONDISCRIMINATION%
+    +CONTRADISTINCTION= MISADMINISTRATION}
+\end{frame}
+
+%
+\begin{frame}[fragile]{복면산}
+  \large
+  \begin{verbatim}
+  \alphametics{INTO+ONTO+CANON%
+    +INTACT+AMMONIA+OMISSION%
+    +DIACRITIC+STATISTICS%
+    +ASSOCIATION+ANTIMACASSAR%
+    +CONTORTIONIST%
+    +NONDISCRIMINATION%
+    +CONTRADISTINCTION%
+    =MISADMINISTRATION}
+\end{verbatim}
+\end{frame}
+
+%
+\begin{frame}[fragile]{복면산}
+  \vspace{5mm}
+  입력:
+\begin{verbatim}
+\alphametics[h]{VIOLIN+VIOLIN+VIOLA=TRIO+SONATA}
+\end{verbatim}
+결과:
+\alphametics[h]{VIOLIN+VIOLIN+VIOLA=TRIO+SONATA}
+\end{frame}
+
+%
+\begin{frame}{발표자료}
+  \begin{itemize}
+  \item \url{https://github.com/sjnam/2016-kts}
+  \item \url{https://github.com/sjnam/luagmp}
+  \end{itemize}
+\end{frame}
+
+%
+\plain{\huge ¿Tienes alguna pregunta?}
+
+\end{document}
+

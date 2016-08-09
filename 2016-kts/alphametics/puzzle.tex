@@ -1,0 +1,27 @@
+%http://www.cs.utsa.edu/~wagner/knuth/fasc2b.pdf
+
+\documentclass[a4paper]{article}
+
+\usepackage{mathtools,booktabs}
+
+\directlua{dofile(kpse.find_file("alphapuzzle.lua"))}
+
+\newcommand{\alphametics}[2][v]{%
+  \directlua{puzzle('#1','#2')}\vspace{5mm}}
+
+\begin{document}
+
+\alphametics[v]{SEND+MORE = MONEY}
+\alphametics[h]{COFFEE + COFFEE + COFFEE = THEOREM}
+\alphametics[h]{ VIOLIN + VIOLIN + VIOLA = TRIO + SONATA }
+\alphametics{ZEROES+ONES=BINARY}
+\alphametics{EARTH+AIR+FIRE+WATER=NATURE}
+\alphametics{SEND+A+TAD+MORE = MONEY}
+\alphametics{FISH+N+CHIPS=SUPPER}
+\alphametics{SATURN+URANUS+NEPTUNE+PLUTO=PLANETS}
+\alphametics{INTO+ONTO+CANON+INTACT+AMMONIA+OMISSION+DIACRITIC%
+  +STATISTICS+ASSOCIATION+ANTIMACASSAR+CONTORTIONIST+NONDISCRIMINATION%
+  +CONTRADISTINCTION= MISADMINISTRATION}
+
+\end{document}
+

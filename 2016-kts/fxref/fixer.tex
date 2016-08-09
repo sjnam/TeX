@@ -1,0 +1,76 @@
+%
+
+\documentclass[a4paper]{article}
+
+\usepackage{color}
+\usepackage{luacode}
+\usepackage{booktabs}
+\usepackage[yyyymmdd]{datetime}
+
+\begin{luacode*}
+  local json = require "lunajson"
+  local http = require "socket.http"
+  local currency = require "currency"
+  print = tex.print
+  
+  function fixer (date, base)
+     local date = date or "latest"
+     local base = base or "EUR"
+     local r, c, h = http.request("http://api.fixer.io/"..date.."?base="..base)
+     if not r or c ~= 200 then
+        return nil, c
+     end
+     return json.decode(r)
+  end
+
+  function country (a, nocur)
+     local nocur = nocur or false
+     local con = currency[a] or a
+     if nocur then
+        con = string.gsub(con, "(.+)%s%a+$", "%1")
+     end
+     return con
+  end
+\end{luacode*}
+
+
+\renewcommand{\dateseparator}{-}
+\renewcommand{\arraystretch}{1.2}
+\newcommand\country[1]{\luaexec{print(country(#1))}}
+
+
+\begin{document}
+
+%%%
+%% 이 부분을 수정.
+% \today 또는 1999년 이후 "yyyy-mm-dd" 
+\ifx\mydate\undefined \newcommand\mydate{\today}\fi
+% ISO 4217 code: KRW, EUR, USD, ...
+\ifx\base\undefined \newcommand\base{EUR}\fi 
+%%%
+
+\thispagestyle{empty}
+
+\begin{center}
+  {\Large \country{\luastring{\base}, true} Foreign Exchange Refernce Rates}\\
+  \medskip
+  \mydate\\
+  \bigskip
+  \begin{tabular}{ l l r }
+    \toprule
+    \textbf{\sffamily Code} & \textbf{\sffamily Currency}
+    & \textbf{\sffamily Spot}\\
+    \midrule
+    \luaexec{
+      local fx = fixer(\luastring{\mydate}, \luastring{\base})
+      for k, v in pairs(fx.rates) do
+         if k == "KRW" then print("\\color{red}") end
+         print("{\\sffamily "..k.."} & "..country(k).." & "..v.."\\\\")
+      end
+    }
+    \bottomrule
+  \end{tabular}
+\end{center}
+
+\end{document}
+
