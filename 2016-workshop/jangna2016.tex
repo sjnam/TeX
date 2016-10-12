@@ -74,22 +74,44 @@
 
 
 %
-\begin{frame}[fragile]{\texttt{BOLD} 매크로 만들기}
+\begin{frame}[fragile]{그룹}
+  \begin{itemize}
+  \item \verb+{+, \verb+}+
+  \item \verb+\bgroup+, \verb+\egroup+
+    \begin{exampleblock}{}
+      \begin{itemize}
+      \item \verb+\bgroup \bf Hello}+
+      \item \verb+{\bf Hello \egroup+
+      \end{itemize}
+    \end{exampleblock}
+  \item \verb+\begingroup+, \verb+\endgroup+
+  \end{itemize}
+
+  \begin{verbatim}
+    \def\say{Hello}
+    { \baselineskip=14pt \def\say{Hola} \say }
+    \say
+  \end{verbatim}
+\end{frame}
+
+
+%
+\begin{frame}[fragile]{\texttt{bold} 매크로 만들기}
   \begin{verbatim}
     {\bf Hello world}
     
-    \BOLD{Hello world}
+    \bold{Hello world}
   \end{verbatim}
   \begin{alertblock}{Programmer}
-    \verb+\def\BOLD#1{{\bf #1}}+
+    \verb+\def\bold#1{{\bf #1}}+
   \end{alertblock}
 \end{frame}
 
 
 %
-\begin{frame}[fragile]{\texttt{BOLD} 매크로 만들기}
+\begin{frame}[fragile]{\texttt{bold} 매크로 만들기}
   \begin{verbatim}
-    \BOLD{
+    \bold{
       Hello
 
       world
@@ -97,16 +119,16 @@
 
     Runaway argument?
     { Hello
-    ! Paragraph ended before \BOLD was complete.
+    ! Paragraph ended before \bold was complete.
   \end{verbatim}
   \begin{alertblock}{Programmer first class}
-    \verb+\long\def\BOLD#1{{\bf #1}}+
+    \verb+\long\def\bold#1{{\bf #1}}+
   \end{alertblock}
 \end{frame}
 
 
 %
-\begin{frame}[fragile]{\texttt{BOLD} 매크로 만들기}
+\begin{frame}[fragile]{\texttt{bold} 매크로 만들기}
   \begin{alertblock}{Hacker}
     \verb+\def\beginbold{\bgroup\bf}+
     
@@ -124,14 +146,36 @@
 
 
 %
-\begin{frame}[fragile]{\texttt{BOLD} 매크로 만들기}
+\begin{frame}[fragile]{\texttt{bold} 매크로 만들기}
   \begin{alertblock}{Wizard}
-    \verb+\def\BOLD{\bgroup\bf\let\next=}+
+    \verb+\def\bold{\bgroup\bf\let\next=}+
   \end{alertblock}
   \medskip
   \begin{exampleblock}{Guru}
-    \verb+\def\BOLD#{\bgroup\bf\let\next= }+
+    \verb+\def\bold#{\bgroup\bf\let\next= }+
   \end{exampleblock}
+\end{frame}
+
+
+%
+\begin{frame}[fragile]{FIFO 매크로}
+  \large
+  \begin{verbatim}
+    \def\fifo#1{\ifx\ofif#1\ofif\fi
+      \process#1\fifo}
+    \def\ofif#1\fifo{\fi}
+  \end{verbatim}
+\end{frame}
+
+
+%
+\begin{frame}[fragile]{FIFO 매크로}
+  \large
+  \begin{verbatim}
+    \def\fifo#1{\ifx\ofif#1\ofif\fi
+      \process#1\fifo}
+    \def\ofif#1\fifo{\fi}
+  \end{verbatim}
 \end{frame}
 
 
