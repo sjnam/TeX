@@ -7,10 +7,8 @@
 \metroset{inner/sectionpage=none}
 \metroset{outer/progressbar=head}
 \metroset{color/block=fill}
-\usefonttheme[onlymath]{serif}
 
 \usepackage{kotex}
-\usepackage{mathtools}
 
 \hypersetup{pdfencoding=auto}
 
@@ -39,23 +37,6 @@
 
 
 %
-\begin{frame}[fragile]{매크로 정의}
-  \begin{itemize}
-  \item 문서에서 여러번 반복적으로 사용되는 문구나 명령어의 나열을 하나의 명령어로 만든 것
-    
-    \medskip
-    \hbox to\hsize{\hss
-      \verb+\def+<control sequence><parameter text>%
-      \verb+{+<replacement text>\verb+}+\hss}
-    \medskip
-  \item 텍의 전개 과정에서 매크로는 치환문으로 교체된다.
-  \item 텍은 입력(input), 전개(expansion), 실행(execution), 출력(visual)의 과정을
-    거친다.
-  \end{itemize}
-\end{frame}
-
-
-%
 \begin{frame}[fragile]{매크로}
   The \TeX\ Hierarchy, TUGboat, Volume 15 (1994), No.1, 7---9.
   \begin{description}
@@ -66,7 +47,7 @@
     writes macros that don't contain spaces, and every line ends with
     a `{\small\verb+%+}'.
   \item [Hacker] has written self-modifying macros, writes
-    {\small\verb+\endlinechar=-I+} or {\small\verb+\catcode'\^-M=9+}
+    {\small\verb+\endlinechar=-1+} or {\small\verb+\catcode'\^^M=9+}
     to prevent having to put {\small\verb+%+}'s at the end of lines in macros.
   \item [Guru] has written macros containing {\small\verb+####+}, more than 3
     {\small\verb+\expandafter+}'s in a row, and the sequence
@@ -76,20 +57,100 @@
 
 
 %
-\begin{frame}{오늘의 환율}
-  \begin{center}
-    \Large \href{http://fixer.io}{\texttt{Fixer.io}}\\
-      {JSON API for foreign exchange rates and\\ 
-        currency conversion}
-  \end{center}
+\begin{frame}[fragile]{매크로 정의}
+  \begin{itemize}
+  \item 문서에서 여러번 반복적으로 사용되는 문구나 명령어의 나열을 하나의 명령어로 만든 것
+    
+    \medskip
+    \hbox to\hsize{\hss
+      \verb+\def+<control sequence><parameter text>%
+      \verb+{+<replacement text>\verb+}+\hss}
+    \medskip
+  \item 텍의 전개 과정에서 매크로는 치환문으로 교체된다.
+  \item 텍은 입력(input, eyes), 전개(expansion, mouth),
+    실행(execution, stomach), 출력(visual, bowels)의 과정을 거친다.
+  \end{itemize}
 \end{frame}
 
 
 %
-\begin{frame}{발표자료}
+\begin{frame}[fragile]{\texttt{BOLD} 매크로 만들기}
+  \begin{verbatim}
+    {\bf Hello world}
+    
+    \BOLD{Hello world}
+  \end{verbatim}
+  \begin{alertblock}{Programmer}
+    \verb+\def\BOLD#1{{\bf #1}}+
+  \end{alertblock}
+\end{frame}
+
+
+%
+\begin{frame}[fragile]{\texttt{BOLD} 매크로 만들기}
+  \begin{verbatim}
+    \BOLD{
+      Hello
+
+      world
+    }
+
+    Runaway argument?
+    { Hello
+    ! Paragraph ended before \BOLD was complete.
+  \end{verbatim}
+  \begin{alertblock}{Programmer first class}
+    \verb+\long\def\BOLD#1{{\bf #1}}+
+  \end{alertblock}
+\end{frame}
+
+
+%
+\begin{frame}[fragile]{\texttt{BOLD} 매크로 만들기}
+  \begin{alertblock}{Hacker}
+    \verb+\def\beginbold{\bgroup\bf}+
+    
+    \verb+\def\endbold{\egroup}+
+  \end{alertblock}
+
+  \begin{verbatim}
+    \beginbold
+    Hello
+
+    world
+    \endbold
+  \end{verbatim}
+\end{frame}
+
+
+%
+\begin{frame}[fragile]{\texttt{BOLD} 매크로 만들기}
+  \begin{alertblock}{Wizard}
+    \verb+\def\BOLD{\bgroup\bf\let\next=}+
+  \end{alertblock}
+  \medskip
+  \begin{exampleblock}{Guru}
+    \verb+\def\BOLD#{\bgroup\bf\let\next= }+
+  \end{exampleblock}
+\end{frame}
+
+
+%
+\begin{frame}{관련문서}
   \begin{itemize}
-  \item \url{https://github.com/sjnam/2016-kts}
-  \item \url{https://github.com/sjnam/luagmp}
+  \item \url{https://github.com/sjnam/TeX/2016-workshop}
+  \item \href{http://ftp.ktug.org/tex-archive/systems/knuth/dist/tex/}
+    {The \TeX book}
+  \item \href{http://ftp.ktug.org/tex-archive/info/impatient/book.pdf}
+    {\TeX\ fot the Impatient}
+  \item \href{http://ftp.ktug.org/tex-archive/info/texbytopic/TeXbyTopic.pdf}
+    {\TeX\ By Topic}
+  \item \href{https://www.tug.org/TUGboat/tb14-1/tb38laan.pdf}
+    {FIFO and LIFO sing the BLUes}
+  \item \href{https://www.tug.org/TUGboat/tb08-3/tb19knut.pdf}
+    {Macros for Jill}
+  \item \href{https://www.tug.org/TUGboat/tb15-1/tb42arseneau.pdf}
+    {The TeX\ Hierarchy}
   \end{itemize}
 \end{frame}
 
@@ -99,4 +160,3 @@
 
 
 \end{document}
-
