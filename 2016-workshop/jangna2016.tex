@@ -37,6 +37,23 @@
 
 
 %
+\begin{frame}[fragile]{매크로 정의}
+  \begin{itemize}
+  \item 문서에서 여러번 반복적으로 사용되는 문구나 명령어의 나열을 하나의 명령어로 만든 것
+    
+    \medskip
+    \hbox to\hsize{\hss
+      \verb+\def+<control sequence><parameter text>%
+      \verb+{+<replacement text>\verb+}+\hss}
+    \medskip
+  \item 텍의 전개 과정에서 매크로는 치환문으로 교체된다.
+  \item 텍은 입력(input, eyes), 전개(expansion, mouth),
+    실행(execution, stomach), 출력(visual, bowels)의 과정을 거친다.
+  \end{itemize}
+\end{frame}
+
+
+%
 \begin{frame}[fragile]{매크로}
   The \TeX\ Hierarchy, TUGboat, Volume 15 (1994), No.1, 7---9.
   \begin{description}
@@ -57,23 +74,6 @@
 
 
 %
-\begin{frame}[fragile]{매크로 정의}
-  \begin{itemize}
-  \item 문서에서 여러번 반복적으로 사용되는 문구나 명령어의 나열을 하나의 명령어로 만든 것
-    
-    \medskip
-    \hbox to\hsize{\hss
-      \verb+\def+<control sequence><parameter text>%
-      \verb+{+<replacement text>\verb+}+\hss}
-    \medskip
-  \item 텍의 전개 과정에서 매크로는 치환문으로 교체된다.
-  \item 텍은 입력(input, eyes), 전개(expansion, mouth),
-    실행(execution, stomach), 출력(visual, bowels)의 과정을 거친다.
-  \end{itemize}
-\end{frame}
-
-
-%
 \begin{frame}[fragile]{그룹}
   \begin{itemize}
   \item \verb+{+, \verb+}+
@@ -88,15 +88,19 @@
   \end{itemize}
 
   \begin{verbatim}
-    \def\say{Hello}
-    { \baselineskip=14pt \def\say{Hola} \say }
+    \def\hello{Hello}
+    { \baselineskip=14pt \def\hello{Hola} \say }
     \say
   \end{verbatim}
 \end{frame}
 
 
 %
-\begin{frame}[fragile]{\texttt{bold} 매크로 만들기}
+\section{예제}
+
+
+%
+\begin{frame}[fragile]{\texttt{\string\bold} 매크로}
   \begin{verbatim}
     {\bf Hello world}
     
@@ -109,7 +113,7 @@
 
 
 %
-\begin{frame}[fragile]{\texttt{bold} 매크로 만들기}
+\begin{frame}[fragile]{\texttt{\string\bold} 매크로}
   \begin{verbatim}
     \bold{
       Hello
@@ -128,7 +132,7 @@
 
 
 %
-\begin{frame}[fragile]{\texttt{bold} 매크로 만들기}
+\begin{frame}[fragile]{\texttt{\string\bold} 매크로}
   \begin{alertblock}{Hacker}
     \verb+\def\beginbold{\bgroup\bf}+
     
@@ -146,24 +150,86 @@
 
 
 %
-\begin{frame}[fragile]{\texttt{bold} 매크로 만들기}
+\begin{frame}[fragile]{\texttt{\string\bold} 매크로}
   \begin{alertblock}{Wizard}
     \verb+\def\bold{\bgroup\bf\let\next=}+
   \end{alertblock}
   \medskip
-  \begin{exampleblock}{Guru}
-    \verb+\def\bold#{\bgroup\bf\let\next= }+
-  \end{exampleblock}
+  <equals>$\rightarrow$<optional spaces> | <optional spaces>=
+  
+  \hbox to\hsize{\hss
+    \verb+\let+<control sequence><equals>%
+    <one optional space><token>\hss}
+  \medskip
 \end{frame}
 
 
 %
-\begin{frame}[fragile]{FIFO 매크로}
-  \large
+\begin{frame}[fragile]{\texttt{\string\bold} 매크로}
+  \begin{alertblock}{Guru}
+    \verb+\def\bold#{\bgroup\bf\let\next= }+
+  \end{alertblock}
+\end{frame}
+
+
+%
+\newcount\spk
+\def\beginscript{\bgroup \parindent=0pt \rm \spk=1 \rightskip.4in
+  \def\par{\ifnum\spk=1 \endgraf \sl \spk=2 \leftskip.4in \rightskip0in
+    \else \endgraf \rm \spk=1 \leftskip0in \rightskip.4in \fi}}
+\def\endscript {\egroup}
+
+\begin{frame}[fragile]{스크립트 매크로}
+  \hsize 3in
+  \beginscript
+  Now, at last, you can easily typeset
+  conversations you eavesdrop on in
+  restaurants and on planes.
+  
+  Really? That's just what I've been waiting
+  for! How do I do it?
+  
+  Exactly the way this script was done.
+  
+  Is it easy?
+  
+  Extremely.
+  \endscript
+\end{frame}
+
+
+%
+\begin{frame}[fragile]{스크립트 매크로}
   \begin{verbatim}
-    \def\fifo#1{\ifx\ofif#1\ofif\fi
-      \process#1\fifo}
-    \def\ofif#1\fifo{\fi}
+  \beginscript
+  Now, at last, you can easily typeset
+  conversations you eavesdrop on in
+  restaurants and on planes.
+  
+  Really? That's just what I've been waiting
+  for! How do I do it?
+  
+  Exactly the way this script was done.
+  
+  Is it easy?
+  
+  Extremely.
+  \endscript
+  \end{verbatim}
+\end{frame}
+
+
+%
+\begin{frame}[fragile]{스크립트 매크로}
+  \begin{verbatim}
+  \newcount\spk
+  \def\beginscript{\bgroup \parindent=0pt \rm
+    \spk=1 \rightskip.4in
+    \def\par{\ifnum\spk=1 \endgraf \sl \spk=2
+               \leftskip.4in \rightskip0in
+             \else \endgraf \rm \spk=1
+               \leftskip0in \rightskip.4in \fi}}
+  \def\endscript {\egroup}
   \end{verbatim}
 \end{frame}
 
@@ -189,6 +255,8 @@
     {\TeX\ fot the Impatient}
   \item \href{http://ftp.ktug.org/tex-archive/info/texbytopic/TeXbyTopic.pdf}
     {\TeX\ By Topic}
+  \item \href{http://pgfplots.sourceforge.net/TeX-programming-notes.pdf}
+    {Notes On Programming in TeX}
   \item \href{https://www.tug.org/TUGboat/tb14-1/tb38laan.pdf}
     {FIFO and LIFO sing the BLUes}
   \item \href{https://www.tug.org/TUGboat/tb08-3/tb19knut.pdf}
