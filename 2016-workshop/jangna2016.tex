@@ -37,18 +37,36 @@
 
 
 %
+\begin{frame}[fragile]{텍의 처리 과정}
+  \begin{description}
+  \item [입력(input processor)] 파일을 입력받아서 \alert{토큰 리스트}를 만든다.
+  \item [전개(expansion processor)] 입력 과정의 결과물인 토큰 리스트를 입력으로 받어서
+    새로운 토큰 리스트를 만든다.
+  \item [실행(execution processor)]
+  \item [출력(visual processor)]
+  \end{description}
+
+  \begin{alertblock}{토큰 리스트}
+  \verb+{\hskip 36 pt}+\par
+  \smallskip
+  \includegraphics[width=10cm]{tokens.jpg}
+  \end{alertblock}
+\end{frame}
+
+
+%
 \begin{frame}[fragile]{매크로 정의}
-  \begin{itemize}
-  \item 문서에서 여러번 반복적으로 사용되는 문구나 명령어의 나열을 하나의 명령어로 만든 것
-    
-    \medskip
+  
+  \begin{center}
     \hbox to\hsize{\hss
-      \verb+\def+<control sequence><parameter text>%
-      \verb+{+<replacement text>\verb+}+\hss}
-    \medskip
+    \verb+\def+<control sequence><parameter text>%
+    \verb+{+<replacement text>\verb+}+\hss}
+  \end{center}
+
+  \begin{itemize}
+  \item 문서에서 여러번 반복적으로 사용되는 문구나 명령어의 나열을 하나의
+    명령어(control sequence)로 만든 것
   \item 텍의 전개 과정에서 매크로는 치환문으로 교체된다.
-  \item 텍은 입력(input, eyes), 전개(expansion, mouth),
-    실행(execution, stomach), 출력(visual, bowels)의 과정을 거친다.
   \end{itemize}
 \end{frame}
 
@@ -78,13 +96,13 @@
   \begin{itemize}
   \item \verb+{+, \verb+}+
   \item \verb+\bgroup+, \verb+\egroup+
-    \begin{exampleblock}{}
+    \begin{exampleblock}{사용예}
       \begin{itemize}
       \item \verb+\bgroup \bf Hello}+
       \item \verb+{\bf Hello \egroup+
       \end{itemize}
     \end{exampleblock}
-  \item \verb+\begingroup+, \verb+\endgroup+
+  \item \verb+\begingroup+, \verb+\endgroup+ (원시명령어, primitive)
   \end{itemize}
 
   \begin{verbatim}
@@ -92,6 +110,19 @@
     { \baselineskip=14pt \def\hello{Hola} \say }
     \say
   \end{verbatim}
+\end{frame}
+
+
+%
+\begin{frame}{골치 아픈 공백 문자(space)}
+  \begin{itemize}
+  \item <return>은 공백 문자이다.
+  \item 연속된 여러 개의 공백 문자는 하나의 공백 문자로 바뀐다.
+  \item 입력 과정(input process)에서 명령어 다음의 공백은 제거된다.
+  \item 매크로를 정의할 때, <parameter 텍스트>와 <replacement 텍스트>에서의
+    공백은 중요하다.
+  \item  
+  \end{itemize}
 \end{frame}
 
 
@@ -165,11 +196,11 @@
 
 
 %
-\begin{frame}[fragile]{\texttt{\string\bold} 매크로}
-  \begin{alertblock}{Guru}
-    \verb+\def\bold#{\bgroup\bf\let\next= }+
-  \end{alertblock}
-\end{frame}
+%\begin{frame}[fragile]{\texttt{\string\bold} 매크로}
+%  \begin{alertblock}{Guru}
+%    \verb+\def\bold#{\bgroup\bf\let\next= }+
+%  \end{alertblock}
+%\end{frame}
 
 
 %
@@ -222,6 +253,7 @@
 %
 \begin{frame}[fragile]{스크립트 매크로}
   \begin{verbatim}
+  \let\endgraf=\par
   \newcount\spk
   \def\beginscript{\bgroup \parindent=0pt \rm
     \spk=1 \rightskip.4in
@@ -246,7 +278,7 @@
 
 
 %
-\begin{frame}{관련문서}
+\begin{frame}{참고문서}
   \begin{itemize}
   \item \url{https://github.com/sjnam/TeX/2016-workshop}
   \item \href{http://ftp.ktug.org/tex-archive/systems/knuth/dist/tex/}
