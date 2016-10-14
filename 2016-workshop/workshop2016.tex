@@ -15,7 +15,7 @@
 
 % title
 \title{텍 매크로 작성법}
-\subtitle{텍 매크로 작성의 기초와 응용}
+\subtitle{텍 매크로 작성의 기초와 고급}
 \author{남수진}
 \date{2016년 11월 5일(토)}
 \institute{
@@ -39,11 +39,11 @@
 %
 \begin{frame}[fragile]{텍의 처리 과정}
   \begin{description}
-  \item [입력(input processor)] 파일을 줄 단위로 읽어서 \alert{토큰 리스트}를 만든다.
-  \item [전개(expansion processor)] 입력 과정의 결과물인 토큰 리스트를 입력으로 받어서
-    확장한 토큰 리스트를 만든다.
-  \item [실행(execution processor)]
-  \item [출력(visual processor)]
+  \item [입력(Input)] 파일을 줄(line) 단위로 읽어서 \alert{토큰 리스트}를 만든다.
+  \item [전개(Expansion)] 위의 토큰 리스트를 입력으로 받어서 전개할 수 있는
+    모든 토큰을 전개해서 더이상 전개 할 수 없는 토큰들로 구성된 새로운 토큰 리스트를 만든다.
+  \item [실행(Execution)]
+  \item [출력(Visual)]
   \end{description}
 
   \begin{exampleblock}{토큰 리스트}
@@ -60,23 +60,23 @@
   \hbox to\hsize{\hss
     \verb+\def+<control sequence>\alert{<parameter text>}%
     \verb+{+\alert{<replacement text>}\verb+}+\hss}
-  \medskip
+  \smallskip
   \begin{itemize}
   \item 문서에서 여러번 반복적으로 사용되는 문구나 명령어의 나열을 하나의
     명령어(control sequence)로 만든 것
+  \item \verb+\def+, \verb+\gdef+, \verb+\edef+, \verb+\xdef+
   \item 텍의 전개 과정에서 매크로는 치환문으로 교체된다.
-  \item \verb+\gdef+, \verb+\edef+, \verb+\xdef+
   \item 정의 시점에는 전개하지 않는다.
   \item 파라미터 텍스트와 치환 텍스트에는 정의되지 않은 매크로 사용이 가능하다.
-  \item 매크로를 전개하기 위해서 인자를 읽어 들일때는 전개하지 않는다.
-
+    
     \verb+\def\control#1\sequence{...}+
+  \item 매크로를 전개하기 위해서 인자를 읽어 들일때는 전개하지 않는다.
   \end{itemize}
 \end{frame}
 
 
 %
-\begin{frame}[fragile]{그룹}
+\begin{frame}[fragile]{그룹 만들기}
   \begin{itemize}
   \item \verb+{+, \verb+}+
   \item \verb+\bgroup+, \verb+\egroup+
@@ -122,9 +122,9 @@
     
     \bold{Hello world}
   \end{verbatim}
-  \begin{alertblock}{Programmer}
+  \begin{exampleblock}{Programmer}
     \verb+\def\bold#1{{\bf #1}}+
-  \end{alertblock}
+  \end{exampleblock}
 \end{frame}
 
 
@@ -141,19 +141,19 @@
     { Hello
     ! Paragraph ended before \bold was complete.
   \end{verbatim}
-  \begin{alertblock}{Programmer first class}
+  \begin{exampleblock}{Programmer first class}
     \verb+\long\def\bold#1{{\bf #1}}+
-  \end{alertblock}
+  \end{exampleblock}
 \end{frame}
 
 
 %
 \begin{frame}[fragile]{\texttt{\string\bold} 매크로}
-  \begin{alertblock}{Hacker}
+  \begin{exampleblock}{Hacker}
     \verb+\def\beginbold{\bgroup\bf}+
     
     \verb+\def\endbold{\egroup}+
-  \end{alertblock}
+  \end{exampleblock}
 
   \begin{verbatim}
     \beginbold
@@ -167,9 +167,9 @@
 
 %
 \begin{frame}[fragile]{\texttt{\string\bold} 매크로}
-  \begin{alertblock}{Wizard}
+  \begin{exampleblock}{Wizard}
     \verb+\def\bold{\bgroup\bf\let\next=}+
-  \end{alertblock}
+  \end{exampleblock}
   \medskip
   <equals>$\rightarrow$<optional spaces> | <optional spaces>=
   
@@ -194,6 +194,23 @@
 %    \verb+\def\bold#{\bgroup\bf\let\next= }+
 %  \end{alertblock}
 %\end{frame}
+
+
+%
+\begin{frame}[fragile]{조건문 검사}
+  \begin{exampleblock}{\string\if\ <token1> <token2>}
+    \begin{itemize}
+    \item <token1>과 <token2>의 문자 코드가 같은지를 검사한다. 명령어의 문자 코드는 256.
+    \item <token1>과 <token2>의 문자 코드가 같은지를 검사한다. 명령어의 문자 코드는 256.
+    \end{itemize}
+  \end{exampleblock}
+  \begin{exampleblock}{\string\ifx\ <token1> <token2>}
+    \begin{itemize}
+    \item <token1>과 <token2>의 문자 코드가 같은지를 검사한다. 명령어의 문자 코드는 256.
+    \item <token1>과 <token2>의 문자 코드가 같은지를 검사한다. 명령어의 문자 코드는 256.
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
 
 
 %
@@ -294,7 +311,7 @@
   \item \href{http://ftp.ktug.org/tex-archive/systems/knuth/dist/tex/}
     {The \TeX book}
   \item \href{http://ftp.ktug.org/tex-archive/info/impatient/book.pdf}
-    {\TeX\ fot the Impatient}
+    {\TeX\ for the Impatient}
   \item \href{http://ftp.ktug.org/tex-archive/info/texbytopic/TeXbyTopic.pdf}
     {\TeX\ By Topic}
   \item \href{http://pgfplots.sourceforge.net/TeX-programming-notes.pdf}
