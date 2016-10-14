@@ -4,7 +4,7 @@
 \documentclass{beamer}
 
 \usetheme{metropolis}
-\metroset{inner/sectionpage=none}
+%\metroset{inner/sectionpage=none}
 \metroset{outer/progressbar=head}
 \metroset{color/block=fill}
 
@@ -39,55 +39,39 @@
 %
 \begin{frame}[fragile]{텍의 처리 과정}
   \begin{description}
-  \item [입력(input processor)] 파일을 입력받아서 \alert{토큰 리스트}를 만든다.
+  \item [입력(input processor)] 파일을 줄 단위로 읽어서 \alert{토큰 리스트}를 만든다.
   \item [전개(expansion processor)] 입력 과정의 결과물인 토큰 리스트를 입력으로 받어서
-    새로운 토큰 리스트를 만든다.
+    확장한 토큰 리스트를 만든다.
   \item [실행(execution processor)]
   \item [출력(visual processor)]
   \end{description}
 
-  \begin{alertblock}{토큰 리스트}
-  \verb+{\hskip 36 pt}+\par
+  \begin{exampleblock}{토큰 리스트}
+  \verb*+{\hskip 36 pt}+\par
   \smallskip
   \includegraphics[width=10cm]{tokens.jpg}
-  \end{alertblock}
+  \end{exampleblock}
 \end{frame}
 
 
 %
 \begin{frame}[fragile]{매크로 정의}
-  
-  \begin{center}
-    \hbox to\hsize{\hss
-    \verb+\def+<control sequence><parameter text>%
-    \verb+{+<replacement text>\verb+}+\hss}
-  \end{center}
-
+  \medskip
+  \hbox to\hsize{\hss
+    \verb+\def+<control sequence>\alert{<parameter text>}%
+    \verb+{+\alert{<replacement text>}\verb+}+\hss}
+  \medskip
   \begin{itemize}
   \item 문서에서 여러번 반복적으로 사용되는 문구나 명령어의 나열을 하나의
     명령어(control sequence)로 만든 것
   \item 텍의 전개 과정에서 매크로는 치환문으로 교체된다.
+  \item \verb+\gdef+, \verb+\edef+, \verb+\xdef+
+  \item 정의 시점에는 전개하지 않는다.
+  \item 파라미터 텍스트와 치환 텍스트에는 정의되지 않은 매크로 사용이 가능하다.
+  \item 매크로를 전개하기 위해서 인자를 읽어 들일때는 전개하지 않는다.
+
+    \verb+\def\control#1\sequence{...}+
   \end{itemize}
-\end{frame}
-
-
-%
-\begin{frame}[fragile]{매크로}
-  The \TeX\ Hierarchy, TUGboat, Volume 15 (1994), No.1, 7---9.
-  \begin{description}
-  \item [Novice] has heard of macros, but has never seen one.
-  \item [User] writes macros that are used once, and that are
-    longer than the code they replace.
-  \item [Programmer], having been bitten by unwanted spaces,
-    writes macros that don't contain spaces, and every line ends with
-    a `{\small\verb+%+}'.
-  \item [Hacker] has written self-modifying macros, writes
-    {\small\verb+\endlinechar=-1+} or {\small\verb+\catcode'\^^M=9+}
-    to prevent having to put {\small\verb+%+}'s at the end of lines in macros.
-  \item [Guru] has written macros containing {\small\verb+####+}, more than 3
-    {\small\verb+\expandafter+}'s in a row, and the sequence
-    {\small\verb+\expandafter\endcsname+}.
-  \end{description}
 \end{frame}
 
 
@@ -98,6 +82,7 @@
   \item \verb+\bgroup+, \verb+\egroup+
     \begin{exampleblock}{사용예}
       \begin{itemize}
+      \item \verb+\let\bgroup={ \let\egroup=}+
       \item \verb+\bgroup \bf Hello}+
       \item \verb+{\bf Hello \egroup+
       \end{itemize}
@@ -105,29 +90,29 @@
   \item \verb+\begingroup+, \verb+\endgroup+ (원시명령어, primitive)
   \end{itemize}
 
+  {\small
   \begin{verbatim}
     \def\hello{Hello}
-    { \baselineskip=14pt \def\hello{Hola} \say }
-    \say
-  \end{verbatim}
+    { \baselineskip=14pt \def\hello{Hola} \hello }
+    \hello
+  \end{verbatim}}
 \end{frame}
 
 
 %
-\begin{frame}{골치 아픈 공백 문자(space)}
-  \begin{itemize}
-  \item <return>은 공백 문자이다.
-  \item 연속된 여러 개의 공백 문자는 하나의 공백 문자로 바뀐다.
-  \item 입력 과정(input process)에서 명령어 다음의 공백은 제거된다.
-  \item 매크로를 정의할 때, <parameter 텍스트>와 <replacement 텍스트>에서의
-    공백은 중요하다.
-  \item  
-  \end{itemize}
-\end{frame}
+%\begin{frame}{골치 아픈 공백 문자(space)}
+%  \begin{itemize}
+%  \item <return>은 공백 문자이다.
+%  \item 연속된 여러 개의 공백 문자는 하나의 공백 문자로 바뀐다.
+%  \item 입력 과정(input process)에서 명령어 다음의 공백은 제거된다.
+%  \item 매크로를 정의할 때, <parameter 텍스트>와 <replacement 텍스트>에서의
+%    공백은 중요하다.
+%  \end{itemize}
+%\end{frame}
 
 
 %
-\section{예제}
+\plain{\huge 예제}
 
 
 %
@@ -192,6 +177,14 @@
     \verb+\let+<control sequence><equals>%
     <one optional space><token>\hss}
   \medskip
+
+  \begin{exampleblock}{사용예}
+    \begin{itemize}
+    \item \verb*+\let\a= \b+
+    \item \verb*+\let\a\b+
+    \item \verb*+\let\a= Hello+
+    \end{itemize}
+  \end{exampleblock}
 \end{frame}
 
 
@@ -261,18 +254,35 @@
                \leftskip.4in \rightskip0in
              \else \endgraf \rm \spk=1
                \leftskip0in \rightskip.4in \fi}}
-  \def\endscript {\egroup}
+  \def\endscript{\egroup}
   \end{verbatim}
 \end{frame}
 
 
 %
 \begin{frame}[fragile]{FIFO 매크로}
-  \large
   \begin{verbatim}
     \def\fifo#1{\ifx\ofif#1\ofif\fi
       \process#1\fifo}
     \def\ofif#1\fifo{\fi}
+
+    \fifo abc\ofif
+    => \process a \process b \process c
+  \end{verbatim}
+\end{frame}
+
+
+%
+\begin{frame}[fragile]{FIFO 매크로}
+  \begin{verbatim}
+    \def\fifo#1{\ifx\ofif#1\ofif\fi
+      \process#1\fifo}
+    \def\ofif#1\fifo{\fi}
+
+    \newcount\length
+    \def\process#1{\advance\length 1}
+
+    \fifo aapnoon\ofif \number\length % => 7
   \end{verbatim}
 \end{frame}
 
@@ -280,7 +290,7 @@
 %
 \begin{frame}{참고문서}
   \begin{itemize}
-  \item \url{https://github.com/sjnam/TeX/2016-workshop}
+  %\item \url{https://github.com/sjnam/TeX/2016-workshop}
   \item \href{http://ftp.ktug.org/tex-archive/systems/knuth/dist/tex/}
     {The \TeX book}
   \item \href{http://ftp.ktug.org/tex-archive/info/impatient/book.pdf}
@@ -304,3 +314,25 @@
 
 
 \end{document}
+
+
+%
+\begin{frame}[fragile]{매크로 사용자 단계}
+  The \TeX\ Hierarchy, TUGboat, Volume 15 (1994), No.1, 7---9.
+  \begin{description}
+  \item [Novice] has heard of macros, but has never seen one.
+  \item [User] writes macros that are used once, and that are
+    longer than the code they replace.
+  \item [Programmer], having been bitten by unwanted spaces,
+    writes macros that don't contain spaces, and every line ends with
+    a `{\small\verb+%+}'.
+  \item [Hacker] has written self-modifying macros, writes
+    {\small\verb+\endlinechar=-1+} or {\small\verb+\catcode'\^^M=9+}
+    to prevent having to put {\small\verb+%+}'s at the end of lines in macros.
+  \item [Guru] has written macros containing {\small\verb+####+}, more than 3
+    {\small\verb+\expandafter+}'s in a row, and the sequence
+    {\small\verb+\expandafter\endcsname+}.
+  \end{description}
+\end{frame}
+
+
