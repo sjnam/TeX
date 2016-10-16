@@ -6,7 +6,7 @@
 \usetheme{metropolis}
 %\metroset{inner/sectionpage=none}
 \metroset{outer/progressbar=head}
-\metroset{color/block=fill}
+%\metroset{color/block=fill}
 
 \usepackage{kotex}
 
@@ -14,13 +14,14 @@
 
 
 % title
-\title{텍 매크로 작성법}
-\subtitle{텍 매크로 작성의 기초와 고급}
+\title{텍 매크로}
+\subtitle{매크로 작성의 기초와 고급}
 \author{남수진}
 \date{2016년 11월 5일(토)}
 \institute{
   2016 공주대학교 문서작성 워크숍 2016\\
   공주대학교 인문사회과학관 1층 컴퓨터실 107호}
+\titlegraphic{\hfill\includegraphics[height=1.5cm]{meta.pdf}}
 
 
 %%
@@ -28,7 +29,14 @@
 
 \maketitle
 
+\begin{frame}{차례}
+  \setbeamertemplate{section in toc}[sections numbered]
+  \tableofcontents[hideallsubsections]
+\end{frame}
 
+
+\section{매크로 기본}
+ 
 %
 \begin{frame}{매크로 관련 명령어}
   \vspace{4mm}
@@ -37,20 +45,21 @@
 
 
 %
-\begin{frame}[fragile]{텍의 처리 과정}
-  \begin{description}
-  \item [입력(Input)] 파일을 줄(line) 단위로 읽어서 \alert{토큰 리스트}를 만든다.
-  \item [전개(Expansion)] 위의 토큰 리스트를 입력으로 받어서 전개할 수 있는
+\begin{frame}[fragile]{텍의 처리 과정}  
+  \begin{itemize}
+  \item \alert{\bf 입력(Input)} 파일을 줄(line) 단위로 읽어서
+    \alert{토큰 리스트}를 만든다.
+  \item \alert{\bf 전개(Expansion)} 위의 토큰 리스트를 입력으로 받어서 전개할 수 있는
     모든 토큰을 전개해서 더이상 전개 할 수 없는 토큰들로 구성된 새로운 토큰 리스트를 만든다.
-  \item [실행(Execution)]
-  \item [출력(Visual)]
-  \end{description}
+  \item \alert{\bf 실행(Execution)}
+  \item \alert{\bf 출력(Visual)}
+  \end{itemize}
 
-  \begin{exampleblock}{토큰 리스트}
+  \begin{alertblock}{토큰 리스트}
   \verb*+{\hskip 36 pt}+\par
   \smallskip
   \includegraphics[width=10cm]{tokens.jpg}
-  \end{exampleblock}
+  \end{alertblock}
 \end{frame}
 
 
@@ -76,17 +85,37 @@
 
 
 %
+\begin{frame}[fragile]{매크로 사용자 단계}
+  The \TeX\ Hierarchy, TUGboat, Volume 15 (1994), No.1, 7---9.
+  \begin{description}
+  \item [Novice] has heard of macros, but has never seen one.
+  \item [User] writes macros that are used once, and that are
+    longer than the code they replace.
+  \item [Programmer], having been bitten by unwanted spaces,
+    writes macros that don't contain spaces, and every line ends with
+    a `{\small\verb+%+}'.
+  \item [Hacker] has written self-modifying macros, writes
+    {\small\verb+\endlinechar=-1+} or {\small\verb+\catcode'\^^M=9+}
+    to prevent having to put {\small\verb+%+}'s at the end of lines in macros.
+  \item [Guru] has written macros containing {\small\verb+####+}, more than 3
+    {\small\verb+\expandafter+}'s in a row, and the sequence
+    {\small\verb+\expandafter\endcsname+}.
+  \end{description}
+\end{frame}
+
+
+%
 \begin{frame}[fragile]{그룹 만들기}
   \begin{itemize}
   \item \verb+{+, \verb+}+
   \item \verb+\bgroup+, \verb+\egroup+
-    \begin{exampleblock}{사용예}
+    \begin{alertblock}{사용예}
       \begin{itemize}
       \item \verb+\let\bgroup={ \let\egroup=}+
       \item \verb+\bgroup \bf Hello}+
       \item \verb+{\bf Hello \egroup+
       \end{itemize}
-    \end{exampleblock}
+    \end{alertblock}
   \item \verb+\begingroup+, \verb+\endgroup+ (원시명령어, primitive)
   \end{itemize}
 
@@ -99,22 +128,11 @@
 \end{frame}
 
 
-%
-%\begin{frame}{골치 아픈 공백 문자(space)}
-%  \begin{itemize}
-%  \item <return>은 공백 문자이다.
-%  \item 연속된 여러 개의 공백 문자는 하나의 공백 문자로 바뀐다.
-%  \item 입력 과정(input process)에서 명령어 다음의 공백은 제거된다.
-%  \item 매크로를 정의할 때, <parameter 텍스트>와 <replacement 텍스트>에서의
-%    공백은 중요하다.
-%  \end{itemize}
-%\end{frame}
+
+\section{예제}
 
 
-%
-\plain{\huge 예제}
-
-
+\subsection{\texttt{\string\bold} 매크로}
 %
 \begin{frame}[fragile]{\texttt{\string\bold} 매크로}
   \begin{verbatim}
@@ -122,9 +140,9 @@
     
     \bold{Hello world}
   \end{verbatim}
-  \begin{exampleblock}{Programmer}
+  \begin{alertblock}{Programmer}
     \verb+\def\bold#1{{\bf #1}}+
-  \end{exampleblock}
+  \end{alertblock}
 \end{frame}
 
 
@@ -141,19 +159,19 @@
     { Hello
     ! Paragraph ended before \bold was complete.
   \end{verbatim}
-  \begin{exampleblock}{Programmer first class}
+  \begin{alertblock}{Programmer first class}
     \verb+\long\def\bold#1{{\bf #1}}+
-  \end{exampleblock}
+  \end{alertblock}
 \end{frame}
 
 
 %
 \begin{frame}[fragile]{\texttt{\string\bold} 매크로}
-  \begin{exampleblock}{Hacker}
+  \begin{alertblock}{Hacker}
     \verb+\def\beginbold{\bgroup\bf}+
     
     \verb+\def\endbold{\egroup}+
-  \end{exampleblock}
+  \end{alertblock}
 
   \begin{verbatim}
     \beginbold
@@ -167,9 +185,9 @@
 
 %
 \begin{frame}[fragile]{\texttt{\string\bold} 매크로}
-  \begin{exampleblock}{Wizard}
+  \begin{alertblock}{Wizard}
     \verb+\def\bold{\bgroup\bf\let\next=}+
-  \end{exampleblock}
+  \end{alertblock}
   \medskip
   <equals>$\rightarrow$<optional spaces> | <optional spaces>=
   
@@ -178,13 +196,13 @@
     <one optional space><token>\hss}
   \medskip
 
-  \begin{exampleblock}{사용예}
+  \begin{alertblock}{사용예}
     \begin{itemize}
     \item \verb*+\let\a= \b+
     \item \verb*+\let\a\b+
     \item \verb*+\let\a= Hello+
     \end{itemize}
-  \end{exampleblock}
+  \end{alertblock}
 \end{frame}
 
 
@@ -196,22 +214,7 @@
 %\end{frame}
 
 
-%
-\begin{frame}[fragile]{조건문 검사}
-  \begin{exampleblock}{\string\if\ <token1> <token2>}
-    \begin{itemize}
-    \item <token1>과 <token2>의 문자 코드가 같은지를 검사한다. 명령어의 문자 코드는 256.
-    \item <token1>과 <token2>의 문자 코드가 같은지를 검사한다. 명령어의 문자 코드는 256.
-    \end{itemize}
-  \end{exampleblock}
-  \begin{exampleblock}{\string\ifx\ <token1> <token2>}
-    \begin{itemize}
-    \item <token1>과 <token2>의 문자 코드가 같은지를 검사한다. 명령어의 문자 코드는 256.
-    \item <token1>과 <token2>의 문자 코드가 같은지를 검사한다. 명령어의 문자 코드는 256.
-    \end{itemize}
-  \end{exampleblock}
-\end{frame}
-
+\subsection{스크립트 매크로}
 
 %
 \newcount\spk
@@ -276,6 +279,8 @@
 \end{frame}
 
 
+\subsection{FIFO 매크로}
+
 %
 \begin{frame}[fragile]{FIFO 매크로}
   \begin{verbatim}
@@ -305,9 +310,8 @@
 
 
 %
-\begin{frame}{참고문서}
+\begin{frame}{참고 문서}
   \begin{itemize}
-  %\item \url{https://github.com/sjnam/TeX/2016-workshop}
   \item \href{http://ftp.ktug.org/tex-archive/systems/knuth/dist/tex/}
     {The \TeX book}
   \item \href{http://ftp.ktug.org/tex-archive/info/impatient/book.pdf}
@@ -327,29 +331,8 @@
 
 
 %
-\plain{\huge ¿Tienes alguna pregunta?}
-
-
-\end{document}
-
-
-%
-\begin{frame}[fragile]{매크로 사용자 단계}
-  The \TeX\ Hierarchy, TUGboat, Volume 15 (1994), No.1, 7---9.
-  \begin{description}
-  \item [Novice] has heard of macros, but has never seen one.
-  \item [User] writes macros that are used once, and that are
-    longer than the code they replace.
-  \item [Programmer], having been bitten by unwanted spaces,
-    writes macros that don't contain spaces, and every line ends with
-    a `{\small\verb+%+}'.
-  \item [Hacker] has written self-modifying macros, writes
-    {\small\verb+\endlinechar=-1+} or {\small\verb+\catcode'\^^M=9+}
-    to prevent having to put {\small\verb+%+}'s at the end of lines in macros.
-  \item [Guru] has written macros containing {\small\verb+####+}, more than 3
-    {\small\verb+\expandafter+}'s in a row, and the sequence
-    {\small\verb+\expandafter\endcsname+}.
-  \end{description}
+\begin{frame}[standout]
+  ¿Tienes alguna pregunta?
 \end{frame}
 
-
+\end{document}
