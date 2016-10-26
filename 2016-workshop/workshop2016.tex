@@ -11,14 +11,14 @@
 
 
 % title
-\title{텍 매크로}
-\subtitle{매크로 작성과 예제}
+\title{텍 매크로 전개}
+\subtitle{매크로 전개 원리와 예제}
 \author{남수진}
 \date{2016년 11월 5일}
 \institute{
   2016 공주대학교 문서작성 워크숍 2016\\
   공주대학교 인문사회과학관 1층 컴퓨터실 107호}
-\titlegraphic{\hfill\includegraphics[height=1.5cm]{meta.pdf}}
+\titlegraphic{\hfill\includegraphics[height=3cm]{meta.pdf}}
 
 
 %%
@@ -26,14 +26,7 @@
 
 \maketitle
 
-%\begin{frame}{차례}
-%  \setbeamertemplate{section in toc}[sections numbered]
-%  \tableofcontents[hideallsubsections]
-%\end{frame}
 
-
-%\section{소개}
- 
 %
 \begin{frame}{매크로 관련 명령어}
   \vspace{4mm}
@@ -193,9 +186,10 @@
   \begin{itemize}
   \item \verb+{+, \verb+}+
   \item \verb+\bgroup+, \verb+\egroup+
+  \item \verb+\begingroup+, \verb+\endgroup+
     \begin{alertblock}{사용예}
       \begin{itemize}
-      \item \verb+\let\bgroup={ \let\egroup=}+
+      %\item \verb+\let\bgroup={ \let\egroup=}+
       \item \verb+\bgroup \bf Hello}+
       \item \verb+{\bf Hello \egroup+
       \end{itemize}
@@ -204,25 +198,29 @@
   \end{itemize}
 
   {\small
-  \begin{verbatim}
+\begin{verbatim}
     \def\hello{Hello}
     { \baselineskip=14pt \def\hello{Hola} \hello }
     \hello
-  \end{verbatim}}
+\end{verbatim}}
+
+  Hola Hello
 \end{frame}
 
 
+%
 \begin{frame}[standout]
   예제
 \end{frame}
 
+
 %
 \begin{frame}[fragile]{\texttt{\string\bold} 매크로}
-  \begin{verbatim}
+\begin{verbatim}
     {\bf Hello world}
     
     \bold{Hello world}
-  \end{verbatim}
+\end{verbatim}
   \begin{alertblock}{Programmer}
     \verb+\def\bold#1{{\bf #1}}+
   \end{alertblock}
@@ -231,7 +229,7 @@
 
 %
 \begin{frame}[fragile]{\texttt{\string\bold} 매크로}
-  \begin{verbatim}
+\begin{verbatim}
     \bold{
       Hello
 
@@ -241,7 +239,7 @@
     Runaway argument?
     { Hello
     ! Paragraph ended before \bold was complete.
-  \end{verbatim}
+\end{verbatim}
   \begin{alertblock}{Programmer first class}
     \verb+\long\def\bold#1{{\bf #1}}+
   \end{alertblock}
@@ -256,13 +254,13 @@
     \verb+\def\endbold{\egroup}+
   \end{alertblock}
 
-  \begin{verbatim}
+\begin{verbatim}
     \beginbold
     Hello
 
     world
     \endbold
-  \end{verbatim}
+\end{verbatim}
 \end{frame}
 
 
@@ -325,7 +323,7 @@
 
 %
 \begin{frame}[fragile]{스크립트 매크로}
-  \begin{verbatim}
+\begin{verbatim}
   \beginscript
   Now, at last, you can easily typeset
   conversations you eavesdrop on in
@@ -340,13 +338,13 @@
   
   Extremely.
   \endscript
-  \end{verbatim}
+\end{verbatim}
 \end{frame}
 
 
 %
 \begin{frame}[fragile]{스크립트 매크로}
-  \begin{verbatim}
+\begin{verbatim}
   \let\endgraf=\par
   \newcount\spk
   \def\beginscript{\bgroup \parindent=0pt \rm
@@ -356,26 +354,26 @@
              \else \endgraf \rm \spk=1
                \leftskip0in \rightskip.4in \fi}}
   \def\endscript{\egroup}
-  \end{verbatim}
+\end{verbatim}
 \end{frame}
 
 
 %
 \begin{frame}[fragile]{FIFO 매크로}
-  \begin{verbatim}
+\begin{verbatim}
     \def\fifo#1{\ifx\ofif#1\ofif\fi
       \process#1\fifo}
     \def\ofif#1\fifo{\fi}
 
     \fifo abc\ofif
     => \process a \process b \process c
-  \end{verbatim}
+\end{verbatim}
 \end{frame}
 
 
 %
 \begin{frame}[fragile]{FIFO 매크로}
-  \begin{verbatim}
+\begin{verbatim}
     \def\fifo#1{\ifx\ofif#1\ofif\fi
       \process#1\fifo}
     \def\ofif#1\fifo{\fi}
@@ -384,7 +382,7 @@
     \def\process#1{\advance\length 1}
 
     \fifo aapnoon\ofif \number\length % => 7
-  \end{verbatim}
+\end{verbatim}
 \end{frame}
 
 
