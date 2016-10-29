@@ -12,8 +12,8 @@
 
 % title
 \title{텍 매크로 전개}
-\subtitle{매크로 전개 원리와 예제}
-\author{남수진}
+\subtitle{매크로 전개와 예제}
+\author{남수진(jangNa)}
 \date{2016년 11월 5일}
 \institute{
   2016 공주대학교 문서작성 워크숍 2016\\
@@ -150,6 +150,20 @@
     
     \fbox{expandafter}\quad
     \fbox{tokenone}\quad
+    \fbox{tokentwo}
+    
+    \bigskip
+    \alert{전개 과정}
+
+    \fbox{tokenone}\quad
+    \verb|t|$_{12}$\quad
+    \verb|h|$_{12}$\quad
+    \verb|i|$_{12}$\quad
+    \verb|s|$_{12}$\quad
+    \verb*| |$_{10}$\quad (X)
+
+    \bigskip
+    \fbox{tokenone}\quad
     \fbox{iftrue}\quad
     \verb|t|$_{12}$\quad
     \verb|h|$_{12}$\quad
@@ -163,31 +177,17 @@
     \verb|t|$_{12}$\quad
     \verb*| |$_{10}$\quad
     \fbox{fi}
-
-    \bigskip
-    \alert{전개 과정}
-    
-    \fbox{tokenone}\quad
-    \fbox{iftrue}\quad
-    \verb|...|
-
-    \bigskip
-    \fbox{tokenone}\quad
-    \verb|t|$_{12}$\quad
-    \verb|h|$_{12}$\quad
-    \verb|i|$_{12}$\quad
-    \verb|s|$_{12}$\quad
-    \verb*| |$_{10}$\quad
 \end{frame}
 
 
 %
 \begin{frame}[fragile]{그룹 만들기}
+  \textbf{\alert{그룹}}
   \begin{itemize}
   \item \verb+{+, \verb+}+
   \item \verb+\bgroup+, \verb+\egroup+
   \item \verb+\begingroup+, \verb+\endgroup+
-    \begin{alertblock}{사용예}
+    \begin{alertblock}{사용례}
       \begin{itemize}
       %\item \verb+\let\bgroup={ \let\egroup=}+
       \item \verb+\bgroup \bf Hello}+
