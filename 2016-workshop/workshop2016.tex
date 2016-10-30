@@ -11,7 +11,7 @@
 
 
 % title
-\title{텍 매크로 전개}
+\title{텍 매크로}
 \subtitle{매크로 전개와 예제}
 \author{남수진(jangNa)}
 \date{2016년 11월 5일}
@@ -186,10 +186,10 @@
   \begin{itemize}
   \item \verb+{+, \verb+}+
   \item \verb+\bgroup+, \verb+\egroup+
+    ({\small \verb+\let\bgroup={ \let\egroup=}+})
   \item \verb+\begingroup+, \verb+\endgroup+
     \begin{alertblock}{사용례}
       \begin{itemize}
-      %\item \verb+\let\bgroup={ \let\egroup=}+
       \item \verb+\bgroup \bf Hello}+
       \item \verb+{\bf Hello \egroup+
       \end{itemize}
@@ -269,30 +269,50 @@
   \begin{alertblock}{Wizard}
     \verb+\def\bold{\bgroup\bf\let\next=}+
   \end{alertblock}
-  \medskip
-  <equals>$\rightarrow$<optional spaces> | <optional spaces>=
-  
+
+\begin{verbatim}
+bold{text}
+\bgroup\bf\let\next={text}
+\end{verbatim}
+
   \hbox to\hsize{\hss
     \verb+\let+<control sequence><equals>%
     <one optional space><token>\hss}
-  \medskip
+  <equals>$\rightarrow$<optional spaces> | <optional spaces>=
 
-  \begin{alertblock}{사용예}
-    \begin{itemize}
-    \item \verb*+\let\a= \b+
-    \item \verb*+\let\a\b+
-    \item \verb*+\let\a= Hello+
-    \end{itemize}
-  \end{alertblock}
+\bigskip
+
+  \fbox{bgroup}\quad\fbox{bf}\quad
+  \verb|t|$_{11}$\quad\verb|e|$_{11}$\quad
+  \verb|x|$_{11}$\quad\verb|t|$_{11}$\quad
+  \verb|}|$_{2}$
+
+  \verb|{|$_1$\quad\fbox{bf}\quad
+  \verb|t|$_{11}$\quad\verb|e|$_{11}$\quad
+  \verb|x|$_{11}$\quad\verb|t|$_{11}$\quad
+  \verb|}|$_{2}$
 \end{frame}
 
 
 %
-%\begin{frame}[fragile]{\texttt{\string\bold} 매크로}
-%  \begin{alertblock}{Guru}
-%    \verb+\def\bold#{\bgroup\bf\let\next= }+
-%  \end{alertblock}
-%\end{frame}
+\begin{frame}[fragile]{스크립트 매크로}
+\begin{verbatim}
+  \beginscript
+  Now, at last, you can easily typeset
+  conversations you eavesdrop on in
+  restaurants and on planes.
+  
+  Really? That's just what I've been waiting
+  for! How do I do it?
+  
+  Exactly the way this script was done.
+  
+  Is it easy?
+  
+  Extremely.
+  \endscript
+\end{verbatim}
+\end{frame}
 
 
 %
@@ -318,27 +338,6 @@
   
   Extremely.
   \endscript
-\end{frame}
-
-
-%
-\begin{frame}[fragile]{스크립트 매크로}
-\begin{verbatim}
-  \beginscript
-  Now, at last, you can easily typeset
-  conversations you eavesdrop on in
-  restaurants and on planes.
-  
-  Really? That's just what I've been waiting
-  for! How do I do it?
-  
-  Exactly the way this script was done.
-  
-  Is it easy?
-  
-  Extremely.
-  \endscript
-\end{verbatim}
 \end{frame}
 
 
