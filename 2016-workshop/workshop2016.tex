@@ -13,7 +13,7 @@
 % title
 \title{텍 매크로}
 \subtitle{매크로 전개와 예제}
-\author{남수진(jangNa)}
+\author{남수진}
 \date{2016년 11월 5일}
 \institute{
   2016 공주대학교 문서작성 워크숍 2016\\
@@ -25,7 +25,6 @@
 \begin{document}
 
 \maketitle
-
 
 %
 \begin{frame}{매크로 관련 명령어}
@@ -200,13 +199,12 @@
   \item \verb+\bgroup+, \verb+\egroup+
     ({\small \verb+\let\bgroup={ \let\egroup=}+})
   \item \verb+\begingroup+, \verb+\endgroup+ (원시명령어, primitive)
-    \begin{alertblock}{사용례}
-      \begin{itemize}
-      \item \verb+\bgroup \bf Hello}+
-      \item \verb+{\bf Hello \egroup+
-      \item \verb+\begingroup \bf Hello}+ (X)
-      \end{itemize}
-    \end{alertblock}
+  \end{itemize}
+  \alert{사용례}
+  \begin{itemize}
+  \item \verb+\bgroup \bf Hello}+
+  \item \verb+{\bf Hello \egroup+
+  \item \verb+\begingroup \bf Hello}+ (X)
   \end{itemize}
   {\small
 \begin{verbatim}
@@ -214,7 +212,6 @@
     { \baselineskip=14pt \def\hello{Hola} \hello }
     \hello
 \end{verbatim}}
-
   Hola Hello
 \end{frame}
 
@@ -307,6 +304,7 @@
 
 %
 \begin{frame}[fragile]{스크립트 매크로}
+  \small
 \begin{verbatim}
   \beginscript
   Now, at last, you can easily typeset
@@ -386,7 +384,7 @@
     \item \verb+\if+와 달리 \verb+\ifx+ 뒤에 나오는 토큰을 전개하지 않는다.
 \begin{verbatim}
 \def\foo{abc} \def\bar{abc}
-\if\foo\bar true \else false \fi  % => true
+\ifx\foo\bar true \else false \fi  % => true
 \end{verbatim}
     \end{itemize}
   \end{itemize}
@@ -467,3 +465,4 @@
 \end{frame}
 
 \end{document}
+
