@@ -368,6 +368,31 @@
 
 
 %
+\begin{frame}[fragile]{조건문}
+  \begin{itemize}
+  \item \verb+\if <token1> <token2>+
+    \begin{itemize}
+    \item 두 토큰의 문자 코드(character code)가 같은지 검사한다.
+    \item 검사 전에, \verb+\if+ 뒤에 나오는 토큰을 두 개의 토큰이 나올 때까지 전개한다.
+\begin{verbatim}
+\def\foo{abc} \def\bar{abc}
+\if\foo\bar true \else false \fi  % => false
+\end{verbatim}
+    \end{itemize}
+  \item \verb+\ifx <token1> <token2>+
+    \begin{itemize}
+    \item 두 개의 토큰이 서로 일치하는지 검사한다.
+    \item \verb+\if+와 달리 \verb+\ifx+ 뒤에 나오는 토큰을 전개하지 않는다.
+\begin{verbatim}
+\def\foo{abc} \def\bar{abc}
+\if\foo\bar true \else false \fi  % => true
+\end{verbatim}
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+
+%
 \begin{frame}[fragile]{FIFO 매크로}
 \begin{verbatim}
 \def\fifo#1{\ifx\ofif#1\ofif\fi
