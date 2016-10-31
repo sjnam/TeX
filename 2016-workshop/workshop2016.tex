@@ -62,15 +62,18 @@
     \verb+{+\alert{<replacement text>}\verb+}+\hss}
   \smallskip
   \begin{itemize}
-  \item 문서에서 여러번 반복적으로 사용되는 문구나 명령어의 나열을 하나의
+  \item 문서에서 여러 번 반복되어 사용되는 문구나 일련의 명령어의 나열을 하나의
     명령어(control sequence)로 만든 것
   \item \verb+\def+, \verb+\gdef+, \verb+\edef+, \verb+\xdef+
-  \item 텍의 전개 과정에서 매크로는 치환문으로 교체된다.
+  \item 텍의 전개 과정에서 매크로는 치환 텍스트으로 교체된다.
   \item 정의 시점에는 전개하지 않는다.
-  \item 파라미터 텍스트와 치환 텍스트에는 정의되지 않은 매크로 사용이 가능하다.
+  \item 파라미터 텍스트 또는 매크로 인자를 읽어 들일 때 또는 \verb+\def+,
+    \verb+\gdef+로 정의된 치환 텍스트을 읽어 들일 때는 전개하지 않는다.
+    \begin{itemize}
+    \item 파라미터 텍스트와 치환 텍스트에는 정의되지 않은 매크로 사용이 가능하다.
     
-    \verb+\def\control#1\sequence{...}+
-  \item 매크로를 전개하기 위해서 인자를 읽어 들일때는 전개하지 않는다.
+      \verb+\def\control#1\sequence{...}+
+    \end{itemize}
   \end{itemize}
 \end{frame}
 
@@ -91,7 +94,15 @@
 %
 \begin{frame}[fragile]{토큰 리스트}
   \alert{입력 과정}
+
+  \begin{itemize}
+  \item 연속된 여러 개의 공백 문자는 하나의 공백 문자로 처리
+  \item 입력 줄의 맨 마지막에 공백 문자(\verb+^^M+) 추가
+  \item 빈 줄 다음에 \verb+\par+ 토큰 추가
+  \item 명령어 다음의 공백은 제거된다.
+  \end{itemize}
   
+  \verb*+{\hskip  36 pt}+\\
   \verb*+{\hskip 36 pt}+\\
   \bigskip
   \verb|{|$_1$\quad\fbox{hskip}\quad\verb|3|$_{12}$
@@ -103,13 +114,13 @@
 %
 \begin{frame}[fragile]{토큰 리스트}
 \begin{verbatim*}
-\def\mytoken{\iftrue this \else that \fi}
-\mytoken
+\def\tokentwo{\iftrue this \else that \fi}
+\tokentwo
 \end{verbatim*}
     \bigskip
     \alert{입력 과정}
     
-    \fbox{mytoken}
+    \fbox{tokentwo}
     
     \bigskip
     \alert{전개 과정}
@@ -187,16 +198,15 @@
   \item \verb+{+, \verb+}+
   \item \verb+\bgroup+, \verb+\egroup+
     ({\small \verb+\let\bgroup={ \let\egroup=}+})
-  \item \verb+\begingroup+, \verb+\endgroup+
+  \item \verb+\begingroup+, \verb+\endgroup+ (원시명령어, primitive)
     \begin{alertblock}{사용례}
       \begin{itemize}
       \item \verb+\bgroup \bf Hello}+
       \item \verb+{\bf Hello \egroup+
+      \item \verb+\begingroup \bf Hello}+ (X)
       \end{itemize}
     \end{alertblock}
-  \item \verb+\begingroup+, \verb+\endgroup+ (원시명령어, primitive)
   \end{itemize}
-
   {\small
 \begin{verbatim}
     \def\hello{Hello}
@@ -271,7 +281,7 @@
   \end{alertblock}
 
 \begin{verbatim}
-bold{text}
+\bold{text}
 \bgroup\bf\let\next={text}
 \end{verbatim}
 
@@ -344,7 +354,7 @@ bold{text}
 %
 \begin{frame}[fragile]{스크립트 매크로}
 \begin{verbatim}
-  \let\endgraf=\par
+  \let\endgraf=\par %plain.tex 
   \newcount\spk
   \def\beginscript{\bgroup \parindent=0pt \rm
     \spk=1 \rightskip.4in
@@ -360,12 +370,12 @@ bold{text}
 %
 \begin{frame}[fragile]{FIFO 매크로}
 \begin{verbatim}
-    \def\fifo#1{\ifx\ofif#1\ofif\fi
-      \process#1\fifo}
-    \def\ofif#1\fifo{\fi}
+\def\fifo#1{\ifx\ofif#1\ofif\fi
+  \process#1\fifo}
+\def\ofif#1\fifo{\fi}
 
-    \fifo abc\ofif
-    => \process a \process b \process c
+\fifo abc\ofif
+=> \process a \process b \process c
 \end{verbatim}
 \end{frame}
 
@@ -373,15 +383,34 @@ bold{text}
 %
 \begin{frame}[fragile]{FIFO 매크로}
 \begin{verbatim}
-    \def\fifo#1{\ifx\ofif#1\ofif\fi
-      \process#1\fifo}
-    \def\ofif#1\fifo{\fi}
+\def\fifo#1{\ifx\ofif#1\ofif\fi
+  \process#1\fifo}
+\def\ofif#1\fifo{\fi}
 
-    \newcount\length
-    \def\process#1{\advance\length 1}
-
-    \fifo aapnoon\ofif \number\length % => 7
+\newcount\length
+\def\process#1{\advance\length 1}
 \end{verbatim}
+
+\verb*+\fifo aap noon\ofif \number\length+ \verb+  % => 7+
+\end{frame}
+
+
+%
+\def\fifo#1{\ifx\ofif#1\ofif\fi
+  \process#1\fifo}
+\def\ofif#1\fifo{\fi}
+\def\process#1{\fbox{#1}\,}
+
+\begin{frame}[fragile]{FIFO 매크로}
+\begin{verbatim}
+\def\fifo#1{\ifx\ofif#1\ofif\fi
+  \process#1\fifo}
+\def\ofif#1\fifo{\fi}
+
+\def\process#1{\fbox{#1}\,}
+\end{verbatim}
+
+\verb+\fifo 17077\ofif  % =>+ \quad \fifo 17077\ofif
 \end{frame}
 
 
@@ -396,10 +425,10 @@ bold{text}
     {\TeX\ By Topic}
   \item \href{http://pgfplots.sourceforge.net/TeX-programming-notes.pdf}
     {Notes On Programming in TeX}
-  \item \href{https://www.tug.org/TUGboat/tb14-1/tb38laan.pdf}
-    {FIFO and LIFO sing the BLUes}
   \item \href{https://www.tug.org/TUGboat/tb08-3/tb19knut.pdf}
     {Macros for Jill}
+  \item \href{https://www.tug.org/TUGboat/tb14-1/tb38laan.pdf}
+    {FIFO and LIFO sing the BLUes}
   \item \href{https://www.tug.org/TUGboat/tb15-1/tb42arseneau.pdf}
     {The TeX\ Hierarchy}
   \end{itemize}
