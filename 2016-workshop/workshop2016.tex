@@ -26,6 +26,7 @@
 
 \maketitle
 
+
 %
 \begin{frame}{매크로 관련 명령어}
   \vspace{4mm}
@@ -94,11 +95,26 @@
 
 
 %
+\begin{frame}[fragile]{매크로 vs 원시명령어}
+  Plain 포멧에는 900여개의 명령어가 있고, 그 중 300여개가 원시명령어(primitive)
+  \begin{itemize}
+  \item 매크로는 \alert{전개}의 대상
+  \item 원시명령어는 \alert{실행}의 대상
+  \item 매크로와 원시명령어의 구분
+    \begin{itemize}
+    \item 텍북의 찾아보기에 해당 항목에 `\verb+*+'가 붙어있으면 원시명령어
+    \item \verb+\show+ 명령어로 확인
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+
+%
 \begin{frame}[fragile]{매크로 전개}
   다음의 명령어들은 전개 과정에서 전개된다.
   \begin{itemize}
   \item 매크로
-  \item 조건문
+  \item 조건문 (\verb+\if+, \verb+\ifx+, $\ldots$)
   \item \verb+\number, \romannumeral+
   \item \verb+\string+, \verb+\fontname+, \verb+\jobname+,
     \verb+\meaning+, \verb+\the+
@@ -113,7 +129,7 @@
 \begin{frame}[fragile]{매크로 전개}
   매크로가 전개되지 않는 시점
   \begin{itemize}
-  \item 정의 시점, \verb+\def+, \verb+\gdef+, \verb+\edef+, \verb+\xdef+
+  \item 매크로 정의 시점, \verb+\def+, \verb+\gdef+, \verb+\edef+, \verb+\xdef+
     {\small
 \begin{verbatim}
 \def\sayhello{Hello, world}
@@ -130,9 +146,9 @@
   {\small \begin{verbatim} \def\hello{Hello, \world}\end{verbatim}}
   \item \verb+\uppercase+, \verb+\lowercase+ 를 읽어 들일 때
     {\small \begin{verbatim}
-\def\hello{hello}
-\uppercase{\hello, abc} % => hello, ABC
-\uppercase\expandafter{\hello, abc} % => HELLO, ABC  
+\def\say{hello}
+\uppercase{\say, abc} => hello, ABC
+\uppercase\expandafter{\say, abc} => HELLO, ABC  
 \end{verbatim}}
   \end{itemize}
 \end{frame}
