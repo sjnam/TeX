@@ -6,6 +6,7 @@
 \usetheme{metropolis}
 \metroset{outer/progressbar=head}
 
+\usepackage{fancyvrb}
 \usepackage{kotex}
 \hypersetup{pdfencoding=auto}
 
@@ -35,26 +36,6 @@
 
 
 %
-\begin{frame}[fragile]{매크로 사용자 단계}
-  The \TeX\ Hierarchy, TUGboat, Volume 15 (1994), No.1, 7---9.
-  \begin{description}
-  \item [Novice] has heard of macros, but has never seen one.
-  \item [User] writes macros that are used once, and that are
-    longer than the code they replace.
-  \item [Programmer], having been bitten by unwanted spaces,
-    writes macros that don't contain spaces, and every line ends with
-    a `{\small\verb+%+}'.
-  \item [Hacker] has written self-modifying macros, writes
-    {\small\verb+\endlinechar=-1+} or {\small\verb+\catcode'\^^M=9+}
-    to prevent having to put {\small\verb+%+}'s at the end of lines in macros.
-  \item [Guru] has written macros containing {\small\verb+####+}, more than 3
-    {\small\verb+\expandafter+}'s in a row, and the sequence
-    {\small\verb+\expandafter\endcsname+}.
-  \end{description}
-\end{frame}
-
-
-%
 \begin{frame}[fragile]{매크로 정의}
   \medskip
   \hbox to\hsize{\hss
@@ -64,8 +45,14 @@
   \begin{itemize}
   \item 문서에서 여러 번 반복되어 사용되는 문구나 일련의 명령어의 나열을
     하나의 명령어(control sequence)로 만든 것
+\begin{Verbatim*}[fontsize=\small, formatcom=\color{blue}]
+\def\xvec{(x_1,\ldots,x_n)}
+\def\row#1{(#1_1,\ldots,#1_n)}
+\def\cs #1. #2\par{...}
+\cs You owe \$5.00. Pay it.\par
+\end{Verbatim*}
   \item \verb+\def+, \verb+\gdef+, \verb+\edef+, \verb+\xdef+
-  \item 텍의 \alert{전개 과정}에서 매크로는 치환 텍스트으로 전개된다.
+  \item 텍의 처리 과정 중에서, \alert{전개 과정}에서 매크로는 치환 텍스트로 전개된다.
   \end{itemize}
 \end{frame}
 
@@ -78,7 +65,7 @@
   \item \alert{\bf 전개(Expansion)} 위의 토큰 리스트를 입력으로
     받어서 전개할 수 있는
     모든 토큰을 전개해서 더이상 전개 할 수 없는 토큰들로 구성된
-    새로운 토큰 리스트를 만든다.
+    새로운 \alert{토큰 리스트}를 만든다.
   \item \alert{\bf 실행(Execution)}
   \item \alert{\bf 출력(Visual)}
   \end{itemize}
@@ -180,29 +167,27 @@
   매크로가 전개되지 않는 경우
   \begin{itemize}
   \item 매크로 정의 시점, \verb+\def+, \verb+\gdef+, \verb+\edef+, \verb+\xdef+
-    {\small
-\begin{verbatim}
+\begin{Verbatim}[fontsize=\small, formatcom=\color{blue}]
 \def\sayhello{Hello, world}
-\end{verbatim}}
-  \item let 할당문, \verb+\let+ 또는 \verb+\futurelet+, \verb+\let\a=\b+
+\end{Verbatim}
+  \item let 할당문, \verb+\let+ 또는 \verb+\futurelet+,
+  {\color{blue} \verb+\let\a=\b+}
   \item 파라미터 텍스트 또는 매크로 인자를 읽어 들일 때
-    {\small
-\begin{verbatim}
+\begin{Verbatim}[fontsize=\small, formatcom=\color{blue}]
 \def\foo#1\bar{...}
 \foo abc \abc xyz \xyz \bar
-\end{verbatim}}
+\end{Verbatim}
   \item \verb+\def+, \verb+\gdef+로 정의된 치환 텍스트을 읽어 들일 때
-    {\small
-\begin{verbatim} 
+\begin{Verbatim}[fontsize=\small, formatcom=\color{blue}] 
 \def\hello{Hello, \world}
-\edef\hello{Hello, \world}}
-\end{verbatim}}
+\edef\hello{Hello, \world}} % Error
+\end{Verbatim}
   \item \verb+\uppercase+, \verb+\lowercase+ 를 읽어 들일 때
-    {\small \begin{verbatim}
+\begin{Verbatim}[fontsize=\small, formatcom=\color{blue}]
 \def\say{hello}
 \uppercase{\say, abc} => hello, ABC
 \uppercase\expandafter{\say, abc} => HELLO, ABC  
-\end{verbatim}}
+\end{Verbatim}
   \end{itemize}
 \end{frame}
 
@@ -230,7 +215,7 @@
     \verb|h|$_{12}$\quad
     \verb|i|$_{12}$\quad
     \verb|s|$_{12}$\quad
-    \verb*| |$_{10}$\quad (X)
+    \verb*| |$_{10}$\quad {\color{red} (X)}
 
     \bigskip
     \fbox{tokenone}\quad
@@ -256,38 +241,37 @@
   \begin{itemize}
   \item \verb+{+, \verb+}+
   \item \verb+\bgroup+, \verb+\egroup+
-    ({\small \verb+\let\bgroup={ \let\egroup=}+})
+    {\color{blue}\small \verb+\let\bgroup={ \let\egroup=}+}
   \item \verb+\begingroup+, \verb+\endgroup+ (원시명령어, primitive)
   \end{itemize}
   \alert{사용례}
   \begin{itemize}
   \item \verb+\bgroup \bf Hello}+
   \item \verb+{\bf Hello \egroup+
-  \item \verb+\begingroup \bf Hello}+ (X)
+  \item \verb+\begingroup \bf Hello}+ {\color{red} (X)}
   \end{itemize}
-  {\small
-\begin{verbatim}
+\begin{Verbatim}[fontsize=\small, formatcom=\color{blue}]
     \def\hello{Hello}
     { \baselineskip=14pt \def\hello{Hola} \hello }
     \hello
-\end{verbatim}}
-  Hola Hello
+    Hola Hello
+\end{Verbatim}
 \end{frame}
 
 
 %
 \begin{frame}[standout]
-  예제
+  예제: \texttt{\string\bold} 매크로
 \end{frame}
 
 
 %
 \begin{frame}[fragile]{\texttt{\string\bold} 매크로}
-\begin{verbatim}
-    {\bf Hello world}
+\begin{Verbatim}[fontsize=\small, formatcom=\color{blue}]
+{\bf Hello world}
     
-    \bold{Hello world}
-\end{verbatim}
+\bold{Hello world}
+\end{Verbatim}
   \begin{alertblock}{Programmer}
     \verb+\def\bold#1{{\bf #1}}+
   \end{alertblock}
@@ -296,17 +280,17 @@
 
 %
 \begin{frame}[fragile]{\texttt{\string\bold} 매크로}
-\begin{verbatim}
-    \bold{
-      Hello
+\begin{Verbatim}[fontsize=\small, formatcom=\color{blue}]
+\bold{
+  Hello
 
-      world
-    }
+  world
+}
 
-    Runaway argument?
-    { Hello
-    ! Paragraph ended before \bold was complete.
-\end{verbatim}
+Runaway argument?
+{ Hello
+! Paragraph ended before \bold was complete.
+\end{Verbatim}
   \begin{alertblock}{Programmer first class}
     \verb+\long\def\bold#1{{\bf #1}}+
   \end{alertblock}
@@ -321,13 +305,13 @@
     \verb+\def\endbold{\egroup}+
   \end{alertblock}
 
-\begin{verbatim}
-    \beginbold
-    Hello
+\begin{Verbatim}[fontsize=\small, formatcom=\color{blue}]
+\beginbold
+Hello
 
-    world
-    \endbold
-\end{verbatim}
+world
+\endbold
+\end{Verbatim}
 \end{frame}
 
 
@@ -337,15 +321,15 @@
     \verb+\def\bold{\bgroup\bf\let\next=}+
   \end{alertblock}
 
-\begin{verbatim}
+\begin{Verbatim}[fontsize=\small, formatcom=\color{blue}]
 \bold{text}
 \bgroup\bf\let\next={text}
-\end{verbatim}
+\end{Verbatim}
 
-  \hbox to\hsize{\hss
-    \verb+\let+<control sequence><equals>%
-    <one optional space><token>\hss}
-  <equals>$\rightarrow$<optional spaces> | <optional spaces>=
+%  \hbox to\hsize{\hss
+%    \verb+\let+<control sequence><equals>%
+%    <one optional space><token>\hss}
+%  <equals>$\rightarrow$<optional spaces> | <optional spaces>=
 
 \bigskip
 
@@ -362,32 +346,38 @@
 
 
 %
+\begin{frame}[standout]
+  예제: 스크립트 매크로
+\end{frame}
+
+
+%
 \begin{frame}[fragile]{스크립트 매크로}
-  \small
-\begin{verbatim}
-  \beginscript
-  Now, at last, you can easily typeset
-  conversations you eavesdrop on in
-  restaurants and on planes.
+\begin{Verbatim}[fontsize=\small]
+\beginscript
+Now, at last, you can easily typeset
+conversations you eavesdrop on in
+restaurants and on planes.
   
-  Really? That's just what I've been waiting
-  for! How do I do it?
+Really? That's just what I've been waiting
+for! How do I do it?
   
-  Exactly the way this script was done.
+Exactly the way this script was done.
   
-  Is it easy?
+Is it easy?
   
-  Extremely.
-  \endscript
-\end{verbatim}
+Extremely.
+\endscript
+\end{Verbatim}
 \end{frame}
 
 
 %
 \newcount\spk
-\def\beginscript{\bgroup \parindent=0pt \rm \spk=1 \rightskip.4in
-  \def\par{\ifnum\spk=1 \endgraf \sl \spk=2 \leftskip.4in \rightskip0in
-    \else \endgraf \rm \spk=1 \leftskip0in \rightskip.4in \fi}}
+\def\beginscript{\bgroup \parindent=0pt \color{red} \spk=1 \rightskip.4in
+  \def\par{\ifnum\spk=1 \endgraf \color{blue} \spk=2 \leftskip.4in
+    \rightskip0in
+    \else \endgraf \color{red} \spk=1 \leftskip0in \rightskip.4in \fi}}
 \def\endscript {\egroup}
 
 \begin{frame}[fragile]{스크립트 매크로}
@@ -411,17 +401,23 @@
 
 %
 \begin{frame}[fragile]{스크립트 매크로}
-\begin{verbatim}
-  \let\endgraf=\par %plain.tex 
-  \newcount\spk
-  \def\beginscript{\bgroup \parindent=0pt \rm
-    \spk=1 \rightskip.4in
-    \def\par{\ifnum\spk=1 \endgraf \sl \spk=2
-               \leftskip.4in \rightskip0in
-             \else \endgraf \rm \spk=1
-               \leftskip0in \rightskip.4in \fi}}
-  \def\endscript{\egroup}
-\end{verbatim}
+\begin{Verbatim}[fontsize=\small]
+\let\endgraf=\par %plain.tex 
+\newcount\spk
+\def\beginscript{\bgroup \parindent=0pt \color{red}
+  \spk=1 \rightskip.4in
+  \def\par{\ifnum\spk=1 \endgraf \color{blue} \spk=2
+             \leftskip.4in \rightskip0in
+           \else \endgraf \color{red} \spk=1
+             \leftskip0in \rightskip.4in \fi}}
+\def\endscript{\egroup}
+\end{Verbatim}
+\end{frame}
+
+
+%
+\begin{frame}[standout]
+  예제: FIFO 매크로
 \end{frame}
 
 
@@ -432,19 +428,19 @@
     \begin{itemize}
     \item 두 토큰의 문자 코드(character code)가 같은지 검사한다.
     \item 검사 전에, \verb+\if+ 뒤에 나오는 토큰을 두 개의 토큰이 나올 때까지 전개한다.
-\begin{verbatim}
+\begin{Verbatim}[fontsize=\small, formatcom=\color{blue}]
 \def\foo{abc} \def\bar{abc}
 \if\foo\bar true \else false \fi  % => false
-\end{verbatim}
+\end{Verbatim}
     \end{itemize}
   \item \verb+\ifx <token1> <token2>+
     \begin{itemize}
     \item 두 개의 토큰이 서로 일치하는지 검사한다.
     \item \verb+\if+와 달리 \verb+\ifx+ 뒤에 나오는 토큰을 전개하지 않는다.
-\begin{verbatim}
+\begin{Verbatim}[fontsize=\small, formatcom=\color{blue}]
 \def\foo{abc} \def\bar{abc}
 \ifx\foo\bar true \else false \fi  % => true
-\end{verbatim}
+\end{Verbatim}
     \end{itemize}
   \end{itemize}
 \end{frame}
@@ -452,14 +448,15 @@
 
 %
 \begin{frame}[fragile]{FIFO 매크로}
-\begin{verbatim}
+\begin{Verbatim}[formatcom=\color{blue}]
 \def\fifo#1{\ifx\ofif#1\ofif\fi
   \process#1\fifo}
 \def\ofif#1\fifo{\fi}
-
+\end{Verbatim}
+\begin{Verbatim}
 \fifo abc\ofif
 => \process a \process b \process c
-\end{verbatim}
+\end{Verbatim}
 \end{frame}
 
 
@@ -470,12 +467,12 @@
 \def\process#1{\fbox{#1}\,}
 
 \begin{frame}[fragile]{FIFO 매크로}
-  \small
-\begin{verbatim}
+  \begin{Verbatim}[fontsize=\small, formatcom=\color{blue}]
 \def\fifo#1{\ifx\ofif#1\ofif\fi
   \process#1\fifo}
 \def\ofif#1\fifo{\fi}
-
+  \end{Verbatim}
+  \begin{Verbatim}[fontsize=\small]
 \def\getlength#1{
   \count255=0
   \def\process##1{\advance\count255 by 1 }
@@ -485,7 +482,7 @@
 \zipcode#1{%
   \def\process##1{\fbox{##1}\,}
   \fifo #1\ofif}
-\end{verbatim}
+\end{Verbatim}
 
 \verb+\zipcode{17077}  % =>+ \quad \fifo 17077\ofif
 \end{frame}
@@ -518,4 +515,25 @@
 \end{frame}
 
 \end{document}
+
+
+%
+\begin{frame}[fragile]{매크로 사용자 단계}
+  The \TeX\ Hierarchy, TUGboat, Volume 15 (1994), No.1, 7---9.
+  \begin{description}
+  \item [Novice] has heard of macros, but has never seen one.
+  \item [User] writes macros that are used once, and that are
+    longer than the code they replace.
+  \item [Programmer], having been bitten by unwanted spaces,
+    writes macros that don't contain spaces, and every line ends with
+    a `{\small\verb+%+}'.
+  \item [Hacker] has written self-modifying macros, writes
+    {\small\verb+\endlinechar=-1+} or {\small\verb+\catcode'\^^M=9+}
+    to prevent having to put {\small\verb+%+}'s at the end of lines in macros.
+  \item [Guru] has written macros containing {\small\verb+####+}, more than 3
+    {\small\verb+\expandafter+}'s in a row, and the sequence
+    {\small\verb+\expandafter\endcsname+}.
+  \end{description}
+\end{frame}
+
 
