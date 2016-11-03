@@ -65,16 +65,7 @@
   \item 문서에서 여러 번 반복되어 사용되는 문구나 일련의 명령어의 나열을
     하나의 명령어(control sequence)로 만든 것
   \item \verb+\def+, \verb+\gdef+, \verb+\edef+, \verb+\xdef+
-  \item 텍의 \alert{전개 과정}에서 매크로는 치환 텍스트으로 교체(전개)된다.
-%  \item 정의 시점에는 전개하지 않는다.
-%  \item 파라미터 텍스트 또는 매크로 인자를 읽어 들일 때, 또는 \verb+\def+,
-%    \verb+\gdef+로 정의된 치환 텍스트을 읽어 들일 때는 전개하지 않는다.
-%    \begin{itemize}
-%    \item 파라미터 텍스트와 치환 텍스트에는 정의되지 않은 매크로
-%      사용이 가능하다.
-%    
-%      \verb+\def\control#1\sequence{...\xyz...}+
-%    \end{itemize}
+  \item 텍의 \alert{전개 과정}에서 매크로는 치환 텍스트으로 전개된다.
   \end{itemize}
 \end{frame}
 
@@ -90,66 +81,6 @@
     새로운 토큰 리스트를 만든다.
   \item \alert{\bf 실행(Execution)}
   \item \alert{\bf 출력(Visual)}
-  \end{itemize}
-\end{frame}
-
-
-%
-\begin{frame}[fragile]{매크로 vs 원시명령어}
-  Plain 포멧에는 900여개의 명령어가 있고, 그 중 300여개가 원시명령어(primitive)
-  \begin{itemize}
-  \item 매크로는 \alert{전개}의 대상
-  \item 원시명령어는 \alert{실행}의 대상
-  \item 매크로와 원시명령어의 구분
-    \begin{itemize}
-    \item 텍북의 찾아보기에 해당 항목에 `\verb+*+'가 붙어있으면 원시명령어
-    \item \verb+\show+ 명령어로 확인
-    \end{itemize}
-  \end{itemize}
-\end{frame}
-
-
-%
-\begin{frame}[fragile]{매크로 전개}
-  다음의 명령어들은 전개 과정에서 전개된다.
-  \begin{itemize}
-  \item 매크로
-  \item 조건문 (\verb+\if+, \verb+\ifx+, $\ldots$)
-  \item \verb+\number, \romannumeral+
-  \item \verb+\string+, \verb+\fontname+, \verb+\jobname+,
-    \verb+\meaning+, \verb+\the+
-  \item \verb+\csname ... \endcsname+
-  \item \verb+\expandafter, \noexpand+
-  \item \verb+ ... +
-  \end{itemize}
-\end{frame}
-
-
-%
-\begin{frame}[fragile]{매크로 전개}
-  매크로가 전개되지 않는 시점
-  \begin{itemize}
-  \item 매크로 정의 시점, \verb+\def+, \verb+\gdef+, \verb+\edef+, \verb+\xdef+
-    {\small
-\begin{verbatim}
-\def\sayhello{Hello, world}
-\edef\hello{\def\sayhello{Hello, world}}
-\end{verbatim}}
-  \item let 할당문, \verb+\let+ 또는 \verb+\futurelet+, \verb+\let\a=\b+
-  \item 파라미터 텍스트 또는 매크로 인자를 읽어 들일 때
-    {\small
-\begin{verbatim}
-\def\foo#1\bar{...}
-\foo \ifnum\n>0 foo\else bar\fi \bar
-\end{verbatim}}
-  \item \verb+\def+, \verb+\gdef+로 정의된 치환 텍스트을 읽어 들일 때
-  {\small \begin{verbatim} \def\hello{Hello, \world}\end{verbatim}}
-  \item \verb+\uppercase+, \verb+\lowercase+ 를 읽어 들일 때
-    {\small \begin{verbatim}
-\def\say{hello}
-\uppercase{\say, abc} => hello, ABC
-\uppercase\expandafter{\say, abc} => HELLO, ABC  
-\end{verbatim}}
   \end{itemize}
 \end{frame}
 
@@ -172,6 +103,7 @@
   \verb|{|$_1$\quad\fbox{hskip}\quad\verb|3|$_{12}$
   \quad\verb|6|$_{12}$\quad
   \verb*| |$_{10}$\quad\verb|p|$_{11}$\quad\verb|t|$_{11}$\quad\verb|}|$_{2}$
+  %\verb|^^M|$_5$
 \end{frame}
 
 
@@ -209,6 +141,69 @@
     \verb|i|$_{12}$\quad
     \verb|s|$_{12}$\quad
     \verb*| |$_{10}$\quad
+\end{frame}
+
+
+%
+\begin{frame}[fragile]{매크로 vs 원시명령어}
+  Plain 포멧에는 900여개의 명령어가 있고, 그 중 300여개가 원시명령어(primitive)
+  \begin{itemize}
+  \item 매크로는 \alert{전개}의 대상
+  \item 원시명령어는 \alert{실행}의 대상
+  \item 매크로와 원시명령어의 구분
+    \begin{itemize}
+    \item 텍북의 찾아보기에 해당 항목에 `\verb+*+'가 붙어있으면 원시명령어
+    \item \verb+\show+ 명령어로 확인
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+
+%
+\begin{frame}[fragile]{매크로 전개}
+  다음의 명령어들은 전개 과정에서 전개된다.
+  \begin{itemize}
+  \item 매크로
+  \item 조건문 (\verb+\if+, \verb+\ifx+, \verb+\ifnum+, \verb+\ifcat+, $\ldots$)
+  \item \verb+\number, \romannumeral+
+  \item \verb+\string+, \verb+\fontname+, \verb+\jobname+,
+    \verb+\meaning+, \verb+\the+
+  \item \verb+\csname ... \endcsname+
+  \item \verb+\expandafter, \noexpand+
+  \item \verb+ ... +
+  \end{itemize}
+\end{frame}
+
+
+%
+\begin{frame}[fragile]{매크로 전개}
+  매크로가 전개되지 않는 경우
+  \begin{itemize}
+  \item 매크로 정의 시점, \verb+\def+, \verb+\gdef+, \verb+\edef+, \verb+\xdef+
+    {\small
+\begin{verbatim}
+\def\sayhello{Hello, world}
+\end{verbatim}}
+  \item let 할당문, \verb+\let+ 또는 \verb+\futurelet+, \verb+\let\a=\b+
+  \item 파라미터 텍스트 또는 매크로 인자를 읽어 들일 때
+    {\small
+\begin{verbatim}
+\def\foo#1\bar{...}
+\foo abc \abc xyz \xyz \bar
+\end{verbatim}}
+  \item \verb+\def+, \verb+\gdef+로 정의된 치환 텍스트을 읽어 들일 때
+    {\small
+\begin{verbatim} 
+\def\hello{Hello, \world}
+\edef\hello{Hello, \world}}
+\end{verbatim}}
+  \item \verb+\uppercase+, \verb+\lowercase+ 를 읽어 들일 때
+    {\small \begin{verbatim}
+\def\say{hello}
+\uppercase{\say, abc} => hello, ABC
+\uppercase\expandafter{\say, abc} => HELLO, ABC  
+\end{verbatim}}
+  \end{itemize}
 \end{frame}
 
 
@@ -469,36 +464,30 @@
 
 
 %
-\begin{frame}[fragile]{FIFO 매크로}
-\begin{verbatim}
-\def\fifo#1{\ifx\ofif#1\ofif\fi
-  \process#1\fifo}
-\def\ofif#1\fifo{\fi}
-
-\newcount\length
-\def\process#1{\advance\length 1}
-\end{verbatim}
-
-\verb*+\fifo aap noon\ofif \number\length+ \verb+  % => 7+
-\end{frame}
-
-
-%
 \def\fifo#1{\ifx\ofif#1\ofif\fi
   \process#1\fifo}
 \def\ofif#1\fifo{\fi}
 \def\process#1{\fbox{#1}\,}
 
 \begin{frame}[fragile]{FIFO 매크로}
+  \small
 \begin{verbatim}
 \def\fifo#1{\ifx\ofif#1\ofif\fi
   \process#1\fifo}
 \def\ofif#1\fifo{\fi}
 
-\def\process#1{\fbox{#1}\,}
+\def\getlength#1{
+  \count255=0
+  \def\process##1{\advance\count255 by 1 }
+  \fifo #1\ofif \number\count255}
+\getlength{argument} % => 8 
+
+\zipcode#1{%
+  \def\process##1{\fbox{##1}\,}
+  \fifo #1\ofif}
 \end{verbatim}
 
-\verb+\fifo 17077\ofif  % =>+ \quad \fifo 17077\ofif
+\verb+\zipcode{17077}  % =>+ \quad \fifo 17077\ofif
 \end{frame}
 
 
