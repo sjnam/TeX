@@ -45,13 +45,14 @@
   \begin{itemize}
   \item 문서에서 여러 번 반복되어 사용되는 문구나 일련의 명령어의 나열을
     하나의 명령어(control sequence)로 만든 것
-\begin{Verbatim*}[fontsize=\small, formatcom=\color{blue}]
+  \item \verb+\def+, \verb+\gdef+, \verb+\edef+, \verb+\xdef+
+  \item 라텍의 \verb+\newcommand+, \verb+\newenvironment+
+    \begin{Verbatim*}[fontsize=\small, formatcom=\color{blue}]
 \def\xvec{(x_1,\ldots,x_n)}
 \def\row#1{(#1_1,\ldots,#1_n)}
 \def\cs #1. #2\par{...}
 \cs You owe \$5.00. Pay it.\par
-\end{Verbatim*}
-  \item \verb+\def+, \verb+\gdef+, \verb+\edef+, \verb+\xdef+
+    \end{Verbatim*}
   \item 텍의 처리 과정 중에서, \alert{전개 과정}에서 매크로는 치환 텍스트로 전개된다.
   \end{itemize}
 \end{frame}
@@ -77,63 +78,65 @@
   \alert{입력 과정}
 
   \begin{itemize}
+  \item \verb+<return>+은 공백 문자와 같다.
   \item 연속된 여러 개의 공백 문자는 하나의 공백 문자로 처리
-  \item 입력 줄의 맨 마지막에 공백 문자(\verb+^^M+) 추가한다.
-    (\href{http://www.asciitable.com}{ASCII})
+%  \item 입력 줄의 맨 마지막에 공백 문자(\verb+^^M+) 추가한다.
+%    (\href{http://www.asciitable.com}{ASCII})
   \item 빈 줄 다음에 \verb+\par+ 토큰 추가
-  \item 명령어 다음의 공백은 제거된다.
+  \item 명령어 다음의 공백은 무시된다.
   \end{itemize}
   
-  %\verb*+{\hskip  36 pt}+\\
-  \verb*+{\hskip 36 pt}+\\
+  \verb*+{\hskip 36                       mm}+\\
   \bigskip
   \verb|{|$_1$\quad\fbox{hskip}\quad\verb|3|$_{12}$
   \quad\verb|6|$_{12}$\quad
-  \verb*| |$_{10}$\quad\verb|p|$_{11}$\quad\verb|t|$_{11}$\quad\verb|}|$_{2}$
-  %\verb|^^M|$_5$
+  \verb*| |$_{10}$\quad\verb|m|$_{11}$\quad\verb|m|$_{11}$\quad\verb|}|$_{2}$
 \end{frame}
 
 
 %
 \begin{frame}[fragile]{토큰 리스트}
-\begin{verbatim*}
+  \begin{Verbatim*}
 \def\tokentwo{\iftrue this \else that \fi}
+...
 \tokentwo
-\end{verbatim*}
-    \bigskip
-    \alert{입력 과정}
-    
-    \fbox{tokentwo}
-    
-    \bigskip
-    \alert{전개 과정}
-    
-    \fbox{iftrue}\quad
-    \verb|t|$_{12}$\quad
-    \verb|h|$_{12}$\quad
-    \verb|i|$_{12}$\quad
-    \verb|s|$_{12}$\quad
-    \verb*| |$_{10}$\quad
-    \fbox{else}\quad
-    \verb|t|$_{12}$\quad
-    \verb|h|$_{12}$\quad
-    \verb|a|$_{12}$\quad
-    \verb|t|$_{12}$\quad
-    \verb*| |$_{10}$\quad
-    \fbox{fi}
-
-    \bigskip
-    \verb|t|$_{12}$\quad
-    \verb|h|$_{12}$\quad
-    \verb|i|$_{12}$\quad
-    \verb|s|$_{12}$\quad
-    \verb*| |$_{10}$\quad
+  \end{Verbatim*}
+  
+  \bigskip
+  \alert{입력 과정}
+  
+  \fbox{tokentwo}
+  
+  \bigskip
+  \alert{전개 과정}
+  
+  \fbox{iftrue}\quad
+  \verb|t|$_{12}$\quad
+  \verb|h|$_{12}$\quad
+  \verb|i|$_{12}$\quad
+  \verb|s|$_{12}$\quad
+  \verb*| |$_{10}$\quad
+  \fbox{else}\quad
+  \verb|t|$_{12}$\quad
+  \verb|h|$_{12}$\quad
+  \verb|a|$_{12}$\quad
+  \verb|t|$_{12}$\quad
+  \verb*| |$_{10}$\quad
+  \fbox{fi}
+  
+  \bigskip
+  \verb|t|$_{12}$\quad
+  \verb|h|$_{12}$\quad
+  \verb|i|$_{12}$\quad
+  \verb|s|$_{12}$\quad
+  \verb*| |$_{10}$\quad
 \end{frame}
 
 
 %
 \begin{frame}[fragile]{매크로 vs 원시명령어}
-  Plain 포멧에는 900여개의 명령어가 있고, 그 중 300여개가 원시명령어(primitive)
+  매크로와 원시명령어는 생김새가 같이 구분하기 어렵다.
+%  Plain 포멧에는 900여개의 명령어가 있고, 그 중 300여개가 원시명령어(primitive)
   \begin{itemize}
   \item 매크로는 \alert{전개}의 대상
   \item 원시명령어는 \alert{실행}의 대상
@@ -150,14 +153,16 @@
 \begin{frame}[fragile]{매크로 전개}
   다음의 명령어들은 전개 과정에서 전개된다.
   \begin{itemize}
-  \item 매크로
+  \item \alert{매크로}
   \item 조건문 (\verb+\if+, \verb+\ifx+, \verb+\ifnum+, \verb+\ifcat+, $\ldots$)
   \item \verb+\number, \romannumeral+
   \item \verb+\string+, \verb+\fontname+, \verb+\jobname+,
     \verb+\meaning+, \verb+\the+
   \item \verb+\csname ... \endcsname+
   \item \verb+\expandafter, \noexpand+
-  \item \verb+ ... +
+  \item \verb+\topmark+, \verb+\botmark+, \verb+\firstmark+,
+    \verb+\splitfirstmark+, \verb+\splitbotmark+
+  \item \verb+\input+,  \verb+\endinput+
   \end{itemize}
 \end{frame}
 
@@ -194,44 +199,45 @@
 
 %
 \begin{frame}[fragile]{토큰 리스트}
-\begin{verbatim*}
+  \begin{Verbatim*}
 \def\tokentwo{\iftrue this \else that \fi}
 \def\tokenone#1{...}
+...
 \expandafter\tokenone\tokentwo
-\end{verbatim*}
-    \bigskip
+  \end{Verbatim*}
+  \bigskip
 
-    \alert{입력 과정}
-    
-    \fbox{expandafter}\quad
-    \fbox{tokenone}\quad
-    \fbox{tokentwo}
-    
-    \bigskip
-    \alert{전개 과정}
-
-    \fbox{tokenone}\quad
-    \verb|t|$_{12}$\quad
-    \verb|h|$_{12}$\quad
-    \verb|i|$_{12}$\quad
-    \verb|s|$_{12}$\quad
-    \verb*| |$_{10}$\quad {\color{red} (X)}
-
-    \bigskip
-    \fbox{tokenone}\quad
-    \fbox{iftrue}\quad
-    \verb|t|$_{12}$\quad
-    \verb|h|$_{12}$\quad
-    \verb|i|$_{12}$\quad
-    \verb|s|$_{12}$\quad
-    \verb*| |$_{10}$\quad
-    \fbox{else}\quad
-    \verb|t|$_{12}$\quad
-    \verb|h|$_{12}$\quad
-    \verb|a|$_{12}$\quad
-    \verb|t|$_{12}$\quad
-    \verb*| |$_{10}$\quad
-    \fbox{fi}
+  \alert{입력 과정}
+  
+  \fbox{expandafter}\quad
+  \fbox{tokenone}\quad
+  \fbox{tokentwo}
+  
+  \bigskip
+  \alert{전개 과정}
+  
+  \fbox{tokenone}\quad
+  \verb|t|$_{12}$\quad
+  \verb|h|$_{12}$\quad
+  \verb|i|$_{12}$\quad
+  \verb|s|$_{12}$\quad
+  \verb*| |$_{10}$\quad {\color{red} (X)}
+  
+  \bigskip
+  \fbox{tokenone}\quad
+  \fbox{iftrue}\quad
+  \verb|t|$_{12}$\quad
+  \verb|h|$_{12}$\quad
+  \verb|i|$_{12}$\quad
+  \verb|s|$_{12}$\quad
+  \verb*| |$_{10}$\quad
+  \fbox{else}\quad
+  \verb|t|$_{12}$\quad
+  \verb|h|$_{12}$\quad
+  \verb|a|$_{12}$\quad
+  \verb|t|$_{12}$\quad
+  \verb*| |$_{10}$\quad
+  \fbox{fi}
 \end{frame}
 
 
@@ -242,20 +248,21 @@
   \item \verb+{+, \verb+}+
   \item \verb+\bgroup+, \verb+\egroup+
     {\color{blue}\small \verb+\let\bgroup={ \let\egroup=}+}
-  \item \verb+\begingroup+, \verb+\endgroup+ (원시명령어, primitive)
+  \item \verb+\begingroup+, \verb+\endgroup+ (원시명령어)
+    \medskip
+    \begin{Verbatim}[fontsize=\small]
+  {\bf Hello}
+  \bgroup \bf Hello}
+  \bf Hello \egroup
+  \begingroup \bf Hello} (X)
+    \end{Verbatim}
   \end{itemize}
-  \alert{사용례}
-  \begin{itemize}
-  \item \verb+\bgroup \bf Hello}+
-  \item \verb+{\bf Hello \egroup+
-  \item \verb+\begingroup \bf Hello}+ {\color{red} (X)}
-  \end{itemize}
-\begin{Verbatim}[fontsize=\small, formatcom=\color{blue}]
+  \begin{Verbatim}[fontsize=\small, formatcom=\color{blue}]
     \def\hello{Hello}
     { \baselineskip=14pt \def\hello{Hola} \hello }
     \hello
     Hola Hello
-\end{Verbatim}
+  \end{Verbatim}
 \end{frame}
 
 
@@ -267,11 +274,11 @@
 
 %
 \begin{frame}[fragile]{\texttt{\string\bold} 매크로}
-\begin{Verbatim}[fontsize=\small, formatcom=\color{blue}]
+  \begin{Verbatim}[formatcom=\color{blue}]
 {\bf Hello world}
     
 \bold{Hello world}
-\end{Verbatim}
+  \end{Verbatim}
   \begin{alertblock}{Programmer}
     \verb+\def\bold#1{{\bf #1}}+
   \end{alertblock}
@@ -280,7 +287,7 @@
 
 %
 \begin{frame}[fragile]{\texttt{\string\bold} 매크로}
-\begin{Verbatim}[fontsize=\small, formatcom=\color{blue}]
+  \begin{Verbatim}[fontsize=\small, formatcom=\color{blue}]
 \bold{
   Hello
 
@@ -290,7 +297,7 @@
 Runaway argument?
 { Hello
 ! Paragraph ended before \bold was complete.
-\end{Verbatim}
+  \end{Verbatim}
   \begin{alertblock}{Programmer first class}
     \verb+\long\def\bold#1{{\bf #1}}+
   \end{alertblock}
@@ -305,13 +312,13 @@ Runaway argument?
     \verb+\def\endbold{\egroup}+
   \end{alertblock}
 
-\begin{Verbatim}[fontsize=\small, formatcom=\color{blue}]
+  \begin{Verbatim}[fontsize=\small, formatcom=\color{blue}]
 \beginbold
 Hello
 
 world
 \endbold
-\end{Verbatim}
+  \end{Verbatim}
 \end{frame}
 
 
@@ -321,17 +328,17 @@ world
     \verb+\def\bold{\bgroup\bf\let\next=}+
   \end{alertblock}
 
-\begin{Verbatim}[fontsize=\small, formatcom=\color{blue}]
+  \begin{Verbatim}[fontsize=\small, formatcom=\color{blue}]
 \bold{text}
 \bgroup\bf\let\next={text}
-\end{Verbatim}
+  \end{Verbatim}
 
 %  \hbox to\hsize{\hss
 %    \verb+\let+<control sequence><equals>%
 %    <one optional space><token>\hss}
 %  <equals>$\rightarrow$<optional spaces> | <optional spaces>=
 
-\bigskip
+  \bigskip
 
   \fbox{bgroup}\quad\fbox{bf}\quad
   \verb|t|$_{11}$\quad\verb|e|$_{11}$\quad
@@ -353,7 +360,7 @@ world
 
 %
 \begin{frame}[fragile]{스크립트 매크로}
-\begin{Verbatim}[fontsize=\small]
+  \begin{Verbatim}[fontsize=\small]
 \beginscript
 Now, at last, you can easily typeset
 conversations you eavesdrop on in
@@ -368,7 +375,7 @@ Is it easy?
   
 Extremely.
 \endscript
-\end{Verbatim}
+  \end{Verbatim}
 \end{frame}
 
 
@@ -401,8 +408,8 @@ Extremely.
 
 %
 \begin{frame}[fragile]{스크립트 매크로}
-\begin{Verbatim}[fontsize=\small]
-\let\endgraf=\par %plain.tex 
+  \begin{Verbatim}[fontsize=\small]
+\let\endgraf=\par
 \newcount\spk
 \def\beginscript{\bgroup \parindent=0pt \color{red}
   \spk=1 \rightskip.4in
@@ -411,7 +418,7 @@ Extremely.
            \else \endgraf \color{red} \spk=1
              \leftskip0in \rightskip.4in \fi}}
 \def\endscript{\egroup}
-\end{Verbatim}
+  \end{Verbatim}
 \end{frame}
 
 
@@ -428,19 +435,19 @@ Extremely.
     \begin{itemize}
     \item 두 토큰의 문자 코드(character code)가 같은지 검사한다.
     \item 검사 전에, \verb+\if+ 뒤에 나오는 토큰을 두 개의 토큰이 나올 때까지 전개한다.
-\begin{Verbatim}[fontsize=\small, formatcom=\color{blue}]
+      \begin{Verbatim}[fontsize=\small, formatcom=\color{blue}]
 \def\foo{abc} \def\bar{abc}
 \if\foo\bar true \else false \fi  % => false
-\end{Verbatim}
+      \end{Verbatim}
     \end{itemize}
   \item \verb+\ifx <token1> <token2>+
     \begin{itemize}
     \item 두 개의 토큰이 서로 일치하는지 검사한다.
     \item \verb+\if+와 달리 \verb+\ifx+ 뒤에 나오는 토큰을 전개하지 않는다.
-\begin{Verbatim}[fontsize=\small, formatcom=\color{blue}]
+      \begin{Verbatim}[fontsize=\small, formatcom=\color{blue}]
 \def\foo{abc} \def\bar{abc}
 \ifx\foo\bar true \else false \fi  % => true
-\end{Verbatim}
+      \end{Verbatim}
     \end{itemize}
   \end{itemize}
 \end{frame}
@@ -448,15 +455,16 @@ Extremely.
 
 %
 \begin{frame}[fragile]{FIFO 매크로}
-\begin{Verbatim}[formatcom=\color{blue}]
+  \begin{Verbatim}[formatcom=\color{blue}]
 \def\fifo#1{\ifx\ofif#1\ofif\fi
   \process#1\fifo}
 \def\ofif#1\fifo{\fi}
-\end{Verbatim}
-\begin{Verbatim}
+  \end{Verbatim}
+  
+  \begin{Verbatim}
 \fifo abc\ofif
 => \process a \process b \process c
-\end{Verbatim}
+  \end{Verbatim}
 \end{frame}
 
 
@@ -472,6 +480,7 @@ Extremely.
   \process#1\fifo}
 \def\ofif#1\fifo{\fi}
   \end{Verbatim}
+  
   \begin{Verbatim}[fontsize=\small]
 \def\getlength#1{
   \count255=0
@@ -482,9 +491,9 @@ Extremely.
 \zipcode#1{%
   \def\process##1{\fbox{##1}\,}
   \fifo #1\ofif}
-\end{Verbatim}
+  \end{Verbatim}
 
-\verb+\zipcode{17077}  % =>+ \quad \fifo 17077\ofif
+  \verb+\zipcode{17077}  % =>+ \quad \fifo 17077\ofif
 \end{frame}
 
 
