@@ -1,0 +1,54 @@
+%recipe format
+
+\hsize=4.25in
+\vsize=2.5in %7in
+\parindent=0pt
+\font\classfont=cmbx10 scaled\magstep2
+\font\titlefont=cmbx10 scaled\magstep2
+\font\specfont=cmsl10 scaled\magstephalf % time, temp, qry
+\font\ingredfont=cmr7 scaled\magstep2
+\font\normalfont=cmr10
+
+\newdimen\specbaseline
+\specbaseline=14pt % \baselineskip between time, temp, qty
+
+\output{\shipout\vbox{\vbox to .75in{
+   \rightline{\classfont\currentclass\hskip-.25in}\vss}
+  \nointerlineskip\box255}
+  \advancepageno \global\let\currentdonor=\empty}
+\let\currentdonor=\empty
+
+\def\0{$^\circ$} % degrees
+
+\obeylines
+\def\class#1
+ {\gdef\currentclass{#1}}
+\def\title#1
+ {{\message{#1}\titlefont#1\par}}
+\def\donor#1
+ {\gdef\currentdonor{#1}}
+\def\time#1
+ {{\baselineskip=\specbaseline \rightline{\specfont#1\/}}}
+\def\temp#1\0 F
+ {{\baselineskip=\specbaseline \rightline{\specfont#1\/\0 F\/}}}
+\let\quantity=\time
+\def\ingredients{\ingredfont\everypar{\hangindent=20pt}}
+\def\method{\let^^M=\space \normalfont \everypar{}}
+\def\endit{\par\vfill%
+ \ifx\currentdonor\empty\else\rightline{---\currentdonor}\fi%
+ \eject\obeylines}
+\def\frac#1/#2{\leavevmode\raise.5ex\hbox{\the\scriptfont0 #1}%
+ \kern-.1em/\kern-.15em\lower.25ex\hbox{\the\scriptfont0 #2}}
+
+\catcode`\"=14                          " comment character
+\catcode`\#=\active \let#=\class        " class of food, e.g. SOUP     
+\catcode`\>=\active \let>=\title        " name of recipe
+\catcode`\<=\active \let<=\donor        " source of recipe
+\catcode`\|=\active \let|=\time         " preparation time
+\catcode`\%=\active \let%=\temp         " baking temperature
+\catcode`\$=\active \let$=\quantity     " amount of output
+\catcode`\@=\active \let@=\ingredients  " begin list of inputs
+\catcode`\!=\active \let!=\method       " begin cooking algorithm 
+\catcode`\*=\active \let*=\medskip      " spacer
+\catcode`\^=\active \let^=\frac         " numerator of fraction 
+\catcode`\==\active \let=\endit         " end of recipe card
