@@ -1,5 +1,5 @@
 % 2017 KTS
-% 텍 매크로 작성법
+% 텍 매크로 파일 만들기
 
 \documentclass{beamer}
 
@@ -34,7 +34,6 @@
     documents} {\scriptsize but it can be used for almost any form of
     publishing.}
 
-{\small
   \begin{Verbatim}[fontsize=\small]
 \documentclass[a4paper,tocentry,microtype]{oblivoir}
 
@@ -45,17 +44,18 @@
 \usepackage{caption}
 ...
   \end{Verbatim}
-}
 \end{frame}
 
 
 %
 \begin{frame}{1995년 TUG 미팅에서}
+  Questions and Answers with Prof. Donald E. Knuth, 
   TUGboat \textbf{17} (1996), 7--22
   \begin{description}
   \item[Silvio Levy:] How come you don't use \LaTeX? [\textsl{laughter}]
   \item[Don:] How come I don't use \LaTeX? [\textsl{laughter}]
-    I'm scared of \alert{large systems!}
+    I'm scared of \alert{large systems!} [\textsl{louder laughter\/}]
+    Bart?
   \end{description}
 \end{frame}
 
@@ -65,7 +65,7 @@
   플레인텍을 사용하면,
   \begin{itemize}
   \item 매년 새롭게 나오는 텍라이브를 설치할 필요가 없다.
-  \item 심심할 때마다 {\small \alert{\texttt{tlmgr update --all --self}}}를
+  \item 심심할 때마다 {\small\alert{\texttt{tlmgr update --all --self}}}를
     칠 필요가 없다.
   \item 20년 전에 만들었던 텍 문서가 여전히 잘 컴파일 된다.
   \item 프리엠블로 고민할 필요가 없다. 폰트에 대한 욕심을 줄이면, 할 일이 아무것도 없다.
@@ -87,10 +87,10 @@
   \begin{itemize}
   \item 백슬래시 없이도 명령어 역할을 하는 문자
   \item 플레인텍에서는 \alert{\string~}
-  \item 주로 \texttt{\string\let} 명령어를 통하여 이미 존재하는 명령어처럼 동작한다.
+  \item 주로 \texttt{\string\let}을 이용하여 명령어로 동작한다.
   \end{itemize}
-  \begin{Verbatim}[fontsize=\small]
-\catcode`\*=13 \let*=\medskip
+  \begin{Verbatim}
+    \catcode`\*=13 \let*=\medskip
   \end{Verbatim}
 \end{frame}
 
@@ -98,12 +98,34 @@
 %
 \begin{frame}[fragile]{\texttt{\string\obeylines}}
   \begin{itemize}
-  \item 텍은 엔터도 공백 문자(\verb+^^M+)로 인식한다. % ascii 참고
-  \item 엔터를 우리가 원하는 기능 그대로! 
+  \item 텍은 엔터(CR)도 공백 문자(\verb+^^M+)로 인식한다. % ascii 참고
+  \item 엔터를 우리가 기대하는 기능 그대로! 
   \end{itemize}
-  
+
+  \begin{table}[ht]
+  \begin{minipage}[t]{.4\textwidth}
   \begin{Verbatim}[fontsize=\small]
-\def\obeylines{\catcode`\^^M=13 \let^^M=\par}
+{\obeylines\smallskip
+Roses are red,
+\quad Violets are blue;
+Rhymes can be typeset
+\quad With boxes and glue.
+\smallskip}
+  \end{Verbatim}
+  \end{minipage}%
+  \qquad\qquad
+  \begin{minipage}[t]{.4\linewidth}
+    {\obeylines
+      Roses are red,
+      \quad Violets are blue;
+      Rhymes can be typeset
+      \quad With boxes and glue.
+      \smallskip}
+  \end{minipage}
+  \end{table}
+  
+  \begin{Verbatim}
+   \def\obeylines{\catcode`\^^M=13 \let^^M=\par}
   \end{Verbatim}
 \end{frame}
 
@@ -113,6 +135,8 @@
   \begin{itemize}
   \item \href{http://ftp.ktug.org/tex-archive/systems/knuth/dist/tex/}
     {The \TeX book}
+  \item \href{https://tug.org/TUGboat/tb17-1/tb50knut.pdf}
+    {TUG95, Questions and Answers with Prof. Donald E. Knuth}
   \item \href{https://www.tug.org/TUGboat/tb08-3/tb19knut.pdf}
     {Macros for Jill}
   \end{itemize}
