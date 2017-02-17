@@ -1,34 +1,33 @@
-\input xetexko.sty
+\input kotex.sty
 
-\hangulfont="HCR Batang LVT:mapping=tex-text" at 10pt
-
-% 기본 폰트를 한글을 포함하도록 다시 정의합니다.
-\def\hfontsize#1{\ifx\empty#1\empty\else
- \edef\temp{\noexpand\hfontsizex\fontname\hangfnt\space\noexpand\nil}%
- \temp{#1}\fi}
-\def\hfontsizex"#1" #2\nil#3{\font\hangfnt"#1" at #3}
-\def\hfontname#1{\ifx\empty#1\empty\else
- \edef\temp{\noexpand\hfontnamex\fontname\hangfnt\space\noexpand\nil}%
- \temp{#1}\fi}
-\def\hfontnamex"#1" #2\nil#3{\font\hangfnt"#3:mapping=tex-text" #2}
-\def\hfont#1#2{\hfontname{#1}\hfontsize{#2}}
+%% 기본 폰트를 한글을 포함하도록 다시 정의합니다.
+%\def\hfontsize#1{\ifx\empty#1\empty\else
+% \edef\temp{\noexpand\hfontsizex\fontname\hangfnt\space\noexpand\nil}%
+% \temp{#1}\fi}
+%\def\hfontsizex"#1" #2\nil#3{\font\hangfnt"#1" at #3}
+%\def\hfontname#1{\ifx\empty#1\empty\else
+% \edef\temp{\noexpand\hfontnamex\fontname\hangfnt\space\noexpand\nil}%
+% \temp{#1}\fi}
+%\def\hfontnamex"#1" #2\nil#3{\font\hangfnt"#3:mapping=tex-text" #2}
+%\def\hfont#1#2{\hfontname{#1}\hfontsize{#2}}
 
 % 기본 글꼴 설정
-\hfont{HCR Batang LVT}{10pt}
-\expandafter\def\expandafter\tt\expandafter{\tt\hfontname{HCR Dotum LVT}}
-\expandafter\def\expandafter\sl\expandafter{\sl\hfontname{HCR Dotum LVT}}
-\expandafter\def\expandafter\it\expandafter{\it\hfontname{HCR Dotum LVT}}
-\expandafter\def\expandafter\bf\expandafter{\bf\hfontname{HCR Batang LVT ExtraBold}}
+\expandafter\def\expandafter\tt\expandafter{\tt\hfontname{nanumgtm}}
+\expandafter\def\expandafter\sl\expandafter{\sl\hfontname{nanummjmo}}
+\expandafter\def\expandafter\it\expandafter{\it\hfontname{nanummjmo}}
+\expandafter\def\expandafter\bf\expandafter{\bf\hfontname{nanummjb}}
 
 % 각종 폰트를 한글을 포함하도록 재정의
-\let\orgninerm=\ninerm
-\def\ninerm{\hfont{HCR Batang LVT}{9pt}\orgninerm}
-\let\orgeightrm=\eightrm
-\def\eightrm{\hfont{HCR Batang LVT}{8pt}\orgeightrm}
-\let\orgsc=\sc
-\def\sc{\hfont{HCR Batang LVT}{8pt}\orgsc}
-\let\orgtentex=\tentex
-\def\tentex{\hfont{HCR Dotum LVT}{10pt}\orgtentex}
+\font\titlefont=cmr7 scaled\magstep4 % title on the contents page
+\font\ttitlefont=cmtt10 scaled\magstep2 % typewriter type in title
+\font\tentex=cmtex10 % TeX extended character set (used in strings)
+\let\otitlefont=\titlefont \def\titlefont{\hfont{nanummjb}{at 13pt}\otitlefont}
+\let\ottitlefont=\ttitlefont \def\ttitlefont{\hfont{nanumgtm}{at 13pt}\ottitlefont}
+\let\orgninerm=\ninerm \def\ninerm{\hfont{nanummjm}{at 9pt}\orgninerm}
+\let\orgeightrm=\eightrm \def\eightrm{\hfont{nanummjm}{at 8pt}\orgeightrm}
+\let\orgsc=\sc \def\sc{\hfont{nanumgtm}{at 9pt}\orgsc}
+\let\orgtentex=\tentex \def\tentex{\hfontname{nanumgtm}\orgtentex}
+\let\orguppercase=\uppercase \def\uppercase{\sc\orguppercase}
 
 % FIFO
 \def\fifo#1{\ifx\ofif#1\ofif\fi\process#1\fifo} 
@@ -40,12 +39,6 @@
 \def\ofil#1\ofil{\fi}
 
 \parskip 3pt
-\baselineskip 16pt
+\baselineskip 15pt
 \abovedisplayskip=15pt plus 3pt minus 9pt
 \belowdisplayskip=15pt plus 3pt minus 9pt
-
-\hfont{HCR Batang LVT}{10pt}
-
-\input miniltx
-
-\endinput
