@@ -1,14 +1,14 @@
 \input kotex.sty
 
 % 기본 글꼴 설정
-\expandafter\def\expandafter\tt\expandafter{\tt\hfontname{nanumgtm}}
-\expandafter\def\expandafter\sl\expandafter{\sl\hfontname{nanummjmo}}
-\expandafter\def\expandafter\it\expandafter{\it\hfontname{nanummjmo}}
+\expandafter\def\expandafter\tt\expandafter{\tt\hfontname{outtzm}}
+\expandafter\def\expandafter\sl\expandafter{\sl\hfontname{outbmm}}
+\expandafter\def\expandafter\it\expandafter{\it\hfontname{outpgm}}
 \expandafter\def\expandafter\bf\expandafter{\bf\hfontname{nanummjb}}
 
 % 각종 폰트를 한글을 포함하도록 재정의
-\font\titlefont=cmr7 scaled\magstep4 % title on the contents page
-\let\otitlefont=\titlefont \def\titlefont{\hfont{nanummjb}{at 13pt}\otitlefont}
+\font\titlefont=cmbx12 % scaled\magstep4 % title on the contents page
+\let\otitlefont=\titlefont \def\titlefont{\hfont{nnmbrgtb}{at 13pt}\otitlefont}
 \let\orgninerm=\ninerm \def\ninerm{\hfont{nanummjm}{at 9pt}\orgninerm}
 \let\orgeightrm=\eightrm \def\eightrm{\hfont{nanummjm}{at 8pt}\orgeightrm}
 \let\orgsc=\sc \def\sc{\hfont{nanumgtm}{at 9pt}\orgsc}
@@ -32,7 +32,6 @@
     \fi
     \expandafter\pdfrefximage\csname PicKey #1\the\toks0\endcsname\relax}%
   \afterassignment\next\toks0= }
-
 
 \parskip 3pt
 \baselineskip 15pt
