@@ -1,0 +1,235 @@
+%% File kotexcweb.tex
+%%
+%% (C) Copyright 2007-2013 Dohyun Kim <nomos at ktug org>
+%%                         Soojin Nam <sjnam at ktug org>
+%%
+%% This work may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3c
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%%  http://www.latex-project.org/lppl.txt
+%% and version 1.3c or later is part of all distributions of LaTeX
+%% version 2006/05/20 or later.
+%%
+\input kotexplain
+
+\ifpdftex
+  \ifdefined\pdfgentounicode
+    \input glyphtounicode
+    \pdfgentounicode=1
+  \fi
+\fi
+
+\baselineskip 15pt
+
+% 기본 폰트를 한글을 포함하도록 다시 정의합니다.
+\expandafter\def\expandafter\tt\expandafter{\tt\hfontname{nanumgtm}}
+\expandafter\def\expandafter\sl\expandafter{\sl\hfontname{outbmm}}
+\expandafter\def\expandafter\it\expandafter{\it\hfontname{outpgm}}
+\expandafter\def\expandafter\bf\expandafter{\bf\hfontname{nanummjb}}
+
+% 각종 폰트를 한글을 포함하도록 재정의
+\let\otitlefont=\titlefont \def\titlefont{\hfont{nanummjm}{at 13pt}\otitlefont}
+\let\ottitlefont=\ttitlefont \def\ttitlefont{\hfont{nnmbrgtb}{at 13pt}\ottitlefont}
+\let\orgninerm=\ninerm \def\ninerm{\hfont{nanummjm}{at 9pt}\orgninerm}
+\let\orgeightrm=\eightrm \def\eightrm{\hfont{nanummjm}{at 8pt}\orgeightrm}
+\let\orgsc=\sc \def\sc{\hfont{nnmbrgtm}{at 8pt}\orgsc}
+\let\orgtentex=\tentex \def\tentex{\hfontname{nanumgtm}\orgtentex}
+\let\orguppercase=\uppercase \def\uppercase{\sc\orguppercase}
+
+\def\kotitle#1{\expandafter\uppercase\expandafter{#1}}
+
+\expandafter\edef\csname AT(@):catcode\endcsname
+  {\noexpand\catcode`@\the\catcode`@}
+\catcode`\@=11
+
+% names of the sections
+\def\fin{\par\vfill\eject % this is done when we are ending the index
+  \ifpagesaved\null\vfill\eject\fi % output a null index column
+  \if L\lr\else\null\vfill\eject\fi % finish the current page
+  \parfillskip 0pt plus 1fil
+  \def\grouptitle{마디 목차}
+  \let\topsecno=\nullsec
+  \message{Section names:}
+  \output={\normaloutput\page\lheader\rheader}
+  \setpage
+  \def\note##1##2.{\quad{\eightrm\ifacro{\pdfnote##2.}\else{##2}\fi##1.}}
+  \def\Q{\note{번 마디에서 인용된다}} \let\Qs=\Q
+  \def\U{\note{번 마디에서 사용된다}} \let\Us=\U
+  \def\I{\par\hangindent 2em}\let\*=*
+  \ifacro \def\outsecname{\bschar376\bschar377\bschar271\bschar310\bschar265\bschar024\bschar000 \bschar272\bschar251\bschar314\bschar050}% 마디 목차
+    \let\Xpdf\X
+  \ifpdftex
+    \edef\0{\string\0}%
+    \edef\1{\string\1}%
+    \edef\2{\string\2}%
+    \edef\3{\string\3}%
+    \makebookmarks \pdfdest name {NOS} fitb
+    \pdfoutline goto name {NOS} count -\secno {\outsecname}
+    \def\X##1:##2\X{\Xpdf##1:##2\X \firstsecno##1.%
+      {\toksF={}\makeoutlinetoks##2\outlinedone\outlinedone}%
+      \pdfoutline goto num \the\toksA \expandafter{\the\toksE}}
+  \else\ifpdf
+    \special{pdf: outline -1 << /Title (\outsecname)
+      /Dest [ @thispage /FitH @ypos ] >>}
+    \def\X##1:##2\X{\Xpdf##1:##2\X \firstsecno##1.%
+      {\toksF={}\makeoutlinetoks##2\outlinedone\outlinedone}%
+      \special{pdf: outline 0 << /Title (\the\toksE)
+        /A << /S /GoTo /D (\romannumeral\the\toksA) >> >>}}
+  \fi\fi\fi
+  \readsections}
+
+% CWEB USER MANUAL의 부록C 14.에 해당하는 모든 매크로를 재정의 
+\def\inote#1#2#3.{\Y\noindent{\hangindent2em%
+  \baselineskip10pt\eightrm#1~\ifacro{\pdfnote#3.}\else#3\fi#2.\par}}
+\def\rnote#1#2.{\Y\noindent{\hangindent2em%
+  \baselineskip10pt\eightrm\ifacro{\pdfnote#2.}\else#2\fi#1.\par}}
+\def\A{\rnote{번 마디도 살펴보라}} \let\As=\A
+\def\Q{\inote{이 코드는}{번 마디에서 인용된다}} \let\Qs=\Q
+\def\U{\inote{이 코드는}{번 마디에서 사용된다}} \let\Us=\U
+\def\ET{,~} \def\ETs{\ET} 
+\def\ATH{{\acrofalse\X\kern-.5em:전처리기 정의들\X}}
+\def\ch{\note{Change 파일에서 변경된 마디들:}
+  \let\*=\relax}
+\def\today{\number\year 년 \number\month 월 \number\day 일}
+\def\datethis{\def\startsection{\leftline{\sc\today\ \ \hours}\bigskip
+  \let\startsection=\stsec\stsec}}
+\def\datecontentspage{% changed in version 3.66
+  \def\botofcontents{\vfill
+   \centerline{\covernote}
+   \bigskip
+   \leftline{\sc\today\ \hours}}} % timestamps the contents page
+
+% 단순한 한글화로 목차 재정의
+\def\con{\par\vfill\eject % finish the section names
+% \ifodd\pageno\else\titletrue\null\vfill\eject\fi % for duplex printers
+  \rightskip 0pt \hyphenpenalty 50 \tolerance 200
+  \setpage \output={\normaloutput\page\lheader\rheader}
+  \titletrue % prepare to output the table of contents
+  \pageno=\contentspagenumber
+  \def\grouptitle{목차}
+  \message{Table of contents:}
+  \topofcontents \startpdf
+  \line{\hfil 마디\hbox to3em{\hss 쪽}}
+  \let\ZZ=\contentsline
+  \readcontents\relax % read the contents info
+  \botofcontents \end} % print the contents page(s) and terminate
+
+\ifacro\else\expandafter\endinput\fi % pdf mode에서만...
+% ascii문자는 앞에 zero 붙여 ucs string으로 만든다.
+\def\addF#1{\addtokens\toksF{\bschar000#1}\tokprocessedtrue}
+\def\makeoutlinetoks{\Tnumfalse
+  % BOM(0xfeff)을 outline string 맨 앞에 첨가한다.
+  \addtokens\toksF{\bschar376\bschar377}%
+  % ucs 패키지의 \unichar 재정의; 그룹내이므로 안전.
+  \def\unihangulchar##1{\ucsoltooctal{##1}\makeolnexttok}%
+  \afterassignment\makeolproctok\let\nxt=
+}
+\def\makeolproctok{\tokprocessedfalse
+  \let\next\makeolnexttok % default
+  \ifx\nxt\outlinedone\let\next\outlinedone
+  \else\ifx{\nxt \else\ifx}\nxt \Tnumfalse \instrfalse % skip braces
+  \else\ifx$\nxt % or a $ sign
+  \else\ifx^\nxt \addF^\else\ifx_\nxt \addF_% sanitize ^ and _
+  \else\ifx\nxt\spacechar \addF\space
+  \else\if\noexpand\nxt\relax % we have a control sequence; is it one we know?
+    \ifx\nxt~\addF\space
+    \else\ifx\nxt\onespace\addF\space
+    \else\the\usersanitizer
+    \iftokprocessed\else\makeolproctokctli
+    \iftokprocessed\else\makeolproctokctlii
+    \iftokprocessed\else\makeolproctokctliii % if not recognised, skip it
+    %%%%% skip 하지 않고 한글 처리!!!
+    %\iftokprocessed\else\let\next\nxt\fi
+    \iftokprocessed\else\makeolproctokhangul\fi
+    %%%%%
+    \fi\fi\fi\fi\fi
+   \else  % we don't have a control sequence, it's an ordinary char
+    \ifx/\nxt \addF{\string\/}% quote chars special to PDF with backslash
+    \else\ifx(\nxt \addF{\string\(}\else\ifx)\nxt \addF{\string\)}%
+    \else\ifx[\nxt \addF{\string\[}\else\ifx]\nxt \addF{\string\]}%
+    \else\expandafter\makeolproctokchar\meaning\nxt
+   \fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi
+  \next
+}
+\def\makeolproctokhangul{%
+  % 음, 이렇게 단순무식하게 ifx 검사하는 것이 안전하긴 한데
+  % 더 좋은 방법은 없을까?
+  \ifx^^c2\nxt\let\next\nxt\else
+  \ifx^^c3\nxt\let\next\nxt\else
+  \ifx^^c4\nxt\let\next\nxt\else
+  \ifx^^c5\nxt\let\next\nxt\else
+  \ifx^^c6\nxt\let\next\nxt\else
+  \ifx^^c7\nxt\let\next\nxt\else
+  \ifx^^c8\nxt\let\next\nxt\else
+  \ifx^^c9\nxt\let\next\nxt\else
+  \ifx^^ca\nxt\let\next\nxt\else
+  \ifx^^cb\nxt\let\next\nxt\else
+  \ifx^^cc\nxt\let\next\nxt\else
+  \ifx^^cd\nxt\let\next\nxt\else
+  \ifx^^ce\nxt\let\next\nxt\else
+  \ifx^^cf\nxt\let\next\nxt\else
+  \ifx^^d0\nxt\let\next\nxt\else
+  \ifx^^d1\nxt\let\next\nxt\else
+  \ifx^^d2\nxt\let\next\nxt\else
+  \ifx^^d3\nxt\let\next\nxt\else
+  \ifx^^d4\nxt\let\next\nxt\else
+  \ifx^^d5\nxt\let\next\nxt\else
+  \ifx^^d6\nxt\let\next\nxt\else
+  \ifx^^d7\nxt\let\next\nxt\else
+  \ifx^^d8\nxt\let\next\nxt\else
+  \ifx^^d9\nxt\let\next\nxt\else
+  \ifx^^da\nxt\let\next\nxt\else
+  \ifx^^db\nxt\let\next\nxt\else
+  \ifx^^dc\nxt\let\next\nxt\else
+  \ifx^^dd\nxt\let\next\nxt\else
+  \ifx^^de\nxt\let\next\nxt\else
+  \ifx^^df\nxt\let\next\nxt\else
+  \ifx^^e0\nxt\let\next\nxt\else
+  \ifx^^e1\nxt\let\next\nxt\else
+  \ifx^^e2\nxt\let\next\nxt\else
+  \ifx^^e3\nxt\let\next\nxt\else
+  \ifx^^e4\nxt\let\next\nxt\else
+  \ifx^^e5\nxt\let\next\nxt\else
+  \ifx^^e6\nxt\let\next\nxt\else
+  \ifx^^e7\nxt\let\next\nxt\else
+  \ifx^^e8\nxt\let\next\nxt\else
+  \ifx^^e9\nxt\let\next\nxt\else
+  \ifx^^ea\nxt\let\next\nxt\else
+  \ifx^^eb\nxt\let\next\nxt\else
+  \ifx^^ec\nxt\let\next\nxt\else
+  \ifx^^ed\nxt\let\next\nxt\else
+  \ifx^^ee\nxt\let\next\nxt\else
+  \ifx^^ef\nxt\let\next\nxt\else
+  \ifx^^f0\nxt\let\next\nxt\else
+  \ifx^^f1\nxt\let\next\nxt\else
+  \ifx^^f2\nxt\let\next\nxt\else
+  \ifx^^f3\nxt\let\next\nxt\else
+  \ifx^^f4\nxt\let\next\nxt\else
+  %%% really skip it.
+\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi
+}
+\def\ucsoltooctal#1{%
+  \count@\dimexpr.00006103515625\dimexpr#1sp\relax\relax
+  \edef\ucsoltempa{\number\count@}%
+  \@tempcnta\numexpr#1-'40000*\count@\relax
+  \count@\dimexpr.00048828125\dimexpr\@tempcnta sp\relax\relax
+  \edef\ucsoltempa{\ucsoltempa\number\count@}%
+  \@tempcnta\numexpr\@tempcnta-'4000*\count@\relax
+  \count@\dimexpr.00390625\dimexpr\@tempcnta sp\relax\relax
+  \edef\ucsoltempa{\ucsoltempa\number\count@}%
+  \@tempcnta\numexpr\@tempcnta-'400*\count@\relax
+  \count@\dimexpr.015625\dimexpr\@tempcnta sp\relax\relax
+  \edef\ucsoltempb{\number\count@}%
+  \@tempcnta\numexpr\@tempcnta-'100*\count@\relax
+  \count@\dimexpr.125\dimexpr\@tempcnta sp\relax\relax
+  \edef\ucsoltempb{\ucsoltempb\number\count@}%
+  \edef\ucsoltempb{\ucsoltempb\number\numexpr\@tempcnta-'10*\count@\relax}%
+  \addtokens\toksF{\bschar\ucsoltempa\bschar\ucsoltempb}\tokprocessedtrue
+}
+
+\csname AT(@):catcode\endcsname
+
+\endinput
+
+%%% changes for ko.Tex 2.0, by Karnes.
