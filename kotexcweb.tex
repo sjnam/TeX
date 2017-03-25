@@ -20,12 +20,12 @@
   \fi
 \fi
 
-\baselineskip 15pt
+\baselineskip 14pt
 
 % 기본 폰트를 한글을 포함하도록 다시 정의합니다.
 \expandafter\def\expandafter\tt\expandafter{\tt\hfontname{nnmbrgtm}}
-\expandafter\def\expandafter\sl\expandafter{\sl\hfontname{outbmm}}
-\expandafter\def\expandafter\it\expandafter{\it\hfontname{outpgm}}
+\expandafter\def\expandafter\sl\expandafter{\sl\hfontname{nanumgtm}}
+\expandafter\def\expandafter\it\expandafter{\it\hfontname{nanumgtm}}
 \expandafter\def\expandafter\bf\expandafter{\bf\hfontname{nanummjb}}
 
 % 각종 폰트를 한글을 포함하도록 재정의
@@ -34,7 +34,7 @@
 \let\orgninerm=\ninerm \def\ninerm{\hfont{nanummjm}{at 9pt}\orgninerm}
 \let\orgeightrm=\eightrm \def\eightrm{\hfont{nanummjm}{at 8pt}\orgeightrm}
 \let\orgsc=\sc \def\sc{\hfont{nnmbrgtm}{at 8pt}\orgsc}
-\let\orgtentex=\tentex \def\tentex{\hfontname{nanumgtm}\orgtentex}
+\let\orgtentex=\tentex \def\tentex{\hfont{nanumgtm}{at 9pt}\orgtentex}
 \let\orguppercase=\uppercase \def\uppercase{\sc\orguppercase}
 
 \def\kotitle#1{\expandafter\uppercase\expandafter{#1}}
@@ -42,6 +42,9 @@
 \expandafter\edef\csname AT(@):catcode\endcsname
   {\noexpand\catcode`@\the\catcode`@}
 \catcode`\@=11
+
+\def\CEE/{{C\spacefactor1000}}
+\def\CPLUSPLUS/{{\CEE/\PP\spacefactor1000}}
 
 % names of the sections
 \def\fin{\par\vfill\eject % this is done when we are ending the index
