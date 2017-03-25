@@ -48,7 +48,7 @@
   \gdef\verbatimgobble#1^^M{}}
 
 \null\vfill
-\baselineskip 14pt
+\baselineskip 12pt
 \centerline{\titlefont The {\ttitlefont CWEB} System of
     Structured Documentation}
 \vskip 18pt\centerline{(Version 3.64 --- February 2002)}
@@ -104,7 +104,7 @@ contains current info about \.{CWEB} and related topics.
 \TeX은 미국 수학 협회의 등록상표 이다.
 
 \noindent
-Acrobat Reader는 어도비 시스템즈사의 등록상표 이다.
+아크로뱃 리더는 어도비 시스템즈사의 등록상표 이다.
 
 \bigskip\noindent
 저작권법에 의해, 인쇄 형식의 이 문서의 저작권은 애디슨-웨슬리 출판사에 있다.
@@ -1506,11 +1506,12 @@ $$\.{\#define foo @[(int)(bar)@]}$$
 이 두 파일을 합하여 생긴 파일이 사실상 \.{CWEB}
 파일이라고 불리는 것이다.
 
-%\more Here's how it works: The change file consists of zero or more ``changes,''
+%\more Here's how it works: The change file consists of zero or more
+%``changes,''
 %where a change has the form `\.{@x}$\langle$old lines$\rangle$\.{@y}$\langle$%
 %new lines$\rangle$\.{@z}'. The special control codes \.{@x}, \.{@y}, \.{@z},
-%which are allowed only in change files, must appear at the beginning of a line;
-%the remainder of such a line is ignored.
+%which are allowed only in change files, must appear at the beginning of
+%a line; the remainder of such a line is ignored.
 %The $\langle$old lines$\rangle$ represent material that exactly matches
 %consecutive lines of the \\{web\_file}; the $\langle$new lines$\rangle$
 %represent zero or more lines that are supposed to replace the old. Whenever
@@ -1588,26 +1589,24 @@ line''의 첫 번째 줄과 정확히 일치하는 \\{web\_file}의 줄이 발�
 %of file \.{foo} and files it includes are not changeable; but changes
 %can be made to lines from files that were included by unchanged input.
 \more
-수정 파일은 \.{@i}로 시작하는 줄들을 가질 수 있다. 이러한 방법으로
-포함할 파일을 다른 파일로 바꿀 수 있다. 개념적으로 보면, 위에서 설명한
-치환 체계는 우선 자기에게 주어진 일을 처리하고, 그 결과는 \.{@i}를
-위해 검사된다. 만약 어떤 수정 파일의 \.{@y}와 \.{@z}
-사이에 \.{@i} \.{foo}이 있다면, \.{foo} 파일의 개별적인 줄들과 그것이
-포함하는 파일들은 변경할 수 없다. 그러나 파일의 줄들을 변경할 수 있다. 
+수정 파일은 \.{@i}로 시작하는 줄들을 가질 수 있다. 이러한 방법으로 포함할 파일을 다른 파일로
+바꿀 수 있다. 개념적으로 보면, 위에서 설명한 치환 체계는 우선 자기에게 주어진 일을 처리하고,
+그 결과는 \.{@i}를 위해 검사된다. 만약 어떤 수정 파일의 \.{@y}와 \.{@z} 사이에 \.{@i}
+\.{foo}이 있다면, \.{foo} 파일의 개별적인 줄들과 그것이 포함하는 파일들은 변경할 수 없다.
+그러나 파일의 줄들을 변경할 수 있다. 
 
 %\more On UNIX systems (and others that support environment variables),
 %if the environment variable \.{CWEBINPUTS} is set, or if the compiler flag
 %of the same name was defined at compile time,
 %\.{CWEB} will look for include files in the directory thus named, if
 %it cannot find them in the current directory.
-\more \UNIX/ 시스템 상에서 (그리고 다른 환경 변수를 제공하는 다른
-시스템 상에서), 환경 변수 \.{CWEBINPUTS}이 정해졌거나, 컴파일시에
-컴파일 플래그(flag)로 \.{CWEBINPUTS}이 정의되었다고, 현재 디렉토리에
-포함하려는 파일이 없다면, \.{CWEB}은 포함할
-파일을 위 변수에 정의된 디렉토리에서 찾으려고 할 것이다.
+\more \UNIX/ 시스템 상에서 (그리고 다른 환경 변수를 제공하는 다른 시스템 상에서), 환경 변수
+\.{CWEBINPUTS}이 정해졌거나, 컴파일시에 컴파일 플래그(flag)로 \.{CWEBINPUTS}이
+정의되었다고, 현재 디렉토리에 포함하려는 파일이 없다면, \.{CWEB}은 포함할 파일을 위 변수에
+정의된 디렉토리에서 찾으려고 할 것이다.
 
 %\section Additional features and caveats.
-\section 추가적인 특징과 주의사항들.
+\section 추가적인 특징과 주의 사항들.
 %\noindent
 %1. In certain installations of \.{CWEB} that
 %{\def\\#1#2{`{\tentex\char'#1#2}'}%
@@ -1618,8 +1617,7 @@ line''의 첫 번째 줄과 정확히 일치하는 \\{web\_file}의 줄이 발�
 %`\.{!=}', `\.{<=}', `\.{>=}', `\.{==}', `\.{\v\v}', `\.{\&\&}',
 %`\.{<<}', and `\.{>>}',
 %respectively.
-1. 확장 문자셋이 사용 가능한 시스템에 
-\.{CWEB}이 설치된 경우에 다음과 같은 문자들은
+1. 확장 문자셋이 사용 가능한 시스템에 \.{CWEB}이 설치된 경우에 다음과 같은 문자들은
 `\.{++}', `\.{--}', `\.{->}',
 `\.{!=}', `\.{<=}', `\.{>=}', `\.{==}', `\.{\v\v}', `\.{\&\&}',
 `\.{<<}', `\.{>>}' 각각 다음 문자들로 축약될 수 있다.
@@ -1632,10 +1630,9 @@ line''의 첫 번째 줄과 정확히 일치하는 \\{web\_file}의 줄이 발�
 %stick to standard ASCII characters if you want to write programs that will
 %be useful to all the poor souls out there who don't have extended
 %character sets.
-2. 만약 확장 문자셋을 사용할 수 있다면, 앞서 설명한 \.{@l} 명령어
-규칙대로 단지 최소의 제약조건들만으로 지키고 그 확장 문자셋을 사용할 수
-있다. 그러나 프로그램을 작성하고자 한다면, 확장 문자셋을 사용하지
-못하는 불쌍한 영혼들을 위해서 기본 ASCII 문자들을 주로 사용하기 바란다.
+2. 만약 확장 문자셋을 사용할 수 있다면, 앞서 설명한 \.{@l} 명령어 규칙대로 단지 최소의
+제약조건들만으로 지키고 그 확장 문자셋을 사용할 수 있다. 그러나 프로그램을 작성하고자 한다면,
+확장 문자셋을 사용하지 못하는 불쌍한 영혼들을 위해서 기본 아스키 문자들을 주로 사용하기 바란다.
 
 %3. The \TEX/ file output by \.{CWEAVE} is broken into lines having at most
 %80 characters each. When
@@ -1643,10 +1640,9 @@ line''의 첫 번째 줄과 정확히 일치하는 \\{web\_file}의 줄이 발�
 %If you aren't doing anything too tricky, \.{CWEAVE} will recognize when
 %a \TEX/ comment is being split across two or more lines, and it will
 %append `\.\%' to the beginning of such continued comments.
-3.\.{CWEAVE}가 만들어낸 \TEX/ 파일은 한 줄에 최대 80개의 문자가
-들어있는 줄들로 나뉜다. \TEX/ 텍스트를 복사하면, 기존의 줄 바꿈 표시도
-복사된다. 파일을 작성할 때 너무 이상한 짓만 하지 않는다면,
-\.{CWEAVE}는 \TEX/ 주석문이 두 줄 이상에 걸쳐서 나눠질 때 그것을
+3.\.{CWEAVE}가 만들어낸 \TEX/ 파일은 한 줄에 최대 80개의 문자가 들어있는 줄들로 나뉜다.
+\TEX/ 텍스트를 복사하면, 기존의 줄 바꿈 표시도 복사된다. 파일을 작성할 때 너무 이상한 짓만
+하지 않는다면, \.{CWEAVE}는 \TEX/ 주석문이 두 줄 이상에 걸쳐서 나눠질 때 그것을
 인식해서 새 줄이 시작할 때마다 `\.\%'를 입력할 것이다.
 
 %4. \CEE/ text is translated by a ``bottom up'' procedure that
@@ -1667,40 +1663,32 @@ line''의 첫 번째 줄과 정확히 일치하는 \\{web\_file}의 줄이 발�
 %statements.  If a \CEE/ preprocessor command is enclosed in \pb,
 %the \.\# that introduces it must be at the beginning of a line,
 %or \.{CWEAVE} won't print it correctly.
-4. \CEE/ 텍스트는 ``상향식(bottom up)'' 절차로 \TEX/ 텍스트로
-변환된다. 상향식 절차는 \CEE/의 각각의 토큰을 ``구문(part of
-speech)''으로 여기고 \.{CWEAVE}의 문서에 설명된 특별 규칙에 따라서 그
-구문들을 결합하여 점점 더 포함하는 큰 절로 만든다. 
-간단한 식별자나 짧은 표현 식을 위한 변환 규칙을 배우는 것은
-그저 \.{CWEAVE}가 동작하는 몇 가지 예제만 보는 것으로
-충분하다. 그러나 \.{CWEAVE}가 단지 \CEE/ 텍스트만을 다루는 것이 아니기
-때문에 일반적인 규칙은 다소 복잡하다. 
-더구나 출력물은 사용된 글꼴과 원하는 페이지 너비를 기반으로 해서,
-필요에 따라 \TEX/이 들여쓰기를 하고 줄 바꿈을 하도록 하는 코드를 포함한다.
-최상의 출력물을 얻고자 한다면, 긴 \CEE/ 텍스트를 \pb로 둘러싸는 일은
-삼가야겠다. 왜냐하면 \pb 로 \CEE/ 텍스트를 둘러싸면 그
-텍스트는 \TEX/ 텍스트로 변환되는데, 이때 \CEE/ 텍스트 고유의
-들여쓰기나 줄 바꿈 같은 것들이 완전히 제거되기 때문이다. \pb 로
-둘러싸는 \CEE/ 텍스트는 간단한 표현 식이나 문장만을 고려하는 것이
-좋다. 만일 \CEE/의 전처리기 명령을 \pb 로 둘러싼다면, \.\#는 줄의 맨
-앞에 와야 한다. 그렇지 않으면, \.{CWEAVE}가 제대로 된 출력을 내보내지
-않을 것이다.
+4. \CEE/ 텍스트는 ``상향식(bottom up)'' 절차로 \TEX/ 텍스트로 변환된다. 상향식 절차는
+\CEE/의 각각의 토큰을 ``구문(part of speech)''으로 여기고 \.{CWEAVE}의 문서에 설명된
+특별 규칙에 따라서 그 구문들을 결합하여 점점 더 포함하는 큰 절로 만든다. 간단한 식별자나 짧은
+표현 식을 위한 변환 규칙을 배우는 것은 그저 \.{CWEAVE}가 동작하는 몇 가지 예제만 보는 것으로
+충분하다. 그러나 \.{CWEAVE}가 단지 \CEE/ 텍스트만을 다루는 것이 아니기 때문에 일반적인
+규칙은 다소 복잡하다. 더구나 출력물은 사용된 글꼴과 원하는 페이지 너비를 기반으로 해서, 필요에
+따라 \TEX/이 들여쓰기를 하고 줄 바꿈을 하도록 하는 코드를 포함한다. 최상의 출력물을 얻고자
+한다면, 긴 \CEE/ 텍스트를 \pb로 둘러싸는 일은 삼가야겠다. 왜냐하면 \pb 로 \CEE/ 텍스트를
+둘러싸면 그 텍스트는 \TEX/ 텍스트로 변환되는데, 이때 \CEE/ 텍스트 고유의 들여쓰기나 줄 바꿈
+같은 것들이 완전히 제거되기 때문이다. \pb 로 둘러싸는 \CEE/ 텍스트는 간단한 표현 식이나
+문장만을 고려하는 것이 좋다. 만일 \CEE/의 전처리기 명령을 \pb 로 둘러싼다면, \.\#는 줄의 맨
+앞에 와야 한다. 그렇지 않으면, \.{CWEAVE}가 제대로 된 출력을 내보내지 않을 것이다.
 
 %5. Comments are not permitted in \pb\ text. After a `\.|'
 %signals the change from \TEX/ text to \CEE/ text, the next `\.|' that is
 %not part of a string or control text or section name ends the \CEE/ text.
-5. 주석은 \pb\ 텍스트 안에서 사용할 수 없다. `\.|'가 \TEX/
-텍스트를 \CEE/ 텍스트로 바꾸라는 신호를 준 후에, 
-문자열이나 명령 텍스트나 마디 이름의 일부가 아닌 그다음 나오는
+5. 주석은 \pb\ 텍스트 안에서 사용할 수 없다. `\.|'가 \TEX/ 텍스트를 \CEE/ 텍스트로
+바꾸라는 신호를 준 후에, 문자열이나 명령 텍스트나 마디 이름의 일부가 아닌 그다음 나오는
 `\.|'가 \CEE/ 텍스트를 종료시킨다.
 
 %6. A comment must have properly nested occurrences of left and right
 %braces, otherwise \.{CWEAVE} will complain. But it
 %does try to balance the braces, so that \TEX/ won't foul up too much.
-6. 주석문은 반드시 왼쪽과 오른쪽 괄호가 적절히 매치되어야 한다. 그렇지
-않으면, \.{CWEAVE}가 에러 메시지를 뿜어낼 것이다. 그러나 \.{CWEAVE}는
-\TEX/을 너무 심한 혼란에 빠뜨리지 않게 하기 위해서 괄호의 균형을
-맞추려고 시도한다.
+6. 주석문은 반드시 왼쪽과 오른쪽 괄호가 적절히 매치되어야 한다. 그렇지 않으면, \.{CWEAVE}가
+에러 메시지를 뿜어낼 것이다. 그러나 \.{CWEAVE}는 \TEX/을 너무 심한 혼란에 빠뜨리지 않게
+하기 위해서 괄호의 균형을 맞추려고 시도한다.
 
 %7. When you're debugging a program and decide to omit some of your
 %\CEE/ code, do NOT simply ``comment it out.'' Such comments are not
@@ -1711,16 +1699,14 @@ speech)''으로 여기고 \.{CWEAVE}의 문서에 설명된 특별 규칙에 따
 %\.{/*...*/} instead of in \.{/*|...|*/}.  If you must comment out
 %\CEE/ code, you can surround it with preprocessor commands
 %like \.{\#if 0==1} and \.{\#endif}.
-7. \.{CWEB} 프로그램을 디버깅하려고 하는데, \CEE/ 코드 중 일부를
-제외하고 하기로 했다고 하자. 이때 단순히 그 제외하고자 하는 코드를
-절대로 주석 처리하면 안 된다. 그러한 상황에서의 주석 처리는 \.{CWEB}이
-문서를 만들어내는 정신에 어긋나는 행동이다. 왜냐하면, 그러한 주석들은
-마치 프로그램의 설명 중 일부인 양, 프로그램을 읽는 사람들에게 보이기
-때문이다. 게다가, 프로그램의 주석문은 반드시 올바른 \TEX/ 텍스트
-이어야 한다. 따라서 만약 주석문 처리를 \.{/*|...|*/} 처럼 하지
-않고, \.{/*...*/} 처럼 한다면, \.{CWEAVE}는 혼란에 빠질
-것이다. 어떤 \CEE/ 코드를 반드시 주석 처리해야 한다면, \.{\#if 0==1}
-and \.{\#endif}와 같은 전처리기 명령을 이용해서 해야 한다.
+7. \.{CWEB} 프로그램을 디버깅하려고 하는데, \CEE/ 코드 중 일부를 제외하고 하기로 했다고
+하자. 이때 단순히 그 제외하고자 하는 코드를 절대로 주석 처리하면 안 된다. 그러한 상황에서의
+주석 처리는 \.{CWEB}이 문서를 만들어내는 정신에 어긋나는 행동이다. 왜냐하면, 그러한 주석들은
+마치 프로그램의 설명 중 일부인 양, 프로그램을 읽는 사람들에게 보이기 때문이다. 게다가,
+프로그램의 주석문은 반드시 올바른 \TEX/ 텍스트 이어야 한다. 따라서 만약 주석문 처리를
+\.{/*|...|*/} 처럼 하지 않고, \.{/*...*/} 처럼 한다면, \.{CWEAVE}는 혼란에 빠질
+것이다. 어떤 \CEE/ 코드를 반드시 주석 처리해야 한다면, \.{\#if 0==1} 와 \.{\#endif}와
+같은 전처리기 명령을 이용해서 해야 한다.
 
 %8. The \.{@f} feature allows you to define one identifier to act like
 %another, and these format definitions are carried out sequentially.
@@ -1734,21 +1720,17 @@ and \.{\#endif}와 같은 전처리기 명령을 이용해서 해야 한다.
 %the relevant \.{typedef}.  This is unfortunate, but hard to fix. You can
 %get around the restriction by saying, say, `\.{@s} \.{foo} \.{int}',
 %before or after the \.{typedef}.)
-8. 명령어 \.{@f}는 한 식별자를 \TEX/이 다른 식별자 다루듯이 다루게
-할 때 사용하는 명령어인데, 이러한 \.{@f}를 이용한 포멧 정의가  여러 번
-나올 때, 그 명령이 실행되는 순서는 포멧 정의가 정의된 대로 차례대로
-실행된다. 일반적으로, 주어진 한 식별자는 문서 전체를 통해서 한가지
-모양으로 출력된다. 그리고 그 모양은 그 식별자에 \.{@f} 명령어가
-적용되기 전까지 계속 유지된다. 그 이유는 \.{CWEAVE}는 주어진 파일을 두
-번의 패스를 통해서 \TEX/ 파일을 만들어내기
-때문이다. 우선 \.{CWEAVE}는 첫 번째 패스 동안에 \.{@f}로 된 포멧 정의들과
-교차-참조들을 처리하고, 그 결과를 두 번째 패스로
-보낸다. (그러나 \.{typedef} 정의에 의해서 굵은 글꼴의 모양을 갖게 된
-식별자들에는 이 규칙들이 적용되지 않는다. 그 식별자들은 \.{typedef}
-정의 전과 후의 모양이 다르다. 이러한 상황이 그리 좋은 것만은 아니지만,
-그렇다고 쉽게 고칠 수 있는 것도 아니다. 이러한 제약 상황을 해결하는
-방법은 \.{typedef} 정의를 하기 전 또는 후에
-`\.{@s} \.{foo} \.{int}'라고 입력하는 것이다.)
+8. 명령어 \.{@f}는 한 식별자를 \TEX/이 다른 식별자 다루듯이 다루게 할 때 사용하는
+명령어인데, 이러한 \.{@f}를 이용한 포멧 정의가  여러 번 나올 때, 그 명령이 실행되는 순서는
+포멧 정의가 정의된 대로 차례대로 실행된다. 일반적으로, 주어진 한 식별자는 문서 전체를 통해서
+한가지 모양으로 출력된다. 그리고 그 모양은 그 식별자에 \.{@f} 명령어가 적용되기 전까지 계속
+유지된다. 그 이유는 \.{CWEAVE}는 주어진 파일을 두 번의 패스를 통해서 \TEX/ 파일을
+만들어내기 때문이다. 우선 \.{CWEAVE}는 첫 번째 패스 동안에 \.{@f}로 된 포멧 정의들과
+교차 참조들을 처리하고, 그 결과를 두 번째 패스로 보낸다. (그러나 \.{typedef} 정의에 의해서
+굵은 글꼴의 모양을 갖게 된 식별자들에는 이 규칙들이 적용되지 않는다. 그 식별자들은
+\.{typedef} 정의 전과 후의 모양이 다르다. 이러한 상황이 그리 좋은 것만은 아니지만, 그렇다고
+쉽게 고칠 수 있는 것도 아니다. 이러한 제약 상황을 해결하는 방법은 \.{typedef} 정의를 하기 전
+또는 후에 `\.{@s} \.{foo} \.{int}'라고 입력하는 것이다.)
 
 %9. Sometimes it is desirable to insert spacing into formatted \CEE/ code that
 %is more general than the thin space provided by `\.{@,}'. The \.{@t} feature
@@ -1760,24 +1742,20 @@ and \.{\#endif}와 같은 전처리기 명령을 이용해서 해야 한다.
 %contain labeled statements, so that the label will stick out a little at
 %the left.) You can also use `\.{@t\}\\3\{-5@>}' to force a break
 %in the middle of an expression.
-9. \TEX/으로 조판된 \CEE/ 코드에 약간의 간격을 넣는 것이 `\.{@,}'가
-만들어내는 좁은 간격보다 더 자연스러울 때가 종종 있다.  \.{@t}의
-특징이 이러한 목적으로 사용될 수 있다. 예를 들어, \TEX/
-명령어 \.{\\4}는 \.{cwebmac}에 들여쓰기 간격만큼 왼쪽으로 들여 쓰라는
-명령이므로, `\.{@t\\hskip 1in@>}'는 1인치의 공간을 마련할
-것이다. `\.{@t\\4@>}'는 들여쓰기 간격만큼 왼쪽으로 들여 쓰는 명령이다. 
-(이 명령어는 예를 들어, 레이블이 있는 줄의 시작부에서 레이블과 줄의
-시작부와 약간의 간격을 두기 위해서 사용된다.) 그리고 또한 표현 식의
-중간에서 강제적으로 간격을 두기 위해서 `\.{@t\}\\3\{-5@>}'를 사용할
-수도 있다.
+9. \TEX/으로 조판된 \CEE/ 코드에 약간의 간격을 넣는 것이 `\.{@,}'가 만들어내는 좁은
+간격보다 더 자연스러울 때가 종종 있다.  \.{@t}의 특징이 이러한 목적으로 사용될 수 있다.
+예를 들어, \TEX/ 명령어 \.{\\4}는 \.{cwebmac}에 들여쓰기 간격만큼 왼쪽으로 들여 쓰라는
+명령이므로, `\.{@t\\hskip 1in@>}'는 1인치의 공간을 마련할 것이다. `\.{@t\\4@>}'는
+들여쓰기 간격만큼 왼쪽으로 들여 쓰는 명령이다. (이 명령어는 예를 들어, 레이블이 있는 줄의
+시작부에서 레이블과 줄의 시작부와 약간의 간격을 두기 위해서 사용된다.) 그리고 또한 표현 식의
+중간에서 강제적으로 간격을 두기 위해서 `\.{@t\}\\3\{-5@>}'를 사용할 수도 있다.
 
 %10. Each identifier in \.{CWEB} has a single formatting convention. Therefore
 %you shouldn't use the same identifier to denote, say, both a type name and
 %part of a \.{struct}, even though \CEE/ does allow this.
-10. \.{CWEB}에서 사용된 각각의 식별자는 그 고유의 표현 방식이
-있다. 그러므로 자료형 이름과 \.{struct}의 일부분을 표시하기 위해서
-비록 \CEE/가 그것을 허용한다고 하더라도, 같은 식별자를 사용해서는
-안 된다. 
+10. \.{CWEB}에서 사용된 각각의 식별자는 그 고유의 표현 방식이 있다. 그러므로 자료형 이름과
+\.{struct}의 일부분을 표시하기 위해서 비록 \CEE/가 그것을 허용한다고 하더라도, 같은 식별자를
+사용해서는 안 된다. 
 
 %\section Running the programs.
 %The \UNIX/ command line for \.{CTANGLE} is
@@ -1798,26 +1776,21 @@ and \.{\#endif}와 같은 전처리기 명령을 이용해서 해야 한다.
 $$\.{ctangle [options] web\_file[.w] [\{change\_file[.ch]|-\} [out\_file]]}$$
 \.{CWEAVE}도 위와 같은 방법으로 실행할 수 있다. 만약 `\.-' 나 수정
 파일(change file)을 정하지 않으면, 수정 파일은 프로그램상에서 널(null)이 된다.
-확장자 \.{.w}와 \.{.ch}는 주어진 파일 이름에 점이 없을 때에만,
-자동으로 붙는데, 찾고자 하는 웹 소스 파일을 찾을 수
-없을 때는 확장자 \.{.web}를 붙여서 다시 시도한다. 예를 들어,
-명령어 `\.{cweave} \.{cob}'는 먼저 \.{cob.w} 파일을 읽어들이려 시도할
-것이고, 그 시도가 실패하면, 포기하기 전에 \.{cob.web}를 읽어들이려
-시도한다. 결과 파일 이름을 정하지 않으면, \.{CTANGLE}은 주어진 파일
-이름에 \.{.c}를 붙이고,
-\.{CWEAVE}는 \.{.tex}을 붙여서 파일을 생성한다. \.{CWEAVE}가 
-부수적으로 만드는, 색인 관련 파일들은 확장자 \.{.idx}와 \.{.scn}가
+확장자 \.{.w}와 \.{.ch}는 주어진 파일 이름에 점이 없을 때에만, 자동으로 붙는데, 찾고자
+하는 웹 소스 파일을 찾을 수 없을 때는 확장자 \.{.web}를 붙여서 다시 시도한다. 예를 들어,
+명령어 `\.{cweave} \.{cob}'는 먼저 \.{cob.w} 파일을 읽어들이려 시도할 것이고, 그 시도가
+실패하면, 포기하기 전에 \.{cob.web}를 읽어들이려 시도한다. 결과 파일 이름을 정하지 않으면,
+\.{CTANGLE}은 주어진 파일 이름에 \.{.c}를 붙이고, \.{CWEAVE}는 \.{.tex}을 붙여서 파일을
+생성한다. \.{CWEAVE}가 부수적으로 만드는, 색인 관련 파일들은 확장자 \.{.idx}와 \.{.scn}가
 붙어서 자동으로 생성된다.
 
 %Programmers who like terseness might choose to set up their
 % operating shell so that `\.{wv}' expands to
 %`\.{cweave -bhp}'; this will suppress most terminal output from \.{CWEAVE}
 %except for error messages.
-간단 명료한 것을 좋아하는 프로그래머는 자신이 사용하는 OS의 쉘을
-조정해서 `\.{wv}'를 `\.{cweave -bhp}'로 
-확장할 수도 있는데, 그 방법은 에러
-메시지를 제외하고는 \.{CWEAVE}이 모니터로 내뿜는 모든 메시지를
-무시한다.
+간단 명료한 것을 좋아하는 프로그래머는 자신이 사용하는 OS의 쉘을 조정해서 `\.{wv}'를
+`\.{cweave -bhp}'로 확장할 수도 있는데, 그 방법은 에러 메시지를 제외하고는 \.{CWEAVE}이
+모니터로 내뿜는 모든 메시지를 무시한다.
 
 %Options are introduced either by a \.- sign, to turn an option off,
 %or by a \.+ sign to turn one on. For example, `\.{-fb}' turns off
@@ -1885,26 +1858,24 @@ $$\.{ctangle [options] web\_file[.w] [\{change\_file[.ch]|-\} [out\_file]]}$$
 %copy of that table by copying the file \.{prod.w} found in the \.{CWEB}
 %sources and saying `\.{cweave}~\.{-x}~\.{prod}', followed by
 %`\.{tex}~\.{prod}'.
-\section 문서를 만들기위해 더 알아야할 세부사항.
+\section 포멧팅에 관한 더 알아야 할 세부 사항.
 \noindent
-\.{CWEB} 프로그래밍을 하다 보면, \.{CWEAVE}가 처리하는 방식이 맘에 들지
-않을 때가 있다. 그 상황을 참지 못하겠다면, \.{CWEAVE}가 동작하는 방식이 기록된
-문법 표를 수정해서 \.{CWEAVE}를 자신이 원하는 대로 동작하도록 만들 수 있다. 그렇게
-하려면, \.{CWEAVE} 프로그램의 소스를 직접 수정해야 하는데, 이 일이
-경우에 따라서는 즐거운 일이 될 수도 있다. 어쨌든 \.{CWEAVE}의 동작
-원리가 기록된 문법 표는 \.{CWEAVE} 프로그램 소스 코드에 기록되어
-있는데, 이를 별도의 파일로 만들어서 보고 싶으면, \.{CWEB}의 소스 파일 중에서
-\.{prod.w}라는 파일이 있는데, `\.{cweave}~\.{-x}~\.{prod}', 곧이어 
-`\.{tex}~\.{prod}'라는 명령들을 통해서 만들 수 있다.  
+당신은 \.{CWEAVE}가 처리하는 방식이 맘에 들지 않을 때가 있을 것이다. 그 상황을 참지
+못하겠다면, \.{CWEAVE}가 동작하는 방식이 기록된 문법 표를 수정해서 \.{CWEAVE}를 자신이
+원하는 대로 동작하도록 만들 수 있다. 그렇게 하려면, \.{CWEAVE} 프로그램의 소스를 직접
+수정해야 하는데, 이 일이 경우에 따라서는 즐거운 일이 될 수도 있다. 어쨌든 \.{CWEAVE}의
+동작 원리가 기록된 문법 표는 \.{CWEAVE} 프로그램 소스 코드에 기록되어 있는데, 이를 별도의
+파일로 만들어서 보고 싶으면, \.{CWEB}의 소스 파일 중에서 \.{prod.w}라는 파일이 있는데,
+`\.{cweave}~\.{-x}~\.{prod}', 곧이어 `\.{tex}~\.{prod}'라는 명령들을 통해서 만들 수
+있다.  
 %You can see exactly
 %how \.{CWEAVE} is parsing your \CEE/ code by preceding
 %it with the line `\.{@ @c @2}'. (The control code `\.{@2}'
 %turns on a ``peeping'' mode, and `\.{@0}' turns it off.)
 %For example, if you run \.{CWEAVE} on the file
-\.{CWEAVE}가 어떻게 \CEE/ 코드를 구문분석해서 아름다운 문서를 만드는지를
-자세히 알고 싶으면, 그 \CEE/ 코드 앞에 `\.{@ @c @2}'라고 입력하면
-된다. (명령어 \.{@2}는 \.{CWEAVE}가 하는 일을 자세히 볼 수 있도록
-스위치를 켜는 역할을 하고 그 반대로 스위치를 끄는 명령어는
+\.{CWEAVE}가 어떻게 \CEE/ 코드를 구문분석해서 아름다운 문서를 만드는지를 자세히 알고 싶으면,
+그 \CEE/ 코드 앞에 `\.{@ @c @2}'라고 입력하면 된다. (명령어 \.{@2}는 \.{CWEAVE}가 하는
+일을 자세히 볼 수 있도록 스위치를 켜는 역할을 하고 그 반대로 스위치를 끄는 명령어는
 `\.{@0}'이다.) 예를 들어, 아래와 같은 코드를 \.{CWEAVE}로 돌리면,
 \medskip
 \begingroup
@@ -1944,18 +1915,15 @@ char **argv;
 %Then rule 11 is applied, and
 %the sequence $(\,exp\,)$ becomes an \\{exp} and so on.  In the
 %end the whole \CEE/ text has become one big scrap of type \\{function}.
-첫 번째 줄은 \.{CWEAVE}가 \CEE/ 코드를 구문분석하는 문법 중에 4번째 규칙을
-적용한다는 것을 의미하고, 현재 이것을 처리하는 순간의 \.{CWEAVE}가
-사용하는 메모리는 ``스크랩(scraps)''이라고 불리는 일련의 \TEX/
-코드들을 가지고 있는데, 그 일련의 \TEX/ 코드들은 각각 \\{exp}
-(표현식), 여는 괄호, 다시 \\{exp}, 닫는 괄호, 그리고 나머지 아직
-파서가 처리하지 않고 남아 있는 스크랩들이라는 것을 나타낸다. (\.+ 와 \.- 기호는
-\TEX/이 스크랩으로 나누는 경계에 있을 때 수학 모드 안에 또는 밖에
-있어야 한다는 것을 분명히 하는데 사용되고, \.*는 현재 파서의 위치를 나타낸다.) 
-그리고 나서 11번째 규칙이 적용되고, $(\,exp\,)$는 \\{exp}이
-되는 등, 연속적으로 적용이 되고 있다는 것을 보여준다. 이러한 과정을
-통해서 위의 코드는 결국은 함수({\it function\/})형이라는 커다란
-스크랩이 되는 것이다.
+첫 번째 줄은 \.{CWEAVE}가 \CEE/ 코드를 구문 분석하는 문법 중에 4번째 규칙을 적용한다는 것을
+의미하고, 현재 이것을 처리하는 순간의 \.{CWEAVE}가 사용하는 메모리는
+``스크랩(scraps)''이라고 불리는 일련의 \TEX/ 코드들을 가지고 있는데, 그 일련의 \TEX/
+코드들은 각각 \\{exp} (표현식), 여는 괄호, 다시 \\{exp}, 닫는 괄호, 그리고 나머지 아직
+파서가 처리하지 않고 남아 있는 스크랩들이라는 것을 나타낸다. (\.+ 와 \.- 기호는 \TEX/이
+스크랩으로 나누는 경계에 있을 때 수학 모드 안에 또는 밖에 있어야 한다는 것을 분명히 하는데
+사용되고, \.*는 현재 파서의 위치를 나타낸다.) 그리고 나서 11번째 규칙이 적용되고,
+$(\,exp\,)$는 \\{exp}이 되는 등, 연속적으로 적용이 되고 있다는 것을 보여준다. 이러한 과정을
+통해서 위의 코드는 결국은 함수({\it function\/})형이라는 커다란 스크랩이 되는 것이다.
 
 %Sometimes things don't work as smoothly, and you get a bunch of
 %lines lumped together.  This means that \.{CWEAVE} could not
@@ -1968,13 +1936,11 @@ char **argv;
 %`$\\{main}(\\{argc},\39\\{argv}{}$)'.
 %In this case you should help \.{CWEAVE} by putting `\.{@/}' after
 %`\.{main(argc,argv)}'.
-\.{CWEAVE}의 문법은, 입력된 \CEE/ 코드를 완전히 이해하여 언제나
-올바르게 적용되지는 않아서, 입력한 \CEE/ 코드가 모두 한 줄에 다 나와
-버리는 경우가 생긴다. 예를 들어, 위의 프로그램에서
-`\.{@<Argument definitions@>}'가 `\.{char **argv;}' 대신에 나왔다고
-해보자. 그러면 \.{CWEAVE}는 마디 이름을 그냥 단순히 \\{exp}라고
-판단하기 때문에 다소 혼란에 빠진다. 그래서 \TEX/에게 
-`$\\{main}(\\{argc},\39\\{argv}{}$)'와 같은 줄에 
+\.{CWEAVE}의 문법은, 입력된 \CEE/ 코드를 완전히 이해하여 언제나 올바르게 적용되지는 않아서,
+입력한 \CEE/ 코드가 모두 한 줄에 다 나와 버리는 경우가 생긴다. 예를 들어, 위의 프로그램에서
+`\.{@<Argument definitions@>}'가 `\.{char **argv;}' 대신에 나왔다고 해보자. 그러면
+\.{CWEAVE}는 마디 이름을 그냥 단순히 \\{exp}라고 판단하기 때문에 다소 혼란에 빠진다.
+그래서 \TEX/에게 `$\\{main}(\\{argc},\39\\{argv}{}$)'와 같은 줄에 
 `\X2:Argument declarations\X'라는 형태로 출력할 것이다. 이 경우
 \.{CWEAVE}가 올바르게 동작할 수 있도록 
 `\.{main(argc,argv)}' 다음에 `\.{@/}'를 써주어야 한다.
@@ -1986,10 +1952,9 @@ char **argv;
 %\.{int x;@+@t\}\\6\{@>}\cr
 %\.{@<Other locals@>@;@\#}\cr}}$$
 %the `\.{@\#}' will put extra space after `$\langle\,$Other locals$\,\rangle$'.
-\.{CWEAVE}는 자동으로 선언문들과 그다음의 첫 번째 실행문 사이에
-약간의 공간을 두는데, \.{CWEAVE} 명령을 실행할 때, 옵션으로 \.{-o}를
-주어서 전체적으로 공간을 두지 말라고 할 수도 있다. 이렇게 전체적으로
-공간을 없애는 것이 아니라 필요한 곳에서만 공간을 없앨 수도 있는데, 그
+\.{CWEAVE}는 자동으로 선언문들과 그다음의 첫 번째 실행문 사이에 약간의 공간을 두는데,
+\.{CWEAVE} 명령을 실행할 때, 옵션으로 \.{-o}를 주어서 전체적으로 공간을 두지 말라고 할 수도
+있다. 이렇게 전체적으로 공간을 없애는 것이 아니라 필요한 곳에서만 공간을 없앨 수도 있는데, 그
 방법은 아래와 같다.
 $$\vbox{\halign{#\hfil\cr
 \.{int x;@+@t\}\\6\{@>}\cr
@@ -1998,6 +1963,8 @@ $$\vbox{\halign{#\hfil\cr
 만든다. 
 
 %\section Hypertext and hyperdocumentation.
+\section 하이퍼텍스트와 하이퍼문서화.
+\noindent
 %Many people have of course noticed analogies between \.{CWEB} and the
 %World Wide Web. The \.{CWEB} macros are in fact set up so that the output of
 %\.{CWEAVE} can be converted easily into Portable Document Format,
@@ -2006,39 +1973,29 @@ $$\vbox{\halign{#\hfil\cr
 %by Mark~A. Wicks. After using \.{CWEAVE} to convert \.{cob.w} into
 %\.{cob.tex}, you can prepare and view a hypertext version of the program
 %by giving the commands
-%$$\vbox{\halign{\.{#}\hfil\cr
-%tex "\\let\\pdf+ \\input cob"\cr
-%dvipdfm cob\cr
-%acroread cob.pdf\cr}}$$
+당연히 많은 사람들이 \.{CWEB}이 월드와이드웹과 유사한 점이 많다는 것을 눈치 챘을 것이다.
+사실 \.{CWEB}의 매크로들은 \.{CWEAVE}의 결과물인 \TEX/ 파일을 {\mc PDF} 파일
+(Portable Document Format)로 쉽게 바꿀 수 있는 기능들을 가지고 있다. 그래서 Adobe의
+Acrobat Reader를 이용하면 \.{CWEB} 문서 내에서 하이퍼링크를 클릭하여 여기저기를 자유롭게
+오고 갈 수 있다. 이 특징은  Mark~ A. Wicks가 개발한 \.{dvipdfm}이라는 오픈 소스
+프로그램으로 가능하게 되었다. \.{CWEAVE}를 이용해서 \.{cob.w}를 \.{cob.tex}로 변환한
+후에 보통의 방식으로 \TEX/ 컴파일을 하는 것이 아니라, 아래와 같은 명령들을 이용하면
+하이퍼텍스트 문서를 만들 수 있다.
+$$\vbox{\halign{\.{#}\hfil\cr
+tex "\\let\\pdf+ \\input cob"\cr
+dvipdfm cob\cr
+acroread cob.pdf\cr}}$$
 %instead of invoking \TeX\ in the normal way. (Thanks to Hans Hagen,
 %C\'esar Augusto Rorato Crusius, and Julian Gilbey
 %for the macros that make this work.)
 %Alternatively, thanks to H\`an Th\^e\kern-.3em\raise.3ex\hbox{\'{}} Th\`anh
 %and Andreas Scherer, you can generate \.{cob.pdf} in one step by simply
 %saying `\.{pdftex}~\.{cob}'.
-
-\section 하이퍼텍스트와 하이퍼도큐먼트화.
-\noindent
-\.{CWEB}이 월드와이드웹과 유사한 점이 많다는 것을 눈치 챈 사람이
-많을 것이다. 사실 \.{CWEB}의 매크로들은
-\.{CWEAVE}의 결과물인 \TEX/ 파일을 {\mc PDF} 파일(Portable Document
-Format)로 쉽게 바꿀 수 있는 기능들을 가지고 있다. 그래서 Adobe의 Acrobat Reader를
-이용하면 \.{CWEB} 문서 내에서 하이퍼링크를 클릭하여 여기저기를
-자유롭게 오고 갈 수 있다. 이 특징은 
-Mark~ A. Wicks가 개발한 \.{dvipdfm}이라는 오픈 소스 프로그램으로 
-가능하게 되었다. \.{CWEAVE}를 이용해서 \.{cob.w}를 \.{cob.tex}로
-변환한 후에 보통의 방식으로 \TEX/ 컴파일을 하는 것이 아니라, 아래와 같은
-명령들을 이용하면 하이퍼텍스트 문서를 만들 수 있다.
-$$\vbox{\halign{\.{#}\hfil\cr
-tex "\\let\\pdf+ \\input cob"\cr
-dvipdfm cob\cr
-acroread cob.pdf\cr}}$$
-(위의 명령들을 가능하도록 매크로를 만든 Hans Hagen, C\'esar Augusto Rorato
-Crusius, Julian Gilbey 에게 감사한다.)
-위 방법 말고 더 쉬운 방법이 있는데, 단순히 `\.{pdftex}~\.{cob}'라고
-하면 곧바로 \.{cob.pdf}를 얻을 수 있다. 이에 대해서는 
-H\`an Th\^e\kern-.3em\raise.3ex\hbox{\'{}} Th\`anh 과
-Andreas Scherer 에게 감사한다.
+(위의 명령들을 가능하도록 매크로를 만든 한스 하겐, C\'esar Augusto Rorato
+Crusius, Julian Gilbey 에게 감사한다.) 위 방법 말고 더 쉬운 방법이 있는데, 단순히
+`\.{pdftex}~\.{cob}'라고 하면 곧바로 \.{cob.pdf}를 얻을 수 있다. 이에 대해서는 
+H\`an Th\^e\kern-.3em\raise.3ex\hbox{\'{}} Th\`anh 과 Andreas Scherer에게
+감사한다.
 
 %A more elaborate system called \.{CTWILL}, which extends the usual cross
 %references of \.{CWEAVE} by preparing links from the uses of identifiers
@@ -2048,30 +2005,26 @@ Andreas Scherer 에게 감사한다.
 %could be used for hypertext as well.
 %See Chapter 11 of {\sl Digital Typography\/} by D.~E. Knuth (1999), and
 %the program sources at \.{ftp://ftp.cs.stanford.edu/pub/ctwill}.
-\.{CWEAVE}와 비슷한 기능을 하지만, 그보다는 좀 더 공들인 \.{CTWILL}라
-불리는 프로그램이 있는데, 이 프로그램은 \.{CWEAVE}의 일반적인 교차 참조
-(cross reference) 기능을 좀 더 확장한 프로그램으로, 변수가
-사용된 지점에 연결된 링크를 통해서 곧바로 그 변수가 정의된 곳으로 갈
-수 있다.
-\.{CTWILL}은 책이나 문서 같은 하드 카피를 만들기 위해 작성된
-프로그램이지만 이 프로그램도 하이퍼텍스트 기능을 갖출 수 있다.
-도널드 크누스의 책, {\sl Digital Typography\/} (1999) 11장을 살펴보라. 
-그리고 \.{CTWILL} 프로그램의 소스들을
+\.{CWEAVE}와 비슷한 기능을 하지만, 그보다는 좀 더 공들인 \.{CTWILL}라 불리는 프로그램이
+있는데, 이 프로그램은 \.{CWEAVE}의 일반적인 교차 참조 기능을 좀 더 확장한 프로그램으로,
+변수가 사용된 지점에 연결된 링크를 통해서 곧바로 그 변수가 정의된 곳으로 갈 수 있다.
+\.{CTWILL}은 책이나 문서 같은 하드 카피를 만들기 위해 작성된 프로그램이지만 이 프로그램도
+하이퍼텍스트 기능을 갖출 수 있다. 도널드 크누스의 책, {\sl Digital Typography\/} (1999)
+11장을 살펴보라.  그리고 \.{CTWILL} 프로그램의 소스들을
 \.{ftp://ftp.cs.stanford.edu/pub/ctwill} 에서 찾을 수 있다.
 
-\section 부록.
+\section 부 록.
 \noindent
-부록~A는 \.{CWEB} 언어로 작성한 실제 프로그램의 예로써, \.{CWEB}
-시스템의 그 자체의 소스에서 일부를 발췌하였다. 이 부록에 실린 내용을
-주의 깊게 살펴보면, \.{CWEB} 프로그램에 대한 기본 개념과 감을 잡을 수
-있다.
+부록~A는 \.{CWEB} 언어로 작성한 실제 프로그램의 예로써, \.{CWEB} 시스템의 그 자체의
+소스에서 일부를 발췌하였다. 이 부록에 실린 내용을 주의 깊게 살펴보면, \.{CWEB} 프로그램에
+대한 기본 개념과 감을 잡을 수 있다.
 
 %Appendix B is the file that sets \TEX/ up to accept
 %the output of \.{CWEAVE}, and Appendix~C discusses how to use some of those
 %macros to vary the output formats.
-부록 B는 \.{CWEAVE}의 결과물인 \TEX/ 파일을 처리하기 위해서 컴파일러 \TEX/을
-설정하는 매크로 파일을 설명하고, 부록~C는 다양한 출력물을 얻기 위해서
-그 매크로들을 사용하는 방법을 설명한다. 
+부록 B는 \.{CWEAVE}의 결과물인 \TEX/ 파일을 처리하기 위해서 컴파일러 \TEX/을 설정하는
+매크로 파일을 설명하고, 부록~C는 다양한 출력물을 얻기 위해서 그 매크로들을 사용하는 방법을
+설명한다. 
 
 %A ``long'' version of this manual, which can be produced from the \.{CWEB}
 %sources via the \UNIX/ command \.{make} \.{fullmanual}, also contains
@@ -2441,9 +2394,9 @@ ${}\\{strncpy}(\\{change\_buffer},\39\\{buffer},\39\\{limit}-\\{buffer}+%
 %is to explain some of the possibilities.
 \section 부록 C: \.{CWEB} 매크로 사용법.
 \noindent
-\.{cwebmac} 파일에 정의되어 있는 매크로들 이용하면 \.{CWEAVE}의
-결과물인 \TEX/ 코드들을 직접 수정하지 않고도 여러 다양한 형태의 문서를
-만들 수 있다. 부록~C 에서는 그러한 매크로들의 사용법을 설명한다.
+\.{cwebmac} 파일에 정의되어 있는 매크로들 이용하면 \.{CWEAVE}의 결과물인 \TEX/ 코드들을
+직접 수정하지 않고도 여러 다양한 형태의 문서를 만들 수 있다. 부록~C 에서는 그러한 매크로들의
+사용법을 설명한다.
 \def\point#1.{\yskip\indent#1.\quad\ignorespaces}
 
 %\point 1. Four fonts have been declared in addition to the standard fonts of
