@@ -93,7 +93,7 @@ contains current info about \.{CWEB} and related topics.
 
 
 \null\vfill
-\baselineskip 14.5pt
+\baselineskip 15pt
 
 \centerline{\titlefont 구조적 문서화의 {\ttitlefont CWEB} 시스템}
 \vskip 18pt\centerline{(버전 3.64 --- 2002년 2월)}
@@ -120,7 +120,7 @@ Acrobat Reader는 어도비 시스템즈사의 상표이다.
 
 \smallskip\noindent
 이 문서의 전자 형식 수정 버전을 그대로 복사 조건으로 복사 및 배포 할 수 있다.
-단, 결과 파생 저작물 전체가이 문서와 동일한 허락 고지의 조건에 따라 배포되어야한다.
+단, 결과 파생 저작물 전체가 이 문서와 동일한 허락 고지의 조건에 따라 배포되어야한다.
 
 \smallskip\noindent
 개인은 자신의 개인 용도로 전자 파일에서 문서의 사본을 만들 수 있다.
@@ -999,7 +999,7 @@ $$\.{\\def\\x\#1\{x\_\{\#1\}\} @f x1 TeX @f x2 TeX}$$
 %\.{@f}~\.{convert}~\.{make\_pair} one can say `\.{convert<int>(2.5)}' without
 %having \.< and \.> misunderstood as less-than and greater-than signs.
 \more 만약에 \|r이 특별한 식별자 `\\{make\_pair}'라면,
-식별자 \|l은 \CPLUSPLUS/ 함수 템플릿(function template)처럼
+식별자 \|l은 \CPLUSPLUS/ 함수 템플릿 처럼
 취급된다. 예를 들어, \.{@f}~\.{convert}~\.{make\_pair} 다음에
 `\.{convert<int>(2.5)}'라고 쓸 수 있는데, 이렇게 하면, \.<와 \.>가 수식의
 부등호로 오인하는 일 없이 사용할 수 있다.
@@ -2392,7 +2392,7 @@ ${}\\{strncpy}(\\{change\_buffer},\39\\{buffer},\39\\{limit}-\\{buffer}+%
 %and \.{\\ttitlefont} in the title of your document, where \.{\\ttitlefont}
 %is a typewriter style of type. There are macros \.{\\UNIX/} and \.{\\CEE/}
 %to refer to \UNIX/ and \CEE/ with medium-size caps.
-\point 1. \.{CWEB} 매크로는 \.{PLAIN} \TEX/이 사용하는 기본 글꼴 외에 네 가지의 글꼴을
+\point 1. \.{CWEB} 매크로는 \.{PLAIN} 포멧의 기본 글꼴 외에 네 가지의 글꼴을
 더 제공한다. 중간 크기의 알파벳 대문자체인 {\mc UNIX}를 얻고자 한다면,
 `\.{\{\\mc UNIX\}}' 라고 하면 되고, 작은 크기의 알파벳 대문자체인 {\sc STUFF}를 얻고
 싶으면 `\.{\{\\sc STUFF\}}' 라고 하면 된다. 그리고 문서의 제목 같은 다소 큰 글꼴을
@@ -2411,7 +2411,7 @@ ${}\\{strncpy}(\\{change\_buffer},\39\\{buffer},\39\\{limit}-\\{buffer}+%
 바와 같이 `\.{|identifier|}'를 이용한다. 그런데 그 방법 말고 `\.{\\\\\{identifier\}}'
 로 하는 방법이 더 있다. 이 두 경우 출력은 같다. 그런데 후자의 경우는 \\{identifier}를 
 색인에 넣지 않는다. 왜냐하면, 위와 같은 표기는 \.{CWEAVE}가 \CEE/ 모드를 다룰 때 고려해야
-할 대상에서 제외되기 때문이다. 또한, 후자는 식별자에 밑줄(underline)이 사용될 때는 반드시
+할 대상에서 제외되기 때문이다. 또한, 후자는 식별자에 밑줄이 사용될 때는 반드시
 그 앞에 백슬래쉬를 넣어야 한다. 이는 전자와 같이 할 때는 \.{CWEAVE}가 다 알아서 해주기
 때문에 필요없는 작업이다.
 
@@ -2432,7 +2432,7 @@ ${}\\{strncpy}(\\{change\_buffer},\39\\{buffer},\39\\{limit}-\\{buffer}+%
 나타낸다. \TEX/ 명령어 다음에 나오는 공백 문자를 앞의 경우와 달리 눈에 보이지 않게 하려면,
 `\.{\{\ \}}' 라고 해야 한다. 만일 표현하고자 하는 문자열이 길다면, `\.{\\)}'\, 를
 이용해서 그 문자열을 둘로 나눌 수 있는데, 이때 \TEX/이 그 문자열에서 줄 바꿈을 하고자 할 경우,
-후자는 discretionary 백슬래쉬를 나타낸다.
+후자는 임의의 백슬래쉬를 나타낸다.
 
 %\point 4. The three control sequences \.{\\pagewidth}, \.{\\pageheight},
 %and \.{\\fullpageheight} can be redefined in the limbo section at the
@@ -2499,13 +2499,13 @@ $$\lpile{\.{\\pagewidth=6.5in}\cr
 %Redefining \.{\\rheader}, which is the headline for right-hand pages,
 %suffices in this case to put the desired information at the top of the
 %contents page.
-\point 8. 다른 문서를 보더라도 일반적으로, 타이틀 페이지에는 면주가 없다. 그러한 목적으로
-\.{CWEB} 문서에서 어떤 페이지를 타이틀 페이지라고 지정하는 방법은 매크로 \.{\\iftitle}을
+\point 8. 다른 문서를 보더라도 일반적으로, 제목 페이지에는 면주가 없다. 그러한 목적으로
+\.{CWEB} 문서에서 어떤 페이지를 제목 페이지라고 지정하는 방법은 매크로 \.{\\iftitle}을
 `\.{\\titletrue}'로 정의하는 것이다. \.{CWEB}의 모든 페이지의 \.{\\iftitle}의 값은
 기본적으로 \.{\\titlefalse} 이다. 당연히 페이지 번호가 붙지 않는 타이틀 페이지는 예외로
 \.{\\titletrue} 이다.
 
-타이틀 페이지는 \.{\\topofcontents}, \.{\\botofcontents}라는 두 개의 매크로를
+제목 페이지는 \.{\\topofcontents}, \.{\\botofcontents}라는 두 개의 매크로를
 재정의해서 원하는 대로 수정할 수 있다. 매크로 \.{\\topofcontents}는 목차 정보가 로드되기
 바로 직전에 호출되고, 매크로 \.{\\botofcontents}는 바로 다음에 호출된다.
 위 두 매크로의 전형적 예는 다음과 같다.
@@ -2796,14 +2796,12 @@ sections'인데, 이 그룹은 클릭하면 모두 펼쳐져서 프로그램에 
 %the \.{.toc} file is set to the sanitized form of the first parameter;
 %see point~9 above and point~20 below.)
 \.{cwebmac.tex}의 매크로들은 책갈피에
-사용된 모든 이름들에서 {\mc PDF}의 outline의 제한된 기능 때문에
-outline에 사용돼기에는 부적합한 특수 문자나 명령어나 매크로 같은 쓸데%
-없는 코드를 조심스럽게 순화하기 위해서 ``제거한다(sanitize).'' 예를 들어, \.{CWEAVE}의
-어떤 마디 이름이 `Cases for \\{case\_like}'인데, 이는 \TEX/ 코드로
-\.{cweave.tex} 파일에서 `\.{Cases} \.{for}
-\.{\\PB\{\\\\\{case\\\_like\}\}}'로 나타나는데, 이 이름을 outline을
-위해서 방해되는 것을 제거하여 순화하면 단순히
-`\.{Cases} \.{for} \.{case\_like}'가 된다. 
+사용된 모든 이름들에서 {\mc PDF}의 개요의 제한된 기능 때문에 개요에 사용되기에는 부적합한
+특수 문자나 명령어나 매크로 같은 쓸데 없는 코드를 조심스럽게 순화하기 위해서 ``제거한다.''
+예를 들어, \.{CWEAVE}의 어떤 마디 이름이 `Cases for \\{case\_like}'인데, 이는 \TEX/
+코드로 \.{cweave.tex} 파일에서 `\.{Cases} \.{for}
+\.{\\PB\{\\\\\{case\\\_like\}\}}'로 나타나는데, 이 이름을 개요를 위해서 방해되는 것을
+제거하여 순화하면 단순히 `\.{Cases} \.{for} \.{case\_like}'가 된다. 
 (\.{.pdf} 파일들이 만들어질 때, \.{.toc} 파일 안에 있는 모든 \.{\\ZZ}
 매크로의 다섯 번째 인자는 첫 번째 파라미터의 순화된 버전이다. 앞서 나온
 항목~9와 뒤에 나올 항목~20을 참고하라.)
@@ -2818,14 +2816,12 @@ outline에 사용돼기에는 부적합한 특수 문자나 명령어나 매크�
 %the \TeX\ code `\.{\\kluj bar\\\\}' will print as `foo' but sanitize
 %to `\.{bar}', because the control sequences \.{\\kluj} and
 %\.{\\\\} are removed by sanitization.
-일반적으로, outline을 위한 순화는 \.{CWEB}가 직접 정의한 명령어들을
-제외한 \TEX/의 명령어와 괄호들을 제거한다. 대부분 경우 이러한 제거
-과정은 순조롭게 이루어지지만, \TeX nical한 속임수를 사용하면, 당신은
-이러한 기본 제거 과정을 당신이 원하는 당신이 정한 규칙대로 제거할 수
-있다. 예를 들어, 아래와 같은 문장이 적용되면,
+일반적으로, 개요을 위한 순화는 \.{CWEB}가 직접 정의한 명령어들을 제외한 \TEX/의 명령어와
+괄호들을 제거한다. 대부분 경우 이러한 제거 과정은 순조롭게 이루어지지만, \TeX nical한
+속임수를 사용하면, 당신은 이러한 기본 제거 과정을 당신이 원하는 당신이 정한 규칙대로 제거할
+수 있다. 예를 들어, 아래와 같은 문장이 적용되면,
 $$\.{\\sanitizecommand\\foo\{bar\}}$$
-명령어 \.{\\foo}는 `\.{bar}'로 바뀐다. 그리고 다음과 같은 문장이
-적용되면, 
+명령어 \.{\\foo}는 `\.{bar}'로 바뀐다. 그리고 다음과 같은 문장이 적용되면, 
 $$\.{\\def\\kluj\#1\\\\\{foo\}}$$
 \TeX\ 코드 `\.{\\kluj bar\\\\}'는 `foo'로 출력되지만 책갈피에는 
 `\.{bar}'로 출력된다. 왜냐하면, 명령어 \.{\\kluj}와 
@@ -2851,6 +2847,6 @@ $$\lpile{\.{\\def\\klujj\#1\\\\\{\\ifheader FOO\\else foo\\fi\}}\cr
 `Chinese foo'로 나타나는 그룹 제목이 `{\bf Chinese foo}'를 만든다.
 그러나 이에 해당하는 책갈피는 `\.{Chinese} \.{bar}'가 된다. 그리고
 해당하는 \.{.toc} 파일에 나오는 항목은 
-`\.{\\ZZ \{Chinese \\klujj bar\\\\\}\{1\}\{1\}\{1\}\{Chinese bar\}}'이다.
+`\.{\\ZZ \{Chinese \\klujj bar\\\\\}\{1\}\{1\}\{1\}\{Chinese bar\}}'이 된다.
 
 \vfill\end
