@@ -1,0 +1,21 @@
+
+\ProvidesPackage{sudoku-dlx}[2018/01/10 v0.1 Sudoku solver]
+
+\RequirePackage{luatexbase}
+\RequirePackage{sudoku}
+
+\directlua{require "sudokudlx"}
+
+\def\sudoku@#1{%
+  \directlua{sudokudlx.solve(
+    \ifx\answ@r Ytrue\else flase\fi, "#1")}
+}
+
+\protected\def\Sudoku#1#{%
+  \ifx\empty#1\empty
+    \let\answ@r N%
+  \else
+    \let\answ@r Y%
+  \fi
+  \sudoku@
+}

@@ -1,0 +1,14 @@
+
+\ProvidesPackage{queens}[2018/01/10 v0.1 n Queens]
+
+\RequirePackage{luatexbase}
+\RequirePackage{chessboard}
+
+\directlua{require "queens"}
+
+\protected\def\queens#1{%
+  \begingroup
+  \parindent0pt
+  \directlua{queens.chessboard(#1)}
+  \endgroup
+}
