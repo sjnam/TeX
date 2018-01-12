@@ -6,9 +6,9 @@
 
 \directlua{require "queens"}
 
-\protected\def\queens#1{%
+\protected\def\queens#1#2{%
   \begingroup
   \parindent0pt
-  \directlua{queens.chessboard(#1)}
+  \directlua{queens.chessboard(#1,#2)}
   \endgroup
 }

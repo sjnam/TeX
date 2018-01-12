@@ -48,26 +48,37 @@ local function get_lines (str)
 end
 
 
+local function draw (board)
+   sprint([[
+\begin{tikzpicture}[scale=.6]
+\begin{scope}
+\draw (0, 0) grid (9, 9);
+\draw[very thick, scale=3] (0, 0) grid (3, 3);
+\setcounter{row}{1}
+]])
+   for i=1,9 do
+      sprint("\\setrow")
+      for j=1,9 do
+         sprint("{"..board[i][j].."}")
+      end
+      sprint("\n")
+   end
+   sprint("\\end{scope}\n\\end{tikzpicture}")
+end
+
+
 local function question (puzzle)
    local board = {}
    for i, v in ipairs(get_lines(puzzle)) do
       board[i] = carr(v)
    end
-   sprint("\\begin{sudoku}\n")
-   for i=1,9 do
-      sprint("|"..tconcat(board[i], "|").."|.\n")
-   end
-   sprint("\\end{sudoku}\n")
+   draw(board)
 end
 
 
 local function answer (puzzle)
    for board in sudoku(get_lines(puzzle)) do
-      sprint("\\begin{sudoku}\n")
-      for i=1,9 do
-         sprint("|"..tconcat(board[i], "|").."|.\n")
-      end
-      sprint("\\end{sudoku}\n")
+      draw(board)
    end
 end
 

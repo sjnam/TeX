@@ -12,12 +12,12 @@
 \hypersetup{pdfencoding=auto}
 
 \usepackage{mathtools}
-%\usepackage{sudoku-dlx}
-%\usepackage{queens}
+\usepackage{sudoku-dlx}
+\usepackage{queens}
 
 % title
 \title{Dancing links 패키지와 그 활용}
-\subtitle{Exact cover 문제 관련 퍼즐들 }
+\subtitle{Exact cover 퍼즐 }
 \date{2018년 2월 3일 토요일}
 \author{남수진}
 \institute{
@@ -83,7 +83,7 @@ B C F
 A D F
 B G
 D E G
-  \end{verbatim}
+\end{verbatim}
     \end{minipage}
 \end{figure}
 \end{frame}
@@ -122,11 +122,61 @@ Repeat this algorithm recursively on the reduced matrix~$A$.
 %%
 \section{Polyominoes}
 
+%
+\begin{frame}{Pentominoes}
+\centering\includegraphics[height=2cm]{3x20.jpg}
+\vspace{10mm}
+\mbox{\hskip-1cm\includegraphics[height=5cm]{pentominoes.jpg}}
+\end{frame}
+
+%
+\begin{frame}[fragile]{Pentominoes $3\times20$}
+\begin{verbatim}
+\usepackage{pentominoes}
+\pentominoes{3x20.dlx}{3}{20}{5}
+\end{verbatim}  
+\end{frame}
+
 %%
 \section{수도쿠}
 
+%
+\begin{frame}[fragile]{수도쿠}
+\begin{verbatim}
+\usepackage{sudoku-dlx}
+\Sudoku{9.......6.3.4....9...915.8..8.5..7..%
+..3.9.4....2..1.9.32176....6..1.2.3.8...5...1}
+\end{verbatim}  
+
+\begin{center}
+  \Sudoku{9.......6.3.4....9...915.8..8.5..7....3.9.4....2..1.9.32176....6..1.2.3.8...5...1}
+\end{center}
+\end{frame}
+
+%
+\begin{frame}[fragile]{수도쿠}
+\begin{verbatim}
+\Sudoku*{9.......6.3.4....9...915.8..8.5..7..%
+..3.9.4....2..1.9.32176....6..1.2.3.8...5...1}
+\end{verbatim}
+
+\begin{center}
+  \Sudoku*{9.......6.3.4....9...915.8..8.5..7....3.9.4....2..1.9.32176....6..1.2.3.8...5...1}
+\end{center}
+\end{frame}
+
 %%
 \section{$N$ Queens puzzle}
+
+%
+\begin{frame}[fragile]{queens}
+\begin{verbatim}
+\usepackage{queens}
+\queens{8}{2}
+\end{verbatim}
+\vspace{-10mm}
+\queens{8}{2}
+\end{frame}
 
 %
 \begin{frame}{참고}

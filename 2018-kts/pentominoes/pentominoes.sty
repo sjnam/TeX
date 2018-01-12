@@ -1,0 +1,80 @@
+
+\ProvidesPackage{pentominoes}[2018/01/10 v0.1 Pentominoes]
+
+\RequirePackage{luatexbase}
+\RequirePackage[svgnames]{xcolor}
+\RequirePackage{keyval}
+
+\directlua{require "pentominoes"}
+
+\def\Side{\ChessSide}
+\newcommand\ChessBoxO{%
+  {\fboxsep=0pt\fbox{\color{\ChessColorO}\rule{\Side}{\Side}}}}
+\newcommand\ChessBoxP{%
+  {\fboxsep=0pt\fbox{\color{\ChessColorP}\rule{\Side}{\Side}}}}
+\newcommand\ChessBoxQ{%
+  {\fboxsep=0pt\fbox{\color{\ChessColorQ}\rule{\Side}{\Side}}}}
+\newcommand\ChessBoxR{%
+  {\fboxsep=0pt\fbox{\color{\ChessColorR}\rule{\Side}{\Side}}}}
+\newcommand\ChessBoxS{%
+  {\fboxsep=0pt\fbox{\color{\ChessColorS}\rule{\Side}{\Side}}}}
+\newcommand\ChessBoxT{%
+  {\fboxsep=0pt\fbox{\color{\ChessColorT}\rule{\Side}{\Side}}}}
+\newcommand\ChessBoxU{%
+  {\fboxsep=0pt\fbox{\color{\ChessColorU}\rule{\Side}{\Side}}}}
+\newcommand\ChessBoxV{%
+  {\fboxsep=0pt\fbox{\color{\ChessColorV}\rule{\Side}{\Side}}}}
+\newcommand\ChessBoxW{%
+  {\fboxsep=0pt\fbox{\color{\ChessColorW}\rule{\Side}{\Side}}}}
+\newcommand\ChessBoxX{%
+  {\fboxsep=0pt\fbox{\color{\ChessColorX}\rule{\Side}{\Side}}}}
+\newcommand\ChessBoxY{%
+  {\fboxsep=0pt\fbox{\color{\ChessColorY}\rule{\Side}{\Side}}}}
+\newcommand\ChessBoxZ{%
+  {\fboxsep=0pt\fbox{\color{\ChessColorZ}\rule{\Side}{\Side}}}}
+\newcommand\ChessBoxB{%
+  {\fboxsep=0pt\fbox{\color{\ChessColorB}\rule{\Side}{\Side}}}}
+
+\newcommand\Row[1]{%
+  \par\nobreak\nointerlineskip\vskip-\fboxrule%
+  \@tfor\@tempa:=#1 \do {\csname ChessBox\@tempa\endcsname\kern-\fboxrule}}
+\define@key{chessB}{side}{\def\ChessSide{#1}}
+\define@key{chessB}{colorO}{\def\ChessColorO{#1}}
+\define@key{chessB}{colorP}{\def\ChessColorP{#1}}
+\define@key{chessB}{colorQ}{\def\ChessColorQ{#1}}
+\define@key{chessB}{colorR}{\def\ChessColorR{#1}}
+\define@key{chessB}{colorS}{\def\ChessColorS{#1}}
+\define@key{chessB}{colorT}{\def\ChessColorT{#1}}
+\define@key{chessB}{colorU}{\def\ChessColorU{#1}}
+\define@key{chessB}{colorV}{\def\ChessColorV{#1}}
+\define@key{chessB}{colorW}{\def\ChessColorW{#1}}
+\define@key{chessB}{colorX}{\def\ChessColorX{#1}}
+\define@key{chessB}{colorY}{\def\ChessColorY{#1}}
+\define@key{chessB}{colorZ}{\def\ChessColorZ{#1}}
+\define@key{chessB}{colorB}{\def\ChessColorB{#1}}
+\setkeys{chessB}{
+  side=1.7em,
+  colorO=Maroon,
+  colorP=DarkOrange,
+  colorQ=Brown,
+  colorR=LightSteelBlue,
+  colorS=yellow,
+  colorT=red,
+  colorU=DarkViolet,
+  colorV=CornflowerBlue,
+  colorW=Green,
+  colorX=DeepPink,
+  colorY=green,
+  colorZ=olive,
+  colorB=white}
+
+\newenvironment{Chessboard}[1][]
+  {\setkeys{chessB}{#1}%
+    \begin{center}}
+  {\end{center}}
+
+
+\protected\def\pentominoes#1#2#3#4{%
+  \directlua{pentominoes.draw("#1",#2,#3,#4)}
+}
+

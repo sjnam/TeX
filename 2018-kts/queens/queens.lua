@@ -34,7 +34,8 @@ local function encode (x)
 end
 
 
-local function chessboard (n)
+local function chessboard (n, num)
+   local num = num or 2
    local lines = {}
    local nn = n+n-2
 
@@ -86,7 +87,8 @@ local function chessboard (n)
    local i = 0
    for sol in dlx:dance() do
       i = i + 1
-      if i % 4 == 1 then write("\\begin{center}") end
+      if i > num then break end
+      if i % 2 == 1 then write("\\begin{center}") end
       write(format("\\chessboard[smallboard,style=%dx%d,setwhite={", n, n))
       local opt
       for i=1,#sol-1 do
@@ -96,11 +98,7 @@ local function chessboard (n)
       opt = sol[#sol]
       write(format("Q%c%d", bytea+tonumber(str_sub(opt[1],2)), tonumber(str_sub(opt[2],2))+1))
       write("},showmover=false]\\hfil")
-      if n < 5 then
-         if i % 2 == 0 then write("\\end{center}") end
-      else
-         if i % 4 == 0 then write("\\end{center}") end
-      end
+      if i % 2 == 0 then write("\\end{center}") end
    end
 end
 
