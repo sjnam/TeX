@@ -3,7 +3,7 @@
 
 \documentclass{beamer}
 
-\usefonttheme[onlymath]{serif}
+%\usefonttheme[onlymath]{serif}
 \usetheme{metropolis}
 \metroset{outer/progressbar=head}
 
@@ -15,9 +15,10 @@
 \usepackage{sudoku-dlx}
 \usepackage{queens}
 
+
 % title
-\title{Dancing links 패키지와 그 활용}
-\subtitle{Exact cover 퍼즐 }
+\title{\textsc{Dancing links} 패키지와 그 활용}
+\subtitle{\textsc{Exact cover} 퍼즐 }
 \date{2018년 2월 3일 토요일}
 \author{남수진}
 \institute{
@@ -32,62 +33,214 @@
 \maketitle
 
 %%
-\section{Dancing links}
+\section{\textsc{Dancing links}}
 
 %
-\begin{frame}{Dancing links}
+\begin{frame}{\textsc{Dancing links}}
   \begin{itemize}
-  \item Exact cover 문제 해결 알고리즘에 사용되는 기법
+  \item Exact cover 문제를 해결하는 알고리즘에 사용되는 기법
   \item 백트래킹을 효율적으로 구현하는 방법 ($do$, $undo$ 연산)
   \end{itemize}
 \end{frame}
 
 %%
-\section{Exact cover 문제}
+\section{\textsc{Exact cover} 문제}
 
-\begin{frame}{Exact cover 문제}
-  \[
-  A=
-  \begin{pmatrix*}
+\begin{frame}{Exact cover 문제} 
+  $$
+  \left(\begin{array}{ccccccc}
     0&0&1&0&1&0&0\\
     1&0&0&1&0&0&1\\
     0&1&1&0&0&1&0\\
     1&0&0&1&0&1&0\\
     0&1&0&0&0&0&1\\
     0&0&0&1&1&0&1
-  \end{pmatrix*}
-  \]
+  \end{array}\right)
+  $$
 \end{frame}
 
-\begin{frame}[fragile]{Exact cover 문제}
+\def\az{\alert0}
+\def\ao{\alert1}
+\begin{frame}{Exact cover 문제}
+  $$
+  \left(\begin{array}{ccccccc}
+    \az&\az&\ao&\az&\ao&\az&\az\\
+    1&0&0&1&0&0&1\\
+    0&1&1&0&0&1&0\\
+    \ao&\az&\az&\ao&\az&\ao&\az\\
+    \az&\ao&\az&\az&\az&\az&\ao\\
+    0&0&0&1&1&0&1
+    \end{array}\right)
+$$
+\end{frame}
+
+\begin{frame}{Exact cover 문제}
   \centering
   \begin{figure}[!htb]
     \begin{minipage}{.6\textwidth}
       \centering
-      $\begin{pmatrix*}
-        0&0&1&0&1&0&0\\
-        1&0&0&1&0&0&1\\
-        0&1&1&0&0&1&0\\
-        1&0&0&1&0&1&0\\
-        0&1&0&0&0&0&1\\
-        0&0&0&1&1&0&1
-      \end{pmatrix*}$
+      $\left(\begin{array}{ccccccc}
+    0&0&1&0&1&0&0\\
+    1&0&0&1&0&0&1\\
+    0&1&1&0&0&1&0\\
+    1&0&0&1&0&1&0\\
+    0&1&0&0&0&0&1\\
+    0&0&0&1&1&0&1
+  \end{array}\right)$
     \end{minipage}%
     \begin{minipage}{.4\textwidth}
       \centering
-\begin{verbatim}
-A B C D E F G
-C E
-A D G
-B C F
-A D F
-B G
-D E G
-\end{verbatim}
+  $
+  \begin{array}{ccccccc}
+    A & B & C & D & E & F & G\\
+    C & E &&&&&\\
+    A & D & G &&&&\\
+    B & C & F &&&&\\
+    A & D & F &&&&\\
+    B & G &&&&&\\
+    D & E & G &&&&
+  \end{array}
+  $
     \end{minipage}
 \end{figure}
 \end{frame}
 
+%
+\begin{frame}{Exact cover 문제} 
+  $$
+  \begin{array}{ccccccc}
+    A & B & C & D & E & F & G\\
+    C & E &&&&&\\
+    A & D & G &&&&\\
+    B & C & F &&&&\\
+    A & D & F &&&&\\
+    B & G &&&&&\\
+    D & E & G &&&&
+  \end{array}
+  $$
+\end{frame}
+
+%
+\begin{frame}{Exact cover 문제} 
+  $$
+  \begin{array}{ccccccc}
+    \alert A & B & C & \alert D & E & F & \alert G\\
+    C & E &&&&&\\
+    \alert A & \alert D & \alert G &&&&\\
+    B & C & F &&&&\\
+    A & D & F &&&&\\
+    B & G &&&&&\\
+    D & E & G &&&&
+  \end{array}
+  $$
+\end{frame}
+
+%
+\begin{frame}{Exact cover 문제} 
+  $$
+  \begin{array}{ccccccc}
+    \alert A & B & C & \alert D & E & F & \alert G\\
+    C & E &&&&&\\
+    \alert A & \alert D & \alert G &&&&\\
+    B & C & F &&&&\\
+    &&&&&&\\
+    &&&&&&\\
+    &&&&&&
+  \end{array}
+  $$
+\end{frame}
+
+%
+\begin{frame}{Exact cover 문제} 
+  $$
+  \begin{array}{ccccccc}
+    \alert A & B & \alert C & \alert D & \alert E & F & \alert G\\
+    \alert C & \alert E &&&&&\\
+    \alert A & \alert D & \alert G &&&&\\
+    B & C & F &&&&\\
+    &&&&&&\\
+    &&&&&&\\
+    &&&&&&
+  \end{array}
+  $$
+\end{frame}
+
+%
+\begin{frame}{Exact cover 문제} 
+  $$
+  \begin{array}{ccccccc}
+    \alert A & B & \alert C & \alert D & \alert E & F & \alert G\\
+    \alert C & \alert E &&&&&\\
+    \alert A & \alert D & \alert G &&&&\\
+    &&&&&&\\
+    &&&&&&\\
+    &&&&&&\\
+    &&&&&&
+  \end{array}
+  $$
+\end{frame}
+
+%
+\begin{frame}{Exact cover 문제} 
+  $$
+  \begin{array}{ccccccc}
+    \alert A & B & C & \alert D & E & \alert F & G\\
+    C & E &&&&&\\
+    A & D & G &&&&\\
+    B & C & F &&&&\\
+    \alert A & \alert D & \alert F &&&&\\
+    B & G &&&&&\\
+    D & E & G &&&&
+  \end{array}
+  $$
+\end{frame}
+
+%
+\begin{frame}{Exact cover 문제} 
+  $$
+  \begin{array}{ccccccc}
+    \alert A & B & C & \alert D & E & \alert F & G\\
+    C & E &&&&&\\
+    &&&&&&\\
+    &&&&&&\\
+    \alert A & \alert D & \alert F &&&&\\
+    B & G &&&&&\\
+    &&&&&&
+  \end{array}
+  $$
+\end{frame}
+
+%
+\begin{frame}{Exact cover 문제} 
+  $$
+  \begin{array}{ccccccc}
+    \alert A & B & \alert C & \alert D & \alert E & \alert F & G\\
+    \alert C & \alert E &&&&&\\
+    &&&&&&\\
+    &&&&&&\\
+    \alert A & \alert D & \alert F &&&&\\
+    B & G &&&&&\\
+    &&&&&&
+  \end{array}
+  $$
+\end{frame}
+
+%
+\begin{frame}{Exact cover 문제} 
+  $$
+  \begin{array}{ccccccc}
+    \alert A & \alert B & \alert C & \alert D & \alert E & \alert F & \alert G\\
+    \alert C & \alert E &&&&&\\
+    &&&&&&\\
+    &&&&&&\\
+    \alert A & \alert D & \alert F &&&&\\
+    \alert B & \alert G &&&&&\\
+    &&&&&&
+  \end{array}
+  $$
+\end{frame}
+
+%
 \begin{frame}[fragile]{Algorithm X}
   \begingroup\obeylines
   \baselineskip10pt
@@ -104,9 +257,9 @@ Repeat this algorithm recursively on the reduced matrix~$A$.
 \end{frame}
 
 %
-\begin{frame}{Dancing links}
-\centering\includegraphics[height=8cm]{dlx.jpg}
-\end{frame}
+%\begin{frame}{Dancing links}
+%\centering\includegraphics[height=8cm]{dlx.jpg}
+%\end{frame}
 
 %
 \begin{frame}{lua-dancing-links}
@@ -119,21 +272,34 @@ Repeat this algorithm recursively on the reduced matrix~$A$.
 \vfill
 \end{frame}
 
+%
+\begin{frame}{Exact cover 퍼즐}
+  \begin{itemize}
+  \item Polyominoes
+  \item 수도쿠
+  \item N-Queens
+  \item $\cdots$
+  \end{itemize}
+\end{frame}
+
+
 %%
 \section{Polyominoes}
 
 %
 \begin{frame}{Pentominoes}
-\centering\includegraphics[height=2cm]{3x20.jpg}
-\vspace{10mm}
-\mbox{\hskip-1cm\includegraphics[height=5cm]{pentominoes.jpg}}
+  \vfill
+  \mbox{\hskip-.8cm\includegraphics[height=5cm]{pentominoes.jpg}}
+  \vfill
 \end{frame}
 
 %
-\begin{frame}[fragile]{Pentominoes $3\times20$}
+\begin{frame}[fragile]{Pentominoes}
+\centering\includegraphics[height=2cm]{3x20.jpg}
 \begin{verbatim}
 \usepackage{pentominoes}
-\pentominoes{3x20.dlx}{3}{20}{5}
+\pentominoes{3x20.dlx}{3}{20}
+\pentominoes{8x8_center_hole.dlx}{8}{8}
 \end{verbatim}  
 \end{frame}
 
@@ -166,23 +332,23 @@ Repeat this algorithm recursively on the reduced matrix~$A$.
 \end{frame}
 
 %%
-\section{$N$ Queens puzzle}
+\section{N-Queens puzzle}
 
 %
-\begin{frame}[fragile]{queens}
+\begin{frame}[fragile]{n-queens}
 \begin{verbatim}
 \usepackage{queens}
-\queens{8}{2}
+\queens{8}{2}.
 \end{verbatim}
 \vspace{-10mm}
-\queens{8}{2}
+\queens{8}{2}.
 \end{frame}
 
 %
 \begin{frame}{참고}
   \begin{itemize}
   \item \href{http://www-cs-faculty.stanford.edu/~knuth/fasc5c.ps.gz}
-    {The Art of Computer Programming PRE-FASCICLE 5C}
+    {The Art of Computer Programming \textsc{Pre-Fascicle 5c}}
   \item \href{https://github.com/sjnam/lua-dancing-links}
     {github.com/sjnam/lua-dancing-links}
   \end{itemize}
