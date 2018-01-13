@@ -63,7 +63,7 @@ local function draw (board)
       end
       sprint("\n")
    end
-   sprint("\\end{scope}\n\\end{tikzpicture}")
+   sprint("\\end{scope}\n\\end{tikzpicture}\\qquad")
 end
 
 

@@ -24,9 +24,11 @@
 \def\sudoku@#1{%
   \directlua{sudokudlx.solve(
     \ifx\answ@r Ytrue\else flase\fi, "#1")}
+  \par
 }
 
 \protected\def\Sudoku#1#{%
+  \par\medskip
   \ifx\empty#1\empty
     \let\answ@r N%
   \else

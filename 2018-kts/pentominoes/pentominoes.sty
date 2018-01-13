@@ -56,7 +56,7 @@
   side=1.7em,
   colorO=Maroon,
   colorP=DarkOrange,
-  colorQ=Brown,
+  colorQ=Chocolate,
   colorR=LightSteelBlue,
   colorS=yellow,
   colorT=red,
@@ -65,7 +65,7 @@
   colorW=Green,
   colorX=DeepPink,
   colorY=green,
-  colorZ=olive,
+  colorZ=DarkKhaki,
   colorB=white}
 
 \newenvironment{Chessboard}[1][]
@@ -74,7 +74,9 @@
   {\end{center}}
 
 
-\protected\def\pentominoes#1#2#3#4{%
-  \directlua{pentominoes.draw("#1",#2,#3,#4)}
+\protected\def\pentominoes#1#2#3#4.{%
+  \def\n{#4}
+  \ifx\empty\n \def\n{10000}\fi
+  \directlua{pentominoes.draw("#1",#2,#3,\n)}
 }
 

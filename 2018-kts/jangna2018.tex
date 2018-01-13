@@ -3,8 +3,7 @@
 
 \documentclass{beamer}
 
-%\usefonttheme[onlymath]{serif}
-\usetheme{metropolis}
+\usetheme[titleformat=smallcaps,subsectionpage=progressbar]{metropolis}
 \metroset{outer/progressbar=head}
 
 \usepackage{fancyvrb}
@@ -17,8 +16,8 @@
 
 
 % title
-\title{\textsc{Dancing links} 패키지와 그 활용}
-\subtitle{\textsc{Exact cover} 퍼즐 }
+\title{Dancing links 패키지와 그 활용}
+\subtitle{Exact cover problem }
 \date{2018년 2월 3일 토요일}
 \author{남수진}
 \institute{
@@ -32,11 +31,17 @@
 
 \maketitle
 
+%
+\begin{frame}{목차}
+  \setbeamertemplate{section in toc}[sections numbered]
+  \tableofcontents
+\end{frame}
+
 %%
-\section{\textsc{Dancing links}}
+\section{Dancing links}
 
 %
-\begin{frame}{\textsc{Dancing links}}
+\begin{frame}{Dancing links}
   \begin{itemize}
   \item Exact cover 문제를 해결하는 알고리즘에 사용되는 기법
   \item 백트래킹을 효율적으로 구현하는 방법 ($do$, $undo$ 연산)
@@ -44,9 +49,12 @@
 \end{frame}
 
 %%
-\section{\textsc{Exact cover} 문제}
+\section{Exact cover problem}
 
-\begin{frame}{Exact cover 문제} 
+%
+\begin{frame}{Exact cover problem}
+  0과 1로만 구성된 행렬에서 각 열이 정확히 하나의 1만 갖도록 하는
+  행들의 집합을 구하라.
   $$
   \left(\begin{array}{ccccccc}
     0&0&1&0&1&0&0\\
@@ -61,7 +69,8 @@
 
 \def\az{\alert0}
 \def\ao{\alert1}
-\begin{frame}{Exact cover 문제}
+%
+\begin{frame}{Exact cover problem}
   $$
   \left(\begin{array}{ccccccc}
     \az&\az&\ao&\az&\ao&\az&\az\\
@@ -74,7 +83,8 @@
 $$
 \end{frame}
 
-\begin{frame}{Exact cover 문제}
+%
+\begin{frame}{Exact cover problem}
   \centering
   \begin{figure}[!htb]
     \begin{minipage}{.6\textwidth}
@@ -107,9 +117,8 @@ $$
 \end{frame}
 
 \renewcommand\arraystretch{1.3}
-
 %
-\begin{frame}{Exact cover 문제} 
+\begin{frame}{Exact cover problem} 
   $$
   \begin{array}{ccccccc}
     A & B & C & D & E & F & G\\
@@ -125,7 +134,7 @@ $$
 \end{frame}
 
 %
-\begin{frame}{Exact cover 문제} 
+\begin{frame}{Exact cover problem} 
   $$
   \begin{array}{ccccccc}
     \alert A & B & C & \alert D & E & F & \alert G\\
@@ -141,7 +150,7 @@ $$
 \end{frame}
 
 %
-\begin{frame}{Exact cover 문제} 
+\begin{frame}{Exact cover problem} 
   $$
   \begin{array}{ccccccc}
     \alert A & B & C & \alert D & E & F & \alert G\\
@@ -157,7 +166,7 @@ $$
 \end{frame}
 
 %
-\begin{frame}{Exact cover 문제} 
+\begin{frame}{Exact cover problem} 
   $$
   \begin{array}{ccccccc}
     \alert A & B & \alert C & \alert D & \alert E & F & \alert G\\
@@ -173,7 +182,7 @@ $$
 \end{frame}
 
 %
-\begin{frame}{Exact cover 문제} 
+\begin{frame}{Exact cover problem} 
   $$
   \begin{array}{ccccccc}
     \alert A & B & \alert C & \alert D & \alert E & F & \alert G\\
@@ -189,7 +198,7 @@ $$
 \end{frame}
 
 %
-\begin{frame}{Exact cover 문제} 
+\begin{frame}{Exact cover problem} 
   $$
   \begin{array}{ccccccc}
     \alert A & B & C & \alert D & E & \alert F & G\\
@@ -205,7 +214,7 @@ $$
 \end{frame}
 
 %
-\begin{frame}{Exact cover 문제} 
+\begin{frame}{Exact cover problem} 
   $$
   \begin{array}{ccccccc}
     \alert A & B & C & \alert D & E & \alert F & G\\
@@ -221,7 +230,7 @@ $$
 \end{frame}
 
 %
-\begin{frame}{Exact cover 문제} 
+\begin{frame}{Exact cover problem} 
   $$
   \begin{array}{ccccccc}
     \alert A & B & \alert C & \alert D & \alert E & \alert F & G\\
@@ -237,10 +246,11 @@ $$
 \end{frame}
 
 %
-\begin{frame}{Exact cover 문제} 
+\begin{frame}{Exact cover problem} 
   $$
   \begin{array}{ccccccc}
-    \alert A & \alert B & \alert C & \alert D & \alert E & \alert F & \alert G\\
+    \alert A & \alert B & \alert C & \alert D
+    & \alert E & \alert F & \alert G\\
     \hline
     \alert C & \alert E &&&&&\\
     &&&&&&\\
@@ -253,28 +263,12 @@ $$
 \end{frame}
 
 %
-\begin{frame}[fragile]{Algorithm X}
-  \begingroup\obeylines
-  \baselineskip10pt
-If $A$ is empty, the problem is solved; terminate successfully.
-Otherwise choose a column, $c$ (deterministically).
-Choose a row, $r$, such that $A[r,c]=1$ (nondeterministically).
-Include $r$ in the partial solution.
-For each $j$ such that $A[r,j]=1$,
-\qquad delete column $j$ from matrix~$A$;
-\qquad for each $i$ such that $A[i,j]=1$,
-\qquad\qquad delete row $i$ from matrix~$A$.
-Repeat this algorithm recursively on the reduced matrix~$A$.
-\endgroup
-\end{frame}
-
-%
 %\begin{frame}{Dancing links}
 %\centering\includegraphics[height=8cm]{dlx.jpg}
 %\end{frame}
 
 %
-\begin{frame}{lua-dancing-links}
+\begin{frame}{\texttt{lua-dancing-links}}
 \vfill
 \begin{center}
 \Large
@@ -284,19 +278,8 @@ Repeat this algorithm recursively on the reduced matrix~$A$.
 \vfill
 \end{frame}
 
-%
-\begin{frame}{Exact cover 퍼즐}
-  \begin{itemize}
-  \item Polyominoes
-  \item 수도쿠
-  \item N-Queens
-  \item $\cdots$
-  \end{itemize}
-\end{frame}
-
-
 %%
-\section{Polyominoes}
+\subsection{Polyominoes}
 
 %
 \begin{frame}{Pentominoes}
@@ -311,7 +294,7 @@ Repeat this algorithm recursively on the reduced matrix~$A$.
 \begin{verbatim}
 \usepackage{pentominoes}
 
-\pentominoes{3x20.dlx}{3}{20}
+\pentominoes{3x20.dlx}{3}{20}.
 \end{verbatim}  
 \end{frame}
 
@@ -319,15 +302,15 @@ Repeat this algorithm recursively on the reduced matrix~$A$.
 \begin{frame}[fragile]{Pentominoes $8\times8$ with center hole}
 \centering\includegraphics[height=5cm]{8x8.jpg}
 \begin{verbatim}
-\pentominoes{8x8_center_hole.dlx}{8}{8}
+\pentominoes{8x8_center_hole.dlx}{8}{8}.
 \end{verbatim}  
 \end{frame}
 
 %%
-\section{수도쿠}
+\subsection{Sudoku}
 
 %
-\begin{frame}[fragile]{수도쿠}
+\begin{frame}[fragile]{Sudoku}
 \begin{verbatim}
 \usepackage{sudoku-dlx}
 \Sudoku{9.......6.3.4....9...915.8..8.5..7..%
@@ -340,7 +323,7 @@ Repeat this algorithm recursively on the reduced matrix~$A$.
 \end{frame}
 
 %
-\begin{frame}[fragile]{수도쿠}
+\begin{frame}[fragile]{Sudoku}
 \begin{verbatim}
 \Sudoku*{9.......6.3.4....9...915.8..8.5..7..%
 ..3.9.4....2..1.9.32176....6..1.2.3.8...5...1}
@@ -352,7 +335,7 @@ Repeat this algorithm recursively on the reduced matrix~$A$.
 \end{frame}
 
 %%
-\section{N-Queens puzzle}
+\subsection{N-Queens puzzle}
 
 %
 \begin{frame}[fragile]{n-queens}
