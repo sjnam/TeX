@@ -1,5 +1,5 @@
 % 2018 KTS
-% Dancing links 패키지와 그 활용
+% Dancing links package
 
 \documentclass[xcolor=svgnames]{beamer}
 
@@ -7,10 +7,8 @@
 \metroset{outer/progressbar=head}
 
 \usepackage{fancyvrb}
-\usepackage{kotex}
 \hypersetup{pdfencoding=auto}
 
-\usepackage{mathtools}
 \usepackage{sudoku-dlx}
 \usepackage{pentominoes}
 \usepackage{queens}
@@ -19,11 +17,9 @@
 % title
 \title{Dancing links package}
 \subtitle{Exact cover problem }
-\date{2018년 2월 3일 토요일}
-\author{남수진}
-\institute{
-  2018 한국텍학회 학술대회 및 정기총회 \\
-  판교 스타트업캠퍼스 1동 2 층, 세미나실 1}
+%\date{2018년 2월 3일 토요일}
+\author{Soojin Nam}
+\institute{The Koreak \TeX\ Society}
 \titlegraphic{\hfill\includegraphics[height=3cm]{imgs/meta.pdf}}
 
 
@@ -38,25 +34,28 @@
   \tableofcontents
 \end{frame}
 
+
 %%
 \section{Dancing links}
 
 %
 \begin{frame}{Dancing links}
   \begin{itemize}
-  \item Exact cover 문제를 해결하는 알고리즘에 사용되는 기법
-  \item 백트래킹을 효율적으로 구현하는 방법 ($do$, $undo$ 연산)
+  \item A technique that efficiently implements
+    \textsc{Algorithm X}
+  \item \textsc{Algorithm X} finds all solutions to the exact cover problem.
   \end{itemize}
   \centering\includegraphics[height=6cm]{imgs/dlx.jpg}
 \end{frame}
+
 
 %%
 \section{Exact cover problem}
 
 %
 \begin{frame}{Exact cover problem}
-  0과 1로만 구성된 행렬에서 각 열이 정확히 하나의 1만 갖도록 하는
-  행들의 집합을 구하라.
+  Given a matrix of 0s and 1s, does it have a set of rows
+  containing exactly one 1 in each column? For example, the matrix
   $$
   \left(\begin{array}{ccccccc}
     0&0&1&0&1&0&0\\
@@ -73,8 +72,8 @@
 \def\ao{\alert1}
 %
 \begin{frame}{Exact cover problem}
-  0과 1로만 구성된 행렬에서 각 열이 정확히 하나의 1만 갖도록 하는
-  행들의 집합을 구하라.
+  Given a matrix of 0s and 1s, does it have a set of rows
+  containing exactly one 1 in each column? For example, the matrix
   $$
   \left(\begin{array}{ccccccc}
     \az&\az&\ao&\az&\ao&\az&\az\\
@@ -277,6 +276,7 @@ $$
 \vfill
 \end{frame}
 
+
 %%
 \subsection{Pentominoes}
 
@@ -295,6 +295,7 @@ $$
 \begin{frame}{Pentominoes, 8x8}
 \pentominoes{2em}{8}{8}{1}.
 \end{frame}
+
 
 %%
 \subsection{Sudoku}
@@ -323,6 +324,7 @@ $$
 \end{center}
 \end{frame}
 
+
 %%
 \subsection{N-Queens}
 
@@ -336,6 +338,7 @@ $$
 \queens{8}{2}.
 \end{frame}
 
+
 %
 \begin{frame}{References}
   \begin{itemize}
@@ -348,7 +351,7 @@ $$
 
 %
 \begin{frame}[standout]
-  질문?
+  Questions?
 \end{frame}
 
 \end{document}
