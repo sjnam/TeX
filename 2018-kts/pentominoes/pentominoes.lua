@@ -22,7 +22,7 @@ local tonumber = tonumber
 local str_sub = string.sub
 
 
-local function draw (nr, nc, num)
+local function draw (side, nr, nc, num)
    local num = num or 1
    local fname = nr.."x"..nc..".dlx"
    local lines = {}
@@ -54,7 +54,7 @@ local function draw (nr, nc, num)
 
 
       local nr, nc = nr-1, nc-1
-      sprint("\\begin{Chessboard}\n")
+      sprint("\\begin{Chessboard}[side="..side.."]\n")
       for j=0,nr do
          sprint("\\Row{")
          for k=0,nc-1 do

@@ -2,7 +2,7 @@
 \ProvidesPackage{pentominoes}[2018/01/10 v0.1 Pentominoes]
 
 \RequirePackage{luatexbase}
-\RequirePackage[svgnames]{xcolor}
+\@ifpackageloaded{xcolor}{}{\RequirePackage[svgnames]{xcolor}}
 \RequirePackage{keyval}
 
 \directlua{require "pentominoes"}
@@ -53,7 +53,7 @@
 \define@key{chessB}{colorZ}{\def\ChessColorZ{#1}}
 \define@key{chessB}{colorB}{\def\ChessColorB{#1}}
 \setkeys{chessB}{
-  side=1.7em,
+  side=1.3em,
   colorO=Maroon,
   colorP=DarkOrange,
   colorQ=Chocolate,
@@ -70,13 +70,13 @@
 
 \newenvironment{Chessboard}[1][]
   {\setkeys{chessB}{#1}%
-    \begin{center}}
+    \begin{center}\parskip0pt}
   {\end{center}}
 
 
-\protected\def\pentominoes#1#2#3.{%
-  \def\n{#3}
+\protected\def\pentominoes#1#2#3#4.{%
+  \def\n{#4}
   \ifx\empty\n \def\n{10000}\fi
-  \directlua{pentominoes.draw(#1,#2,\n)}
+  \directlua{pentominoes.draw("#1",#2,#3,\n)}
 }
 

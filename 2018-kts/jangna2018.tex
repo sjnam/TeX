@@ -1,7 +1,7 @@
 % 2018 KTS
 % Dancing links 패키지와 그 활용
 
-\documentclass{beamer}
+\documentclass[xcolor=svgnames]{beamer}
 
 \usetheme[titleformat=smallcaps,subsectionpage=progressbar]{metropolis}
 \metroset{outer/progressbar=head}
@@ -12,6 +12,7 @@
 
 \usepackage{mathtools}
 \usepackage{sudoku-dlx}
+\usepackage{pentominoes}
 \usepackage{queens}
 
 
@@ -280,22 +281,19 @@ $$
 \subsection{Pentominoes}
 
 %
-%\begin{frame}{Pentominoes}
-%  \vfill
-%  \begin{center}
-%  \mbox{\includegraphics[height=5cm]{imgs/pentominoes.jpg}}
-%  \end{center}
-%  \vfill
-%\end{frame}
-
-%
 \begin{frame}[fragile]{Pentominoes}
-\centering\includegraphics[height=2cm]{imgs/3x20.jpg}
 \begin{verbatim}
 \usepackage{pentominoes}
-
-\pentominoes{3}{20}.
+\pentominoes{1.4em}{3}{20}.
 \end{verbatim}  
+
+\pentominoes{1.4em}{3}{20}{1}.
+
+\end{frame}
+
+%
+\begin{frame}{Pentominoes, 8x8}
+\pentominoes{2em}{8}{8}{1}.
 \end{frame}
 
 %%
