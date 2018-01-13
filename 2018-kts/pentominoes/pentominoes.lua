@@ -22,8 +22,9 @@ local tonumber = tonumber
 local str_sub = string.sub
 
 
-local function draw (fname, nr, nc, num)
+local function draw (nr, nc, num)
    local num = num or 1
+   local fname = nr.."x"..nc..".dlx"
    local lines = {}
    for line in io.lines(fname) do
       lines[#lines+1] = line

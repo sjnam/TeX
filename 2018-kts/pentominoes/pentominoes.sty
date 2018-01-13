@@ -74,9 +74,9 @@
   {\end{center}}
 
 
-\protected\def\pentominoes#1#2#3#4.{%
-  \def\n{#4}
+\protected\def\pentominoes#1#2#3.{%
+  \def\n{#3}
   \ifx\empty\n \def\n{10000}\fi
-  \directlua{pentominoes.draw("#1",#2,#3,\n)}
+  \directlua{pentominoes.draw(#1,#2,\n)}
 }
 
