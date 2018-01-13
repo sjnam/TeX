@@ -135,7 +135,7 @@ local function solve (puzzle)
       end
       for _, opt in ipairs(sol) do
          local pos = tonumber(str_match(opt[1], "p(%d+)"))
-         brd[floor(pos/10)+1 ][pos%10+1] = str_sub(opt[2], 3)
+         brd[floor(pos/10)+1 ][pos%10+1] = "\\color{blue}"..str_sub(opt[2], 3)
       end
       co_yield(brd)
    end
