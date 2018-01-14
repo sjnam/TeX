@@ -51,7 +51,7 @@ end
 local function draw (board)
    sprint([[
 \begin{tikzpicture}[scale=.7]
-\begin{scope}
+\begin{scope}[font=\sffamily]
 \draw (0, 0) grid (9, 9);
 \draw[very thick, scale=3] (0, 0) grid (3, 3);
 \setcounter{row}{1}

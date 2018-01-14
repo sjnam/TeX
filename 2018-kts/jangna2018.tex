@@ -1,3 +1,4 @@
+
 % 2018 KTS
 % Dancing links package
 
@@ -20,7 +21,7 @@
 \date{February 3, 2018}
 \author{Soojin Nam}
 \institute{The Korean \TeX\ Society}
-\titlegraphic{\hfill\includegraphics[height=3.5cm]{imgs/cdance-4.png}}
+\titlegraphic{\hfill\includegraphics[height=3cm]{imgs/cdance-4.png}}
 
 
 %%
@@ -69,19 +70,18 @@
   $$
 \end{frame}
 
-\def\az{\alert0}
-\def\ao{\alert1}
+\let\a\alert
 %
 \begin{frame}{Exact cover problem}
   Given a matrix of 0s and 1s, does it have a set of rows
   containing exactly one 1 in each column? For example, the matrix
   $$
   \left(\begin{array}{ccccccc}
-    \az&\az&\ao&\az&\ao&\az&\az\\
+    \a0&\a0&\a1&\a0&\a1&\a0&\a0\\
     1&0&0&1&0&0&1\\
     0&1&1&0&0&1&0\\
-    \ao&\az&\az&\ao&\az&\ao&\az\\
-    \az&\ao&\az&\az&\az&\az&\ao\\
+    \a1&\a0&\a0&\a1&\a0&\a1&\a0\\
+    \a0&\a1&\a0&\a0&\a0&\a0&\a1\\
     0&0&0&1&1&0&1
     \end{array}\right)
 $$
@@ -141,10 +141,10 @@ $$
 \begin{frame}{Exact cover problem} 
   $$
   \begin{array}{ccccccc}
-    \alert A & B & C & \alert D & E & F & \alert G\\
+    \a A & B & C & \a D & E & F & \a G\\
     \hline
     C & E &&&&&\\
-    \alert A & \alert D & \alert G &&&&\\
+    \a A & \a D & \a G &&&&\\
     B & C & F &&&&\\
     A & D & F &&&&\\
     B & G &&&&&\\
@@ -157,10 +157,10 @@ $$
 \begin{frame}{Exact cover problem} 
   $$
   \begin{array}{ccccccc}
-    \alert A & B & C & \alert D & E & F & \alert G\\
+    \a A & B & C & \a D & E & F & \a G\\
     \hline
     C & E &&&&&\\
-    \alert A & \alert D & \alert G &&&&\\
+    \a A & \a D & \a G &&&&\\
     B & C & F &&&&\\
     &&&&&&\\
     &&&&&&\\
@@ -173,10 +173,10 @@ $$
 \begin{frame}{Exact cover problem} 
   $$
   \begin{array}{ccccccc}
-    \alert A & B & \alert C & \alert D & \alert E & F & \alert G\\
+    \a A & B & \a C & \a D & \a E & F & \a G\\
     \hline
-    \alert C & \alert E &&&&&\\
-    \alert A & \alert D & \alert G &&&&\\
+    \a C & \a E &&&&&\\
+    \a A & \a D & \a G &&&&\\
     B & C & F &&&&\\
     &&&&&&\\
     &&&&&&\\
@@ -189,10 +189,10 @@ $$
 \begin{frame}{Exact cover problem} 
   $$
   \begin{array}{ccccccc}
-    \alert A & B & \alert C & \alert D & \alert E & F & \alert G\\
+    \a A & B & \a C & \a D & \a E & F & \a G\\
     \hline
-    \alert C & \alert E &&&&&\\
-    \alert A & \alert D & \alert G &&&&\\
+    \a C & \a E &&&&&\\
+    \a A & \a D & \a G &&&&\\
     &&&&&&\\
     &&&&&&\\
     &&&&&&\\
@@ -205,12 +205,12 @@ $$
 \begin{frame}{Exact cover problem} 
   $$
   \begin{array}{ccccccc}
-    \alert A & B & C & \alert D & E & \alert F & G\\
+    \a A & B & C & \a D & E & \a F & G\\
     \hline
     C & E &&&&&\\
     A & D & G &&&&\\
     B & C & F &&&&\\
-    \alert A & \alert D & \alert F &&&&\\
+    \a A & \a D & \a F &&&&\\
     B & G &&&&&\\
     D & E & G &&&&
   \end{array}
@@ -221,12 +221,12 @@ $$
 \begin{frame}{Exact cover problem} 
   $$
   \begin{array}{ccccccc}
-    \alert A & B & C & \alert D & E & \alert F & G\\
+    \a A & B & C & \a D & E & \a F & G\\
     \hline
     C & E &&&&&\\
     &&&&&&\\
     &&&&&&\\
-    \alert A & \alert D & \alert F &&&&\\
+    \a A & \a D & \a F &&&&\\
     B & G &&&&&\\
     &&&&&&
   \end{array}
@@ -237,12 +237,12 @@ $$
 \begin{frame}{Exact cover problem} 
   $$
   \begin{array}{ccccccc}
-    \alert A & B & \alert C & \alert D & \alert E & \alert F & G\\
+    \a A & B & \a C & \a D & \a E & \a F & G\\
     \hline
-    \alert C & \alert E &&&&&\\
+    \a C & \a E &&&&&\\
     &&&&&&\\
     &&&&&&\\
-    \alert A & \alert D & \alert F &&&&\\
+    \a A & \a D & \a F &&&&\\
     B & G &&&&&\\
     &&&&&&
   \end{array}
@@ -253,14 +253,14 @@ $$
 \begin{frame}{Exact cover problem} 
   $$
   \begin{array}{ccccccc}
-    \alert A & \alert B & \alert C & \alert D
-    & \alert E & \alert F & \alert G\\
+    \a A & \a B & \a C & \a D
+    & \a E & \a F & \a G\\
     \hline
-    \alert C & \alert E &&&&&\\
+    \a C & \a E &&&&&\\
     &&&&&&\\
     &&&&&&\\
-    \alert A & \alert D & \alert F &&&&\\
-    \alert B & \alert G &&&&&\\
+    \a A & \a D & \a F &&&&\\
+    \a B & \a G &&&&&\\
     &&&&&&
   \end{array}
   $$
@@ -316,7 +316,8 @@ $$
 ..3.9.4....2..1.9.32176....6..1.2.3.8...5...1}
 \end{verbatim}  
 \begin{center}
-  \sudoku{9.......6.3.4....9...915.8..8.5..7....3.9.4....2..1.9.32176....6..1.2.3.8...5...1}
+  \sudoku{9.......6.3.4....9...915.8..8.5..7..%
+    ..3.9.4....2..1.9.32176....6..1.2.3.8...5...1}
 \end{center}
 \end{frame}
 
@@ -327,7 +328,8 @@ $$
 ..3.9.4....2..1.9.32176....6..1.2.3.8...5...1}
 \end{verbatim}
 \begin{center}
-  \sudoku*{9.......6.3.4....9...915.8..8.5..7....3.9.4....2..1.9.32176....6..1.2.3.8...5...1}
+  \sudoku*{9.......6.3.4....9...915.8..8.5..7..%
+    ..3.9.4....2..1.9.32176....6..1.2.3.8...5...1}
 \end{center}
 \end{frame}
 
