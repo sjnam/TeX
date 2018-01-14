@@ -50,7 +50,7 @@ end
 
 local function draw (board)
    sprint([[
-\begin{tikzpicture}[scale=.6]
+\begin{tikzpicture}[scale=.7]
 \begin{scope}
 \draw (0, 0) grid (9, 9);
 \draw[very thick, scale=3] (0, 0) grid (3, 3);

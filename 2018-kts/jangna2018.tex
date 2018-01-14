@@ -16,11 +16,11 @@
 
 % title
 \title{Dancing links package}
-\subtitle{Exact cover problem }
-%\date{2018년 2월 3일 토요일}
+\subtitle{Exact cover puzzle with Lua\TeX }
+\date{February 3, 2018}
 \author{Soojin Nam}
-\institute{The Koreak \TeX\ Society}
-\titlegraphic{\hfill\includegraphics[height=3cm]{imgs/meta.pdf}}
+\institute{The Korean \TeX\ Society}
+\titlegraphic{\hfill\includegraphics[height=3.5cm]{imgs/cdance-4.png}}
 
 
 %%
@@ -43,9 +43,10 @@
   \begin{itemize}
   \item A technique that efficiently implements
     \textsc{Algorithm X}
-  \item \textsc{Algorithm X} finds all solutions to the exact cover problem.
+  \item \textsc{Algorithm X} finds all solutions to
+    the exact cover problem.
   \end{itemize}
-  \centering\includegraphics[height=6cm]{imgs/dlx.jpg}
+  \centering\includegraphics[height=6.5cm]{imgs/cdance-4.png}
 \end{frame}
 
 
@@ -267,13 +268,21 @@ $$
 
 %
 \begin{frame}{\texttt{lua-dancing-links}}
-\vfill
 \begin{center}
-\Large
   \href{https://github.com/sjnam/lua-dancing-links}
-    {github.com/sjnam/lua-dancing-links}
+       {github.com/sjnam/lua-dancing-links}
 \end{center}
-\vfill
+  $$
+  \begin{array}{ccccccc}
+    A & B & C & D & E & F & G\\
+    C & E &&&&&\\
+    A & D & G &&&&\\
+    B & C & F &&&&\\
+    A & D & F &&&&\\
+    B & G &&&&&\\
+    D & E & G &&&&
+  \end{array}
+  $$
 \end{frame}
 
 
@@ -284,10 +293,10 @@ $$
 \begin{frame}[fragile]{Pentominoes}
 \begin{verbatim}
 \usepackage{pentominoes}
-\pentominoes{1.4em}{3}{20}.
+\pentominoes{2em}{6}{10}{1}.
 \end{verbatim}  
 
-\pentominoes{1.4em}{3}{20}{1}.
+\pentominoes{2em}{6}{10}{1}.
 
 \end{frame}
 
@@ -306,7 +315,6 @@ $$
 \sudoku {9.......6.3.4....9...915.8..8.5..7..%
 ..3.9.4....2..1.9.32176....6..1.2.3.8...5...1}
 \end{verbatim}  
-
 \begin{center}
   \sudoku{9.......6.3.4....9...915.8..8.5..7....3.9.4....2..1.9.32176....6..1.2.3.8...5...1}
 \end{center}
@@ -318,7 +326,6 @@ $$
 \sudoku*{9.......6.3.4....9...915.8..8.5..7..%
 ..3.9.4....2..1.9.32176....6..1.2.3.8...5...1}
 \end{verbatim}
-
 \begin{center}
   \sudoku*{9.......6.3.4....9...915.8..8.5..7....3.9.4....2..1.9.32176....6..1.2.3.8...5...1}
 \end{center}
