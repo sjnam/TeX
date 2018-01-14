@@ -5,7 +5,7 @@ luatexbase.provides_module({
   name        = 'queens',
   date        = '2018/01/10',
   version     = 0.1,
-  description = 'n Queens by DLX',
+  description = 'N-Queens by DLX',
   author      = 'Soojin Nam',
   license     = 'public domain',
 })
@@ -82,7 +82,8 @@ local function chessboard (n, num)
       return
    end
 
-   write(format("\\storechessboardstyle{%dx%d}{maxfield=%c%d}\n", n, n, bytea+n-1, n))
+   write(format("\\storechessboardstyle{%dx%d}{maxfield=%c%d}\n",
+                n, n, bytea+n-1, n))
 
    local i = 0
    for sol in dlx:dance() do
@@ -93,10 +94,14 @@ local function chessboard (n, num)
       local opt
       for i=1,#sol-1 do
          opt = sol[i]
-         write(format("Q%c%d,", bytea+tonumber(str_sub(opt[1],2)), tonumber(str_sub(opt[2],2))+1))
+         write(format("Q%c%d,",
+                      bytea+tonumber(str_sub(opt[1],2)),
+                      tonumber(str_sub(opt[2],2))+1))
       end
       opt = sol[#sol]
-      write(format("Q%c%d", bytea+tonumber(str_sub(opt[1],2)), tonumber(str_sub(opt[2],2))+1))
+      write(format("Q%c%d",
+                   bytea+tonumber(str_sub(opt[1],2)),
+                   tonumber(str_sub(opt[2],2))+1))
       write("},showmover=false]\\hfil")
       if i % 2 == 0 then write("\\end{center}") end
    end
