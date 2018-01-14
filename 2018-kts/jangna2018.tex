@@ -21,7 +21,7 @@
 \date{February 3, 2018}
 \author{Soojin Nam}
 \institute{The Korean \TeX\ Society}
-\titlegraphic{\hfill\includegraphics[height=3.2cm]{cdance-4.png}}
+\titlegraphic{\hfill\includegraphics[height=3.2cm]{imgs/cdance-4.png}}
 
 
 %%
@@ -37,75 +37,85 @@
 
 
 %%
-\section{Dancing links}
-
-%
-\begin{frame}{Dancing links}
-  \begin{itemize}
-  \item A technique that efficiently implements
-    \textsc{Algorithm X}
-  \item \textsc{Algorithm X} finds all solutions to
-    the exact cover problem.
-  \end{itemize}
-  \centering\includegraphics[height=6.5cm]{cdance-4.png}
-\end{frame}
-
-
-%%
 \section{Exact cover problem}
-
-%
-\begin{frame}{Exact cover problem}
-%  Given a matrix of 0s and 1s, does it have a set of rows
-%  containing exactly one 1 in each column? For example, the matrix
-\Large\boldmath
-$$
-  \left(\begin{array}{ccccccc}
-    0&0&1&0&1&0&0\\
-    1&0&0&1&0&0&1\\
-    0&1&1&0&0&1&0\\
-    1&0&0&1&0&1&0\\
-    0&1&0&0&0&0&1\\
-    0&0&0&1&1&0&1
-  \end{array}\right)
-  $$
-\end{frame}
 
 \let\a\alert
 %
 \begin{frame}{Exact cover problem}
-%  Given a matrix of 0s and 1s, does it have a set of rows
-%  containing exactly one 1 in each column? For example, the matrix
 \Large\boldmath
-  $$
-  \left(\begin{array}{ccccccc}
-    \a0&\a0&\a1&\a0&\a1&\a0&\a0\\
-    1&0&0&1&0&0&1\\
-    0&1&1&0&0&1&0\\
-    \a1&\a0&\a0&\a1&\a0&\a1&\a0\\
-    \a0&\a1&\a0&\a0&\a0&\a0&\a1\\
-    0&0&0&1&1&0&1
-    \end{array}\right)
+$$
+\bordermatrix{
+  \strut&&&&&&&\cr
+  &0&0&1&0&1&0&0\cr
+  &1&0&0&1&0&0&1\cr
+  &0&1&1&0&0&1&0\cr
+  &1&0&0&1&0&1&0\cr
+  &0&1&0&0&0&0&1\cr
+  &0&0&0&1&1&0&1}
 $$
 \end{frame}
 
 %
 \begin{frame}{Exact cover problem}
 \Large\boldmath
-  \centering
+$$
+\bordermatrix{
+  &2&2&2&3&2&2&3\cr
+  &0&0&1&0&1&0&0\cr
+  &1&0&0&1&0&0&1\cr
+  &0&1&1&0&0&1&0\cr
+  &1&0&0&1&0&1&0\cr
+  &0&1&0&0&0&0&1\cr
+  &0&0&0&1&1&0&1}
+$$
+\end{frame}
+
+%
+\begin{frame}{Exact cover problem}
+\Large\boldmath
+$$
+\bordermatrix{
+  &1&1&1&1&1&1&1\cr
+  &0&0&1&0&1&0&0\cr
+  &1&0&0&1&0&0&1\cr
+  &0&1&1&0&0&1&0\cr
+  &1&0&0&1&0&1&0\cr
+  &0&1&0&0&0&0&1\cr
+  &0&0&0&1&1&0&1}
+$$
+\end{frame}
+
+%
+\begin{frame}{Exact cover problem}
+\Large\boldmath
+$$
+\bordermatrix{
+  &1&1&1&1&1&1&1\cr
+  &\a0&\a0&\a1&\a0&\a1&\a0&\a0\cr
+  &1&0&0&1&0&0&1\cr
+  &0&1&1&0&0&1&0\cr
+  &\a1&\a0&\a0&\a1&\a0&\a1&\a0\cr
+  &\a0&\a1&\a0&\a0&\a0&\a0&\a1\cr
+  &0&0&0&1&1&0&1}
+$$
+\end{frame}
+
+%
+\begin{frame}{Exact cover problem}
+\Large\boldmath
   \begin{figure}[!htb]
-    \begin{minipage}{.6\textwidth}
+    \hskip-17mm\begin{minipage}{.7\textwidth}
       \centering
-      $\left(\begin{array}{ccccccc}
-    0&0&1&0&1&0&0\\
-    1&0&0&1&0&0&1\\
-    0&1&1&0&0&1&0\\
-    1&0&0&1&0&1&0\\
-    0&1&0&0&0&0&1\\
-    0&0&0&1&1&0&1
-  \end{array}\right)\ \Rightarrow$
+      $\bordermatrix{
+  \strut&&&&&&&\cr
+  &0&0&1&0&1&0&0\cr
+  &1&0&0&1&0&0&1\cr
+  &0&1&1&0&0&1&0\cr
+  &1&0&0&1&0&1&0\cr
+  &0&1&0&0&0&0&1\cr
+  &0&0&0&1&1&0&1}\ \Rightarrow$
     \end{minipage}%
-    \begin{minipage}{.4\textwidth}
+    \begin{minipage}{.3\textwidth}
       \centering
   $
   \begin{array}{ccccccc}
@@ -125,7 +135,7 @@ $$
 
 \renewcommand\arraystretch{1.3}
 %
-\begin{frame}{Exact cover problem} 
+\begin{frame}{Algorithm X}
 \Large\boldmath
   $$
   \begin{array}{ccccccc}
@@ -142,7 +152,7 @@ $$
 \end{frame}
 
 %
-\begin{frame}{Exact cover problem} 
+\begin{frame}{Algorithm X}
 \Large\boldmath
   $$
   \begin{array}{ccccccc}
@@ -158,8 +168,9 @@ $$
   $$
 \end{frame}
 
+\def\lg{\color{LightGray}}
 %
-\begin{frame}{Exact cover problem} 
+\begin{frame}{Algorithm X}
 \Large\boldmath
   $$
   \begin{array}{ccccccc}
@@ -168,15 +179,15 @@ $$
     C & E &&&&&\\
     \a A & \a D & \a G &&&&\\
     B & C & F &&&&\\
-    &&&&&&\\
-    &&&&&&\\
-    &&&&&&
+    \lg A & \lg D & \lg F &&&&\\
+    \lg B & \lg G &&&&&\\
+    \lg D & \lg E & \lg G &&&&
   \end{array}
   $$
 \end{frame}
 
 %
-\begin{frame}{Exact cover problem} 
+\begin{frame}{Algorithm X}
 \Large\boldmath
   $$
   \begin{array}{ccccccc}
@@ -185,32 +196,49 @@ $$
     \a C & \a E &&&&&\\
     \a A & \a D & \a G &&&&\\
     B & C & F &&&&\\
-    &&&&&&\\
-    &&&&&&\\
-    &&&&&&
+    \lg A & \lg D & \lg F &&&&\\
+    \lg B & \lg G &&&&&\\
+    \lg D & \lg E & \lg G &&&&
   \end{array}
   $$
 \end{frame}
 
 %
-\begin{frame}{Exact cover problem} 
-\Large\boldmath
+\begin{frame}{Algorithm X}
+  \Large\boldmath
   $$
   \begin{array}{ccccccc}
     \a A & B & \a C & \a D & \a E & F & \a G\\
     \hline
     \a C & \a E &&&&&\\
     \a A & \a D & \a G &&&&\\
-    &&&&&&\\
-    &&&&&&\\
-    &&&&&&\\
-    &&&&&&
+    \lg B & \lg C & \lg F &&&&\\
+    \lg A & \lg D & \lg F &&&&\\
+    \lg B & \lg G &&&&&\\
+    \lg D & \lg E & \lg G &&&&
   \end{array}
   $$
 \end{frame}
 
 %
-\begin{frame}{Exact cover problem} 
+\begin{frame}{Algorithm X}
+\Large\boldmath
+  $$
+  \begin{array}{ccccccc}
+    A & B & C & D & E & F & G\\
+    \hline
+    C & E &&&&&\\
+    A & D & G &&&&\\
+    B & C & F &&&&\\
+    A & D & F &&&&\\
+    B & G &&&&&\\
+    D & E & G &&&&
+  \end{array}
+  $$
+\end{frame}
+
+%
+\begin{frame}{Algorithm X}
 \Large\boldmath
   $$
   \begin{array}{ccccccc}
@@ -227,55 +255,108 @@ $$
 \end{frame}
 
 %
-\begin{frame}{Exact cover problem} 
+\begin{frame}{Algorithm X}
 \Large\boldmath
   $$
   \begin{array}{ccccccc}
     \a A & B & C & \a D & E & \a F & G\\
     \hline
     C & E &&&&&\\
-    &&&&&&\\
-    &&&&&&\\
+    \lg A & \lg D & \lg G &&&&\\
+    \lg B & \lg C & \lg F &&&&\\
     \a A & \a D & \a F &&&&\\
     B & G &&&&&\\
-    &&&&&&
+    \lg D & \lg E & \lg G &&&&
   \end{array}
   $$
 \end{frame}
 
 %
-\begin{frame}{Exact cover problem} 
+\begin{frame}{Algorithm X}
 \Large\boldmath
   $$
   \begin{array}{ccccccc}
     \a A & B & \a C & \a D & \a E & \a F & G\\
     \hline
     \a C & \a E &&&&&\\
-    &&&&&&\\
-    &&&&&&\\
+    \lg A & \lg D & \lg G &&&&\\
+    \lg B & \lg C & \lg F &&&&\\
     \a A & \a D & \a F &&&&\\
     B & G &&&&&\\
-    &&&&&&
+    \lg D & \lg E & \lg G &&&&
   \end{array}
   $$
 \end{frame}
 
 %
-\begin{frame}{Exact cover problem} 
+\begin{frame}{Algorithm X}
+\Large\boldmath
+$$
+  \begin{array}{ccccccc}
+    \a A & \a B & \a C & \a D & \a E & \a F & \a G\\
+    \hline
+    \a C & \a E &&&&&\\
+    \lg A & \lg D & \lg G &&&&\\
+    \lg B & \lg C & \lg F &&&&\\
+    \a A & \a D & \a F &&&&\\
+    \a B & \a G &&&&&\\
+    \lg D & \lg E & \lg G &&&&
+  \end{array}
+  $$
+\end{frame}
+
+%
+\begin{frame}{Algorithm X}
 \Large\boldmath
   $$
   \begin{array}{ccccccc}
-    \a A & \a B & \a C & \a D
-    & \a E & \a F & \a G\\
+    A & B & C & D & E & F & G\\
     \hline
-    \a C & \a E &&&&&\\
-    &&&&&&\\
-    &&&&&&\\
-    \a A & \a D & \a F &&&&\\
-    \a B & \a G &&&&&\\
-    &&&&&&
+    C & E &&&&&\\
+    A & D & G &&&&\\
+    B & C & F &&&&\\
+    A & D & F &&&&\\
+    B & G &&&&&\\
+    D & E & G &&&&
   \end{array}
   $$
+\end{frame}
+
+
+%%
+\section{Dancing links}
+
+%
+\begin{frame}{Dancing links}
+%  \begin{itemize}
+%  \item A technique that efficiently implements
+%    \textsc{Algorithm X}
+%  \item \textsc{Algorithm X} finds all solutions to
+%    the exact cover problem.
+%  \end{itemize}
+  \centering\includegraphics[height=7.5cm]{imgs/cdance-2.png}
+\end{frame}
+
+%
+\begin{frame}{Dancing links}
+%  \begin{itemize}
+%  \item A technique that efficiently implements
+%    \textsc{Algorithm X}
+%  \item \textsc{Algorithm X} finds all solutions to
+%    the exact cover problem.
+%  \end{itemize}
+  \centering\includegraphics[height=7.5cm]{imgs/cdance-3.png}
+\end{frame}
+
+%
+\begin{frame}{Dancing links}
+%  \begin{itemize}
+%  \item A technique that efficiently implements
+%    \textsc{Algorithm X}
+%  \item \textsc{Algorithm X} finds all solutions to
+%    the exact cover problem.
+%  \end{itemize}
+  \centering\includegraphics[height=7.5cm]{imgs/cdance-4.png}
 \end{frame}
 
 %
@@ -299,11 +380,11 @@ $$
 
 
 %%
-\subsection{Pentominoes}
+\section{Pentominoes}
 
 %
 \begin{frame}[fragile]{Pentominoes}
-  \centering\includegraphics[height=5cm]{pent.png}
+  \centering\includegraphics[height=5cm]{imgs/pent.png}
 \end{frame}
 
 %
@@ -324,7 +405,7 @@ $$
 
 
 %%
-\subsection{Sudoku}
+\section{Sudoku}
 
 %
 \begin{frame}[fragile]{Sudoku}
@@ -352,7 +433,7 @@ $$
 
 
 %%
-\subsection{N-Queens}
+\section{N-Queens}
 
 %
 \begin{frame}[fragile]{n-queens}
@@ -381,4 +462,3 @@ $$
 \end{frame}
 
 \end{document}
-
