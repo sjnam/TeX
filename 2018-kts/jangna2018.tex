@@ -46,10 +46,10 @@
 $$
 \bordermatrix{
   \strut&&&&&&&\cr
-  &0&0&1&0&1&0&0\cr
+  &0&0&1&0&1&1&0\cr
   &1&0&0&1&0&0&1\cr
   &0&1&1&0&0&1&0\cr
-  &1&0&0&1&0&1&0\cr
+  &1&0&0&1&0&0&0\cr
   &0&1&0&0&0&0&1\cr
   &0&0&0&1&1&0&1}
 $$
@@ -61,10 +61,10 @@ $$
 $$
 \bordermatrix{
   &2&2&2&3&2&2&3\cr
-  &0&0&1&0&1&0&0\cr
+  &0&0&1&0&1&1&0\cr
   &1&0&0&1&0&0&1\cr
   &0&1&1&0&0&1&0\cr
-  &1&0&0&1&0&1&0\cr
+  &1&0&0&1&0&0&0\cr
   &0&1&0&0&0&0&1\cr
   &0&0&0&1&1&0&1}
 $$
@@ -76,10 +76,10 @@ $$
 $$
 \bordermatrix{
   &1&1&1&1&1&1&1\cr
-  &0&0&1&0&1&0&0\cr
+  &0&0&1&0&1&1&0\cr
   &1&0&0&1&0&0&1\cr
   &0&1&1&0&0&1&0\cr
-  &1&0&0&1&0&1&0\cr
+  &1&0&0&1&0&0&0\cr
   &0&1&0&0&0&0&1\cr
   &0&0&0&1&1&0&1}
 $$
@@ -91,10 +91,10 @@ $$
 $$
 \bordermatrix{
   &1&1&1&1&1&1&1\cr
-  &\a0&\a0&\a1&\a0&\a1&\a0&\a0\cr
+  &\a0&\a0&\a1&\a0&\a1&\a1&\a0\cr
   &1&0&0&1&0&0&1\cr
   &0&1&1&0&0&1&0\cr
-  &\a1&\a0&\a0&\a1&\a0&\a1&\a0\cr
+  &\a1&\a0&\a0&\a1&\a0&\a0&\a0\cr
   &\a0&\a1&\a0&\a0&\a0&\a0&\a1\cr
   &0&0&0&1&1&0&1}
 $$
@@ -108,10 +108,10 @@ $$
       \centering
       $\bordermatrix{
   \strut&&&&&&&\cr
-  &0&0&1&0&1&0&0\cr
+  &0&0&1&0&1&1&0\cr
   &1&0&0&1&0&0&1\cr
   &0&1&1&0&0&1&0\cr
-  &1&0&0&1&0&1&0\cr
+  &1&0&0&1&0&0&0\cr
   &0&1&0&0&0&0&1\cr
   &0&0&0&1&1&0&1}\ \Rightarrow$
     \end{minipage}%
@@ -121,10 +121,10 @@ $$
   \begin{array}{ccccccc}
     A & B & C & D & E & F & G\\
     \hline
-    C & E &&&&&\\
+    C & E & F &&&&\\
     A & D & G &&&&\\
     B & C & F &&&&\\
-    A & D & F &&&&\\
+    A & D &&&&&\\
     B & G &&&&&\\
     D & E & G &&&&
   \end{array}
@@ -141,10 +141,10 @@ $$
   \begin{array}{ccccccc}
     A & B & C & D & E & F & G\\
     \hline
-    C & E &&&&&\\
+    C & E & F &&&&\\
     A & D & G &&&&\\
     B & C & F &&&&\\
-    A & D & F &&&&\\
+    A & D &&&&&\\
     B & G &&&&&\\
     D & E & G &&&&
   \end{array}
@@ -158,10 +158,10 @@ $$
   \begin{array}{ccccccc}
     \a A & B & C & \a D & E & F & \a G\\
     \hline
-    C & E &&&&&\\
+    C & E & F &&&&\\
     \a A & \a D & \a G &&&&\\
     B & C & F &&&&\\
-    A & D & F &&&&\\
+    A & D &&&&&\\
     B & G &&&&&\\
     D & E & G &&&&
   \end{array}
@@ -176,10 +176,10 @@ $$
   \begin{array}{ccccccc}
     \a A & B & C & \a D & E & F & \a G\\
     \hline
-    C & E &&&&&\\
+    C & E & F &&&&\\
     \a A & \a D & \a G &&&&\\
     B & C & F &&&&\\
-    \lg A & \lg D & \lg F &&&&\\
+    \lg A & \lg D &&&&&\\
     \lg B & \lg G &&&&&\\
     \lg D & \lg E & \lg G &&&&
   \end{array}
@@ -191,12 +191,12 @@ $$
 \Large\boldmath
   $$
   \begin{array}{ccccccc}
-    \a A & B & \a C & \a D & \a E & F & \a G\\
+    \a A & B & \a C & \a D & \a E & \a F & \a G\\
     \hline
-    \a C & \a E &&&&&\\
+    \a C & \a E & \a F &&&&\\
     \a A & \a D & \a G &&&&\\
     B & C & F &&&&\\
-    \lg A & \lg D & \lg F &&&&\\
+    \lg A & \lg D &&&&&\\
     \lg B & \lg G &&&&&\\
     \lg D & \lg E & \lg G &&&&
   \end{array}
@@ -208,9 +208,9 @@ $$
   \Large\boldmath
   $$
   \begin{array}{ccccccc}
-    \a A & B & \a C & \a D & \a E & F & \a G\\
+    \a A & B & \a C & \a D & \a E & \a F & \a G\\
     \hline
-    \a C & \a E &&&&&\\
+    \a C & \a E & \a F &&&&\\
     \a A & \a D & \a G &&&&\\
     \lg B & \lg C & \lg F &&&&\\
     \lg A & \lg D & \lg F &&&&\\
@@ -227,10 +227,10 @@ $$
   \begin{array}{ccccccc}
     A & B & C & D & E & F & G\\
     \hline
-    C & E &&&&&\\
+    C & E & F &&&&\\
     A & D & G &&&&\\
     B & C & F &&&&\\
-    A & D & F &&&&\\
+    A & D &&&&&\\
     B & G &&&&&\\
     D & E & G &&&&
   \end{array}
@@ -242,12 +242,12 @@ $$
 \Large\boldmath
   $$
   \begin{array}{ccccccc}
-    \a A & B & C & \a D & E & \a F & G\\
+    \a A & B & C & \a D & E & F & G\\
     \hline
-    C & E &&&&&\\
+    C & E & F &&&&\\
     A & D & G &&&&\\
     B & C & F &&&&\\
-    \a A & \a D & \a F &&&&\\
+    \a A & \a D &&&&&\\
     B & G &&&&&\\
     D & E & G &&&&
   \end{array}
@@ -259,12 +259,12 @@ $$
 \Large\boldmath
   $$
   \begin{array}{ccccccc}
-    \a A & B & C & \a D & E & \a F & G\\
+    \a A & B & C & \a D & E & F & G\\
     \hline
-    C & E &&&&&\\
+    C & E & F &&&&\\
     \lg A & \lg D & \lg G &&&&\\
-    \lg B & \lg C & \lg F &&&&\\
-    \a A & \a D & \a F &&&&\\
+    B & C & F &&&&\\
+    \a A & \a D &&&&&\\
     B & G &&&&&\\
     \lg D & \lg E & \lg G &&&&
   \end{array}
@@ -278,10 +278,27 @@ $$
   \begin{array}{ccccccc}
     \a A & B & \a C & \a D & \a E & \a F & G\\
     \hline
-    \a C & \a E &&&&&\\
+    \a C & \a E & \a F &&&&\\
+    \lg A & \lg D & \lg G &&&&\\
+    B & C & F &&&&\\
+    \a A & \a D &&&&&\\
+    B & G &&&&&\\
+    \lg D & \lg E & \lg G &&&&
+  \end{array}
+  $$
+\end{frame}
+
+%
+\begin{frame}{Algorithm X}
+\Large\boldmath
+  $$
+  \begin{array}{ccccccc}
+    \a A & B & \a C & \a D & \a E & \a F & G\\
+    \hline
+    \a C & \a E & \a F &&&&\\
     \lg A & \lg D & \lg G &&&&\\
     \lg B & \lg C & \lg F &&&&\\
-    \a A & \a D & \a F &&&&\\
+    \a A & \a D &&&&&\\
     B & G &&&&&\\
     \lg D & \lg E & \lg G &&&&
   \end{array}
@@ -295,10 +312,10 @@ $$
   \begin{array}{ccccccc}
     \a A & \a B & \a C & \a D & \a E & \a F & \a G\\
     \hline
-    \a C & \a E &&&&&\\
+    \a C & \a E & \a F &&&&\\
     \lg A & \lg D & \lg G &&&&\\
     \lg B & \lg C & \lg F &&&&\\
-    \a A & \a D & \a F &&&&\\
+    \a A & \a D &&&&&\\
     \a B & \a G &&&&&\\
     \lg D & \lg E & \lg G &&&&
   \end{array}
@@ -312,10 +329,10 @@ $$
   \begin{array}{ccccccc}
     A & B & C & D & E & F & G\\
     \hline
-    C & E &&&&&\\
+    C & E & F &&&&\\
     A & D & G &&&&\\
     B & C & F &&&&\\
-    A & D & F &&&&\\
+    A & D &&&&&\\
     B & G &&&&&\\
     D & E & G &&&&
   \end{array}
@@ -328,34 +345,16 @@ $$
 
 %
 \begin{frame}{Dancing links}
-%  \begin{itemize}
-%  \item A technique that efficiently implements
-%    \textsc{Algorithm X}
-%  \item \textsc{Algorithm X} finds all solutions to
-%    the exact cover problem.
-%  \end{itemize}
   \centering\includegraphics[height=7.5cm]{imgs/cdance-2.png}
 \end{frame}
 
 %
 \begin{frame}{Dancing links}
-%  \begin{itemize}
-%  \item A technique that efficiently implements
-%    \textsc{Algorithm X}
-%  \item \textsc{Algorithm X} finds all solutions to
-%    the exact cover problem.
-%  \end{itemize}
   \centering\includegraphics[height=7.5cm]{imgs/cdance-3.png}
 \end{frame}
 
 %
 \begin{frame}{Dancing links}
-%  \begin{itemize}
-%  \item A technique that efficiently implements
-%    \textsc{Algorithm X}
-%  \item \textsc{Algorithm X} finds all solutions to
-%    the exact cover problem.
-%  \end{itemize}
   \centering\includegraphics[height=7.5cm]{imgs/cdance-4.png}
 \end{frame}
 
@@ -365,17 +364,21 @@ $$
   \href{https://github.com/sjnam/lua-dancing-links}
        {github.com/sjnam/lua-dancing-links}
 \end{center}
+\boldmath
+{
+\large
 $$
   \begin{array}{ccccccc}
     A & B & C & D & E & F & G\\
-    C & E &&&&&\\
+    C & E &F &&&&\\
     A & D & G &&&&\\
     B & C & F &&&&\\
-    A & D & F &&&&\\
+    A & D &&&&&\\
     B & G &&&&&\\
     D & E & G &&&&
   \end{array}
 $$
+}
 \end{frame}
 
 
