@@ -42,7 +42,7 @@
 \Large\boldmath
 $$
 \bordermatrix{
-  \strut&&&&&&&\cr
+  \mathstrut&&&&&&&\cr
   &0&0&1&0&1&1&0\cr
   &1&0&0&1&0&0&1\cr
   &0&1&1&0&0&1&0\cr
@@ -57,7 +57,7 @@ $$
 \Large\boldmath
 $$
 \bordermatrix{
-  &1&1&1&1&1&1&1\cr
+  \mathstrut&&&&&&&\cr  
   &\a0&\a0&\a1&\a0&\a1&\a1&\a0\cr
   &1&0&0&1&0&0&1\cr
   &0&1&1&0&0&1&0\cr
@@ -308,9 +308,12 @@ $$
 
 %
 \begin{frame}{Dancing links}
-  A technique to efficiently implement \textsc{Algorithm X}
-
-  \centering\includegraphics[height=6.5cm]{imgs/cdance-4.png}
+  \begin{itemize}
+  \item A technique to efficiently implement \textsc{Algorithm X}
+  \item \href{https://github.com/sjnam/lua-dancing-links}
+    {lua-dancing-links}
+  \end{itemize}
+  \centering\includegraphics[height=6cm]{imgs/cdance-4.png}
 \end{frame}
 
 
@@ -318,26 +321,51 @@ $$
 \section{Pentominoes}
 
 %
-\begin{frame}[fragile]{Pentominoes}
-  \centering\includegraphics[height=5cm]{imgs/pent.png}
+\begin{frame}{Pentominoes}
+  \begin{center}
+  {\Large 12 pieces} \\
+  
+  \includegraphics[height=5cm]{imgs/conway.jpg}
+  \end{center}
+\end{frame}
+
+%
+\begin{frame}{Pentominoes}
+  \centering\includegraphics[height=8cm]{imgs/pentominoes.jpg}
+\end{frame}
+
+%
+\begin{frame}[fragile]{Pentominoes 3x20}
+  \begin{itemize}
+  \item pieces name: $\{O,P,\ldots,Z\}$
+  \item cell $ij$, $0\le i<3$ and $0\le j<20$
+  \end{itemize}
+  
+\begin{verbatim}
+O P Q R S T U V W X Y Z 00 01 02 ... 0i 0j\
+ 10 11 12 ... 1i 1j 20 21 22 ... 2i 2j
+ 
+O 00 01 02 03 04
+      ...
+O 2f 2g 2h 2i 2j
+P 00 01 02 03 04
+      ...
+Z 0j 1h 1i 1j 2h
+\end{verbatim}
 \end{frame}
 
 %
 \begin{frame}[fragile]{Pentominoes 3x20}
 \begin{verbatim}
 \usepackage{pentominoes}
-\pentominoes{5mm}{3}{20}.
+\pentominoes{5mm}{3}{20}{1}.
 \end{verbatim}
-\pentominoes{5mm}{3}{20}.
-\end{frame}
-
-%
-\begin{frame}[fragile]{Pentominoes 8x8}
+\pentominoes{5mm}{3}{20}{1}.
+\vspace{-10mm}
 \begin{verbatim}
-\usepackage{pentominoes}
-\pentominoes{7mm}{8}{8}{1}.
+\pentominoes{5mm}{4}{15}{1}.
 \end{verbatim}
-\pentominoes{7mm}{8}{8}{1}.
+\pentominoes{5mm}{4}{15}{1}.
 \end{frame}
 
 
