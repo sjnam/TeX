@@ -6,32 +6,33 @@
 
 \directlua{require "pentominoes"}
 
-\def\CellO{{\fboxsep=0pt\fbox{\color{Maroon}\rule{\Side}{\Side}}}}
-\def\CellP{{\fboxsep=0pt\fbox{\color{DarkOrange}\rule{\Side}{\Side}}}}
-\def\CellQ{{\fboxsep=0pt\fbox{\color{Chocolate}\rule{\Side}{\Side}}}}
-\def\CellR{{\fboxsep=0pt\fbox{\color{LightSteelBlue}\rule{\Side}{\Side}}}}
-\def\CellS{{\fboxsep=0pt\fbox{\color{yellow}\rule{\Side}{\Side}}}}
-\def\CellT{{\fboxsep=0pt\fbox{\color{red}\rule{\Side}{\Side}}}}
-\def\CellU{{\fboxsep=0pt\fbox{\color{DarkViolet}\rule{\Side}{\Side}}}}
-\def\CellV{{\fboxsep=0pt\fbox{\color{CornflowerBlue}\rule{\Side}{\Side}}}}
-\def\CellW{{\fboxsep=0pt\fbox{\color{Green}\rule{\Side}{\Side}}}}
-\def\CellX{{\fboxsep=0pt\fbox{\color{DeepPink}\rule{\Side}{\Side}}}}
-\def\CellY{{\fboxsep=0pt\fbox{\color{green}\rule{\Side}{\Side}}}}
-\def\CellZ{{\fboxsep=0pt\fbox{\color{DarkKhaki}\rule{\Side}{\Side}}}}
-\def\CellB{{\fboxsep=0pt\fbox{\color{white}\rule{\Side}{\Side}}}}
+\fboxsep=0pt
+\newcommand\fr@me{\rule{\@side}{\@side}}
+\newcommand\CellO{\fbox{\color{Maroon}\fr@me}}
+\newcommand\CellP{\fbox{\color{DarkOrange}\fr@me}}
+\newcommand\CellQ{\fbox{\color{Chocolate}\fr@me}}
+\newcommand\CellR{\fbox{\color{LightSteelBlue}\fr@me}}
+\newcommand\CellS{\fbox{\color{yellow}\fr@me}}
+\newcommand\CellT{\fbox{\color{red}\fr@me}}
+\newcommand\CellU{\fbox{\color{DarkViolet}\fr@me}}
+\newcommand\CellV{\fbox{\color{CornflowerBlue}\fr@me}}
+\newcommand\CellW{\fbox{\color{Green}\fr@me}}
+\newcommand\CellX{\fbox{\color{DeepPink}\fr@me}}
+\newcommand\CellY{\fbox{\color{green}\fr@me}}
+\newcommand\CellZ{\fbox{\color{DarkKhaki}\fr@me}}
+\newcommand\CellB{\fbox{\color{white}\fr@me}}
 
 \newcommand\Row[1]{%
   \par\nobreak\nointerlineskip\vskip-\fboxrule%
   \@tfor\@tempa:=#1 \do {\csname Cell\@tempa\endcsname\kern-\fboxrule}}
 
 \newenvironment{Chessboard}[1][]
-  {\gdef\Side{#1}%
-    \begin{center}\parskip0pt}
-  {\end{center}}
+  {\bgroup \parindent0pt \parskip0pt
+    \newcommand\@side{#1}}
+  {\egroup}
 
 \protected\def\pentominoes#1#2#3#4.{%
   \def\n{#4}
   \ifx\empty\n \def\n{10000}\fi
-  \directlua{pentominoes.draw("#1",#2,#3,\n)}
-}
+  \directlua{pentominoes.draw("#1",#2,#3,\n)}}
 
