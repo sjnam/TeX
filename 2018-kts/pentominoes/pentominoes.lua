@@ -54,7 +54,8 @@ local function draw (side, nr, nc, num)
 
 
       local nr, nc = nr-1, nc-1
-      sprint("\\begin{Chessboard}[side="..side.."]\n")
+      --sprint("\\begin{Chessboard}[side="..side.."]\n")
+      sprint("\\begin{Chessboard}["..side.."]\n")
       for j=0,nr do
          sprint("\\Row{")
          for k=0,nc-1 do
