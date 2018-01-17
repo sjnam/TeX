@@ -7,26 +7,26 @@
 \directlua{require "pentominoes"}
 
 \fboxsep=0pt
-\newcommand\fr@me{\rule{\@side}{\@side}}
-\newcommand\CellO{\fbox{\color{Maroon}\fr@me}}
-\newcommand\CellP{\fbox{\color{DarkOrange}\fr@me}}
-\newcommand\CellQ{\fbox{\color{Chocolate}\fr@me}}
-\newcommand\CellR{\fbox{\color{LightSteelBlue}\fr@me}}
-\newcommand\CellS{\fbox{\color{yellow}\fr@me}}
-\newcommand\CellT{\fbox{\color{red}\fr@me}}
-\newcommand\CellU{\fbox{\color{DarkViolet}\fr@me}}
-\newcommand\CellV{\fbox{\color{CornflowerBlue}\fr@me}}
-\newcommand\CellW{\fbox{\color{Green}\fr@me}}
-\newcommand\CellX{\fbox{\color{DeepPink}\fr@me}}
-\newcommand\CellY{\fbox{\color{green}\fr@me}}
-\newcommand\CellZ{\fbox{\color{DarkKhaki}\fr@me}}
-\newcommand\CellB{\fbox{\color{white}\fr@me}}
+\def\fr@me{\rule{\@side}{\@side}}
+\def\cell@O{\fbox{\color{Maroon}\fr@me}}
+\def\cell@P{\fbox{\color{DarkOrange}\fr@me}}
+\def\cell@Q{\fbox{\color{Chocolate}\fr@me}}
+\def\cell@R{\fbox{\color{LightSteelBlue}\fr@me}}
+\def\cell@S{\fbox{\color{yellow}\fr@me}}
+\def\cell@T{\fbox{\color{red}\fr@me}}
+\def\cell@U{\fbox{\color{DarkViolet}\fr@me}}
+\def\cell@V{\fbox{\color{CornflowerBlue}\fr@me}}
+\def\cell@W{\fbox{\color{Green}\fr@me}}
+\def\cell@X{\fbox{\color{DeepPink}\fr@me}}
+\def\cell@Y{\fbox{\color{green}\fr@me}}
+\def\cell@Z{\fbox{\color{DarkKhaki}\fr@me}}
+\def\cell@B{\fbox{\color{white}\fr@me}}
 
 \newcommand\Row[1]{%
   \par\nobreak\nointerlineskip\vskip-\fboxrule%
-  \@tfor\@tempa:=#1 \do {\csname Cell\@tempa\endcsname\kern-\fboxrule}}
+  \@tfor\@tempa:=#1 \do {\csname cell@\@tempa\endcsname\kern-\fboxrule}}
 
-\newenvironment{Chessboard}[1][]
+\newenvironment{Pentominoes}[1][]
   {\bgroup \parindent0pt \parskip0pt
     \newcommand\@side{#1}}
   {\egroup}

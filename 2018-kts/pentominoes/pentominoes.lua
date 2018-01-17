@@ -54,8 +54,7 @@ local function draw (side, nr, nc, num)
 
 
       local nr, nc = nr-1, nc-1
-      --sprint("\\begin{Chessboard}[side="..side.."]\n")
-      sprint("\\begin{Chessboard}["..side.."]\n")
+      sprint("\\begin{Pentominoes}["..side.."]\n")
       for j=0,nr do
          sprint("\\Row{")
          for k=0,nc-1 do
@@ -63,7 +62,7 @@ local function draw (side, nr, nc, num)
          end
          sprint(box[j][nc] or "B", "}\n")
       end
-      sprint("\\end{Chessboard}\n")
+      sprint("\\end{Pentominoes}\n")
    end
 end
 
