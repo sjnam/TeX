@@ -180,7 +180,7 @@ local function draw (board)
       end
       sprint("\n")
    end
-   sprint("\\end{scope}\n\\end{tikzpicture}\\qquad")
+   sprint("\\end{scope}\n\\end{tikzpicture}")
 end
 
 
@@ -206,6 +206,7 @@ end
 local function answer (puzzle)
    for board in sudoku(get_lines(puzzle)) do
       draw(board)
+      sprint("\\quad")
    end
 end
 

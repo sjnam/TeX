@@ -23,9 +23,7 @@
 
 \def\sudoku@#1{%
   \directlua{sudokudlx.solve(
-    \ifx\answ@r Ytrue\else flase\fi, "#1")}
-  \par
-}
+    \ifx\answ@r Ytrue\else flase\fi, "#1")}}
 
 \protected\def\sudoku#1#{%
   \ifx\empty#1\empty
@@ -33,5 +31,4 @@
   \else
     \let\answ@r Y%
   \fi
-  \sudoku@
-}
+  \sudoku@}

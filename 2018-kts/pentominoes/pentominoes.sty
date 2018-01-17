@@ -29,10 +29,10 @@
 \newenvironment{Pentominoes}[1][]
   {\bgroup \parindent0pt \parskip0pt
     \newcommand\@side{#1}}
-  {\egroup}
+  {\egroup\par}
 
 \protected\def\pentominoes#1#2#3#4.{%
-  \def\n{#4}
-  \ifx\empty\n \def\n{10000}\fi
-  \directlua{pentominoes.draw("#1",#2,#3,\n)}}
+  \def\@n{#4}
+  \ifx\empty\@n \def\@n{10000}\fi
+  \directlua{pentominoes.draw("#1",#2,#3,\@n)}}
 

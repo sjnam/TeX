@@ -23,7 +23,6 @@ local str_sub = string.sub
 
 
 local function draw (side, nr, nc, num)
-   local num = num or 1
    local fname = nr.."x"..nc..".dlx"
    local lines = {}
    for line in io.lines(fname) do
