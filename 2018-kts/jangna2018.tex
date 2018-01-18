@@ -7,17 +7,20 @@
 \usetheme[titleformat=smallcaps,subsectionpage=progressbar]{metropolis}
 \metroset{outer/progressbar=head}
 
+\usepackage{kotex}
 \usepackage{pentominoes}
 \usepackage{sudoku-dlx}
 \usepackage{queens}
 
 
 % title
-\title{Dancing links package}
-\subtitle{Exact cover solver using Lua\TeX }
-\date{February 3, 2018}
-\author{Soojin Nam}
-\institute{The Korean \TeX\ Society}
+\title{댄싱링크 패키지}
+\subtitle{루아텍으로 퍼즐 조판하기}
+\date{2018년 2월 3일}
+\author{남수진}
+\institute{
+  2018 한국텍학회 학술대회 및 정기총회 \\
+  판교 스타트업캠퍼스 1동 2층, 세미나실 1}
 \titlegraphic{\hfill\includegraphics[height=30mm]{imgs/cdance-4.png}}
 
 
@@ -27,48 +30,51 @@
 \maketitle
 
 %
-\begin{frame}{Table of contents}
+\begin{frame}{목차}
   \setbeamertemplate{section in toc}[sections numbered]
   \tableofcontents
 \end{frame}
 
 
 %%
-\section{Exact cover problem}
+\section{댄싱 링크}
 
 \let\a\alert
 %
-\begin{frame}{Exact cover problem}
-\Large\boldmath
-$$
-\bordermatrix{
-  \mathstrut&&&&&&&\cr
-  &0&0&1&0&1&1&0\cr
-  &1&0&0&1&0&0&1\cr
-  &0&1&1&0&0&1&0\cr
-  &1&0&0&1&0&0&0\cr
-  &0&1&0&0&0&0&1\cr
-  &0&0&0&1&1&0&1}
-$$
+\begin{frame}{Exact cover 문제}
+  다음 행렬에서, 모든 열이 오직 1을 갖도록 하는 행들의 집합을 구하여라.
+  {\Large\boldmath
+    $$
+    \bordermatrix{
+      \mathstrut&&&&&&&\cr
+      &0&0&1&0&1&1&0\cr
+      &1&0&0&1&0&0&1\cr
+      &0&1&1&0&0&1&0\cr
+      &1&0&0&1&0&0&0\cr
+      &0&1&0&0&0&0&1\cr
+      &0&0&0&1&1&0&1}
+    $$}
 \end{frame}
 
 %
-\begin{frame}{Exact cover problem}
-\Large\boldmath
-$$
-\bordermatrix{
-  \mathstrut&&&&&&&\cr  
-  &\a0&\a0&\a1&\a0&\a1&\a1&\a0\cr
-  &1&0&0&1&0&0&1\cr
-  &0&1&1&0&0&1&0\cr
-  &\a1&\a0&\a0&\a1&\a0&\a0&\a0\cr
-  &\a0&\a1&\a0&\a0&\a0&\a0&\a1\cr
-  &0&0&0&1&1&0&1}
-$$
+\begin{frame}{Exact cover 문제}
+  다음 행렬에서, 모든 열이 오직 1을 갖도록 하는 행들의 집합을 구하여라.
+  \alert{(1, 4, 5 번째 행)}
+  {\Large\boldmath
+    $$
+    \bordermatrix{
+      \mathstrut&&&&&&&\cr  
+      &\a0&\a0&\a1&\a0&\a1&\a1&\a0\cr
+      &1&0&0&1&0&0&1\cr
+      &0&1&1&0&0&1&0\cr
+      &\a1&\a0&\a0&\a1&\a0&\a0&\a0\cr
+      &\a0&\a1&\a0&\a0&\a0&\a0&\a1\cr
+      &0&0&0&1&1&0&1}
+    $$}
 \end{frame}
 
 %
-\begin{frame}{Exact cover problem}
+\begin{frame}{Exact cover 문제}
 \Large\boldmath
   \begin{figure}[!htb]
     \hskip-17mm\begin{minipage}{.7\textwidth}
@@ -102,7 +108,7 @@ $$
 
 \renewcommand\arraystretch{1.2}
 %
-\begin{frame}{Algorithm X}
+\begin{frame}{알고리즘 엑스}
 \Large\boldmath
   $$
   \begin{array}{ccccccc}
@@ -119,9 +125,11 @@ $$
 \end{frame}
 
 %
-\begin{frame}{Dancing links}
+\begin{frame}{댄싱 링크}
   \begin{itemize}
-  \item A technique to efficiently implement \textsc{Algorithm X}
+  \item 알고리즘 엑스를 효율적으로 구현하는 하나의 기법
+  \item 노드와 링크로 구현되는 자료구조의 상태 변화가 마치 춤을 연상하하는 것 같아서
+    이름 붙여짐.
   \item \href{https://github.com/sjnam/lua-dancing-links}
     {lua-dancing-links}
   \end{itemize}
@@ -129,10 +137,10 @@ $$
 
 
 %%
-\section{Pentominoes}
+\section{펜토미노}
 
 %
-\begin{frame}{Pentominoes}
+\begin{frame}{펜토미노}
   \begin{center}
   {\Large 12 pieces} \\
   \includegraphics[height=5cm]{imgs/pentominoes.png}
@@ -140,7 +148,7 @@ $$
 \end{frame}
 
 %
-\begin{frame}[fragile]{Pentominoes 3x20}
+\begin{frame}[fragile]{펜토미노 3x20}
 \begin{verbatim}
 \usepackage{pentominoes}
 \pentominoes{5mm}{3}{20}{1}.
@@ -154,10 +162,10 @@ $$
 
 
 %%
-\section{Sudoku}
+\section{수도쿠}
 
 %
-\begin{frame}[fragile]{Sudoku}
+\begin{frame}[fragile]{수도쿠}
 \begin{verbatim}
 \sudoku {9.......6.3.4....9...915.8..8.5..7..%
 ..3.9.4....2..1.9.32176....6..1.2.3.8...5...1}
@@ -169,7 +177,7 @@ $$
 \end{frame}
 
 %
-\begin{frame}[fragile]{Sudoku}
+\begin{frame}[fragile]{수도쿠}
 \begin{verbatim}
 \sudoku*{9.......6.3.4....9...915.8..8.5..7..%
 ..3.9.4....2..1.9.32176....6..1.2.3.8...5...1}
@@ -182,10 +190,10 @@ $$
 
 
 %%
-\section{N-Queens}
+\section{여왕 배치 문제}
 
 %
-\begin{frame}[fragile]{n-queens}
+\begin{frame}[fragile]{여왕 배치 문제}
 \begin{verbatim}
 \usepackage{queens}
 \queens{8}{2}.
@@ -196,7 +204,7 @@ $$
 
 
 %
-\begin{frame}{References}
+\begin{frame}{참고}
   \begin{itemize}
   \item \href{http://www-cs-faculty.stanford.edu/~knuth/fasc5c.ps.gz}
     {\textsc{The Art of Computer Programming Pre-Fascicle 5c}}
@@ -207,7 +215,7 @@ $$
 
 %
 \begin{frame}[standout]
-  Questions?
+  감사합니다
 \end{frame}
 
 \end{document}
