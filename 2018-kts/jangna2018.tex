@@ -17,7 +17,7 @@
   InterLatinCJK=.125em,
 ]
 
-\usepackage{pentominoes}
+\usepackage{pentomino}
 \usepackage{sudoku-dlx}
 \usepackage{queens}
 
@@ -50,7 +50,7 @@
 
 \let\a\alert
 %
-\begin{frame}{집합 덮개 문제}
+\begin{frame}{Exact cover 문제}
   다음 행렬에서, 모든 열이 오직 1을 갖도록 하는 행들의 집합을 구하여라.
   {\Large\boldmath
     $$
@@ -66,7 +66,7 @@
 \end{frame}
 
 %
-\begin{frame}{집합 덮개 문제}
+\begin{frame}{Exact cover 문제}
   다음 행렬에서, 모든 열이 오직 1을 갖도록 하는 행들의 집합을 구하여라.
   {\Large\boldmath
     $$
@@ -82,7 +82,7 @@
 \end{frame}
 
 %
-\begin{frame}{집합 덮개 문제}
+\begin{frame}{Exact cover 문제}
 \Large\boldmath
   \begin{figure}[!htb]
     \hskip-17mm\begin{minipage}{.7\textwidth}
@@ -113,13 +113,26 @@
 \end{figure}
 \end{frame}
 
-\renewcommand\arraystretch{1.1}
+\renewcommand\arraystretch{1.2}
 %
-\begin{frame}{집합 덮개 문제}
-  어떠한 전체 집합과 그 집합의 부분 집합들이 주어졌을 때, 부분 집합들 중에서 가능한 한
-  적은 집합을 골라서 그 집합들의 합집합이 원래 전체 집합이 되도록, 즉 그 집합들이
-  원래 전제집합을 \alert{덮도록} 집합을 선택하는 문제이다.
-  {\large\boldmath
+\begin{frame}{알고리즘 엑스}
+  \Large\boldmath
+  $$
+  \begin{array}{ccccccc}
+    A & B & C & D & E & F & G\\
+    C & E & F &&&&\\
+    A & D & G &&&&\\
+    B & C & F &&&&\\
+    A & D &&&&&\\
+    B & G &&&&&\\
+    D & E & G &&&&
+  \end{array}
+  $$
+\end{frame}
+
+%
+\begin{frame}{알고리즘 엑스}
+  \Large\boldmath
   $$
   \begin{array}{ccccccc}
     \a A & \a B & \a C & \a D & \a E & \a F & \a G\\
@@ -130,20 +143,21 @@
     \a B & \a G &&&&&\\
     D & E & G &&&&
   \end{array}
-  $$}
+  $$
 \end{frame}
 
 %
 \begin{frame}{댄싱 링크}
   \begin{itemize}
-  \item 집합 덮개 문제를 해결하는 알고리즘을 효율적으로 구현하는 하나의 기법
+  \item 알고리즘 엑스를 효율적으로 구현하는 하나의 기법
+    \begin{center}
+      \includegraphics[height=55mm]{imgs/cdance-4.png}
+    \end{center}
   \item \href{https://www.youtube.com/watch?v=pN76VICZiKU&start=100}
-    {알고리즘이 진행되면서 노드와 링크로 구현되는 자료 구조의 상태 변화가 춤을 연상}
-%  \item \href{https://github.com/sjnam/lua-dancing-links}
-%    {lua-dancing-links}
+    {알고리즘이 진행되면서 변화하는 링크의 모양이 춤을 연상 시킴}
+  \item \href{https://github.com/sjnam/lua-dancing-links}
+    {lua-dancing-links}
   \end{itemize}
-    
-  \centering\includegraphics[height=50mm]{imgs/cdance-4.png}
 \end{frame}
 
 
@@ -161,14 +175,14 @@
 %
 \begin{frame}[fragile]{펜토미노 3x20}
 \begin{verbatim}
-\usepackage{pentominoes}
-\pentominoes{5mm}{3}{20}{1}.
+\usepackage{pentomino}
+\pentomino{5mm}{3}{20}{1}.
 \end{verbatim}
-\pentominoes{5mm}{3}{20}{1}.
+\pentomino{5mm}{3}{20}{1}.
 \begin{verbatim}
-\pentominoes{5mm}{4}{15}{1}.
+\pentomino{5mm}{4}{15}{1}.
 \end{verbatim}
-\pentominoes{5mm}{4}{15}{1}.
+\pentomino{5mm}{4}{15}{1}.
 \end{frame}
 
 
@@ -217,7 +231,7 @@
 %
 \begin{frame}{참고}
   \begin{itemize}
-  \item \href{https://goo.gl/44hiLo}{집합 덮개 문제}
+  \item \href{https://en.wikipedia.org/wiki/Exact_cover}{Exact cover proglem}
   \item \href{http://www-cs-faculty.stanford.edu/~knuth/fasc5c.ps.gz}
     {\textsc{The Art of Computer Programming Pre-Fascicle 5c}}
   \item \href{https://github.com/sjnam/lua-dancing-links}

@@ -1,0 +1,38 @@
+
+\ProvidesPackage{pentomino}[2018/01/10 v0.1 Pentomino tiling]
+
+\RequirePackage{luatexbase}
+\@ifpackageloaded{xcolor}{}{\RequirePackage[svgnames]{xcolor}}
+
+\directlua{require "pentomino"}
+
+\fboxsep=0pt
+\def\fr@me{\rule{\@side}{\@side}}
+\def\cell@O{\fbox{\color{Maroon}\fr@me}}
+\def\cell@P{\fbox{\color{DarkOrange}\fr@me}}
+\def\cell@Q{\fbox{\color{Chocolate}\fr@me}}
+\def\cell@R{\fbox{\color{LightSteelBlue}\fr@me}}
+\def\cell@S{\fbox{\color{yellow}\fr@me}}
+\def\cell@T{\fbox{\color{red}\fr@me}}
+\def\cell@U{\fbox{\color{DarkViolet}\fr@me}}
+\def\cell@V{\fbox{\color{CornflowerBlue}\fr@me}}
+\def\cell@W{\fbox{\color{Green}\fr@me}}
+\def\cell@X{\fbox{\color{DeepPink}\fr@me}}
+\def\cell@Y{\fbox{\color{green}\fr@me}}
+\def\cell@Z{\fbox{\color{DarkKhaki}\fr@me}}
+\def\cell@B{\fbox{\color{white}\fr@me}}
+
+\newcommand\Row[1]{%
+  \par\nobreak\nointerlineskip\vskip-\fboxrule%
+  \@tfor\@tempa:=#1 \do {\csname cell@\@tempa\endcsname\kern-\fboxrule}}
+
+\newenvironment{Pentomino}[1][]
+  {\bgroup \parindent0pt \parskip0pt
+    \newcommand\@side{#1}}
+  {\egroup\par}
+
+\protected\def\pentomino#1#2#3#4.{%
+  \def\@n{#4}
+  \ifx\empty\@n \def\@n{10000}\fi
+  \directlua{pentomino.draw("#1",#2,#3,\@n)}}
+
