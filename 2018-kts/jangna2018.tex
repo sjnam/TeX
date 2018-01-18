@@ -41,7 +41,7 @@
 
 \let\a\alert
 %
-\begin{frame}{Exact cover 문제}
+\begin{frame}{집합 덮개 문제}
   다음 행렬에서, 모든 열이 오직 1을 갖도록 하는 행들의 집합을 구하여라.
   {\Large\boldmath
     $$
@@ -57,7 +57,7 @@
 \end{frame}
 
 %
-\begin{frame}{Exact cover 문제}
+\begin{frame}{집합 덮개 문제}
   다음 행렬에서, 모든 열이 오직 1을 갖도록 하는 행들의 집합을 구하여라.
   \alert{(1, 4, 5 번째 행)}
   {\Large\boldmath
@@ -74,7 +74,7 @@
 \end{frame}
 
 %
-\begin{frame}{Exact cover 문제}
+\begin{frame}{집합 덮개 문제}
 \Large\boldmath
   \begin{figure}[!htb]
     \hskip-17mm\begin{minipage}{.7\textwidth}
@@ -106,13 +106,16 @@
 \end{figure}
 \end{frame}
 
-\renewcommand\arraystretch{1.2}
+\renewcommand\arraystretch{1.1}
 %
-\begin{frame}{알고리즘 엑스}
-\Large\boldmath
+\begin{frame}{집합 덮개 문제}
+  어떠한 전체 집합과 그 집합의 부분 집합들이 주어졌을 때, 부분 집합들 중에서 가능한 한
+  적은 집합을 골라서 그 집합들의 합집합이 원래 전체 집합이 되도록, 즉 그 집합들이
+  원래 전제집합을 \alert{덮도록} 집합을 선택하는 문제이다.
+  {\large\boldmath
   $$
   \begin{array}{ccccccc}
-    A & B & C & D & E & F & G\\
+    \a A & \a B & \a C & \a D & \a E & \a F & \a G\\
     \hline
     \a C & \a E & \a F &&&&\\
     A & D & G &&&&\\
@@ -121,15 +124,17 @@
     \a B & \a G &&&&&\\
     D & E & G &&&&
   \end{array}
-  $$
+  $$}
 \end{frame}
 
 %
 \begin{frame}{댄싱 링크}
   \begin{itemize}
+  \item \alert{알고리즘 엑스}, 집합 덮개 문제를 해결하는 알고리즘
   \item 알고리즘 엑스를 효율적으로 구현하는 하나의 기법
-  \item 노드와 링크로 구현되는 자료구조의 상태 변화가 마치 춤을 연상하하는 것 같아서
-    이름 붙여짐.
+  \item \href{https://www.youtube.com/watch?v=pN76VICZiKU&start=100}
+    {노드와 링크로 구현되는 자료구조의 상태 변화가 마치 춤을 연상하하는 것 같아서
+    이름 붙여짐.}
   \item \href{https://github.com/sjnam/lua-dancing-links}
     {lua-dancing-links}
   \end{itemize}
@@ -206,6 +211,7 @@
 %
 \begin{frame}{참고}
   \begin{itemize}
+  \item \href{https://en.wikipedia.org/wiki/Exact_cover}{Exact cover problem}
   \item \href{http://www-cs-faculty.stanford.edu/~knuth/fasc5c.ps.gz}
     {\textsc{The Art of Computer Programming Pre-Fascicle 5c}}
   \item \href{https://github.com/sjnam/lua-dancing-links}
