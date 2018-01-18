@@ -1,5 +1,14 @@
 \documentclass{article}
 
+\usepackage{kotex}
+
+\setsanshangulfont{Kakao OTF}[%
+Script=Hangul,%
+Language=Korean,%
+BoldFont=* Bold,%
+InterLatinCJK=.125em%
+]
+
 \usepackage{sudoku-dlx}
 
 \title{Sudoku}
@@ -11,7 +20,7 @@
 
 \section{}
 
-\sudoku{%
+\Sudoku{%
 ......3..%
 1..4.....%
 ......1.5%
@@ -23,7 +32,7 @@
 .83....4.%
 }
 \quad
-\sudoku*{%
+\Sudoku*{%
 ......3..%
 1..4.....%
 ......1.5%
@@ -36,8 +45,12 @@
 }
 
 \section{}
+\Sudoku{..4.......8.9.2.54.3..6...94..5....212.4.8.358....3..13...5..4.65.7.9.1.......5..}
+\Sudoku*{..4.......8.9.2.54.3..6...94..5....212.4.8.358....3..13...5..4.65.7.9.1.......5..}
 
-\sudoku{%
+\section{}
+
+\Sudoku{%
 .3..1....%
 ...4..1..%
 .5.....9.%
@@ -50,9 +63,8 @@
 }
 
 \smallskip
-
 \noindent
-\sudoku*{%
+\Sudoku*{%
 .3..1....%
 ...4..1..%
 .5.....9.%

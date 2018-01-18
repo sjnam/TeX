@@ -153,7 +153,8 @@ local function xsudoku (puzzle)
       end
       for _, opt in ipairs(sol) do
          local pos = tonumber(str_match(opt[1], "p(%d+)"))
-         brd[floor(pos/10)+1 ][pos%10+1] = "\\color{blue}"..str_sub(opt[2], 3)
+         brd[floor(pos/10)+1 ][pos%10+1] = "{\\color{blue}"
+            ..str_sub(opt[2], 3).."}"
       end
       co_yield(brd)
    end
@@ -166,21 +167,15 @@ end
 
 
 local function draw (board)
-   sprint([[
-\begin{tikzpicture}[scale=.7]
-\begin{scope}[font=\ttfamily\bfseries\Large]
-\draw (0, 0) grid (9, 9);
-\draw[very thick, scale=3] (0, 0) grid (3, 3);
-\setcounter{row}{1}
-]])
+   sprint("\\begin{sudoku-block}\n")
    for i=1,9 do
-      sprint("\\setrow")
+      sprint("|")
       for j=1,9 do
-         sprint("{"..board[i][j].."}")
+         sprint(board[i][j].."|")
       end
-      sprint("\n")
+      sprint(".\n")
    end
-   sprint("\\end{scope}\n\\end{tikzpicture}")
+   sprint("\\end{sudoku-block}\n")
 end
 
 
