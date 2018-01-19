@@ -46,12 +46,12 @@
 
 
 %%
-\section{댄싱 링크}
+\section{댄싱 링크, Dancing links}
 
 \let\a\alert
 %
 \begin{frame}{Exact cover 문제}
-  다음 행렬에서, 모든 열이 오직 1을 갖도록 하는 행들의 집합을 구하여라.
+  다음 행렬에서, 모든 열이 오직 1만을 갖도록 하는 행들의 집합을 구하여라.
   {\Large\boldmath
     $$
     \bordermatrix{
@@ -67,7 +67,7 @@
 
 %
 \begin{frame}{Exact cover 문제}
-  다음 행렬에서, 모든 열이 오직 1을 갖도록 하는 행들의 집합을 구하여라.
+  다음 행렬에서, 모든 열이 오직 1만을 갖도록 하는 행들의 집합을 구하여라.
   {\Large\boldmath
     $$
     \bordermatrix{
@@ -135,7 +135,7 @@
   \Large\boldmath
   $$
   \begin{array}{ccccccc}
-    \a A & \a B & \a C & \a D & \a E & \a F & \a G\\
+    A & B & C & D & E & F & G\\
     \a C & \a E & \a F &&&&\\
     A & D & G &&&&\\
     B & C & F &&&&\\
@@ -150,9 +150,11 @@
 \begin{frame}{댄싱 링크}
   \begin{itemize}
   \item 알고리즘 엑스를 효율적으로 구현하는 하나의 기법
+
     \begin{center}
       \includegraphics[height=55mm]{imgs/cdance-4.png}
     \end{center}
+
   \item \href{https://www.youtube.com/watch?v=pN76VICZiKU&start=100}
     {알고리즘이 진행되면서 변화하는 링크의 모양이 춤을 연상 시킴}
   \item \href{https://github.com/sjnam/lua-dancing-links}
@@ -162,7 +164,7 @@
 
 
 %%
-\section{펜토미노}
+\section{펜토미노 타일링}
 
 %
 \begin{frame}{펜토미노}
@@ -173,16 +175,16 @@
 \end{frame}
 
 %
-\begin{frame}[fragile]{펜토미노 3x20}
+\begin{frame}[fragile]{펜토미노 타일링}
 \begin{verbatim}
 \usepackage{pentomino}
-\pentomino{5mm}{3}{20}{1}.
+\pentomino{5mm}{4}{15}{1}.
 \end{verbatim}
-\pentomino{5mm}{3}{20}{1}.
+\pentomino{5mm}{4}{15}{1}.
 \begin{verbatim}
-\pentomino{5mm}{4}{15}{1}.
+\pentomino{5mm}{3}{20}{1}.
 \end{verbatim}
-\pentomino{5mm}{4}{15}{1}.
+\pentomino{5mm}{3}{20}{1}.
 \end{frame}
 
 
@@ -231,7 +233,6 @@
 %
 \begin{frame}{참고}
   \begin{itemize}
-  \item \href{https://en.wikipedia.org/wiki/Exact_cover}{Exact cover proglem}
   \item \href{http://www-cs-faculty.stanford.edu/~knuth/fasc5c.ps.gz}
     {\textsc{The Art of Computer Programming Pre-Fascicle 5c}}
   \item \href{https://github.com/sjnam/lua-dancing-links}
