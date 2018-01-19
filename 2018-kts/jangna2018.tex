@@ -48,7 +48,6 @@
 %%
 \section{댄싱 링크, Dancing links}
 
-\let\a\alert
 %
 \begin{frame}{Exact cover 문제}
   다음 행렬에서, 모든 열이 1이 되도록 하는 행들의 집합을 구하여라.
@@ -72,12 +71,12 @@
     $$
     \bordermatrix{
       \mathstrut&&&&&&&\cr  
-      &\a0&\a0&\a1&\a0&\a1&\a1&\a0\cr
-      &1&0&0&1&0&0&1\cr
-      &0&1&1&0&0&1&0\cr
-      &\a1&\a0&\a0&\a1&\a0&\a0&\a0\cr
-      &\a0&\a1&\a0&\a0&\a0&\a0&\a1\cr
-      &0&0&0&1&1&0&1}
+      &0&0&1&0&1&1&0\cr
+      \cr
+      \cr 
+      &1&0&0&1&0&0&0\cr
+      &0&1&0&0&0&0&1\cr
+      \cr}
     $$}
 \end{frame}
 
@@ -114,9 +113,11 @@
 \end{frame}
 
 \renewcommand\arraystretch{1.2}
-%
-\begin{frame}{알고리즘 엑스}
-  \Large\boldmath
+\let\a\alert
+\def\g{\color{LightGray}}
+
+\begin{frame}{알고리즘 엑스, Algorithm X}
+\Large\boldmath
   $$
   \begin{array}{ccccccc}
     A & B & C & D & E & F & G\\
@@ -131,16 +132,176 @@
 \end{frame}
 
 %
-\begin{frame}{알고리즘 엑스}
+\begin{frame}{Algorithm X}
+\Large\boldmath
+  $$
+  \begin{array}{ccccccc}
+    \a A & B & C & \a D & E & F & \a G\\
+    C & E & F &&&&\\
+    \a A & \a D & \a G &&&&\\
+    B & C & F &&&&\\
+    A & D &&&&&\\
+    B & G &&&&&\\
+    D & E & G &&&&
+  \end{array}
+  $$
+\end{frame}
+
+%
+\begin{frame}{Algorithm X}
+\Large\boldmath
+  $$
+  \begin{array}{ccccccc}
+    \a A & B & C & \a D & E & F & \a G\\
+    C & E & F &&&&\\
+    \a A & \a D & \a G &&&&\\
+    B & C & F &&&&\\
+    \g A & \g D &&&&&\\
+    \g B & \g G &&&&&\\
+    \g D & \g E & \g G &&&&
+  \end{array}
+  $$
+\end{frame}
+
+%
+\begin{frame}{Algorithm X}
+\Large\boldmath
+  $$
+  \begin{array}{ccccccc}
+    \a A & B & \a C & \a D & \a E & \a F & \a G\\
+    \a C & \a E & \a F &&&&\\
+    \a A & \a D & \a G &&&&\\
+    B & C & F &&&&\\
+    \g A & \g D &&&&&\\
+    \g B & \g G &&&&&\\
+    \g D & \g E & \g G &&&&
+  \end{array}
+  $$
+\end{frame}
+
+%
+\begin{frame}{Algorithm X}
   \Large\boldmath
   $$
   \begin{array}{ccccccc}
-    A & B & C & D & E & F & G\\
+    \a A & B & \a C & \a D & \a E & \a F & \a G\\
     \a C & \a E & \a F &&&&\\
+    \a A & \a D & \a G &&&&\\
+    \g B & \g C & \g F &&&&\\
+    \g A & \g D &&&&&\\
+    \g B & \g G &&&&&\\
+    \g D & \g E & \g G &&&&
+  \end{array}
+  $$
+\end{frame}
+
+%
+\begin{frame}{Algorithm X}
+\Large\boldmath
+  $$
+  \begin{array}{ccccccc}
+    A & B & C & D & E & F & G\\
+    C & E & F &&&&\\
+    A & D & G &&&&\\
+    B & C & F &&&&\\
+    A & D &&&&&\\
+    B & G &&&&&\\
+    D & E & G &&&&
+  \end{array}
+  $$
+\end{frame}
+
+%
+\begin{frame}{Algorithm X}
+\Large\boldmath
+  $$
+  \begin{array}{ccccccc}
+    \a A & B & C & \a D & E & F & G\\
+    C & E & F &&&&\\
     A & D & G &&&&\\
     B & C & F &&&&\\
     \a A & \a D &&&&&\\
+    B & G &&&&&\\
+    D & E & G &&&&
+  \end{array}
+  $$
+\end{frame}
+
+%
+\begin{frame}{Algorithm X}
+\Large\boldmath
+  $$
+  \begin{array}{ccccccc}
+    \a A & B & C & \a D & E & F & G\\
+    C & E & F &&&&\\
+    \g A & \g D & \g G &&&&\\
+    B & C & F &&&&\\
+    \a A & \a D &&&&&\\
+    B & G &&&&&\\
+    \g D & \g E & \g G &&&&
+  \end{array}
+  $$
+\end{frame}
+
+%
+\begin{frame}{Algorithm X}
+\Large\boldmath
+  $$
+  \begin{array}{ccccccc}
+    \a A & B & \a C & \a D & \a E & \a F & G\\
+    \a C & \a E & \a F &&&&\\
+    \g A & \g D & \g G &&&&\\
+    B & C & F &&&&\\
+    \a A & \a D &&&&&\\
+    B & G &&&&&\\
+    \g D & \g E & \g G &&&&
+  \end{array}
+  $$
+\end{frame}
+
+%
+\begin{frame}{Algorithm X}
+\Large\boldmath
+  $$
+  \begin{array}{ccccccc}
+    \a A & B & \a C & \a D & \a E & \a F & G\\
+    \a C & \a E & \a F &&&&\\
+    \g A & \g D & \g G &&&&\\
+    \g B & \g C & \g F &&&&\\
+    \a A & \a D &&&&&\\
+    B & G &&&&&\\
+    \g D & \g E & \g G &&&&
+  \end{array}
+  $$
+\end{frame}
+
+%
+\begin{frame}{Algorithm X}
+\Large\boldmath
+$$
+  \begin{array}{ccccccc}
+    \a A & \a B & \a C & \a D & \a E & \a F & \a G\\
+    \a C & \a E & \a F &&&&\\
+    \g A & \g D & \g G &&&&\\
+    \g B & \g C & \g F &&&&\\
+    \a A & \a D &&&&&\\
     \a B & \a G &&&&&\\
+    \g D & \g E & \g G &&&&
+  \end{array}
+  $$
+\end{frame}
+
+%
+\begin{frame}{Algorithm X}
+\Large\boldmath
+  $$
+  \begin{array}{ccccccc}
+    A & B & C & D & E & F & G\\
+    C & E & F &&&&\\
+    A & D & G &&&&\\
+    B & C & F &&&&\\
+    A & D &&&&&\\
+    B & G &&&&&\\
     D & E & G &&&&
   \end{array}
   $$
@@ -170,7 +331,7 @@
 \begin{frame}{펜토미노}
   \begin{center}
   {\Large 12 조각} \\
-  \includegraphics[height=5cm]{imgs/pentominoes.png}
+  \includegraphics[height=4.5cm]{imgs/pentominoes.png}
   \end{center}
 \end{frame}
 
@@ -193,16 +354,16 @@
 %
 \begin{frame}[fragile]{펜토미노 타일링}
 \begin{verbatim}
-\pentomino{5mm}{4}{15}{1}.
+\pentomino{5mm}{5}{12}{1}.
 \end{verbatim}
 \vspace{-5mm}
-\pentomino{5mm}{4}{15}{1}.
+\pentomino{5mm}{5}{12}{1}.
 \vspace{-5mm}
 \begin{verbatim}
-\pentomino{5mm}{5}{12}{1}.
+\pentomino{5mm}{4}{15}{1}.
 \end{verbatim}
 \vspace{-5mm}
-\pentomino{5mm}{5}{12}{1}.
+\pentomino{5mm}{4}{15}{1}.
 \end{frame}
 
 
@@ -213,7 +374,7 @@
 \begin{frame}[fragile]{수도쿠}
   \begin{Verbatim}[fontsize=\small]
 \usepackage{sudoku-dlx}
-\Sudoku {9.......6.3.4....9...915.8..8.5..7..%
+\Sudoku{9.......6.3.4....9...915.8..8.5..7..%
 ..3.9.4....2..1.9.32176....6..1.2.3.8...5...1}
 \end{Verbatim}  
 \begin{center}
@@ -238,6 +399,16 @@
 
 %%
 \section{여왕 배치 문제}
+
+%
+\begin{frame}[fragile]{여왕 배치 문제}
+\begin{verbatim}
+\usepackage{queens}
+\queens{4}.
+\end{verbatim}
+\vspace{-10mm}
+\queens{4}.
+\end{frame}
 
 %
 \begin{frame}[fragile]{여왕 배치 문제}
