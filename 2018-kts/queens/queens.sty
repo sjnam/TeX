@@ -7,10 +7,10 @@
 \directlua{require "queens"}
 
 \protected\def\queens#1#2.{%
-  \def\n{#2}
-  \ifx\empty\n \def\n{10000}\fi
+  \def\@n{#2}
+  \ifx\empty\@n \def\@n{10000}\fi
   \begingroup
   \parindent0pt
-  \directlua{queens.chessboard(#1,\n)}
+  \directlua{queens.chessboard(#1,\@n)}
   \endgroup
 }

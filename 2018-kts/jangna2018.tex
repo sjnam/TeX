@@ -7,12 +7,12 @@
 \usetheme[titleformat=smallcaps,subsectionpage=progressbar]{metropolis}
 \metroset{outer/progressbar=head}
 
+\usepackage{fancyvrb}
 \usepackage{kotex}
 
-\setsanshangulfont{Noto Sans CJK KR}[
+\setsanshangulfont{Kakao OTF}[
   Script=Hangul,
   Language=Korean,
-  UprightFont=* DemiLight,
   BoldFont=* Bold,
   InterLatinCJK=.125em,
 ]
@@ -51,7 +51,7 @@
 \let\a\alert
 %
 \begin{frame}{Exact cover 문제}
-  다음 행렬에서, 모든 열이 오직 1만을 갖도록 하는 행들의 집합을 구하여라.
+  다음 행렬에서, 모든 열이 1이 되도록 하는 행들의 집합을 구하여라.
   {\Large\boldmath
     $$
     \bordermatrix{
@@ -67,7 +67,7 @@
 
 %
 \begin{frame}{Exact cover 문제}
-  다음 행렬에서, 모든 열이 오직 1만을 갖도록 하는 행들의 집합을 구하여라.
+  다음 행렬에서, 모든 열이 1이 되도록 하는 행들의 집합을 구하여라.
   {\Large\boldmath
     $$
     \bordermatrix{
@@ -178,13 +178,31 @@
 \begin{frame}[fragile]{펜토미노 타일링}
 \begin{verbatim}
 \usepackage{pentomino}
-\pentomino{5mm}{4}{15}{1}.
+\pentomino{5mm}{6}{10}{1}.
 \end{verbatim}
-\pentomino{5mm}{4}{15}{1}.
+\vspace{-5mm}
+\pentomino{5mm}{6}{10}{1}.
+\vspace{-5mm}
 \begin{verbatim}
 \pentomino{5mm}{3}{20}{1}.
 \end{verbatim}
+\vspace{-5mm}
 \pentomino{5mm}{3}{20}{1}.
+\end{frame}
+
+%
+\begin{frame}[fragile]{펜토미노 타일링}
+\begin{verbatim}
+\pentomino{5mm}{4}{15}{1}.
+\end{verbatim}
+\vspace{-5mm}
+\pentomino{5mm}{4}{15}{1}.
+\vspace{-5mm}
+\begin{verbatim}
+\pentomino{5mm}{5}{12}{1}.
+\end{verbatim}
+\vspace{-5mm}
+\pentomino{5mm}{5}{12}{1}.
 \end{frame}
 
 
@@ -193,10 +211,11 @@
 
 %
 \begin{frame}[fragile]{수도쿠}
-\begin{verbatim}
+  \begin{Verbatim}[fontsize=\small]
+\usepackage{sudoku-dlx}
 \Sudoku {9.......6.3.4....9...915.8..8.5..7..%
 ..3.9.4....2..1.9.32176....6..1.2.3.8...5...1}
-\end{verbatim}  
+\end{Verbatim}  
 \begin{center}
   \Sudoku{9.......6.3.4....9...915.8..8.5..7..%
     ..3.9.4....2..1.9.32176....6..1.2.3.8...5...1}
@@ -205,10 +224,11 @@
 
 %
 \begin{frame}[fragile]{수도쿠}
-\begin{verbatim}
+\begin{Verbatim}[fontsize=\small]
+\usepackage{sudoku-dlx}
 \Sudoku*{9.......6.3.4....9...915.8..8.5..7..%
 ..3.9.4....2..1.9.32176....6..1.2.3.8...5...1}
-\end{verbatim}
+\end{Verbatim}
 \begin{center}
   \Sudoku*{9.......6.3.4....9...915.8..8.5..7..%
     ..3.9.4....2..1.9.32176....6..1.2.3.8...5...1}
