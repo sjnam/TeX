@@ -48,11 +48,13 @@
 
 \def\sudoku@#1{%
   \directlua{sudokudlx.solve(
-    \ifx\answ@r Ytrue\else flase\fi, "#1")}}
+    \ifx\answ@r Ytrue\else flase\fi, "#1")}
+  \egroup}
 
 \protected\def\Sudoku#1#{%
-  \renewcommand*\sudokuformat[1]{\Large\bfseries\ttfamily##1}
-  \setlength\sudokusize{6cm}
+  \bgroup\parindent=0pt
+  \renewcommand*\sudokuformat[1]{\Large\bfseries\ttfamily##1}%
+  \setlength\sudokusize{6cm}%
   \ifx\empty#1\empty
     \let\answ@r N%
   \else
