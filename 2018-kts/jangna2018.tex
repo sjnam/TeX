@@ -7,9 +7,7 @@
 \usetheme[titleformat=smallcaps,subsectionpage=progressbar]{metropolis}
 \metroset{outer/progressbar=head}
 
-\usepackage{fancyvrb}
 \usepackage{kotex}
-
 \setsanshangulfont{Kakao OTF}[
   Script=Hangul,
   Language=Korean,
@@ -48,6 +46,7 @@
 \let\a\alert
 \def\g{\color{LightGray}}
 
+\subsection{Exact cover 문제}
 %
 \begin{frame}{Exact cover 문제}
   다음 행렬에서, 모든 열을 1로 만드는 행들을 찾아라.
@@ -113,6 +112,8 @@
 \end{frame}
 
 \renewcommand\arraystretch{1.2}
+
+\subsection{알고리즘 엑스, Algorithm X}
 
 \begin{frame}{알고리즘 엑스, 비결정적}
 \Large\boldmath
@@ -305,6 +306,7 @@ $$
   $$
 \end{frame}
 
+\subsection{댄싱 링크}
 %
 \begin{frame}{댄싱 링크}
   \begin{itemize}
@@ -318,6 +320,10 @@ $$
     \includegraphics[height=60mm]{imgs/cdance-4.png}
   \end{center}
 \end{frame}
+
+
+%%
+\section{댄싱 링크 패키지}
 
 %
 \begin{frame}[fragile]{댄싱 링크 패키지}
@@ -334,7 +340,7 @@ $$
 
 
 %%
-\section{펜토미노 타일 붙이기}
+\subsection{펜토미노 타일 붙이기}
 
 %
 \begin{frame}{펜토미노}
@@ -376,14 +382,14 @@ $$
 
 
 %%
-\section{수도쿠}
+\subsection{수도쿠}
 
 %
 \begin{frame}[fragile]{수도쿠}
-  \begin{Verbatim}[fontsize=\small]
+\begin{verbatim}
 \Sudoku{9.......6.3.4....9...915.8..8.5..7..%
 ..3.9.4....2..1.9.32176....6..1.2.3.8...5...1}
-\end{Verbatim}  
+\end{verbatim}  
 \begin{center}
   \Sudoku{9.......6.3.4....9...915.8..8.5..7..%
     ..3.9.4....2..1.9.32176....6..1.2.3.8...5...1}
@@ -392,10 +398,10 @@ $$
 
 %
 \begin{frame}[fragile]{수도쿠}
-\begin{Verbatim}[fontsize=\small]
+\begin{verbatim}
 \Sudoku*{9.......6.3.4....9...915.8..8.5..7..%
 ..3.9.4....2..1.9.32176....6..1.2.3.8...5...1}
-\end{Verbatim}
+\end{verbatim}
 \begin{center}
   \Sudoku*{9.......6.3.4....9...915.8..8.5..7..%
     ..3.9.4....2..1.9.32176....6..1.2.3.8...5...1}
@@ -404,7 +410,7 @@ $$
 
 
 %%
-\section{체스 여왕 배치 하기}
+\subsection{체스 여왕 배치 하기}
 
 %
 \begin{frame}[fragile]{여왕 배치 문제}
