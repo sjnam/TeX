@@ -50,7 +50,7 @@
 \def\g{\color{LightGray}}
 
 %
-\begin{frame}{Exact cover 문제}
+\begin{frame}{덮개 문제}
   다음 행렬에서, 모든 열을 1로 만드는 행들을 찾아라.
   {\Large\boldmath
     $$
@@ -66,7 +66,7 @@
 \end{frame}
 
 %
-\begin{frame}{Exact cover 문제}
+\begin{frame}{덮개 문제}
   다음 행렬에서, 모든 열을 1로 만드는 행들을 찾아라.
   {\Large\boldmath
     $$
@@ -82,7 +82,7 @@
 \end{frame}
 
 %
-\begin{frame}{Exact cover 문제}
+\begin{frame}{덮개 문제}
 \Large\boldmath
   \begin{figure}[!htb]
     \hskip-17mm\begin{minipage}{.7\textwidth}
@@ -320,9 +320,22 @@ $$
   \end{center}
 \end{frame}
 
+%
+\begin{frame}[fragile]{댄싱 링크 패키지}
+  \begin{center}
+    \verb|\usepackage{dlx}|
+  \end{center}
+  
+  \begin{itemize}
+  \item \verb|\pentomino|
+  \item \verb|\Sudoku|
+  \item \verb|\queens|
+  \end{itemize}
+\end{frame}
+
 
 %%
-\section{펜토미노 타일링}
+\section{펜토미노 타일 붙이기}
 
 %
 \begin{frame}{펜토미노}
@@ -335,7 +348,6 @@ $$
 %
 \begin{frame}[fragile]{펜토미노 타일링}
 \begin{verbatim}
-\usepackage{dlx}
 \pentomino{5mm}{6}{10}{1}.
 \end{verbatim}
 \vspace{-5mm}
@@ -370,7 +382,6 @@ $$
 %
 \begin{frame}[fragile]{수도쿠}
   \begin{Verbatim}[fontsize=\small]
-\usepackage{dlx}
 \Sudoku{9.......6.3.4....9...915.8..8.5..7..%
 ..3.9.4....2..1.9.32176....6..1.2.3.8...5...1}
 \end{Verbatim}  
@@ -383,7 +394,6 @@ $$
 %
 \begin{frame}[fragile]{수도쿠}
 \begin{Verbatim}[fontsize=\small]
-\usepackage{dlx}
 \Sudoku*{9.......6.3.4....9...915.8..8.5..7..%
 ..3.9.4....2..1.9.32176....6..1.2.3.8...5...1}
 \end{Verbatim}
@@ -395,12 +405,11 @@ $$
 
 
 %%
-\section{여왕 배치 문제}
+\section{체스 여왕 배치 하기}
 
 %
 \begin{frame}[fragile]{여왕 배치 문제}
 \begin{verbatim}
-\usepackage{dlx}
 \queens{4}.
 \end{verbatim}
 \vspace{-10mm}
@@ -410,7 +419,6 @@ $$
 %
 \begin{frame}[fragile]{여왕 배치 문제}
 \begin{verbatim}
-\usepackage{dlx}
 \queens{8}{2}.
 \end{verbatim}
 \vspace{-10mm}
@@ -419,7 +427,7 @@ $$
 
 
 %
-\begin{frame}{참고}
+\begin{frame}{참고 문헌}
   \begin{itemize}
   \item \href{http://www-cs-faculty.stanford.edu/~knuth/fasc5c.ps.gz}
     {\textsc{The Art of Computer Programming Pre-Fascicle 5c}}
