@@ -20,10 +20,11 @@ local ipairs = ipairs
 local sprint = tex.sprint
 local tonumber = tonumber
 local str_sub = string.sub
+local find_file = kpse.find_file
 
 
 local function draw (side, nr, nc, num)
-   local fname = nr.."x"..nc..".dlx"
+   local fname = find_file(nr.."x"..nc..".dlx")
    local lines = {}
    for line in io.lines(fname) do
       lines[#lines+1] = line
