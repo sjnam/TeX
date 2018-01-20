@@ -17,9 +17,7 @@
   InterLatinCJK=.125em,
 ]
 
-\usepackage{pentomino}
-\usepackage{sudoku-dlx}
-\usepackage{queens}
+\usepackage{dlx}
 
 
 % title
@@ -48,9 +46,12 @@
 %%
 \section{댄싱 링크, Dancing links}
 
+\let\a\alert
+\def\g{\color{LightGray}}
+
 %
 \begin{frame}{Exact cover 문제}
-  다음 행렬에서, 모든 열이 1이 되도록 하는 행들의 집합을 구하여라.
+  다음 행렬에서, 모든 열을 1로 만드는 행들을 찾아라.
   {\Large\boldmath
     $$
     \bordermatrix{
@@ -66,17 +67,17 @@
 
 %
 \begin{frame}{Exact cover 문제}
-  다음 행렬에서, 모든 열이 1이 되도록 하는 행들의 집합을 구하여라.
+  다음 행렬에서, 모든 열을 1로 만드는 행들을 찾아라.
   {\Large\boldmath
     $$
     \bordermatrix{
       \mathstrut&&&&&&&\cr  
       &0&0&1&0&1&1&0\cr
-      \cr
-      \cr 
+      &\g1&\g0&\g0&\g1&\g0&\g0&\g1\cr
+      &\g0&\g1&\g1&\g0&\g0&\g1&\g0\cr
       &1&0&0&1&0&0&0\cr
       &0&1&0&0&0&0&1\cr
-      \cr}
+      &\g0&\g0&\g0&\g1&\g1&\g0&\g1}
     $$}
 \end{frame}
 
@@ -113,10 +114,8 @@
 \end{frame}
 
 \renewcommand\arraystretch{1.2}
-\let\a\alert
-\def\g{\color{LightGray}}
 
-\begin{frame}{알고리즘 엑스, Algorithm X}
+\begin{frame}{알고리즘 엑스}
 \Large\boldmath
   $$
   \begin{array}{ccccccc}
@@ -132,7 +131,7 @@
 \end{frame}
 
 %
-\begin{frame}{Algorithm X}
+\begin{frame}{알고리즘 엑스, 비결정적}
 \Large\boldmath
   $$
   \begin{array}{ccccccc}
@@ -148,7 +147,7 @@
 \end{frame}
 
 %
-\begin{frame}{Algorithm X}
+\begin{frame}{알고리즘 엑스, 재귀적}
 \Large\boldmath
   $$
   \begin{array}{ccccccc}
@@ -164,7 +163,7 @@
 \end{frame}
 
 %
-\begin{frame}{Algorithm X}
+\begin{frame}{알고리즘 엑스}
 \Large\boldmath
   $$
   \begin{array}{ccccccc}
@@ -180,7 +179,7 @@
 \end{frame}
 
 %
-\begin{frame}{Algorithm X}
+\begin{frame}{알고리즘 엑스, 깊이 우선 탐색}
   \Large\boldmath
   $$
   \begin{array}{ccccccc}
@@ -196,7 +195,7 @@
 \end{frame}
 
 %
-\begin{frame}{Algorithm X}
+\begin{frame}{알고리즘 엑스, 백트래킹}
 \Large\boldmath
   $$
   \begin{array}{ccccccc}
@@ -212,7 +211,7 @@
 \end{frame}
 
 %
-\begin{frame}{Algorithm X}
+\begin{frame}{알고리즘 엑스}
 \Large\boldmath
   $$
   \begin{array}{ccccccc}
@@ -228,7 +227,7 @@
 \end{frame}
 
 %
-\begin{frame}{Algorithm X}
+\begin{frame}{알고리즘 엑스}
 \Large\boldmath
   $$
   \begin{array}{ccccccc}
@@ -244,7 +243,7 @@
 \end{frame}
 
 %
-\begin{frame}{Algorithm X}
+\begin{frame}{알고리즘 엑스}
 \Large\boldmath
   $$
   \begin{array}{ccccccc}
@@ -260,7 +259,7 @@
 \end{frame}
 
 %
-\begin{frame}{Algorithm X}
+\begin{frame}{알고리즘 엑스}
 \Large\boldmath
   $$
   \begin{array}{ccccccc}
@@ -276,7 +275,7 @@
 \end{frame}
 
 %
-\begin{frame}{Algorithm X}
+\begin{frame}{알고리즘 엑스}
 \Large\boldmath
 $$
   \begin{array}{ccccccc}
@@ -292,7 +291,7 @@ $$
 \end{frame}
 
 %
-\begin{frame}{Algorithm X}
+\begin{frame}{알고리즘 엑스}
 \Large\boldmath
   $$
   \begin{array}{ccccccc}
@@ -310,17 +309,15 @@ $$
 %
 \begin{frame}{댄싱 링크}
   \begin{itemize}
+  \item 비결정적, 재귀적, 깊이 우선 탐색, 백트래킹
   \item 알고리즘 엑스를 효율적으로 구현하는 하나의 기법
-
-    \begin{center}
-      \includegraphics[height=55mm]{imgs/cdance-4.png}
-    \end{center}
-
   \item \href{https://www.youtube.com/watch?v=pN76VICZiKU&start=100}
     {알고리즘이 진행되면서 변화하는 링크의 모양이 춤을 연상 시킴}
-  \item \href{https://github.com/sjnam/lua-dancing-links}
-    {lua-dancing-links}
   \end{itemize}
+  \vspace{-3mm}
+  \begin{center}
+    \includegraphics[height=60mm]{imgs/cdance-4.png}
+  \end{center}
 \end{frame}
 
 
@@ -338,7 +335,7 @@ $$
 %
 \begin{frame}[fragile]{펜토미노 타일링}
 \begin{verbatim}
-\usepackage{pentomino}
+\usepackage{dlx}
 \pentomino{5mm}{6}{10}{1}.
 \end{verbatim}
 \vspace{-5mm}
@@ -373,7 +370,7 @@ $$
 %
 \begin{frame}[fragile]{수도쿠}
   \begin{Verbatim}[fontsize=\small]
-\usepackage{sudoku-dlx}
+\usepackage{dlx}
 \Sudoku{9.......6.3.4....9...915.8..8.5..7..%
 ..3.9.4....2..1.9.32176....6..1.2.3.8...5...1}
 \end{Verbatim}  
@@ -386,7 +383,7 @@ $$
 %
 \begin{frame}[fragile]{수도쿠}
 \begin{Verbatim}[fontsize=\small]
-\usepackage{sudoku-dlx}
+\usepackage{dlx}
 \Sudoku*{9.......6.3.4....9...915.8..8.5..7..%
 ..3.9.4....2..1.9.32176....6..1.2.3.8...5...1}
 \end{Verbatim}
@@ -403,7 +400,7 @@ $$
 %
 \begin{frame}[fragile]{여왕 배치 문제}
 \begin{verbatim}
-\usepackage{queens}
+\usepackage{dlx}
 \queens{4}.
 \end{verbatim}
 \vspace{-10mm}
@@ -413,7 +410,7 @@ $$
 %
 \begin{frame}[fragile]{여왕 배치 문제}
 \begin{verbatim}
-\usepackage{queens}
+\usepackage{dlx}
 \queens{8}{2}.
 \end{verbatim}
 \vspace{-10mm}

@@ -1,8 +1,14 @@
 
-\ProvidesPackage{pentomino}[2018/01/10 v0.1 Pentomino tiling]
+\ProvidesPackage{dlx}[2018/02/03 v0.1 Dancing links]
 
 \RequirePackage{luatexbase}
+\RequirePackage{sudoku}
+\RequirePackage{chessboard}
 \@ifpackageloaded{xcolor}{}{\RequirePackage[svgnames]{xcolor}}
+%\RequirePackage{tikz}
+
+
+%% pentomino
 
 \directlua{require "pentomino"}
 
@@ -35,4 +41,37 @@
   \def\@n{#4}
   \ifx\empty\@n \def\@n{10000}\fi
   \directlua{pentomino.draw("#1",#2,#3,\@n)}}
+
+
+%% sudoku
+
+\directlua{require "sudoku"}
+
+\def\sudoku@#1{%
+  \directlua{sudokudlx.solve(
+    \ifx\answ@r Ytrue\else flase\fi, "#1")}}
+
+\protected\def\Sudoku#1#{%
+  \renewcommand*\sudokuformat[1]{\Large\bfseries\ttfamily##1}
+  \setlength\sudokusize{6cm}
+  \ifx\empty#1\empty
+    \let\answ@r N%
+  \else
+    \let\answ@r Y%
+  \fi
+  \sudoku@}
+
+
+%% queens
+
+\directlua{require "queens"}
+
+\protected\def\queens#1#2.{%
+  \def\@n{#2}
+  \ifx\empty\@n \def\@n{10000}\fi
+  \begingroup
+  \parindent0pt
+  \directlua{queens.chessboard(#1,\@n)}
+  \endgroup
+}
 
