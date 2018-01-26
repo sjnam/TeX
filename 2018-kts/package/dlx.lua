@@ -1,6 +1,6 @@
 
 --[[
-   dlx.lua
+   dlx2.lua
 
    Algorithm 7.2.2.1C (Exact covering with colors)
 
@@ -12,30 +12,34 @@
 local type = type
 local print = print
 local ipairs = ipairs
-local huge = math.huge
 local fread = io.read
-local write = io.write
+local huge = math.huge
+local tonumber = tonumber
 local str_rep = string.rep
-local str_match = string.match
+local str_gsub = string.gsub
 local tremove = table.remove
+local str_match = string.match
 local co_wrap = coroutine.wrap
 local co_yield = coroutine.yield
 local setmetatable = setmetatable
 
 
 local _M = {
-   _VERSION = "0.2.3",
+   _VERSION = "0.2.4",
    debug = false,
 }
 
 
-local mt = { __index = _M }
+local mt = {
+   __index = _M,
+}
 
 
 local function split (line, pat)
    local pat = pat or "%s"
    local elems = {}
-   line:gsub("([^"..pat.."]+)", function(c) elems[#elems+1] = c end)
+   str_gsub(line, "([^"..pat.."]+)", function(c) elems[#elems+1] = c end)
+
    return elems
 end
 
@@ -44,7 +48,17 @@ local function node (dlx, o)
    local o = o or {}
    setmetatable(o, dlx)
    dlx.__index = dlx
+
    return o
+end
+
+
+local function readline (lines)
+   if lines then
+      return tremove(lines, 1)
+   end
+
+   return fread()
 end
 
 
@@ -76,7 +90,7 @@ local function read_items (dlx, line)
 end
 
 
-local function read_options (dlx, line)
+local function read_option (dlx, line)
    -- Read an option.
    local option = split(line)
    local nodes, names = dlx.nodes, dlx.names
@@ -84,11 +98,7 @@ local function read_options (dlx, line)
    for j=1,k do
       local a, c = str_match(option[j], "(.+):(.+)")
       a = a or option[j]
-      if c then
-         c = tonumber(c, 36)
-      else
-         c = 0
-      end
+      c = c and tonumber(c, 36) or 0 
       local p = names[a]
       p.len = p.len + 1
       local q = p.ulink
@@ -113,19 +123,12 @@ local function read_options (dlx, line)
 end
 
 
-local function read_line (lines)
-   if lines then
-      return tremove(lines, 1)
-   end
-   return fread()
-end
+local function initialize (dlx, lines)
+   local line
+   repeat
+      line = readline(lines)
+   until not str_match(line, "^%s*|")
 
-
-local function setup (dlx, lines)
-   local line = read_line(lines)
-   while not line or str_match(line, "^%s*|") do
-      line = read_line(lines)
-   end
    read_items(dlx, line)
 
    --Prepare for options.
@@ -143,15 +146,17 @@ local function setup (dlx, lines)
    n1.top = 0
    
    while true do
-      line = read_line(lines)
+      line = readline(lines)
       if not line then break end
       if not str_match(line, "^%s*|") then
-         read_options(dlx, line)
+         read_option(dlx, line)
       end
    end
    dlx.Z = #dlx.nodes
 
-   if dlx.debug then dlx:memory_contents() end
+   if dlx.debug then
+      dlx:dump_memory()
+   end
 
    return dlx
 end
@@ -161,45 +166,49 @@ function _M:new (lines)
    if lines and type(lines) == "string" then
       lines = split(lines, "\n")
    end
-   local dlx = {
-      names = {},
-      nodes = {},
-   }
-   return setup(setmetatable(dlx, mt), lines)
+   local dlx = initialize(
+      {
+         names = {},
+         nodes = {},
+      },
+      lines
+   )
+   
+   return setmetatable(dlx, mt)
 end
 
 
-local function top (p)
+local function TOP (p)
    return p.nodes[p.top]
 end
 
 
-local function llink (i)
+local function LLINK (i)
    return i.nodes[i.llink]
 end
 
 
-local function rlink (i)
+local function RLINK (i)
    return i.nodes[i.rlink]
 end
 
 
-local function ulink (p)
+local function ULINK (p)
    return p.nodes[p.ulink]
 end
 
 
-local function dlink (p)
+local function DLINK (p)
    return p.nodes[p.dlink]
 end
 
 
-local function prev (p)
+local function PREV (p)
    return p.nodes[p.id-1]
 end
 
 
-local function next (p)
+local function NEXT (p)
    return p.nodes[p.id+1]
 end
 
@@ -209,11 +218,12 @@ local function COLOR (p)
 end
 
 
-local function mrv_heuristic (items)
+local function choose_item (items)
+   -- The "minimum remaining values" (MRV) heuristic
    local i
    local root = items[0]
    local theta = huge
-   local p = rlink(root)
+   local p = RLINK(root)
    while p ~= root do
       local lambda = p.len
       if lambda < theta then
@@ -221,16 +231,17 @@ local function mrv_heuristic (items)
          i = p
       end
       if theta == 0 then break end
-      p = rlink(p)
+      p = RLINK(p)
    end
+
    return i
 end
 
 
 local function hide (p)
-   local q = next(p)
+   local q = NEXT(p)
    while q ~= p do
-      local x, u, d = top(q), ulink(q), dlink(q)
+      local x, u, d = TOP(q), ULINK(q), DLINK(q)
       if q.top <= 0 then
          q = u
       else
@@ -238,27 +249,16 @@ local function hide (p)
             u.dlink, d.ulink = d.id, u.id
             x.len = x.len - 1
          end
-         q = next(q)
+         q = NEXT(q)
       end
    end
 end
 
 
-local function cover (i)
-   local p = dlink(i)
-   while p ~= i do
-      hide(p)
-      p = dlink(p)
-   end
-   local l, r = llink(i), rlink(i)
-   l.rlink, r.llink = r.id, l.id
-end
-
-
 local function unhide (p)
-   local q = prev(p)
+   local q = PREV(p)
    while q ~= p do
-      local x, u, d = top(q), ulink(q), dlink(q)
+      local x, u, d = TOP(q), ULINK(q), DLINK(q)
       if q.top <= 0 then
          q = d
       else
@@ -266,25 +266,36 @@ local function unhide (p)
             u.dlink, d.ulink = q.id, q.id
             x.len = x.len + 1
          end
-         q = prev(q)
+         q = PREV(q)
       end
    end
 end
 
 
+local function cover (i)
+   local p = DLINK(i)
+   while p ~= i do
+      hide(p)
+      p = DLINK(p)
+   end
+   local l, r = LLINK(i), RLINK(i)
+   l.rlink, r.llink = r.id, l.id
+end
+
+
 local function uncover (i)
-   llink(i).rlink, rlink(i).llink = i.id, i.id
-   local p = ulink(i)
+   LLINK(i).rlink, RLINK(i).llink = i.id, i.id
+   local p = ULINK(i)
    while p ~= i do
       unhide(p)
-      p = ulink(p)
+      p = ULINK(p)
    end
 end
 
 
 local function purify (p)
-   local c, i = COLOR(p), top(p)
-   local q = dlink(i)
+   local c, i = COLOR(p), TOP(p)
+   local q = DLINK(i)
    while q ~= i do
       if COLOR(q) ~= c then
          hide(q)
@@ -293,7 +304,7 @@ local function purify (p)
             q.color = -1
          end
       end
-      q = dlink(q)
+      q = DLINK(q)
    end
 end
 
@@ -308,8 +319,8 @@ end
 
 
 local function unpurify (p)
-   local c, i = COLOR(p), top(p)
-   local q = ulink(i)
+   local c, i = COLOR(p), TOP(p)
+   local q = ULINK(i)
    while q ~= i do
       if COLOR(q) < 0 then
          q.color = c
@@ -318,7 +329,7 @@ local function unpurify (p)
             unhide(q)
          end
       end
-      q = ulink(q)
+      q = ULINK(q)
    end
 end
 
@@ -332,24 +343,24 @@ local function uncommit (p, j)
 end
 
 
-local function print_option (p)
+local function get_option (p)
    if p.id <= p.N or p.id > p.Z or p.top <= 0 then
       return nil, "x is out of range"
    end
    -- find start item in the option
-   local q = next(p)
+   local q = NEXT(p)
    while q ~= p do
       if q.top <= 0 then
-         q = ulink(q)
+         q = ULINK(q)
          break
       end
-      q = next(q)
+      q = NEXT(q)
    end
 
    local option = {}
    repeat
       option[#option+1] = q.name
-      q = next(q)
+      q = NEXT(q)
    until q.top <= 0
 
    return option
@@ -357,7 +368,7 @@ end
 
 
 -- print contents of memory
-function _M:memory_contents ()
+function _M:dump_memory ()
    local nodes = self.nodes
    print('i',  'NAME', 'LLINK', 'RLINK')
    local n = 0
@@ -390,10 +401,10 @@ local function dance (dlx)
    -- C2. [Enter level l.]
    ::C2::
    if root.rlink == 0 then
-      if dlx.debug then dlx:memory_contents() end
+      if dlx.debug then dlx:dump_memory() end
       local sol = {}
       for k=0,l-1 do
-         local opt, err = print_option(x[k])
+         local opt, err = get_option(x[k])
          if not opt then
             print(err)
          else
@@ -405,25 +416,27 @@ local function dance (dlx)
    end
 
    -- C3. [Choose i.], Exercise 9
-   i = mrv_heuristic(dlx.nodes)
-   if not i then return nil end
+   i = choose_item(dlx.nodes)
+   if not i then
+      return
+   end
 
    -- C4. [Cover i.]
    cover(i)
-   x[l] = dlink(i)
+   x[l] = DLINK(i)
    
    -- C5. [Try x[l].]
    ::C5::
    if x[l] == i then
       goto C7
    else
-      p = next(x[l])
+      p = NEXT(x[l])
       while p ~= x[l] do
          if p.top <= 0 then
-            p = ulink(p)
+            p = ULINK(p)
          else
-            commit(p, top(p))
-            p = next(p)
+            commit(p, TOP(p))
+            p = NEXT(p)
          end
       end
       l = l + 1
@@ -432,17 +445,17 @@ local function dance (dlx)
    
    -- C6. [Try again.]
    ::C6::
-   p = prev(x[l])
+   p = PREV(x[l])
    while p ~= x[l] do
       if p.top <= 0 then
-         p = dlink(p)
+         p = DLINK(p)
       else
-         uncommit(p, top(p))
-         p = prev(p)
+         uncommit(p, TOP(p))
+         p = PREV(p)
       end
    end
-   i = top(x[l])
-   x[l] = dlink(x[l])
+   i = TOP(x[l])
+   x[l] = DLINK(x[l])
    goto C5
    
    -- C7. [Backtrack]
