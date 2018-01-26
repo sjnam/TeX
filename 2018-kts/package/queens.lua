@@ -14,7 +14,7 @@ queens = queens or {}
 local queens = queens
 
 
-local dlx1 = require "dlx1"
+local dlx = require "dlx"
 
 local write = tex.sprint
 local tonumber = tonumber
@@ -76,8 +76,8 @@ local function chessboard (n, num)
    end
 
    -- dance
-   local dlx, err = dlx1:new(lines)
-   if not dlx then
+   local xc, err = dlx:new(lines)
+   if not xc then
       write("setup error:"..err.."\n")
       return
    end
@@ -86,7 +86,7 @@ local function chessboard (n, num)
                 n, n, bytea+n-1, n))
 
    local i = 0
-   for sol in dlx:dance() do
+   for sol in xc:dance() do
       i = i + 1
       if i > num then break end
       if i % 2 == 1 then write("\\begin{center}") end

@@ -1,10 +1,10 @@
 
 --[[
-   dlx1.lua
+   dlx.lua
 
-   Algorithm 7.2.2.1D (Exact cover via dancing links)
+   Algorithm 7.2.2.1C (Exact covering with colors)
 
-   This code is based on the Algorithm D described in
+   This code is based on the Algorithm C described in
    http://www-cs-faculty.stanford.edu/~knuth/fasc5c.ps.gz
 --]]
 
@@ -82,7 +82,14 @@ local function read_options (dlx, line)
    local nodes, names = dlx.nodes, dlx.names
    local k = #option
    for j=1,k do
-      local p = names[option[j]]
+      local a, c = str_match(option[j], "(.+):(.+)")
+      a = a or option[j]
+      if c then
+         c = tonumber(c, 36)
+      else
+         c = 0
+      end
+      local p = names[a]
       p.len = p.len + 1
       local q = p.ulink
       local nd = {
@@ -90,7 +97,8 @@ local function read_options (dlx, line)
          ulink = q,
          dlink = p.id,
          top = p.id,
-         name = p.name,
+         name = option[j],
+         color = c,
       }
       nodes[q].dlink = nd.id
       p.ulink = nd.id
@@ -133,7 +141,7 @@ local function setup (dlx, lines)
    local n1 = dlx.nodes[dlx.p]
    n1.id = dlx.p
    n1.top = 0
-
+   
    while true do
       line = read_line(lines)
       if not line then break end
@@ -196,6 +204,11 @@ local function next (p)
 end
 
 
+local function COLOR (p)
+   return p.color or 0
+end
+
+
 local function mrv_heuristic (items)
    local i
    local root = items[0]
@@ -221,8 +234,10 @@ local function hide (p)
       if q.top <= 0 then
          q = u
       else
-         u.dlink, d.ulink = d.id, u.id
-         x.len = x.len - 1
+         if COLOR(q) >= 0 then
+            u.dlink, d.ulink = d.id, u.id
+            x.len = x.len - 1
+         end
          q = next(q)
       end
    end
@@ -247,8 +262,10 @@ local function unhide (p)
       if q.top <= 0 then
          q = d
       else
-         u.dlink, d.ulink = q.id, q.id
-         x.len = x.len + 1
+         if COLOR(q) >= 0 then
+            u.dlink, d.ulink = q.id, q.id
+            x.len = x.len + 1
+         end
          q = prev(q)
       end
    end
@@ -261,6 +278,56 @@ local function uncover (i)
    while p ~= i do
       unhide(p)
       p = ulink(p)
+   end
+end
+
+
+local function purify (p)
+   local c, i = COLOR(p), top(p)
+   local q = dlink(i)
+   while q ~= i do
+      if COLOR(q) ~= c then
+         hide(q)
+      else
+         if q ~= p then
+            q.color = -1
+         end
+      end
+      q = dlink(q)
+   end
+end
+
+
+local function commit (p, j)
+   if COLOR(p) == 0 then
+      cover(j)
+   elseif COLOR(p) > 0 then
+      purify(p)
+   end
+end
+
+
+local function unpurify (p)
+   local c, i = COLOR(p), top(p)
+   local q = ulink(i)
+   while q ~= i do
+      if COLOR(q) < 0 then
+         q.color = c
+      else
+         if q ~= p then
+            unhide(q)
+         end
+      end
+      q = ulink(q)
+   end
+end
+
+
+local function uncommit (p, j)
+   if COLOR(p) == 0 then
+      uncover(j)
+   elseif COLOR(p) > 0 then
+      unpurify(p)
    end
 end
 
@@ -305,10 +372,10 @@ function _M:memory_contents ()
       local v = nodes[j]
       print(v.id, v.len or v.top, v.ulink, v.dlink)
    end
-   print('x', 'TOP', 'ULINK', 'DLINK')
+   print('x', 'TOP', 'ULINK', 'DLINK', 'COLOR')
    for j=n,#nodes do
       local v = nodes[j]
-      print(v.id, v.len or v.top, v.ulink, v.dlink)
+      print(v.id, v.len or v.top, v.ulink, v.dlink, v.color)
    end
    print()
 end
@@ -320,8 +387,8 @@ local function dance (dlx)
    local x = {}
    local root = dlx.nodes[0]
 
-   -- D2. [Enter level l.]
-   ::D2::
+   -- C2. [Enter level l.]
+   ::C2::
    if root.rlink == 0 then
       if dlx.debug then dlx:memory_contents() end
       local sol = {}
@@ -334,61 +401,61 @@ local function dance (dlx)
          end
       end
       co_yield(sol)
-      goto D8 
+      goto C8 
    end
 
-   -- D3. [Choose i.], Exercise 9
+   -- C3. [Choose i.], Exercise 9
    i = mrv_heuristic(dlx.nodes)
    if not i then return nil end
 
-   -- D4. [Cover i.]
+   -- C4. [Cover i.]
    cover(i)
    x[l] = dlink(i)
    
-   -- D5. [Try x[l].]
-   ::D5::
+   -- C5. [Try x[l].]
+   ::C5::
    if x[l] == i then
-      goto D7
+      goto C7
    else
       p = next(x[l])
       while p ~= x[l] do
          if p.top <= 0 then
             p = ulink(p)
          else
-            cover(top(p))
+            commit(p, top(p))
             p = next(p)
          end
       end
       l = l + 1
-      goto D2
+      goto C2
    end
    
-   -- D6. [Try again.]
-   ::D6::
+   -- C6. [Try again.]
+   ::C6::
    p = prev(x[l])
    while p ~= x[l] do
       if p.top <= 0 then
          p = dlink(p)
       else
-         uncover(top(p))
+         uncommit(p, top(p))
          p = prev(p)
       end
    end
    i = top(x[l])
    x[l] = dlink(x[l])
-   goto D5
+   goto C5
    
-   -- D7. [Backtrack]
-   ::D7::
+   -- C7. [Backtrack]
+   ::C7::
    uncover(i)
    
-   -- D8. [Leave level l.]
-   ::D8::
+   -- C8. [Leave level l.]
+   ::C8::
    if l == 0 then
       return
    end
    l = l - 1
-   goto D6
+   goto C6
 end
 
 

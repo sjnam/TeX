@@ -14,7 +14,7 @@ pentomino = pentomino or {}
 local pentomino = pentomino
 
 
-local dlx1 = require "dlx1"
+local dlx = require "dlx"
 
 local ipairs = ipairs
 local sprint = tex.sprint
@@ -30,8 +30,8 @@ local function draw (side, nr, nc, num)
       lines[#lines+1] = line
    end
    
-   local dlx, err = dlx1:new(lines)
-   if not dlx then
+   local xc, err = dlx:new(lines)
+   if not xc then
       sprint("setup error:", err)
       return
    end
@@ -40,7 +40,7 @@ local function draw (side, nr, nc, num)
    for i=0,nr do box[i] = {} end
 
    local cnt=0
-   for sol in dlx:dance() do
+   for sol in xc:dance() do
       cnt = cnt+1
       if cnt > num then break end
       for _, opt in ipairs(sol) do

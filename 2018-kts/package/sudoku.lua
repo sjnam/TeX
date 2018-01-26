@@ -14,7 +14,7 @@ sudokudlx = sudokudlx or {}
 local sudokudlx = sudokudlx
 
 
-local dlx1 = require "dlx1"
+local dlx = require "dlx"
 
 
 local type = type
@@ -141,12 +141,12 @@ local function xsudoku (puzzle)
    local board, lines = prepareInput(puzzle)
 
    -- dlx setup
-   local dlx, err = dlx1:new(lines)
-   if not dlx then
+   local xc, err = dlx:new(lines)
+   if not xc then
       return nil, "setup error: "..err 
    end
    -- Let's dance!
-   for sol in dlx:dance() do 
+   for sol in xc:dance() do 
       local brd = {}
       for j=1,9 do
          brd[j] = board[j]
