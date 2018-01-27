@@ -75,7 +75,7 @@
 \end{frame}
 
 %%
-\subsection{알고리즘 엑스}
+\subsection{Algorithm X}
 
 %
 \begin{frame}{알고리즘 엑스}
@@ -290,19 +290,20 @@ $$
 \end{frame}
 
 
-\subsection{댄싱 링크, Dancing links}
+\subsection{Dancing links}
 %
 \begin{frame}{댄싱 링크}
   \begin{itemize}
-  \item 알고리즘 엑스: 비결정적, 재귀적, 깊이 우선 탐색, 백트래킹
+  \item \textsc{Algorithm X}: NP-완전 문제,
+    다항식 시간 안에 해결하는 알고리즘이 발견되지 않음.
   \item 알고리즘 엑스를 효율적으로 구현하는 하나의 기법
   \item \href{https://www.youtube.com/watch?v=pN76VICZiKU&start=100}
     {알고리즘이 진행되면서 변화하는 링크의 모양이 춤을 연상 시킴}
   \end{itemize}
   \begin{center}
-    \includegraphics[height=45mm]{imgs/cdance-2.png}
+    \includegraphics[height=49mm]{imgs/cdance-2.png}
     ~
-    \includegraphics[height=45mm]{imgs/cdance-4.png}
+    \includegraphics[height=49mm]{imgs/cdance-4.png}
   \end{center}
 \end{frame}
 
@@ -314,10 +315,13 @@ $$
 \begin{frame}[fragile]{댄싱 링크 패키지}
   \begin{itemize}
     \setlength\itemsep{1em}
-  \item 루아 구현, \href{https://github.com/sjnam/lua-dancing-links}
+  \item \alert{dlx.lua,} \href{https://github.com/sjnam/lua-dancing-links}
     {lua-dancing-links}
-  \item 라텍 패키지, dlx.sty
+  \item 체스 여왕 배치, 수도쿠, 펜토미노, 얼룩말 퍼즐등 많은 문제가
+    \textsc{exact cover} 문제로 치환 될 수 있다.
+  \item 라텍 패키지, \alert{dlx.sty}
     \begin{itemize}
+    \item \verb|\usepackage{dlx}|
     \item \verb|\pentomino|
     \item \verb|\Sudoku|
     \item \verb|\queens|
@@ -430,7 +434,7 @@ $$
 
 %
 \begin{frame}[standout]
-  감사합니다
+  Question?
 \end{frame}
 
 \end{document}
