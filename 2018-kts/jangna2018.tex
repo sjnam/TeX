@@ -8,11 +8,21 @@
 \metroset{outer/progressbar=head}
 
 \usepackage{kotex}
+
+\setsanshangulfont{NanumGothicOTF}[
+  Script=Hangul,
+  Language=Korean,
+  UprightFont=* Light,
+  BoldFont=* Bold,
+  InterLatinCJK=.125em,
+]
+
 \usepackage{dlx}
 
 
 % title
 \title{댄싱 링크 패키지}
+\subtitle{텍으로 하는 퍼즐 조판}
 \date{2018년 2월 3일}
 \author{남수진}
 \institute{
@@ -243,6 +253,22 @@
 \end{frame}
 
 %
+\begin{frame}{알고리즘 엑스}
+\Large\boldmath
+  $$
+  \begin{array}{ccccccc}
+    \a A & B & C & \a D & E & F & \a G\\
+    C & E & F &&&&\\
+    \a A & \a D & \a G &&&&\\
+    B & C & F &&&&\\
+    \g A & \g D &&&&&\\
+    \g B & \g G &&&&&\\
+    \g D & \g E & \g G &&&&
+  \end{array}
+  $$
+\end{frame}
+
+
 \begin{frame}{알고리즘 엑스, 백트래킹}
 \Large\boldmath
   $$
