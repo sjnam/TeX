@@ -4,7 +4,7 @@
 
 \documentclass[xcolor=svgnames]{beamer}
 
-\usetheme[titleformat=smallcaps,subsectionpage=progressbar]{metropolis}
+\usetheme[titleformat=smallcaps]{metropolis}
 \metroset{outer/progressbar=head}
 
 \usepackage{kotex}
@@ -14,25 +14,20 @@
   Language=Korean,
   UprightFont=* Light,
   BoldFont=* Bold,
-  InterLatinCJK=.125em,
 ]
 
 \usepackage{dlx}
 
+\let\a\alert
+\def\g{\color{LightGray}}
 
 % title
 \title{댄싱 링크 패키지}
 \subtitle{텍으로 하는 퍼즐 조판}
 \date{2018년 2월 3일}
 \author{남수진}
-\institute{
-  2018 한국텍학회 학술대회 및 정기총회\\
-  판교 스타트업캠퍼스\\
-  한국텍학회, 국가수리과학연구소 산업수학현신센터}
-%\titlegraphic{\hfill\includegraphics[height=15mm]{imgs/meta.pdf}}
+\institute{2018 한국텍학회 학술대회 및 정기총회}
 
-
-%%
 \begin{document}
 
 \maketitle
@@ -43,17 +38,15 @@
   \tableofcontents
 \end{frame}
 
-
-%%
+%
 \section{댄싱 링크}
 
-\let\a\alert
-\def\g{\color{LightGray}}
-
+%
 \subsection{Exact cover 문제}
+
 %
 \begin{frame}{Exact cover 문제}
-  다음 $6\times7$ 행렬에서, 몇 개의 행들을 골라 그 행들을 모두 더했을 때, 모든 열을
+  다음 $6\times7$ 행렬에서, 행들을 열 별로 모두 더했을 때, 모든 열을
   정확히 1로 만드는 행들의 집합을 구하여라.
   {\Large\boldmath
     $$
@@ -70,22 +63,22 @@
 
 %
 \begin{frame}{Exact cover 문제}
-  다음 $6\times7$ 행렬에서, 몇 개의 행들을 골라 그 행들을 모두 더했을 때, 모든 열을
+  다음 $6\times7$ 행렬에서, 행들을 열 별로 모두 더했을 때, 모든 열을
   정확히 1로 만드는 행들의 집합을 구하여라.
   {\Large\boldmath
     $$
     \bordermatrix{
       \mathstrut&&&&&&&\cr  
-      &0&0&1&0&1&1&0\cr
+      &\a0&\a0&\a1&\a0&\a1&\a1&\a0\cr
       &\g1&\g0&\g0&\g1&\g0&\g0&\g1\cr
       &\g0&\g1&\g1&\g0&\g0&\g1&\g0\cr
-      &1&0&0&1&0&0&0\cr
-      &0&1&0&0&0&0&1\cr
+      &\a1&\a0&\a0&\a1&\a0&\a0&\a0\cr
+      &\a0&\a1&\a0&\a0&\a0&\a0&\a1\cr
       &\g0&\g0&\g0&\g1&\g1&\g0&\g1}
     $$}
 \end{frame}
 
-%%
+%
 \subsection{Algorithm X}
 
 %
@@ -124,8 +117,9 @@
 \end{frame}
 
 \renewcommand\arraystretch{1.2}
+
 %
-\begin{frame}{알고리즘 엑스, 비결정적}
+\begin{frame}{알고리즘 엑스}
 \Large\boldmath
   $$
   \begin{array}{ccccccc}
@@ -157,7 +151,7 @@
 \end{frame}
 
 %
-\begin{frame}{알고리즘 엑스, 재귀적}
+\begin{frame}{알고리즘 엑스}
 \Large\boldmath
   $$
   \begin{array}{ccccccc}
@@ -189,7 +183,7 @@
 \end{frame}
 
 %
-\begin{frame}{알고리즘 엑스, 깊이 우선 탐색}
+\begin{frame}{알고리즘 엑스}
   \Large\boldmath
   $$
   \begin{array}{ccccccc}
@@ -268,8 +262,8 @@
   $$
 \end{frame}
 
-
-\begin{frame}{알고리즘 엑스, 백트래킹}
+%
+\begin{frame}{알고리즘 엑스}
 \Large\boldmath
   $$
   \begin{array}{ccccccc}
@@ -364,12 +358,11 @@ $$
   $$
 \end{frame}
 
-
 \subsection{Dancing links}
 %
 \begin{frame}{댄싱 링크}
   \begin{itemize}
-  \item \textsc{Algorithm X}: NP-완전
+  %\item \textsc{Algorithm X}: NP-완전
   \item 알고리즘 엑스를 효율적으로 구현하는 기법 (노드와 링크 이용)
   \item \href{https://www.youtube.com/watch?v=pN76VICZiKU&start=100}
     {알고리즘이 진행되면서 변화하는 링크의 모양이 춤을 연상 시킴}
@@ -381,8 +374,7 @@ $$
   \end{center}
 \end{frame}
 
-
-%%
+%
 \section{댄싱 링크 패키지}
 
 %
@@ -403,8 +395,7 @@ $$
   \end{itemize}
 \end{frame}
 
-
-%%
+%
 \subsection{펜토미노 타일 붙이기}
 
 %
@@ -431,22 +422,6 @@ $$
 \end{frame}
 
 %
-\begin{frame}[fragile]{펜토미노 타일링}
-\begin{verbatim}
-\pentomino{5mm}{5}{12}{1}.
-\end{verbatim}
-\vspace{-5mm}
-\pentomino{5mm}{5}{12}{1}.
-\vspace{-5mm}
-\begin{verbatim}
-\pentomino{5mm}{4}{15}{1}.
-\end{verbatim}
-\vspace{-5mm}
-\pentomino{5mm}{4}{15}{1}.
-\end{frame}
-
-
-%%
 \subsection{수도쿠}
 
 %
@@ -473,28 +448,17 @@ $$
 \end{center}
 \end{frame}
 
-
-%%
+%
 \subsection{체스 여왕 배치 하기}
 
 %
 \begin{frame}[fragile]{여왕 배치 문제}
 \begin{verbatim}
-\queens{4}.
-\end{verbatim}
-\vspace{-10mm}
-\queens{4}.
-\end{frame}
-
-%
-\begin{frame}[fragile]{여왕 배치 문제}
-\begin{verbatim}
 \queens{8}{2}.
 \end{verbatim}
 \vspace{-10mm}
 \queens{8}{2}.
 \end{frame}
-
 
 %
 \begin{frame}{참고 문헌}

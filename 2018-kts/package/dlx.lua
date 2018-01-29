@@ -173,7 +173,7 @@ function _M:new (lines)
       },
       lines
    )
-   
+
    return setmetatable(dlx, mt)
 end
 
