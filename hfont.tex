@@ -1,31 +1,35 @@
 \input sjnam
 
+\nopagenumbers
+
 \baselineskip 20pt
 
-\def\nf#1.{\leavevmode
-  \hbox to2cm{nanum#1\hss}\hfont{nanum#1}{at 10pt} 무궁화 꽃이 피었습니다\par}
+\def\testfont#1.{\leavevmode
+  \hbox to2cm{\tt #1\hss}\hfont{#1}{at 10pt} 무궁화 꽃이 피었습니다\par}
 
-\def\uf#1.{\leavevmode
-  \hbox to2cm{out#1\hss}\hfont{out#1}{at 10pt} 무궁화 꽃이 피었습니다\par}
+% unfonts
+\testfont outpgm.
+\testfont outtzm.
+\testfont outbtb.
+\testfont outbtm.
+\testfont outgtb.
+\testfont outgtm.
+\testfont outgrb.
+\testfont outgrm.
+\testfont outbmm.
+\testfont outgsm.
+\testfont outjsrm.
+\testfont outpnm.
+\testfont outjnvm.
 
-\leavevmode\hbox to2cm{nnmbrgtb\hss}\hfont{nnmbrgtb}{at 10pt} 무궁화 꽃이 피었습니다\par
-\leavevmode\hbox to2cm{nnmbrgtm\hss}\hfont{nnmbrgtm}{at 10pt} 무궁화 꽃이 피었습니다\par
-\nf gtb.
-\nf gtm.
-\nf mjb.
-\nf mjm.
-\uf pgm.
-\uf tzm.
-\uf btb.
-\uf btm.
-\uf gtb.
-\uf gtm.
-\uf grb.
-\uf grm.
-\uf bmm.
-\uf gsm.
-\uf jsrm.
-\uf pnm.
-\uf jnvm.
+% nanum fonts
+\testfont nanumgtb.
+\testfont nanumgtm.
+\testfont nanummjb.
+\testfont nanummjm.
+
+% nanum barun fonts
+\testfont nnmbrgtb.
+\testfont nnmbrgtm.
 
 \bye
