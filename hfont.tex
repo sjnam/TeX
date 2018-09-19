@@ -10,8 +10,9 @@
 \def\fifow#1 {\ifx\ofifw#1\ofifw\fi
   \processw{#1}\fifow}
 \def\ofifw#1\fifow{\fi}
+\def\bfont#1 \efont{\fifow#1 \ofifw{} }
 
-\fifow
+\bfont
 % unfonts
   outpgm outtzm outbtb outbtm outgtm outgrb
   outgrm outbmm outgsm outjsrm outpnm outjnvm
@@ -19,6 +20,6 @@
   nanumgtb nanumgtm nanummjb nanummjm
 % nanum barun fonts
   nnmbrgtb nnmbrgtm
-\ofifw{}
+\efont
 
 \bye
