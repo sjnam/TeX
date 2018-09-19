@@ -775,7 +775,7 @@ $$\\{\hfontsize{at 9pt}식별자}\.{ }\hbox{\CEE/ 텍스트}\qquad\hbox{또는}\
 %Strings should end on the same line as they begin, unless there's a
 %backslash at the end of lines within them.
 \section 문자열과 상수.
-\CEE/ 파일 내에서 문자열을 나타내고자 하면, 보통 \.'나 \."를 이용하게 된다. \.{CWEB}
+당신이 \CEE/ 파일 내에서 문자열을 나타내고자 하면, 보통 \.'나 \."를 이용하게 된다. \.{CWEB}
 파일에서도 마찬가지로 그렇게 하면 된다. 단, 문자 `\.@'는 `\.{@@}'로 해야만 제대로 볼 수
 있다. (사실 \.{@@}는 \.{CWEB}의 명령어인데, 문자열 내에서 사용할 수 있는 유일한 명령어이다.
 \.{CWEB}의 명령어에 대해서는 아래에서 자세히 살펴볼 것이다.) 문자열은 반드시 한 줄에 있어야
@@ -2380,7 +2380,7 @@ ${}\\{strncpy}(\\{change\_buffer},\39\\{buffer},\39\\{limit}-\\{buffer}+%
 %without editing the output of \.{CWEAVE}, and the purpose of this appendix
 %is to explain some of the possibilities.
 \section 부록 C: \.{CWEB} 매크로 사용법.
-\.{cwebmac} 파일에 정의되어 있는 매크로들 이용하면 \.{CWEAVE}의 결과물인 \TEX/ 코드들을
+파일 \.{cwebmac}에 정의되어 있는 매크로들 이용하면 \.{CWEAVE}의 결과물인 \TEX/ 코드들을
 직접 수정하지 않고도 여러 다양한 형태의 문서를 만들 수 있다. 부록~C 에서는 그러한 매크로들의
 사용법을 설명한다.
 \def\point#1.{\yskip\indent#1.\quad\ignorespaces}
@@ -2540,13 +2540,12 @@ $$\lpile{\.{\\ZZ \{Introduction\}\{0\}\{1\}\{28\}\{\}}\cr
 %When an extremely large job isn't cut into smaller pieces, the entire
 %process might be spoiled by a single error of some sort, making it
 %necessary to start everything over.
-\point 10. \.{CWEAVE}의 결과 파일인 \TEX/ 파일을, 개별적으로 처리 가능한 여러 개의 서브
-파일로 나눠야 할 경우가 종종 있다. 예를 들어, \TEX/ 파일 소스가 500페이지가 넘어서,
+\point 10. \.{CWEAVE}의 결과물을 개별적으로 처리 가능한 여러 개의 서브
+파일로 나눠는 것이 필요하거나 바람직 할 경우가 종종 있다.
+예를 들어, \TEX/ 파일 소스가 500 페이지가 넘어서,
 컴퓨터의 메모리나 기타 시스템의 자원 제한 때문에 그것을 한 번에 컴파일하기에는 역부족인 경우가
-있다. 크기가 엄청나게 큼에도 \TEX/ 파일을 나누지 않고 그냥 작업하다가는 \TEX/이 더는 도저히
-작업을 진행할 수 없는 경우가 생긴다. 이러하였으면 처음으로 되돌아가서 그 파일을 여러 개의
-작은 파일로 나누고 작업을 다시 시작해야 하는데, 이와 같은 삽질을 막기 위해서라도 파일을
-나누어도 그 결과물은 하나의 파일에서 얻은 결과물과 같게 하는 방법을 알고 있어야 한다.
+있다. 매우 큰 작업이 작은 부분들로 나눠지지 않으면 전체 프로세스가 어떤 한 가지 에러 때문에
+망가질 수 있고, 그러면 그 모든 것을 처음부터 다시 시작해야 한다.
 
 %Here's a safe way to break a woven file into three parts:
 %Say the pieces are $\alpha$,
