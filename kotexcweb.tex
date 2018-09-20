@@ -51,16 +51,16 @@
   \ifpagesaved\null\vfill\eject\fi % output a null index column
   \if L\lr\else\null\vfill\eject\fi % finish the current page
   \parfillskip 0pt plus 1fil
-  \def\grouptitle{마디 목차}
+  \def\grouptitle{섹션 목차}
   \let\topsecno=\nullsec
   \message{Section names:}
   \output={\normaloutput\page\lheader\rheader}
   \setpage
   \def\note##1##2.{\quad{\eightrm\ifacro{\pdfnote##2.}\else{##2}\fi##1.}}
-  \def\Q{\note{번 마디에서 인용된다}} \let\Qs=\Q
-  \def\U{\note{번 마디에서 사용된다}} \let\Us=\U
+  \def\Q{\note{번 섹션에서 인용된다}} \let\Qs=\Q
+  \def\U{\note{번 섹션에서 사용된다}} \let\Us=\U
   \def\I{\par\hangindent 2em}\let\*=*
-  \ifacro \def\outsecname{\bschar376\bschar377\bschar271\bschar310\bschar265\bschar024\bschar000 \bschar272\bschar251\bschar314\bschar050}% 마디 목차
+  \ifacro \def\outsecname{\bschar376\bschar377\bschar271\bschar310\bschar265\bschar024\bschar000 \bschar272\bschar251\bschar314\bschar050}% 섹션 목차
     \let\Xpdf\X
   \ifpdftex
     \edef\0{\string\0}%
@@ -87,12 +87,12 @@
   \baselineskip10pt\eightrm#1~\ifacro{\pdfnote#3.}\else#3\fi#2.\par}}
 \def\rnote#1#2.{\Y\noindent{\hangindent2em%
   \baselineskip10pt\eightrm\ifacro{\pdfnote#2.}\else#2\fi#1.\par}}
-\def\A{\rnote{번 마디도 살펴보라}} \let\As=\A
-\def\Q{\inote{이 코드는}{번 마디에서 인용된다}} \let\Qs=\Q
-\def\U{\inote{이 코드는}{번 마디에서 사용된다}} \let\Us=\U
+\def\A{\rnote{번 섹션도 살펴보라}} \let\As=\A
+\def\Q{\inote{이 코드는}{번 섹션에서 인용된다}} \let\Qs=\Q
+\def\U{\inote{이 코드는}{번 섹션에서 사용된다}} \let\Us=\U
 \def\ET{,~} \def\ETs{\ET} 
 \def\ATH{{\acrofalse\X\kern-.5em:전처리기 정의들\X}}
-\def\ch{\note{Change 파일에서 변경된 마디들:}
+\def\ch{\note{변경 파일에서 변경된 섹션들:}
   \let\*=\relax}
 \def\today{\number\year 년 \number\month 월 \number\day 일}
 \def\datethis{\def\startsection{\leftline{\sc\today\ \ \hours}\bigskip
@@ -113,7 +113,7 @@
   \def\grouptitle{목차}
   \message{Table of contents:}
   \topofcontents \startpdf
-  \line{\hfil 마디\hbox to3em{\hss 쪽}\hskip-.3mm}
+  \line{\hfil 섹션\hbox to3em{\hss 쪽}\hskip-.3mm}
   \let\ZZ=\contentsline
   \readcontents\relax % read the contents info
   \botofcontents \end} % print the contents page(s) and terminate
