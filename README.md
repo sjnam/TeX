@@ -1,4 +1,5 @@
-tex
+TeX
 ===
 
-TeX
+Korean plain TeX samples
+
