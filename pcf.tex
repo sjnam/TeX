@@ -5,6 +5,8 @@
 
 \usepackage{luacode}
 
+\pagenumbering{gobble}
+
 \begin{luacode*}
 local floor,sqrt = math.floor, math.sqrt
 local concat = table.concat
@@ -57,7 +59,7 @@ end
 \begin{document}
 
 \section*{Periodic continued fraction}
-A periodic continued fraction $[a_0;a_1,a_2,\ldots]$ is periodic
+A continued fraction $[a_0;a_1,a_2,\ldots]$ is periodic
 if the sequence eventually repeats,
 i.e there exists some $m$, $n$ with $a_{m+i}=a_{n+i}$ for all $i\ge0.$
 A continued fraction,
