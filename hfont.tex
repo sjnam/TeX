@@ -1,4 +1,4 @@
-\input sjnam
+\input kotex.sty
 
 \nopagenumbers
 
@@ -7,19 +7,32 @@
 \def\processw#1{\leavevmode
   \hbox to2cm{\tt #1\hss}\hfont{#1}{at 10pt} 키스의 고유 조건은
   입술끼리 만나야 하고 특별한 기술은 필요치 않다.\par}
-\def\fifow#1 {\ifx\ofifw#1\ofifw\fi
-  \processw{#1}\fifow}
+\def\fifow#1 {\ifx\ofifw#1\ofifw\fi\processw{#1}\fifow}
 \def\ofifw#1\fifow{\fi}
-\def\bfont#1 \efont{\fifow#1 \ofifw{} }
+\def\beginTestFont#1 \endTestFont{\fifow#1 \ofifw{} }
 
-\bfont
+\beginTestFont
 % unfonts
-  outpgm outtzm outbtb outbtm outgtm outgrb
-  outgrm outbmm outgsm outjsrm outpnm outjnvm
+  outpgm
+  outtzm
+  outbtb
+  outbtm
+  outgtm
+  outgrb
+  outgrm
+  outbmm
+  outgsm
+  outjsrm
+  outpnm
+  outjnvm
 % nanum fonts
-  nanumgtb nanumgtm nanummjb nanummjm
+  nanumgtb
+  nanumgtm
+  nanummjb
+  nanummjm
 % nanum barun fonts
-  nnmbrgtb nnmbrgtm
-\efont
+  nnmbrgtb
+  nnmbrgtm
+\endTestFont
 
 \bye
