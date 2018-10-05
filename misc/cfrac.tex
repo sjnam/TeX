@@ -1,3 +1,5 @@
+\catcode`@=11
+
 %% 연분수 매크로에 사용되는 유틸리티 매크로
 \newcount\k \newcount\m \newcount\n
 \newcount\r \newcount\q \newcount\t
@@ -37,10 +39,17 @@
 \def\fraction[#1;#2]{\n=1 \m=0 \reverse#1,#2,\esrever
   \ifnum\m=1 \number\n \else{\number\n\over\number\m}\fi}
 
+%% 리스트형 표기법의 연분수를 분수형(일반형) 연분수를 구하는 매크로
+\def\ltcfrac[#1;#2]{\cfr@c#1,#2,\end}
+\def\cfr@c#1,#2\end{\ifx#1\ldots\ddots\else#1\fi
+  \ifx#2\end\else+{\strut1\hfill\over\displaystyle\cfr@c#2\end}\fi}
+  
 %% 두 수의 최대공약수를 구하는 유클리드 알고리즘 매크로
 \newcount\a \newcount\b
 \def\euclid#1#2{\a=#1 \b=#2\unskip
   \ifnum\b>\a \k=\a \a=\b \b=\k\fi
   \ifnum\b=0 \ \number\a\else\mymod\a\b \euclid\b\r\fi}
+
+\catcode`@=12
 
 \endinput
