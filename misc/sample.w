@@ -50,16 +50,7 @@ a random integer chosen uniformly in the range $i\ldot j.$
 @<The rand...@>=
 int rand_int(int i, int j)
 {
-  int r;
-  const unsigned int range = 1+j-i;
-  const unsigned int buckets = RAND_MAX/range;
-  const unsigned int limit=buckets*range;
-
-  do {
-    r = rand();
-  } while(r>=limit);
-
-  return i+r/buckets;
+  return (rand() % (j + 1 - i)) + i;
 }
 
 @* A plan of attack. After the user has specified |M| and |N|, we compute the
