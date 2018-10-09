@@ -1,3 +1,6 @@
+\let\K=\leftarrow
+\def\ldot{\mathinner{\ldotp\ldotp}}
+
 \datethis
 
 @* Introduction. Jon Bentley recently discussed the following interesting problem
@@ -7,7 +10,7 @@ as one of his ``Programming Pearls'' [{\sl Communications of the ACM\/} {\bf 27}
 {\smallskip
 \narrower\noindent
 The input consists of two integer $M$ and $N$, with $M<N.$ The output
-is a sorted list of $M$ random numbers in the range $1 .. N$ in which no integer
+is a sorted list of $M$ random numbers in the range $1\ldot N$ in which no integer
 occurs more than once. For probability buffs, we desire a sorted selection without
 replacement in which each selection occurs equiprobably.
 \smallskip}
@@ -17,6 +20,9 @@ when $M$ is reasonably large yet small compared to $N.$ It's the method describe
 tersely in the answer to exercise 3.4.2--15 of my book {\sl Seminumerical
 Algorithms}, pp. 141 and 555.
 
+@ For simplicity, all input and output in this program is assumed to be handled
+at the terminal.
+
 @ Here's an outline of the entire \CEE/ program:
 @c
 #include <stdio.h>
@@ -25,18 +31,18 @@ Algorithms}, pp. 141 and 555.
 #include <math.h>
 @<Global variables@>;
 @<The random number generation procedure@>;
-@<The main program@>
+@<The main program@>;
 
 @ The global variable |M| and |N| have already been mentioned; we had better
 declare them. Other global variables will be declared later.
-@d M_max 5000
+@d M_max 5000 /* maximum value of |M| allowed in this program */
 @<Glob...@>=
 int M; /* size of the sample */
 int N; /* size of the population */
 
 @ We assume the existence of a system routine called |rand_int(i,j)| that returns
-a random integer chosen uniformly in the range $i..j.$
-@<The random...@>=
+a random integer chosen uniformly in the range $i\ldot j.$
+@<The rand...@>=
 int rand_int(int i, int j)
 {
   int r;
@@ -68,7 +74,7 @@ int main()
   return 0;
 }
 
-@ The main program just sketched has introduced sevral more global vriables.
+@ The main program just sketched has introduced sevral more global variables.
 There's a set |S| of integers, whose representation will be deferred until later;
 but we can declare two auxiliary integer variables now.
 @<Glob...@>=
@@ -76,7 +82,7 @@ int size; /* the number of elements in set |S| */
 int T; /* new candidate for membership in |S| */
 
 @ The first order of business is to have a short dialog with the user.
-@<Establish...@>=
+@<Estab...@>=
 do {
   printf("population size: N = ");
   scanf("%d", &N);
@@ -87,7 +93,7 @@ do {
   scanf("%d", &M);
   if (M<0) printf("M shouldn't be negative\n");
   else if(M>N) printf("M shouldn't exceed N!\n");
-  else if(M>M_max) printf("(Sorry, M must be at most, %d.\n)", M_max);
+  else if(M>M_max) printf("(Sorry, M must be at most %d.\n)", M_max);
 } while(M<0||M>N||M>M_max);
 
 @* An ordered hash table. The key idea to an efficient solution of this sampling
@@ -98,7 +104,7 @@ problem is to maintain a set whose entries are easily sorted. The method of
 Ordered hashing is similar to ordinary linear probing, except that the relative
 order of keys is taken into account. The cited paper derives theoretical results
 that will not be rederived here, but we shall use the following fundamental
-proberty: {\sl The entries of an order hash table are independent of the order
+property: {\sl The entries of an order hash table are independent of the order
 in which its keys were inserted.\/} Thus, an ordered hash table is a ``canonical''
 representation of its set of entries.
 
@@ -106,11 +112,11 @@ We shall represent |S| by an array of $2M$ integers. Since \CEE/ doesn't permit
 arrays of variable size, we must leave room for the largest possible table.
 @<Glob...@>=
 int hash[M_max+M_max+1]; /* the ordered hash table */
-int H; /* an index into |hash|  */
-int H_max; /* the currend hash size */
-double alpha; /* the ratio of table size to |N| */
+int H; /* an index into |hash|, $0\ldot |M_max|+|M_max|-1$ */
+int H_max; /* the currend hash size, $0\ldot |M_max|+|M_max|-1$ */
+float alpha; /* the ratio of table size to |N| */
 
-@ @<Initialize...@>=
+@ @<Init...@>=
 H_max = 2*M-1;
 alpha = 2*M/N;
 for (H=0; H <= H_max; H++)
@@ -120,7 +126,7 @@ for (H=0; H <= H_max; H++)
 into an ordered hash table. We use the hash address $H=\lfloor2M(T-1)/N\rfloor$
 as a starting point, since this quantity is monotonic in $T$ and almost uniformly
 distributed in the range $0\le H<2M.$
-@<If |T| is not...@>=
+@<If |T|...@>=
 H = (int) trunc(alpha*(T-1));
 while (hash[H]>T) {
   if (H==0) H = H_max;
@@ -164,17 +170,18 @@ times), table position |hash[0]| will either be zero (in which case |k| must als
 be zero) or it will contain $T_{k+1}.$ In the latter case, the entries $T_{k+1}
 <\cdots<T_M$ and $T_1<\cdots<T_k$ will appear in order from left to right. Thus
 the output can be sorted with at most two passes over the table!
-@<Print the...@>=
+@d print_it  printf("%d ", hash[H])
+@<Print...@>=
 if(hash[0]==0) { /* there was no wrap-around */
   for(H=1;H<=H_max;H++)
-    if(hash[H]>0) printf("%d ", hash[H]);
+    if(hash[H]>0) print_it;
 }@+else {
   for(H=1;H<=H_max;H++) /* print the wrap-around entries */
     if(hash[H]>0)
-      if(hash[H]<hash[0]) printf("%d ", hash[H]);
+      if(hash[H]<hash[0]) print_it;
 
   for(H=0;H<=H_max;H++)
-    if (hash[H]>=hash[0]) printf("%d ", hash[H]);
+    if (hash[H]>=hash[0]) print_it;
 }
 printf("\n");
 
