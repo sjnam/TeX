@@ -5,7 +5,7 @@
 
 @* Introduction. Jon Bentley recently discussed the following interesting problem
 as one of his ``Programming Pearls'' [{\sl Communications of the ACM\/} {\bf 27}
-(December, 1984), 1179--1182]:
+(December 1984), 1179--1182]:
 
 {\smallskip
 \narrower\noindent
@@ -21,10 +21,12 @@ but the average running time is of order $M+N(H_N-H_{N-M}$), which is linear in 
 for $M\le{1\over2}N$ but not when $M$ approaches $N.$ Users who want $M>{1\over2}N$
 should generate the complementary set of $N-M$ integers.) It's the method described
 tersely in the answer to exercise 3.4.2--15 of my book {\sl Seminumerical
-Algorithms}, pp. 141 and 555.
+Algorithms}, pp. 141 and~555.
 
 @ For simplicity, all input and output in this program is assumed to be handled
-at the terminal.
+at the terminal. The \.{CWEB} macros |read_terminal| defined here can be changed to
+accommodate other conventions.
+@d read_terminal(v) scanf("%d",&v) /* input a value from the terminal */
 
 @ Here's an outline of the entire \CEE/ program:
 @c
@@ -57,7 +59,7 @@ int rand_int(int i, int j)
     r = rand();
   } while(r>=limit);
 
-  return i+(r/buckets);
+  return i+r/buckets;
 }
 
 @* A plan of attack. After the user has specified |M| and |N|, we compute the
@@ -88,12 +90,12 @@ int T; /* new candidate for membership in |S| */
 @<Estab...@>=
 do {
   printf("population size: N = ");
-  scanf("%d", &N);
+  read_terminal(N);
   if (N<=0) printf("N should be positive\n");
 }while(N<=0);
 do {
   printf("sample size: M = ");
-  scanf("%d", &M);
+  read_terminal(M);
   if (M<0) printf("M shouldn't be negative\n");
   else if(M>N) printf("M shouldn't exceed N!\n");
   else if(M>M_max) printf("(Sorry, M must be at most %d.\n)", M_max);
@@ -132,10 +134,10 @@ distributed in the range $0\le H<2M.$
 @<If |T|...@>=
 H = (int) trunc(alpha*(T-1));
 while (hash[H]>T) {
-  if (H==0) H = H_max;
+  if(H==0) H=H_max;
   else H--;
 }
-if (hash[H]<T) { /* |T| is not present */
+if(hash[H]<T) { /* |T| is not present */
   size++;
   @<Insert |T| into the ordered hash table@>;
 }
@@ -143,20 +145,18 @@ if (hash[H]<T) { /* |T| is not present */
 @ The heart of ordered hashing is the insertion process. In general the new key
 |T| will be inserted in place of a previouse key $T_1<T,$ which is then reinserted
 in place of $T_2<T_1,$ etc., until an empty slot is discovered.
-@<Insert |T|...@>=
+@<Insert...@>=
 while(hash[H]>0){
-  TT=hash[H]; /* we have $0<TT<T$ */
+  int tmp;
+  tmp=hash[H]; /* we have $0<tmp<T$ */
   hash[H]=T;
-  T=TT;
+  T=tmp;
   do {
     if(H==0) H=H_max;
     else H--;
   } while(hash[H]>=T);
 }
 hash[H]=T;
-
-@ @<Glob...@>=
-int TT; /* a key that's being moved */
 
 @* Sorting in linear time. The climax of this program is the fact that the entries
 in our ordered hash table can easily be read out in increasing order.
