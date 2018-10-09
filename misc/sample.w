@@ -16,7 +16,10 @@ replacement in which each selection occurs equiprobably.
 \smallskip}
 
 The present program illustrates what I think is the best solution to this problem,
-when $M$ is reasonably large yet small compared to $N.$ It's the method described
+when $M$ is reasonably large yet small compared to $N.$ (It works also when $M=N$;
+but the average running time is of order $M+N(H_N-H_{N-M}$), which is linear in $M$
+for $M\le{1\over2}N$ but not when $M$ approaches $N.$ Users who want $M>{1\over2}N$
+should generate the complementary set of $N-M$ integers.) It's the method described
 tersely in the answer to exercise 3.4.2--15 of my book {\sl Seminumerical
 Algorithms}, pp. 141 and 555.
 
