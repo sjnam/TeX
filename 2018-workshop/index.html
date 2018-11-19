@@ -1,0 +1,375 @@
+<HTML>
+<HEAD>
+<TITLE>수식 표현 실습 Part II</TITLE>
+<LINK REL="stylesheet" TYPE="text/css" HREF="slides.css">
+</HEAD>
+<BODY>
+<DIV CLASS="slideFrame">
+<DIV CLASS="slideBody">
+<!-- *Begin-Document-Body -->
+
+<STYLE>
+.footer {background:transparent}
+.footer HR {display:none}
+
+BODY {background-color: #EEEEEE; font-size: 80%}
+</STYLE>
+
+<SCRIPT SRC="JS/console.js"></SCRIPT>
+<SCRIPT SRC="JS/show.js"></SCRIPT>
+<SCRIPT>
+var Lab = {
+  mode: "display",
+  auto: false,
+  webFonts: true,
+  prefFont: "TeX",
+  defaultTeX: '% 여기에 텍 수식 코드를 작성하고 "조판하라"를 누르세요',
+
+  setup: function  () {
+    MML = MathJax.ElementJax.mml;
+    TEX = MathJax.InputJax.TeX;
+    STACK = TEX.Stack.Item;
+    HTMLCSS = MathJax.OutputJax["HTML-CSS"];
+
+    this.jax = MathJax.Hub.getAllJax()[0];
+    if (this.TeX.value !== this.defaultTeX) {
+      this.Typeset(); this.focus();
+    } else {
+      this.select();
+    }
+  },
+
+  focus: function () {this.TeX.focus()},
+  select: function () {this.TeX.focus(); this.TeX.select()},
+
+  Typeset: function() {
+    var type = "math/tex"; if (this.mode === "display") {type += "; mode=display"}
+    this.jax.SourceElement().type = type;
+    var tex = this.TeX.value;
+    if (this.showMathML) {this.jax.Text(tex,["ShowMathML",Lab])}
+                    else {this.jax.Text(tex)}
+  },
+
+  setMode: function (mode) {
+    this.mode = mode;
+    this.Typeset();
+    this.focus();
+  },
+
+  setAutoTypeset: function (auto) {
+    this.autoTypeset = auto;
+    if (auto) {
+      this.TeX.onkeyup = this.AutoTypeset
+      this.Typeset();
+    } else {
+      this.TeX.onkeyup = null;
+    }
+    this.focus();
+  },
+  AutoTypeset: function () {setTimeout("Lab.Typeset()",0)},
+
+  setMathML: function (show) {
+    this.showMathML = show;
+    this.MathML.style.display = (show ? "" : "none");
+    if (show) {this.ShowMathML()}
+    this.focus();
+  },
+  ShowMathML: function () {
+    this.MathML.value = this.jax.root.toMathML();
+    return;
+  },
+
+  setPrefFont: function (font) {
+    this.prefFont = font;
+    this.reload();
+  },
+
+  setWebFont: function (allow) {
+    this.webFonts = allow;
+    this.reload();
+  },
+
+  startTimer: function () {this.start = new Date().getTime()},
+  endTimer: function () {
+    var time = (new Date().getTime() - this.start)/1000;
+    this.time.innerHTML = time + " 초";
+  },
+
+  Example: {
+    "Lorenz Equations":
+       "mode=display&initialTeX=%5Cbegin%7Balign%7D%0A%5Cdot%7Bx%7D%20%26%20%3D%20%5Csigma%28y-x%29%20%5C%5C%0A%5Cdot%7By%7D%20%26%20%3D%20%5Crho%20x%20-%20y%20-%20xz%20%5C%5C%0A%5Cdot%7Bz%7D%20%26%20%3D%20-%5Cbeta%20z%20+%20xy%0A%5Cend%7Balign%7D",
+     "Cauchy-Schwarz Inequality":
+       "mode=display&initialTeX=%5Cbiggl(%5Csum_%7Bk%3D1%7D%5En%20a_k%20b_k%5Cbiggr)%5E%7B%5C!%5C!2%7D%5Cleq%0A%5Cbiggl(%5Csum_%7Bk%3D1%7D%5En%20a_k%5E2%5Cbiggr)%0A%5Cbiggl(%5Csum_%7Bk%3D1%7D%5En%20b_k%5E2%5Cbiggr)",
+     "A Cross Product Formula":
+       "mode=display&initialTeX=%5Cmathbf%7BV%7D_1%20%5Ctimes%20%5Cmathbf%7BV%7D_2%20%3D%0A%20%5Cbegin%7Bvmatrix%7D%0A%20%20%5Cmathbf%7Bi%7D%20%26%20%5Cmathbf%7Bj%7D%20%26%20%5Cmathbf%7Bk%7D%20%5C%5C%0A%20%20%5Cfrac%7B%5Cpartial%20X%7D%7B%5Cpartial%20u%7D%20%26%20%0A%20%20%20%20%20%5Cfrac%7B%5Cpartial%20Y%7D%7B%5Cpartial%20u%7D%20%26%200%20%5C%5C%0A%20%20%5Cfrac%7B%5Cpartial%20X%7D%7B%5Cpartial%20v%7D%20%26%0A%20%20%20%20%20%5Cfrac%7B%5Cpartial%20Y%7D%7B%5Cpartial%20v%7D%20%26%200%20%5C%5C%0A%5Cend%7Bvmatrix%7D",
+     "A Probability Formula":
+       "mode=display&initialTeX=P%28E%29%20%3D%20%7Bn%20%5Cchoose%20k%7D%20p%5Ek%20%281-p%29%5E%7Bn-k%7D",
+     "An Identity of Ramanujan":
+       "mode=display&initialTeX=%5Cfrac1%7B%5Cleft(%5Csqrt%7B%5Cphi%5Csqrt5%7D-%5Cphi%5Cright)e%5E%7B%5Cfrac25%5Cpi%7D%7D%3D%0A1%2B%5Ccfrac%7Be%5E%7B-2%5Cpi%7D%7D%0A%20%20%20%20%20%20%20%20%7B1%2B%5Ccfrac%7Be%5E%7B-4%5Cpi%7D%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7B1%2B%5Ccfrac%7Be%5E%7B-6%5Cpi%7D%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7B1%2B%5Ccfrac%7Be%5E%7B-8%5Cpi%7D%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7B1%2B%5Cddots%7D%7D%7D%7D",
+     "A Rogers-Ramanujan Identity":
+       "mode=display&initialTeX=1%20+%20%5Cfrac%7Bq%5E2%7D%7B%281-q%29%7D%0A%20%20+%20%5Cfrac%7Bq%5E6%7D%7B%281-q%29%281-q%5E2%29%7D%20+%20%5Ccdots%20%3D%0A%5Cprod_%7Bj%3D0%7D%5E%7B%5Cinfty%7D%0A%20%20%5Cfrac%7B1%7D%7B%281-q%5E%7B5j+2%7D%29%281-q%5E%7B5j+3%7D%29%7D%2C%0A%20%20%20%20%20%5Cquad%5Cquad%20%5Ctext%7Bfor%20%24%7Cq%7C%3C1%24%7D.%0A%0A",
+     "Maxwell's Equations":
+       "mode=display&initialTeX=%5Cbegin%7Balign%7D%0Ax_nu_1%2B%5Ccdots%2Bx_%7Bn%2Bt-1%7Du_t%0A%26%3Dx_nu_1%2B(ax_n%2Bc)u_2%2B%5Ccdots%5C%5C%0A%26%5Cqquad%2B%5Cbigl(a%5E%7Bt-1%7Dx_n%2Bc(a%5E%7Bt-2%7D%2B%5Ccdots%2B1)%5Cbigr)u_t%5C%5C%0A%26%3D(u_1%2Bau_2%2B%5Ccdots%2Ba%5E%7Bt-1%7Du_t)x_n%2Bh(u_1%2C%5Cldots%2Cu_t).%0A%5Cend%7Balign%7D",
+     "A Summation Formula":
+       "mode=display&initialTeX=%5Csum_%7Bn%3D1%7D%5E%5Cinfty%5Cfrac1%7Bn%5E2%7D%3D%5Cfrac%7B%5Cpi%5E2%7D6",
+     "Multline Environment":
+"mode=display&initialTeX=%5Cbegin%7Bmultline%7D%0A%5Cint_a%5Eb%5Cbiggl%5C%7B%5Cint_a%5Eb%5Bf(x)%5E2g(y)%5E2%2Bf(y)%5E2g(x)%5E2-2f(x)g(x)f(y)g(y)%5C%2Cdx%5Cbiggr%5C%7D%5C%2Cdy%20%5C%5C%0A%3D%5Cint_a%5Eb%5Cbiggl%5C%7Bg(y)%5E2%5Cint_a%5Ebf%5E2%2Bf(y)%5E2%5Cint_a%5Ebg%5E2-2f(y)g(y)%5Cint_a%5Ebfg%5Cbiggr%5C%7D%5C%2Cdy%0A%5Cend%7Bmultline%7D",
+     "Multline Environment2":
+       "mode=display&initialTeX=%5Cbegin%7Bmultline%7D%0A%5Csum_%7B1%5Cle%20j%5Cle%20n%7D%0A%5Cfrac1%7B(x_j-x_1)%5Cldots(x_j-x_%7Bj-1%7D)(x-x_j)(x_j-x_%7Bj%2B1%7D)%0A%20%20%20%20%5Cldots(x_j-x_n)%7D%5C%5C%0A%20%20%3D%5Cfrac1%7B(x-x_1)%5Cldots(x-x_n)%7D.%0A%5Cend%7Bmultline%7D",
+     "TeX fonts":
+       "mode=display&initialTeX=%5Cleft%5Clgroup%20%0A%20%20x%5E2-1%5Cover%201+%5Csqrt%7B3x-2%7D%0A%5Cright%5Crgroup%0A",
+     "STIX fonts":
+       "mode=display&prefFont=STIX&initialTeX=%5Cleft%5Clgroup%20%0A%20%20x%5E2-1%5Cover%201+%5Csqrt%7B3x-2%7D%0A%5Cright%5Crgroup%0A",
+     "Web fonts":
+       "mode=display&prefFont=None&initialTeX=%5Cleft%5Clgroup%20%0A%20%20x%5E2-1%5Cover%201+%5Csqrt%7B3x-2%7D%0A%5Cright%5Crgroup%0A",
+     "Image fonts":
+       "mode=display&prefFont=None&webFonts=false&initialTeX=%5Cleft%5Clgroup%20%0A%20%20x%5E2-1%5Cover%201+%5Csqrt%7B3x-2%7D%0A%5Cright%5Crgroup%0A",
+     "스토크스":
+       "mode=display&initialTeX=%5Ciint_S%20%5Cnabla%5Ctimes%20A%5Ccdot%20dS%0A%3D%5Ciint_S%20%5Coperatorname%7Brot%7DA%5Ccdot%20dS%0A%3D%5Cint_C%20A%5Ccdot%20dl",
+     "그린":
+       "mode=display&initialTeX=%5Coint_%7B%5Cpartial%20D%7DPdx%2BQdy%0A%3D%5Ciint_D%5Cleft(%5Cfrac%7B%5Cpartial%20Q%7D%7B%5Cpartial%20x%7D%0A-%5Cfrac%20%7B%5Cpartial%20P%7D%7B%5Cpartial%20y%7D%5Cright)dxdy",
+     "Jacobian matrix":
+       "mode=display&initialTeX=J%20%3D%20%5Cbegin%7Bpmatrix%7D%0A%5Cfrac%7B%5Cpartial%20f_1%7D%7B%5Cpartial%20x_1%7D%20%26%20%5Ccdots%20%26%20%5Cfrac%7B%5Cpartial%20f_1%7D%7B%5Cpartial%20x_n%7D%20%5C%5C%0A%5Cvdots%20%26%20%5Cddots%20%26%20%5Cvdots%20%5C%5C%0A%5Cfrac%7B%5Cpartial%20f_m%7D%7B%5Cpartial%20x_1%7D%20%26%20%5Ccdots%20%26%20%5Cfrac%7B%5Cpartial%20f_m%7D%7B%5Cpartial%20x_n%7D%0A%5Cend%7Bpmatrix%7D%20%3D%20%5Cbegin%7Bpmatrix%7D%0A%5Cnabla%20f_1%20%5C%5C%0A%5Cvdots%20%5C%5C%0A%5Cnabla%20f_m%0A%5Cend%7Bpmatrix%7D",
+     "리만":
+       "mode=display&initialTeX=%5Czeta(s)%0A%3D%5Csum_%7Bn%3D1%7D%5E%5Cinfty%20%5Cfrac1%7Bn%5Es%7D%0A%3D%5Cprod_p%20%5Cfrac1%7B1-p%5E%7B-s%7D%7D",
+     "라그랑주":
+       "mode=display&initialTeX=%5Cfrac%7B%5Cpartial%20L%7D%7B%5Cpartial%20%5Cmathbf%7Br%7D_k%7D%0A-%5Cfrac%7Bd%7D%7Bdt%7D%5Cfrac%7B%5Cpartial%20L%7D%7B%5Cpartial%20%5Cdot%7B%5Cmathbf%20r%7D_k%7D%0A%2B%5Csum_%7Bi%3D1%7D%5EC%20%5Clambda_i%20%5Cfrac%7B%5Cpartial%20f_i%7D%7B%5Cpartial%20%5Cmathbf%7Br%7D_k%7D%3D0",
+     "이토":
+       "mode=display&initialTeX=%5Clim_%7Bi%5Cto%5Cinfty%7D%5E%7B%5Coperatorname%7BL%7D%5E%7B2%7D%7D%0A%5Cint_a%5EbY_t%5E%7B(i)%7D%5C%2C%5Cmathrm%7Bd%7DW_%7Bt%7D%0A%3D%5Cint_a%5EbX_t%5C%2C%5Cmathrm%7Bd%7DW_t%5Cin%5Coperatorname%7BL%7D%5E2%0A(%5COmega%2C%5Cmathbb%7BR%7D)",
+     "style":
+       "mode=inline&initialTeX=%5Cfrac%7B1%7D%7B256%7D%2C%5C%20%0A%5Clim_%7Bh%5Cto0%7D%5Cfrac%7Bf(x%2Bh)-f(x)%7D%7Bh%7D%2C%5C%20%0A%5Csum_%7Bk%3D1%7D%5En%20a_k%2C%5C%20%0A%5Cint%20f(x)%5C%2Cdx",
+     "font":
+       "mode=display&initialTeX=%5Cbegin%7Bgather%7D%0A%5Cmathfrak%7BABCDabcd%7D%5C%5C%0A%5Cmathcal%7BABCDLNM%7D%5C%5C%0A%5Cmathbb%7BABCDNQRZ%7D%5C%5C%0A%5Cmathrm%7BABOTPabcd%7D%5C%5C%0A%5Cmathbf%7BABCDuvxy%7D%0A%5Cend%7Bgather%7D",
+     "spaces":
+       "mode=display&initialTeX=%5Cbegin%7Balign%7D%0A%26%20a%2C%5C!b%20%20%5C%5C%0A%26%20a%2Cb%20%20%20%5C%5C%0A%26%20a%2C%5C%2Cb%20%5C%5C%0A%26%20a%5Cquad%20b%20%5C%5C%0A%26%20a%5Cqquad%20b%0A%5Cend%7Balign%7D",
+     "elvin":
+"mode=display&initialTeX=%5Cbegin%7Balign%7D%0A%5Cleft(%20%5Cint_%7B-%5Cinfty%7D%5E%5Cinfty%20e%5E%7B-x%5E2%7D%5C%2Cdx%5Cright)%5E%7B%5C!2%7D%0A%26%3D%5Cleft(%20%5Cint_%7B-%5Cinfty%7D%5E%5Cinfty%20e%5E%7B-x%5E2%7D%5C%2Cdx%5Cright)%5Cleft(%20%5Cint_%7B-%5Cinfty%7D%5E%5Cinfty%20e%5E%7B-y%5E2%7D%5C%2Cdy%5Cright)%5C%5C%0A%26%3D%5Cint_%7B-%5Cinfty%7D%5E%5Cinfty%5Cint_%7B-%5Cinfty%7D%5E%5Cinfty%20e%5E%7B-x%5E2%7De%5E%7B-y%5E2%7D%5C%2Cdx%5C%2Cdy%5Cqquad%5Ctext%7Bby%20Fubini%7D%20%5C%5C%0A%26%3D%5Cint_%7B-%5Cinfty%7D%5E%5Cinfty%5Cint_%7B-%5Cinfty%7D%5E%5Cinfty%20e%5E%7B-(x%5E2%2By%5E2)%7D%5C%2Cdx%5C%2Cdy%5C%5C%0A%26%3D%5Cint_0%5E%7B2%5Cpi%7D%5Cint_0%5E%5Cinfty%20e%5E%7B-r%5E2%7Dr%5C%2Cdr%5C%2Cd%5Ctheta%5Cqquad%5Ctext%7Busing%20polar%20coordinates%7D%5C%5C%0A%26%3D%5Cint_0%5E%7B2%5Cpi%7D%5Cleft%5B%5Cint_0%5E%5Cinfty%20e%5E%7B-r%5E2%7Dr%5C%2Cdr%5Cright%5Dd%5Ctheta%5C%5C%0A%26%3D%5Cint_0%5E%7B2%5Cpi%7D%5Cleft%5B-%5Cfrac%7Be%5E%7B-r%5E2%7D%7D2%5CBiggl%7C_%7Br%3D0%7D%5E%7Br%3D%5Cinfty%7D%5Cright%5Dd%5Ctheta%5C%5C%0A%26%3D%5Cint_0%5E%7B2%5Cpi%7D%5Cleft%5B%5Cfrac12%5Cright%5Dd%5Ctheta%5C%5C%0A%26%3D%5Cpi.%0A%5Cend%7Balign%7D",
+"gather":
+"mode=display&initialTeX=%5Cbegin%7Bgather%7D%0Ax%5Cequiv%20x%3B%20%5C%5C%0A%5Ctext%7Bif%7D%5Cquad%20x%5Cequiv%20y%5Cquad%5Ctext%7Bthen%7D%5Cquad%20y%5Cequiv%20x%3B%20%5C%5C%0A%5Ctext%7Bif%7D%5Cquad%20x%5Cequiv%20y%5Cquad%5Ctext%7Band%7D%5Cquad%20y%5Cequiv%20x%5Cquad%5Ctext%7Bthen%7D%0A%5Cquad%20x%5Cequiv%20z.%0A%5Cend%7Bgather%7D",
+"paren":
+"mode=display&initialTeX=%5CBiggl(%5Cbiggl(%5CBigl(%5Cbigl((%7B%5Cscriptstyle(%7B%5Cscriptscriptstyle(%5Chskip3pt%0A)%7D)%7D)%5Cbigr)%5CBigr)%5Cbiggr)%5CBiggr)%0A%5Cquad%0A%5CBiggl%5C%7B%5Cbiggl%5C%7B%5CBigl%5C%7B%5Cbigl%5C%7B%5C%7B%7B%5Cscriptstyle%5C%7B%7B%5Cscriptscriptstyle%5C%7B%5Chskip3pt%0A%5C%7D%7D%5C%7D%7D%5C%7D%5Cbigr%5C%7D%5CBigr%5C%7D%5Cbiggr%5C%7D%5CBiggr%5C%7D%0A%0A%25%20%5Cleft(%2C%20%5Cright(%2C%20%5Cright.",
+"challenge1":
+"mode=display&initialTeX=%5Cprod_%7Bj%5Cge0%7D%5Cbiggl(%5Csum_%7Bk%5Cge0%7Da_%7Bjk%7Dz%5Ek%5Cbiggr)%3D%0A%5Csum_%7Bn%5Cge0%7Dz%5En%5C%2C%5CBiggl(%5Csum_%0A%7B%5Csubstack%7Bk_0%2Ck_1%2C%5Cldots%5Cge0%5C%5C%20k_0%2Bk_1%2B%5Ccdots%3Dn%7D%7D%0Aa_%7B0k_0%7Da_%7B1k_1%7D%5Cldots%5C%2C%5CBiggr).",
+"challenge3":
+"mode=display&initialTeX=%5Cmathop%7B%7B%5Csum%7D%27%7D_%7Bx%5Cin%20A%7Df(x)%5Cmathrel%7B%5Cmathop%3D%5E%7B%5Cmathrm%7Bdef%7D%7D%7D%0A%5Csum_%7B%5Csubstack%7Bx%5Cin%20A%5C%5C%20x%5Cne0%7D%7Df(x).",
+"accent1":
+"mode=display&initialTeX=%5Cbegin%7Bgather%7D%0A%5Chat%20a%20%5C%5C%0A%5Ccheck%20a%20%5C%5C%0A%5Ctilde%20a%20%5C%5C%0A%5Cacute%20a%20%5C%5C%0A%5Cgrave%20a%20%5C%5C%0A%5Cdot%20a%20%5C%5C%0A%5Cddot%20a%20%5C%5C%0A%5Cbreve%20a%20%5C%5C%0A%5Cbar%20a%5C%5C%0A%5Cvec%20a%20%5C%5C%0A%5Chat%5Cimath%2C%20%5Chat%5Cjmath%0A%5Cend%7Bgather%7D",
+"accent2":
+"mode=display&initialTeX=%5Cbegin%7Bgather%7D%0A%5Coverrightarrow%7BAB%7D%20%5C%5C%5C%5C%0A%5Coverbrace%7Ba%2C%5Cldots%2Ca%7D%5E%7Bk%5C%3Ba%27%5Cmathrm%20s%7D%20%5C%5C%5C%5C%0A%5Coverbrace%7Bb%2C%5Cldots%2Cb%7D%5E%7Bl%5C%3Bb%27%5Cmathrm%20s%7D%20%5C%5C%5C%5C%0A%5Cunderbrace%7B%5Coverbrace%7Ba%2C%5Cldots%2Ca%7D%5E%7Bk%5C%3Ba%27%5Cmathrm%20s%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%5Coverbrace%7Bb%2C%5Cldots%2Cb%7D%5E%7Bl%5C%3Bb%27%5Cmathrm%20s%7D%7D%0A%20%20%20%20%20%20%20%20%20%20%20_%7Bk%2Bl%5Crm%5C%3Belements%7D%0A%5Cend%7Bgather%7D"
+  },
+  Select: function (which) {
+    if (which === "") return;
+    window.location = window.location.pathname + "?"+ this.Example[which];
+  },
+
+  checkKey: function (textarea,event) {
+    if (!event) {event = window.event}
+    var code = event.which || event.keyCode;
+    if ((event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) &&
+        (code === 13 || code === 10)) {
+      if (event.preventDefault) {event.preventDefault()}
+      event.returnValue = false;
+      this.Typeset();
+    }
+    if ((event.ctrlKey || event.metaKey || event.altKey) && event.shiftKey &&
+        (code === 4 || code === 68)) {
+      if (event.preventDefault) {event.preventDefault()}
+      event.returnValue = false;
+      debug(null);
+    }
+  },
+
+  reload: function () {
+    var param = [];
+    if (this.mode !== "inline") {param.push("mode="+this.mode)}
+    if (this.autoTypeset) {param.push("autoTypeset=true")}
+    if (this.showMathML)  {param.push("showMathML=true")}
+    if (this.prefFont !== "TeX") {param.push("prefFont="+this.prefFont)}
+    if (!this.webFonts) {param.push("webFonts=false")}
+    if (this.TeX.value !== this.defaultTeX) {param.push("initialTeX="+escape(this.TeX.value))}
+    if (param.length) {param = "?"+param.join("&")} else {param = ""}
+    window.location = String(window.location).replace(/\?.*/,"")+param;
+  },
+
+  unpack: function (string) {
+    if (!string.match(/\S/)) return;
+    var param = string.split(/&/);
+    for (var i = 0, m = param.length; i < m; i++) {
+      var keyvalue = param[i].split(/=/);
+      keyvalue[1] = unescape(keyvalue[1]);
+      if (keyvalue[1] === "true") {keyvalue[1] = true}
+      if (keyvalue[1] === "false") {keyvalue[1] = false}
+      this[keyvalue[0]] = keyvalue[1];
+    }
+  },
+
+  controls: {
+    mode: function () {Lab.setMode(this.value)},
+    autoTypeset: function () {Lab.setAutoTypeset(this.checked)},
+    showMathML: function () {Lab.setMathML(this.checked)},
+    prefFont: function () {Lab.setPrefFont(this.value)},
+    webFonts: function () {Lab.setWebFont(this.checked)}
+  },
+
+  Startup: function () {
+    for (var i in this.controls) {if (this.controls.hasOwnProperty(i)) {
+      var control = document.getElementById(i);
+      if (control.type === "checkbox") {
+        control.checked = this[i];
+        control.onclick = this.controls[i];
+      } else {
+        control.value = this[i];
+        control.onchange = this.controls[i];
+      }
+    }}
+    this.TeX.value = this.initialTeX || this.defaultTeX;
+    if (this.autoTypeset) {this.TeX.onkeyup = this.AutoTypeset}
+    if (this.showMathML) {this.MathML.style.display = ""}
+  }
+
+}
+
+Lab.unpack(window.location.search.substr(1));
+
+</SCRIPT>
+
+<SCRIPT type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async>
+  MathJax.Hub.Config({
+    extensions: ["toMathML.js","TeX/AMSmath.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+    showProcessingMessages: false,
+    "HTML-CSS": {
+      preferredFont: (Lab.prefFont === "None" ? null : Lab.prefFont),
+      availableFonts: (Lab.prefFont === "None" ? [] : ["TeX","STIX"]),
+      webFont: (Lab.webFonts ? "TeX" : null)
+    }
+  });
+  MathJax.Hub.Register.StartupHook("End",["setup",Lab]);
+
+  MathJax.Hub.Register.MessageHook("Begin Process",["startTimer",Lab]);
+  MathJax.Hub.Register.MessageHook("End Process",["endTimer",Lab]);
+  MathJax.Hub.Register.MessageHook("Begin Update",["startTimer",Lab]);
+  MathJax.Hub.Register.MessageHook("End Update",["endTimer",Lab]);
+</SCRIPT>
+
+<!--<INPUT TYPE="BUTTON" onclick="debug();" VALUE="Debug">-->
+
+<CENTER>
+<TABLE BORDER="0" CELLSPACING="12" CELLPADDING="0" STYLE="width:80%">
+
+<tr><td colspan="2"><center>수식 표현 실습 Part II</center></td></tr>
+<TR><TD COLSPAN="2"><CENTER>
+<DIV STYLE="border:3px ridge; padding:1em; background-color:white">
+<SPAN CLASS="MathJax_Preview">[Math]</SPAN><SCRIPT 
+type="math/tex">\hbox{[Math]}</SCRIPT>
+</DIV>
+</CENTER></TD></TR>
+
+<TR VALIGN="TOP"><TD WIDTH="80%"><TEXTAREA ID="TeX" ROWS="15"
+STYLE="font-family: monaco,courier; font-size:100%; width:100%"
+onkeypress="Lab.checkKey(this,event)"></TEXTAREA></TD>
+
+<TD ROWSPAN="2" WIDTH="20%">
+<div style="border:3px groove; padding:10px; font-size:67%">
+
+<NOBR>수식 모드: <SELECT ID="mode">
+<OPTION VALUE="inline">in-line ($...$)</OPTION>
+<OPTION VALUE="display">display ($$...$$)</OPTION>
+</SELECT></NOBR><BR>
+<INPUT TYPE="hidden" ID="autoTypeset">
+<INPUT TYPE="hidden" ID="showMathML">
+<p>
+
+<NOBR>선호 수식 글꼴: <SELECT ID="prefFont">
+<OPTION VALUE="TeX">TeX</OPTION>
+<OPTION VALUE="STIX">STIX</OPTION>
+<OPTION VALUE="None">없음</OPTION>
+</SELECT></NOBR><BR>
+<INPUT TYPE="checkbox" ID="webFonts" CHECKED> 웹폰트 허용
+
+</div>
+<p>
+
+<center>
+<INPUT TYPE="button" VALUE="조판하라" onclick="Lab.Typeset()"><BR>
+<DIV STYLE="margin-top:5px; font-size:67%">
+<NOBR>걸린 시간: <SPAN ID="time"></SPAN></NOBR>
+
+<p>
+<BR>
+연습문제: <SELECT onchange="Lab.Select(this.value)">
+<OPTION VALUE="">(수식 예제 선택)</OPTION>
+<OPTION VALUE="">----------------</OPTION>
+<OPTION VALUE="font">수식 글꼴</OPTION>
+<OPTION VALUE="spaces">수식 간격</OPTION>
+<OPTION VALUE="paren">괄호</OPTION>
+<OPTION VALUE="style">스타일</OPTION>
+<OPTION VALUE="accent1">액센트, 화살표1</OPTION>
+<OPTION VALUE="accent2">액센트, 화살표2</OPTION>
+<OPTION VALUE="">----------------</OPTION>
+<!--OPTION VALUE="A Summation Formula">바젤 문제</OPTION-->
+<OPTION VALUE="리만">리만 제타함수</OPTION>
+<OPTION VALUE="challenge1">도전 수식1</OPTION>
+<OPTION VALUE="라그랑주">라그랑주 방정식</OPTION>
+<OPTION VALUE="Cauchy-Schwarz Inequality">코시-슈바르츠 부등식</OPTION>
+<OPTION VALUE="스토크스">스토크스 정리</OPTION>
+<OPTION VALUE="그린">그린 정리</OPTION>
+<OPTION VALUE="이토">이토 적분</OPTION>
+<OPTION VALUE="An Identity of Ramanujan">라마누잔의 항등식</OPTION>
+<OPTION VALUE="A Cross Product Formula">벡터곱 공식</OPTION>
+<OPTION VALUE="Jacobian matrix">자코비 행렬</OPTION>
+<OPTION VALUE="challenge3">도전 수식3</OPTION>
+<!--OPTION VALUE="A Probability Formula">확률 공식</OPTION-->
+<!--OPTION VALUE="A Rogers-Ramanujan Identity">로저스-라마누잔 항등식</OPTION-->
+<OPTION VALUE="">----------------</OPTION>
+<OPTION VALUE="elvin">Align 환경</OPTION>
+<!--OPTION VALUE="Lorenz Equations">로렌츠 방정식</OPTION-->
+<OPTION VALUE="Maxwell's Equations">Align 환경2</OPTION>
+<OPTION VALUE="gather">Gather 환경</OPTION>
+<OPTION VALUE="Multline Environment">Multline 환경</OPTION>
+<OPTION VALUE="Multline Environment2">Multline 환경2</OPTION>
+<!--OPTION VALUE="">----------------</OPTION>
+<OPTION VALUE="TeX fonts">TeX fonts (local)</OPTION>
+<OPTION VALUE="STIX fonts">STIX fonts (local)</OPTION>
+<OPTION VALUE="Web fonts">Web fonts (TeX)</OPTION>
+<OPTION VALUE="Image fonts">Image fonts</OPTION-->
+</SELECT>
+</DIV>
+
+</CENTER>
+</TD></TR>
+
+<TR><TD>
+<TEXTAREA ID="MathML" STYLE="width:100%; height:15em; overflow:auto; border:1px inset; 
+  background-color:white; font-size:80%; display:none">
+</TEXTAREA>
+</TD></TR>
+
+</TABLE>
+</CENTER>
+
+<SCRIPT>
+Lab.TeX = document.getElementById("TeX");
+Lab.HTML = document.getElementById("HTML");
+Lab.time = document.getElementById("time");
+Lab.MathML = document.getElementById("MathML");
+Lab.Startup();
+</SCRIPT>
+
+<!-- *End-Document-Body -->
+
+<!-- *Slides-Common-Footer -->
+<DIV STYLE="visibility:hidden"><HR SIZE="3"><DIV STYLE="height:25px; padding-bottom:.5em"></DIV></DIV>
+</DIV>
+</DIV>
+<DIV CLASS="footer" STYLE="position:absolute">
+<HR SIZE="3">
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" WIDTH="98%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD WIDTH="50%" ALIGN="LEFT"><!
+></TD>
+<TD WIDTH="50%" ALIGN="RIGHT"><!
+></TD></TR></TABLE>
+</DIV>
+</BODY>
+</HTML>
