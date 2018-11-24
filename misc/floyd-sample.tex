@@ -1,0 +1,204 @@
+% macros for non-centered displays
+\outer\def\begindisplay{\obeylines\startdisplay}
+{\obeylines\gdef\startdisplay#1
+  {\catcode`\^^M=5$$#1\halign\bgroup\indent##\hfil&&\qquad##\hfil\cr}}
+\outer\def\enddisplay{\crcr\egroup$$}
+
+% (now Appendix E resumes again)
+% macros for verbatim scanning
+\chardef\other=12
+\def\ttverbatim{\begingroup
+  \catcode`\\=\other
+  \catcode`\{=\other
+  \catcode`\}=\other
+  \catcode`\$=\other
+  \catcode`\&=\other
+  \catcode`\#=\other
+  \catcode`\%=\other
+  \catcode`\~=\other
+  \catcode`\_=\other
+  \catcode`\^=\other
+  \obeyspaces \obeylines \tt}
+
+\outer\def\begintt{$$\let\par=\endgraf \ttverbatim \parskip=0pt
+  \catcode`\|=0 \rightskip-5pc \ttfinish}
+{\catcode`\|=0 |catcode`|\=\other % | is temporary escape character
+  |obeylines % end of line is active
+  |gdef|ttfinish#1^^M#2\endtt{#1|vbox{#2}|endgroup$$}}
+
+\catcode`\|=\active
+{\obeylines \gdef|{\ttverbatim \spaceskip\ttglue \let^^M=\  \let|=\endgroup}}
+
+\def\Alg#1{{\bf Algorithm~#1}}
+\def\ltdot{\mathinner{\ldotp\ldotp}}
+
+\font\ninerm=cmr9
+
+\hsize 13cm
+
+%\centerline{\bf A Sample of Brilliance}
+%\bigskip
+How can a computer deal a poker hand? If we assign each card in the deck its own
+integer between $1$ and $52,$ then we can make a hand from a ``random sample'' of
+$5$ integers in the range $1\ltdot52,$ for instance,
+\begindisplay
+4\ 8\ 32\ 46\ 47
+\enddisplay
+(It is
+important that no number appear twice; I understand that holdng more than one ace
+of spaces can seriously jeopardize a card player's health.) Random samples also
+arise in applications as diverse as simulation, program testing, and statistics.
+
+The first section of this column reviews several standard algorithms for random
+sampling. The next section descrives an elegant new algorithm by Bob Floyd.
+%(when
+%this column first appeared in {\sl Communications of the ACM,\/} Floyd's name
+%was on the byline as the ``special Guest Oyster'').
+%The third section then
+%describes how Floyd extends his algorithm to generate random permutations of
+%integers.
+
+\beginsection 1 A Sampling of Sampling Algorithms
+
+Before we can generate a random sample, we have to be able to generate a single
+random number. We will therefore assume that we have a function $RandInt(L,U)$
+that returns an integer uniformly distributed over $L\ltdot U.$\footnote\dag{\ninerm
+If you don't have a $RandInt$ function, you can mae one using a function $Rand$
+that returns a random real distributed unimoformly in $[0,1)$ by the expression
+$L+int(Rand\times(u+1-L)).$ In the unlikely event that your system doesn't
+even have that routine, consult Knuth's {\sl Seminumerical Algorithms.\/}
+But whether you use a system routine or make your own, be careful that
+$RandInt$ returns a value in the range $L\ltdot U$ --- a value out of range
+is nasty bug.}
+
+It is easy to generate a random sequence of $M$ integers in the range
+$1\ltdot N,$ so long as we don't mind duplicates:
+$$\vbox{\let\par=\endgraf
+\obeylines\sfcode`;=3000
+{\bf for $I:=2$ to $M$ do}
+\quad {\bf print} $RandInt(1,N)$
+}$$
+When I invoked that program with $M$ set to $12$ and $N$ set to $3$, the code
+produce the sequence
+\begindisplay
+3\ 1\ 3\ 3\ 1\ 1\ 1\ 2\ 1\ 1\ 3\ 1
+\enddisplay
+This very sequence
+mgith come in handy for your next tough game of rock-paper-scissors. More serious
+applications include testing finite state machines and testing sorting programs.
+
+Many applications, though, requires a random sample without ducplicates. A
+statistical anlaysis, for instance, might waste work by observing the same
+element twice. Such samples are often referred to as ``samples with replacement''
+for as ``combinaions''. For the remainder of this column, though, the word
+``sample'' will denote a random sample with no duplicates.
+%Solution~3 in Section
+5.2 describes an application of a program like this.
+
+Many sampling algorithms are based on this pseudocode, which we'll call
+{\bf Algirthm S}:
+$$\vbox{\let\par=\endgraf
+\obeylines\sfcode`;=3000
+{\bf initialize set $S$ to empty}
+$Size := 0$
+{\bf while $Size<M$ do}
+\quad $T:=RandInt(1,N)$
+\quad {\bf if $T$ is not in $S$ then}
+\qquad {\bf insert $T$ in $S$}
+\qquad $Size := Size + 1$
+}$$
+The algorithm stores the sample in the set $S$. If $S$ is implemented correctly
+and if $RandInt$ produce random integers, the the algorithm produces a random
+sample. That is each $M$-element subset is produced with probability $1/
+{N\choose M}.$ The loop invariant is that $S$ always contains a random sample of
+$Size$ integers in the range $1\ltdot N.$
+
+There are four operations on the set $S$: initializing it to empty, testing an
+integer for membership, inserting a new integer, and printing all the members.
+Column~11 of my 1986 book {\sl Programming Pearls\/} sketches the algorithm and
+five data structures that can be used to implement the set $S$: bit vectors,
+unsorted arrays, sorted arrays, binary search tree, and bins. It also sketches
+several other algorithms for sampling; see Problem~9.
+
+\beginsection 2 Floyd's Algorithm
+
+\Alg S\ has may virtues: it is correct, fairly efficient, and remarkably
+succinct. It is so good, as a matter of face, that I thought one couldn't do
+better. I therefore charge ahead and described it in detail in a column.
+
+Unfortunately, I was wrong; fourtunately, Bob Floyd caught me sleeping. When he
+studied \Alg S, he was bothered by a flaw that is displayed clearly
+when $M=N=100.$ When $Size=99,$ the set $S$ contains all but one of the desired
+integers. The algorithm closes its eyes and blindly guesses integers until it
+stumbles over the right one, which requires 100 random numbers on the average.
+That analysis assumes that the random nubmer generator is truly random. For some
+nonrandom sequences, the algorithm won't even terminate.
+
+Floyd set out to find an algorithm that uses exactly one call $RandInt$ for each
+random number in $S$. The structure of Floyd's algorithm is easy to understand
+recursively: to generate $5$-element sample from $1\ltdot10$, we first generate
+a $4$-element sample from $1\ltdot9$, and then add the fifth element. The
+recursive algorithm is sketched as \Alg{F1}:
+$$\vbox{\let\par=\endgraf
+\obeylines\sfcode`;=3000
+{\bf function} $Sample(M, N)$
+\quad {\bf if $M=0$ then}
+\qquad {\bf return the empty set}
+\quad {\bf else}
+\qquad $S:=Sample(M-1, N-1)$
+\qquad $T:=RandIt(1,N)$
+\qquad {\bf if $T$ is not in $S$ then}
+\qquad\quad {\bf insert $T$ in $S$}
+\qquad {\bf else}
+\qquad\quad {\bf insert $N$ in $S$}
+\qquad {\bf return $S$}
+}$$
+
+We can appreciate the correctness of \Alg{F1} anecdotally. When
+$M=5$ and $N=10$, the algorithm first recursively computes in $S$ a 4-element
+random sample from $1\ltdot9$. Next it assigns to $T$ a random integer in the
+range $1\ltdot10.$ Of the 10 values that $T$ can assume, exactly 5 result in
+inserting 10 into $S$: the four value already in $S$, and the value 10 itself.
+Thus element 10 is inserted into the set with the correct probability of $5/10$.
+The next section proves that \Alg{F1} produces each $M$-element sample
+of an $N$-set with equal probability.
+
+Because \Alg{F1} uses a restricted form of recursion, Floyd was able to
+translate it to an iterative form by introducing a new variable $J$. (Problem 8
+and Section 3.2 discuss the problem of recursion removal in more general terms.)
+The result is \Alg{F2}, witch is more efficient than \Alg S\ yet almost as
+succinct:
+$$\vbox{\let\par=\endgraf
+\obeylines\sfcode`;=3000
+{\bf initialize set $S$ to empty}
+{\bf for $J:=N-M+1$ to $N$ do}
+\quad $T:=RandIt(1,J)$
+\quad {\bf if $T$ is not in $S$ then}
+\qquad\quad {\bf insert $T$ in $S$}
+\quad {\bf else}
+\qquad\quad {\bf insert $J$ in $S$}
+}$$
+
+\bye
+
+Problem 2 and 3 address the data structures that mgith be used to implement the
+set $S$.
+
+For thoes who mgiht scoff that \Alg{F2} is ``just pseudocode'', the next program
+implements Floyd's algorithm in the Awk language. The associative array described
+in Column 2 provide a clean implementation of the set $S$. Awk's {\tt ARGV} array
+allows the program to access command line arguments, so a sample of 200 elements
+in the range $1\ltdot1000$ can be generated by typing {\tt sample 200 1000}.
+Complete with input and output, the Awk program requires only eight lines:
+\begintt
+BEGIN { m = ARGV[1]; n = ARGV[2]
+        for (j = n-m+1; j <= n; j++) {
+            t = 1 + int(j * rand())
+            if (t in s) s[j] = 1
+            else s[t] = 1
+        }
+        for (i in s) print i
+}
+\endtt
+
+
