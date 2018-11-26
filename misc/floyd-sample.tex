@@ -1,3 +1,7 @@
+\font\columnfont=cmr10 at 12.5pt
+\font\titlefont=cmssdc10 at 14pt
+\font\algfont=cmssdc10
+
 % macros for verbatim scanning
 \newskip\ttglue
 \ttglue=.5em plus.25em minus.15em
@@ -30,7 +34,7 @@
 
 \def\parbreak{\hfil\break\indent\strut}
 
-\def\alg#1{{\bf Algorithm~#1}}
+\def\alg#1{{\algfont Algorithm~\hbox{\algfont #1}}}
 \def\ltdot{\mathinner{\ldotp\ldotp}}
 
 \outer\def\section#1\par{\vskip0pt plus.3\vsize%\penalty-250
@@ -41,9 +45,6 @@
 
 \magnification=\magstep1
 \hsize 13cm
-
-\font\columnfont=cmr10 at 12pt
-\font\titlefont=cmssdc10 at 13.5pt
 
 \rightline{\columnfont COLUMN 13: {\titlefont A SAMPLE OF BRILLIANCE}}
 \vskip5cm
@@ -171,7 +172,7 @@ The next section proves that \alg{F1} produces each $M$-element sample
 of an $N$-set with equal probability.
 
 Because \alg{F1} uses a restricted form of recursion, Floyd was able to
-translate it to an iterative form by introducing a new variable $J$. (Problem 8
+translate it to an iterative form by introducing a new variable $J$. (Problem~8
 and Section 3.2 discuss the problem of recursion removal in more general terms.)
 The result is \alg{F2}, witch is more efficient than \alg S\ yet almost as
 succinct:
@@ -185,7 +186,7 @@ $$\vbox{\let\par=\endgraf
 \quad {\bf else}
 \qquad\quad {\bf insert $J$ in $S$}
 }$$
-Problem 2 and 3 address the data structures that mgith be used to implement
+Problem 2 and~3 address the data structures that mgith be used to implement
 the set $S$.
 
 For thoes who mgiht scoff that \alg{F2} is ``just pseudocode'', the next program
@@ -256,8 +257,8 @@ $$\vbox{\let\par=\endgraf
 \quad {\bf else}
 \qquad\quad {\bf insert $J$ in $S$ after $T$}
 }$$
-Problem 5 shows that \alg P\ is remarkably efficient in terms of the number of
-random bits it uses. Problem 6 deals with efficient implementations of the
+Problem~5 shows that \alg P\ is remarkably efficient in terms of the number of
+random bits it uses. Problem~6 deals with efficient implementations of the
 sequence $S.$
 
 We can get an intuitive feeling for \alg P\ by considering its behavior when
@@ -287,7 +288,7 @@ sequence must have been
 2\ 9\ 1\ 5
 \enddisplay
 and $RandInt$ returned $T=7.$ Because 9 (the relevant value of $J$) occurs
-in the $4$-element sequence after 2, the previous $T$ was 2. Problem 4 shows
+in the $4$-element sequence after 2, the previous $T$ was 2. Problem~4 shows
 that one can similarly recover the entire sequence of random values. Because
 all random sequence are supposedly equally likely, all permutations are also.
 
@@ -364,8 +365,8 @@ to this iterative form
 
 \section 13.6 Further Reading
 
-Robert W. Floyd received the ACM Turing Award in 1978. In his Turing lecture on ``The
-Paragigms of Programming'', Floyd writes, ``In my own experience of designing difficult
+Robert~W. Floyd received the ACM Turing Award in 1978. In his Turing lecture on ``The
+Paradigms of Programming,'' Floyd writes, ``In my own experience of designing difficult
 algorithms, I find a certain technique most helpful in expanding my own capabilities.
 After solving a challenging problem, I solve it again from scratch, retracing only the
 {\it insignt\/} of the earlier solution. I repeat this until the solution is as clear
