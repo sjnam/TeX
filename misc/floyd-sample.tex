@@ -1,6 +1,6 @@
 \font\columnfont=cmr10 at 12.5pt
 \font\titlefont=cmssdc10 at 14pt
-\font\algfont=cmssdc10
+\font\ninerm=cmr9
 
 % macros for verbatim scanning
 \newskip\ttglue
@@ -34,14 +34,12 @@
 
 \def\parbreak{\hfil\break\indent\strut}
 
-\def\alg#1{{\algfont Algorithm~\hbox{\algfont #1}}}
+\def\alg#1{{Algorithm~\hbox{#1}}}
 \def\ltdot{\mathinner{\ldotp\ldotp}}
 
 \outer\def\section#1\par{\vskip0pt plus.3\vsize%\penalty-250
   \vskip0pt plus-.3\vsize\bigskip\vskip\parskip
   \message{#1}\leftline{\bf#1}\nobreak\smallskip\noindent}
-
-\font\ninerm=cmr9
 
 \magnification=\magstep1
 \hsize 13cm
@@ -69,23 +67,25 @@ integers.
 \section 13.1 A Sampling of Sampling Algorithms
 
 Before we can generate a random sample, we have to be able to generate a single
-random number. We will therefore assume that we have a function $RandInt(L,U)$
-that returns an integer uniformly distributed over $L\ltdot U.$\footnote\dag{\ninerm
-If you don't have a $RandInt$ function, you can mae one using a function $Rand$
-that returns a random real distributed unimoformly in $[0,1)$ by the expression
+random number. We will therefore assume that we have a function $randint(L,U)$
+that returns an integer uniformly distributed over $L\ltdot U.$%
+\footnote\dag{\ninerm
+If you don't have a $randint$ function, you can mae one using a function $Rand$
+that returns a random real distributed unimoformly in $[\,0,1)$ by the expression
 $L+int(Rand\times(u+1-L)).$ In the unlikely event that your system doesn't
 even have that routine, consult Knuth's {\sl Seminumerical Algorithms.\/}
 But whether you use a system routine or make your own, be careful that
-$RandInt$ returns a value in the range $L\ltdot U$ --- a value out of range
+$randint$ returns a value in the range $L\ltdot U$ --- a value out of range
 is nasty bug.}
 
 It is easy to generate a random sequence of $M$ integers in the range
 $1\ltdot N,$ so long as we don't mind duplicates:
-$$\vbox{\let\par=\endgraf
+$$
+\vbox{\let\par=\endgraf
 \obeylines\sfcode`;=3000
 {\bf for $I:=2$ to $M$ do}
-\quad {\bf print} $RandInt(1,N)$
-}$$
+\quad {\bf print} $randint(1,N)$}
+$$
 When I invoked that program with $M$ set to $12$ and $N$ set to $3$, the code
 produce the sequence
 \begindisplay
@@ -103,20 +103,19 @@ for as ``combinaions''. For the remainder of this column, though, the word
 %Solution~3 in Section
 5.2 describes an application of a program like this.
 
-Many sampling algorithms are based on this pseudocode, which we'll call
-{\bf Algirthm S}:
+Many sampling algorithms are based on this pseudocode, which we'll call \alg S:
 $$\vbox{\let\par=\endgraf
 \obeylines\sfcode`;=3000
-{\bf initialize set $S$ to empty}
+initialize set $S$ to empty
 $Size := 0$
 {\bf while $Size<M$ do}
-\quad $T:=RandInt(1,N)$
+\quad $T:=randint(1,N)$
 \quad {\bf if $T$ is not in $S$ then}
 \qquad {\bf insert $T$ in $S$}
 \qquad $Size := Size + 1$
 }$$
 The algorithm stores the sample in the set $S$. If $S$ is implemented correctly
-and if $RandInt$ produce random integers, the the algorithm produces a random
+and if $randint$ produce random integers, the the algorithm produces a random
 sample. That is each $M$-element subset is produced with probability $1/
 {N\choose M}.$ The loop invariant is that $S$ always contains a random sample of
 $Size$ integers in the range $1\ltdot N.$
@@ -142,19 +141,19 @@ stumbles over the right one, which requires 100 random numbers on the average.
 That analysis assumes that the random nubmer generator is truly random. For some
 nonrandom sequences, the algorithm won't even terminate.
 
-Floyd set out to find an algorithm that uses exactly one call $RandInt$ for each
+Floyd set out to find an algorithm that uses exactly one call $randint$ for each
 random number in $S$. The structure of Floyd's algorithm is easy to understand
 recursively: to generate $5$-element sample from $1\ltdot10$, we first generate
 a $4$-element sample from $1\ltdot9$, and then add the fifth element. The
 recursive algorithm is sketched as \alg{F1}:
 $$\vbox{\let\par=\endgraf
 \obeylines\sfcode`;=3000
-{\bf function} $Sample(M, N)$
+{\bf function} $sample(M, N)$
 \quad {\bf if $M=0$ then}
-\qquad {\bf return the empty set}
+\qquad {\bf return} the empty set
 \quad {\bf else}
-\qquad $S:=Sample(M-1, N-1)$
-\qquad $T:=RandIt(1,N)$
+\qquad $S:=sample(M-1, N-1)$
+\qquad $T:=randint(1,N)$
 \qquad {\bf if $T$ is not in $S$ then}
 \qquad\quad {\bf insert $T$ in $S$}
 \qquad {\bf else}
@@ -178,9 +177,9 @@ The result is \alg{F2}, witch is more efficient than \alg S\ yet almost as
 succinct:
 $$\vbox{\let\par=\endgraf
 \obeylines\sfcode`;=3000
-{\bf initialize set $S$ to empty}
+initialize set $S$ to empty
 {\bf for $J:=N-M+1$ to $N$ do}
-\quad $T:=RandIt(1,J)$
+\quad $T:=randint(1,J)$
 \quad {\bf if $T$ is not in $S$ then}
 \qquad\quad {\bf insert $T$ in $S$}
 \quad {\bf else}
@@ -221,10 +220,10 @@ scrambles the array $X[1\ltdot M$:
 $$\vbox{\let\par=\endgraf
 \obeylines\sfcode`;=3000
 {\bf for $I:=M$ downto $2$ do}
-\quad $J:= RandInt(1, I)$
-\quad $Swap(X[J], X[I])$
+\quad $J:= randint(1, I)$
+\quad $swap(X[J], X[I])$
 }$$
-This three-step method uses $2M$ calls to $RandInt.$
+This three-step method uses $2M$ calls to $randint.$
 
 After this column originally appeared in {\sl Communications fo the ACM,\/}
 sevral readers observed that a slight modification of the above code places a
@@ -235,8 +234,8 @@ $$\vbox{\let\par=\endgraf
 {\bf for $I:=1$ to $N$ do}
 \quad $X[I]:=I$
 {\bf for $I:=1$ to $M$ do}
-\quad $J:= RandInt(1, N)$
-\quad $Swap(X[J], X[I])$
+\quad $J:= randint(1, N)$
+\quad $swap(X[J], X[I])$
 }$$
 This algorithm is easy to code, but it requires $O(N)$ run time and $O(N)$ words
 of memory. Floyd's algorithms, which we'll soon see, are more efficient when $N$
@@ -249,9 +248,9 @@ have the variable $J.$) The primary data structure of the permutation generator,
 though, is a sequence rather than a set. Here is Floyd's \alg P:
 $$\vbox{\let\par=\endgraf
 \obeylines\sfcode`;=3000
-{\bf initialize sequence $S$ to empty}
+initialize sequence $S$ to empty
 {\bf for $J:=N-M+1$ to $N$ do}
-\quad $T:=RandIt(1,J)$
+\quad $T:=randint(1,J)$
 \quad {\bf if $T$ is not in $S$ then}
 \qquad\quad {\bf prefix $T$ to $S$}
 \quad {\bf else}
@@ -287,7 +286,7 @@ sequence must have been
 \begindisplay
 2\ 9\ 1\ 5
 \enddisplay
-and $RandInt$ returned $T=7.$ Because 9 (the relevant value of $J$) occurs
+and $randint$ returned $T=7.$ Because 9 (the relevant value of $J$) occurs
 in the $4$-element sequence after 2, the previous $T$ was 2. Problem~4 shows
 that one can similarly recover the entire sequence of random values. Because
 all random sequence are supposedly equally likely, all permutations are also.
@@ -304,18 +303,19 @@ random samples and random permutations. His programs are a model of efficiency,
 simplicity, and elegance. Section 13.6 sketches some of the methods that
 Floyd uses to achieve such programs.
 
-\def\prob#1 {\penalty-50\smallskip\hangindent 1.5em\noindent\hbox to 1.5em{#1\hss}}
+\def\prob#1 {\penalty-50\smallskip\hangindent 1.5em
+  \noindent\hbox to 1.5em{#1\hss}}
 \def\more{\hangindent 1.5em \hangafter0\noindent}
 
 \section 13.5 Problems
 
-\prob{1.} How do the various algorithms behave when the $RandInt$ procedure
+\prob{1.} How do the various algorithms behave when the $randint$ procedure
 is nonrandom? Consider, for instance, generators that always return 0, or that
 cycle over a range that is much smaller than or much greater than $M$ or $N$.
 
 \prob{2.} Describe efficient representations for the set $S$ in \alg{F2}.
 
-\prob{3.} \alg S\ and {\bf F2} both use a set $S$. Is a data structure that is
+\prob{3.} \alg S\ and~F2 both use a set $S$. Is a data structure that is
 efficient in one algorithm necessarily efficient in the other?
 
 \prob{4.} Complete the proof of correctness of \alg P\ by showing how to compute
@@ -347,9 +347,9 @@ Consider a recursive function with ths form
 }
 \enddisplay
 
-\more where $M$ is an integer, $S$ and $X$ have the same type $T,$ and function $G$
-maps a $T$ and an integer to a $T.$ Show how the function can be transformded
-to this iterative form
+\more where $M$ is an integer, $S$ and $X$ have the same type $T,$ and function
+$G$ maps a $T$ and an integer to a $T.$ Show how the function can be
+transformded to this iterative form
 \begindisplay
 \vbox{\let\par=\endgraf
 \obeylines\sfcode`;=3000
@@ -365,26 +365,29 @@ to this iterative form
 
 \section 13.6 Further Reading
 
-Robert~W. Floyd received the ACM Turing Award in 1978. In his Turing lecture on ``The
-Paradigms of Programming,'' Floyd writes, ``In my own experience of designing difficult
-algorithms, I find a certain technique most helpful in expanding my own capabilities.
-After solving a challenging problem, I solve it again from scratch, retracing only the
-{\it insignt\/} of the earlier solution. I repeat this until the solution is as clear
-as and direct as I can hope for. Then I look for a general rule for attacking similiar
-problems, that {\it would\/} have led me to approach the given problem in the most
-efficient way the first time. Often, such a rule is of permanent value.''
+Robert~W. Floyd received the ACM Turing Award in 1978. In his Turing lecture on
+``The Paradigms of Programming,'' Floyd writes, ``In my own experience of
+designing difficult algorithms, I find a certain technique most helpful in
+expanding my own capabilities. After solving a challenging problem, I solve it
+again from scratch, retracing only the {\it insignt\/} of the earlier solution.
+I repeat this until the solution is as clear as and direct as I can hope for.
+Then I look for a general rule for attacking similiar problems, that
+{\it would\/} have led me to approach the given problem in the most efficient
+way the first time. Often, such a rule is of permanent value.''
 
-Floyd's key rule in this problem was, in his own words, to ``look for a mathematical
-characterization of the solution before you think about an algorithm to obtain it.''
-His key insight dealt with the probability of the algorithm generating any particular
-subset. When Floyd calculated the probabilities of key events in \alg S, he noticed
-that the denominators were powers of $N$, while the denominators in the solution were
-falling factorials. His algorithms use a simple structure to generate the correct
-probabilities. When Floyd finally conceived \alg P, he recalls, ``I knew it was right
-even before I proved it.''
+Floyd's key rule in this problem was, in his own words, to ``look for a
+mathematical characterization of the solution before you think about an
+algorithm to obtain it.'' His key insight dealt with the probability of the
+algorithm generating any particular subset. When Floyd calculated the
+probabilities of key events in \alg S, he noticed that the denominators were
+powers of $N$, while the denominators in the solution were falling factorials.
+His algorithms use a simple structure to generate the correct probabilities.
+When Floyd finally conceived \alg P, he recalls, ``I knew it was right even
+before I proved it.''
 
 Floyd's 1978 Turing lecture was published originally in the August 1979
-{\sl Communications of the ACM\/.} It also appears in the {\sl ACM Turing Award Lectures:
-The First Twenty Years: 1966--1985\/}, which was published in 1987 by the ACM Press.
+{\sl Communications of the ACM\/.} It also appears in the {\sl ACM Turing Award
+Lectures: The First Twenty Years: 1966--1985\/}, which was published in 1987 by
+the ACM Press.
  
 \bye
