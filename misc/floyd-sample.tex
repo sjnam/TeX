@@ -3,9 +3,6 @@
 \font\ninerm=cmr9
 
 % macros for verbatim scanning
-\newskip\ttglue
-\ttglue=.5em plus.25em minus.15em
-
 \chardef\other=12
 \def\ttverbatim{\begingroup
   \catcode`\\=\other
@@ -20,7 +17,8 @@
   \catcode`\^=\other
   \obeyspaces \obeylines \tt}
 \catcode`\|=\active
-{\obeylines \gdef|{\ttverbatim \spaceskip\ttglue \let^^M=\  \let|=\endgroup}}
+{\obeylines \gdef|{\ttverbatim \spaceskip.5em plus.25em minus.15em%
+  \let^^M=\  \let|=\endgroup}}
 
 % macros for non-centered displays
 \outer\def\begindisplay{\obeylines\startdisplay}
@@ -28,18 +26,14 @@
   {\catcode`\^^M=5$$#1\halign\bgroup\indent##\hfil&&\qquad##\hfil\cr}}
 \outer\def\enddisplay{\crcr\egroup$$}
 
-\newbox\PPbox % symbol for ++
-\setbox\PPbox=\hbox{\kern.5pt\raise1pt\hbox{\sevenrm+\kern-1pt+}\kern.5pt}
-\def\PP{\copy\PPbox}
-
-\def\parbreak{\hfil\break\indent\strut}
-
-\def\alg#1{{Algorithm~\hbox{#1}}}
-\def\ltdot{\mathinner{\ldotp\ldotp}}
-
+% section
 \outer\def\section#1\par{\vskip0pt plus.3\vsize%\penalty-250
   \vskip0pt plus-.3\vsize\bigskip\vskip\parskip
   \message{#1}\leftline{\bf#1}\nobreak\smallskip\noindent}
+
+\def\alg#1{{Algorithm~\hbox{#1}}}
+\def\ltdot{\mathinner{\ldotp\ldotp}}
+\def\parbreak{\hfil\break\indent\strut}
 
 \magnification=\magstep1
 \hsize 12cm
