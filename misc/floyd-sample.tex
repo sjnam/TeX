@@ -1,6 +1,26 @@
 \font\columnfont=cmr10 at 13.5pt
 \font\titlefont=cmssdc10 at 15pt
+
 \font\ninerm=cmr9
+\font\ninei=cmmi9
+\font\ninesy=cmsy9
+\font\ninebf=cmbx9
+\font\ninesl=cmsl9
+\font\nineit=cmti9
+
+\def\ninepoint{\def\rm{\fam0\ninerm}%
+  \textfont0=\ninerm
+  \textfont1=\ninei
+  \textfont2=\ninesy
+  \def\it{\fam\itfam\nineit}%
+  \textfont\itfam=\nineit
+  \def\sl{\fam\slfam\ninesl}%
+  \textfont\slfam=\ninesl
+  \def\bf{\fam\bffam\ninebf}%
+  \textfont\bffam=\ninebf
+  \normalbaselineskip=11pt
+  \setbox\strutbox=\hbox{\vrule height8pt depth3pt width 0pt}%
+  \normalbaselines\rm}
 
 % macros for verbatim scanning
 \chardef\other=12
@@ -36,10 +56,13 @@
 \def\parbreak{\hfil\break\indent\strut}
 
 \magnification=\magstep1
-\hsize 12cm
+\hsize 29pc
+\vsize 46pc
+\pageno=139
 
+\topglue 1.5in
 \rightline{\columnfont COLUMN 13: {\titlefont A SAMPLE OF BRILLIANCE}}
-\vskip5cm
+\vskip 1in
 How can a computer deal a poker hand? If we assign each card in the deck its own
 integer between $1$ and $52,$ then we can make a hand from a ``random sample'' of
 $5$ integers in the range $1\ltdot52,$ for instance,
@@ -63,10 +86,10 @@ integers.
 Before we can generate a random sample, we have to be able to generate a single
 random number. We will therefore assume that we have a function $randint(L,U)$
 that returns an integer uniformly distributed over $L\ltdot U.$%
-\footnote\dag{\ninerm
+\footnote\dag{\ninepoint
 If you don't have a $randint$ function, you can make one using a function $rand$
 that returns a random real distributed uniformly in $[\,0,1)$ by the expression
-$L+int(rand\times(U+1-L)).$ In the unlikely event that your system doesn't even
+$L+{\bf int}(rand\times(U+1-L)).$ In the unlikely event that your system doesn't even
 have that routine, consult Knuth's {\sl Seminumerical Algorithms.\/} But whether
 you use a system routine or make your own, be careful that $randint$ returns a
 value in the range $L\ltdot U$ --- a value out of range is nasty bug.}
