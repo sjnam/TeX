@@ -1,0 +1,402 @@
+\font\twelverm=cmr12
+\font\columnfont=cmssdc10 at 16pt
+
+\font\eightrm=cmr8
+\font\eighti=cmmi8
+\font\eightsy=cmsy8
+\font\eightss=cmssq8
+\font\eightssi=cmssqi8
+\font\eightbf=cmbx8
+\font\eighttt=cmtt8
+\font\eightsl=cmsl8
+\font\eightit=cmti8
+\let\sc=\eightrm
+\font\tenrm=cmr10
+
+\def\eightpoint{\def\rm{\fam0\eightrm}%
+  \textfont0=\eightrm
+  \textfont1=\eighti
+  \textfont2=\eightsy
+  \def\it{\fam\itfam\eightit}%
+  \textfont\itfam=\eightit
+  \def\sl{\fam\slfam\eightsl}%
+  \textfont\slfam=\eightsl
+  \def\bf{\fam\bffam\eightbf}%
+  \textfont\bffam=\eightbf
+  \def\tt{\fam\ttfam\eighttt}%
+  \textfont\ttfam=\eighttt
+  \tt
+  \normalbaselineskip=9pt
+  \normalbaselines\rm}
+
+% verbatim scanning
+\def\ttverbatim{\begingroup
+  \def\do##1{\catcode`##1=12 } \dospecials
+  \obeyspaces \obeylines \tt}
+\catcode`\|=\active
+{\obeylines \gdef|{\ttverbatim \spaceskip.5em plus.25em minus.15em%
+  \let^^M=\  \let|=\endgroup}}
+
+% section
+\outer\def\section#1\par{\vskip0pt plus.3\vsize%\penalty-250
+  \vskip0pt plus-.3\vsize\bigskip\vskip\parskip
+  \message{#1}\leftline{\bf#1}\nobreak\smallskip\noindent}
+
+\def\alg#1{{Algorithm~\hbox{#1}}}
+\def\ltdot{\mathinner{\ldotp\ldotp}}
+\def\parbreak{\hfil\break\indent\strut}
+
+\def\colname{A SAMPLE OF BRILLIANCE}
+\def\colnum{COLUMN 13}
+
+\newif\iftitle
+\headline={\iftitle\hfil\else\ifodd\pageno\rheader\else\lheader\fi\fi}
+\footline={\iftitle\global\titlefalse\hfil\the\pageno\hfil\else\hfil\fi}
+\def\lheader{\sc{\tenrm\the\pageno}\quad MORE PROGRAMMING PEARLS\hfill\colnum}
+\def\rheader{\sc\colnum\hfill\colname\quad{\tenrm\the\pageno}}
+
+\titletrue
+
+\magnification=\magstep1
+
+\voffset=2\baselineskip
+\topskip6mm
+\hsize 28.5pc
+\vsize 46pc
+\pageno=139
+
+\topglue 1.5in
+\rightline{\twelverm\colnum: {\columnfont\colname}}
+\vskip.7in
+How can a computer deal a poker hand? If we assign each card in the deck its own
+integer between $1$ and $52,$ then we can make a hand from a ``random sample''
+of $5$ integers in the range $1\ltdot52,$ for instance,
+$$\vbox{
+|4 8 32 46 47|
+}$$
+(It is important that no number appear twice; I understand that holding more
+than one ace of spades can seriously jeopardize a card player's health.) Random
+samples also arise in applications as diverse as simulation, program testing,
+and statistics.
+
+The first section of this column reviews several standard algorithms for random
+sampling. The next section describes an elegant new algorithm by Bob Floyd.
+(when this column first appeared in {\sl Communications of the ACM,\/} Floyd's
+name was on the byline as the ``Special Guest Oyster''). The third section then
+describes how Floyd extends his algorithm to generate random permutations of
+integers.
+
+\section 13.1 A Sampling of Sampling Algorithms
+
+Before we can generate a random sample, we have to be able to generate a single
+random number. We will therefore assume that we have a function {\tt
+RandInt(L,U)} that returns an integer uniformly distributed over $L\ltdot U.$%
+\footnote\dag{\eightpoint If you don't have a $RandInt$ function, you can make
+one using a function $Rand$ that returns a random real distributed uniformly
+in $[\,0,1)$ by the expression $L+{\bf int}(Rand\times(U+1-L)).$ In the
+unlikely event that your system doesn't even have that routine, consult Knuth's
+{\sl Seminumerical Algorithms.\/} But whether you use a system routine or make
+your own, be careful that $RandInt$ returns a value in the range $L\ltdot U$
+--- a value out of range is nasty bug.}
+
+It is easy to generate a random sequence of $M$ integers in the range
+$1\ltdot N,$ so long as we don't mind duplicates:
+$$\vbox{
+|for I := 1 to M do|\parbreak
+|    print RandInt(1, N)|
+}$$
+When I invoked that program with $M$ set to $12$ and $N$ set to $3$, the code
+produced the sequence
+$$\vbox{
+|3 1 3 3 1 1 1 2 1 1 3 1|
+}$$
+This very sequence might come in handy for your next tough game of
+rock-paper-scissors. More serious applications include testing finite state
+machines and testing sorting programs (see Section~3.3).
+
+Many applications, though, require a random sample without ducplicates. A
+statistical anlaysis, for instance, might waste work by observing the same
+element twice. Such samples are often referred to as ``samples without
+replacement'' or as ``combinations''. For the remainder of this column, though,
+the word ``sample'' will denote a random sample with no duplicates. Solution~3
+in Section~5.2 describes an application of a program like this.
+
+Many sampling algorithms are based on this pseudocode, which we'll call
+{\bf\alg S}:
+$$\vbox{
+|initialize set S to empty|\parbreak
+|Size := 0|\parbreak
+|while Size < M do|\parbreak
+|    T := RandInt(1, N)|\parbreak
+|    if T is not in S then|\parbreak
+|        insert T in S|\parbreak
+|        Size := Size + 1|
+}$$
+The algorithm stores the sample in the set $S$. If $S$ is implemented correctly
+and if {\tt RandInt} produces random integers, then the algorithm produces a
+random sample. That is, each $M$-element subset is produced with probability
+$1/{N\choose M}.$ The loop invariant is that $S$ always contains a random sample
+of $Size$ integers in the range $1\ltdot N.$
+
+There are four operations on the set $S$: initializing it to empty, testing an
+integer for membership, inserting a new integer, and printing all the members.
+Column~11 of my 1986 book {\sl Programming Pearls\/} sketches the algorithm and
+five data structures that can be used to implement the set $S$: bit vectors,
+unsorted arrays, sorted arrays, binary search tree, and bins. It also sketches
+several other algorithms for sampling; see Problem~9.
+
+\section 13.2 Floyd's Algorithm
+
+\alg S\ has many virtues: it is correct, fairly efficient, and remarkably
+succinct. It is so good, as a matter of fact, that I thought one couldn't do
+better. I therefore charged ahead and described it in detail in a column.
+
+Unfortunately, I was wrong; fourtunately, Bob Floyd caught me sleeping. When he
+studied \alg S, he was bothered by a flaw that is displayed clearly when
+$M=N=100.$ When $Size=99,$ the set $S$ contains all but one of the desired
+integers. The algorithm closes its eyes and blindly guesses integers until it
+stumbles over the right one, which requires $100$ random numbers on the average.
+That analysis assumes that the random nubmer generator is truly random. For some
+nonrandom sequences, the algorithm won't even terminate.
+
+Floyd set out to find an algorithm that uses exactly one call {\tt RandInt} for
+each random number in $S$. The structure of Floyd's algorithm is easy to
+understand recursively: to generate $5$-element sample from $1\ltdot10$, we
+first generate a $4$-element sample from $1\ltdot9$, and then add the fifth
+element. The recursive algorithm is sketched as {\bf\alg{F1}}:
+$$\vbox{
+|function Sample(M, N)|\parbreak
+|    if M = 0 then|\parbreak
+|        return the empty set|\parbreak
+|    else|\parbreak
+|        S := Sample(M-1, N-1)|\parbreak
+|        T := RandInt(1, N)|\parbreak
+|        if T is not in S then|\parbreak
+|            insert T in S|\parbreak
+|        else|\parbreak
+|            insert N in S|\parbreak
+|        return S|
+}$$
+
+We can appreciate the correctness of \alg{F1} anecdotally. When $M=5$ and~$N=10$,
+the algorithm first recursively computes in $S$ a $4$-element random sample from
+$1\ltdot9$. Next it assigns to $T$ a random integer in the range $1\ltdot10.$
+Of the $10$ values that $T$ can assume, exactly $5$ result in inserting $10$ into
+$S$: the four values already in $S$, and the value $10$ itself. Thus element $10$
+is inserted into the set with the correct probability of $5/10$. The next section
+proves that \alg{F1} produces each $M$-element sample of an $N$-set with equal
+probability.
+
+Because \alg{F1} uses a restricted form of recursion, Floyd was able to translate
+it to an iterative form by introducing a new variable $J$. (Problem 8 and~%
+Section 3.2 discuss the problem of recursion removal in more general terms.) The
+result is {\bf\alg{F2}}, witch is more efficient than \alg S\ yet almost as
+succinct:
+$$\vbox{
+|initialize set S to empty|\parbreak
+|for J := N - M + 1 to N do|\parbreak
+|    T := RandInt(1, J)|\parbreak
+|    if T is not in S then|\parbreak
+|        insert T in S|\parbreak
+|    else|\parbreak
+|        insert J in S|
+}$$
+Problem 2 and~3 address the data structures that mgith be used to implement the
+set $S$.
+
+For thoes who might scoff that \alg{F2} is ``just pseudocode'', the next program
+implements Floyd's algorithm in the Awk language. The associative array
+described in Column~2 provide a clean implementation of the set $S$. Awk's
+{\tt ARGV} array allows the program to access command line arguments, so a sample
+of $200$ elements in the range $1\ltdot1000$ can be generated by typing
+\hbox{\tt sample 200 1000}. Complete with input and output, the Awk program
+requires only eight lines:
+$$\vbox{
+|BEGIN { m = ARGV[1]; n = ARGV[2]|\parbreak
+|        for (j = n-m+1; j <= n; j++) {|\parbreak
+|            t = 1 + int(j * rand())|\parbreak
+|            if (t in s) s[j] = 1|\parbreak
+|            else s[t] = 1|\parbreak
+|        }|\parbreak
+|        for (i in s) print i|\parbreak
+|}|
+}$$
+
+\section 13.3 Random Permutations
+
+Some programs that use a random sample require that the elements of the sample
+occur in a random order. Such a sequence is called a random permutation without
+replacement. In testing a sorting program, for instance, it is important that
+randomly generated input occur in random order; if the input were always sorted,
+the test mgith not fully exercise the sort code.
+
+We could use Floyd's \alg{F2} to generated a random sample, then copy it to an
+array, and finally shuffle the elements of the array. This code randomly
+scrambles the array $X[1\ltdot M]$:
+$$\vbox{
+|for I := M downto 2 do|\parbreak
+|    J := RandInt(1, I)|\parbreak
+|    Swap(X[J], X[I])|
+}$$
+This three-step method uses $2M$ calls to {\tt RandInt}.
+
+After this column originally appeared in {\sl Communications fo the ACM,\/}
+sevral readers observed that a slight modification of the above code places a
+random $M$-element permutation from the integers in $1\ltdot N$ in
+$X[1\ltdot M]$
+$$\vbox{
+|for I := 1 to N do|\parbreak
+|    X[I] := I|\parbreak
+|for I := 1 to M do|\parbreak
+|    J := RandInt(I, N)|\parbreak
+|    Swap(X[J], X[I])|
+}$$
+This algorithm is easy to code, but it requires $O(N)$ run time and $O(N)$ words
+of memory. Floyd's algorithms, which we'll soon see, are more efficient when $N$
+is large compared to $M$.
+
+Floyd's random permutation generator is similar to his \alg{F2}. To compute an
+$M$-element permutation from $1\ltdot N,$ it first computes an $(M-1)$-element
+permutation from $1\ltdot N-1.$ (A recursive version of the algorithm does not
+have the variable $J.$) The primary data structure of the permutation generator,
+though, is a sequence rather than a set. Here is Floyd's {\bf\alg P}:
+$$\vbox{
+|initialize sequence S to empty|\parbreak
+|for J := N - M + 1 to N do|\parbreak
+|    T := RandInt(1, J)|\parbreak
+|    if T is not in S then|\parbreak
+|        prefix T to S|\parbreak
+|    else|\parbreak
+|        insert J in S after T|
+}$$
+Problem~5 shows that \alg P\ is remarkably efficient in terms of the number of
+random bits it uses. Problem~6 deals with efficient implementations of the
+sequence $S.$
+
+We can get an intuitive feeling for \alg P\ by considering its behavior when
+$M=N$, in which case it generates a random permutation of $N$ elements. It
+iterates $J$ from 1 to $N$. Before execution of the loop body, $S$ is a random
+permutation of the integers in $1\ltdot J-1$. The loop body maintains the
+invariant by inserting $J$ into the sequence; $J$ is the first element when
+$T=J$, otherwise $J$ is placed after one of the $J-1$ existing elements at
+random.
+
+In general, \alg P\ generates every $M$-element permutation of $1\ltdot N$ with
+equal probability. Floyd's proof of correctness uses the loop invariant that
+after $i$ times through the iteration, $J=N-M+i$ and $S$ can be any permutation
+of $i$ distinct integers in $1\ltdot J,$ and that there is a single way that
+permutation can be generated.
+
+Doug McIlroy found an elegant way to phrase Floyd's proof: there is one and only
+one way to produce each permutation, because the algorithm can be run backward.
+Suppose, for instance, that $M=5,$ that $N=10,$ and that the final sequence is
+$$\vbox{
+|7 2 9 1 5|
+}$$
+Because $10$ (the final value of $J$) does not occur in $S$, the previous
+sequence must have been
+$$\vbox{
+|2 9 1 5|
+}$$
+and {\tt RandInt} returned $T=7.$ Because $9$ (the relevant value of $J$) occurs
+in the $4$-element sequence after $2$, the previous $T$ was $2$. Problem~4 shows
+that one can similarly recover the entire sequence of random values. Because all
+random sequences are supposedly equally likely, all permutations are also.
+
+We can now prove the correctness of \alg{F2} by its similarity to \alg P. At all
+times, the set $S$ in \alg{F2} contains exactly the elements in the sequence $S$
+in \alg P. Thus each final $M$-element subset of $1\ltdot N$ is generated by
+$M!$ random sequences, so all occur equiprobably.
+
+\section 13.4 Principles
+
+\alg S\ is a pretty good algorithm, but not good enough for Bob Floyd. Not
+content with its inefficiency, he developed optimal algorithms for generating
+random samples and random permutations. His programs are a model of efficiency,
+simplicity, and elegance. Section~13.6 sketches some of the methods that Floyd
+uses to achieve such programs.
+
+\def\prob#1 {\penalty-50\bigskip\hangindent 1.5em
+  \noindent\hbox to 1.5em{#1\hss}}
+\def\more{\hangindent 1.5em \hangafter0\noindent}
+
+\section 13.5 Problems
+
+\unskip
+
+\prob{1.} How do the various algorithms behave when the {\tt RandInt} procedure
+is nonrandom? Consider, for instance, generators that always return 0, or that
+cycle over a range that is much smaller than or much greater than $M$ or $N$.
+
+\prob{2.} Describe efficient representations for the set $S$ in \alg{F2}.
+
+\prob{3.} \alg S\ and~F2 both use a set $S$. Is a data structure that is
+efficient in one algorithm necessarily efficient in the other?
+
+\prob{4.} Complete the proof of correctness of \alg P\ by showing how to compute
+from a final permutation the sequence of random integer values that produce it.
+
+\prob{5.} How many random bits does \alg P\ consume? Show that this number is
+close to optimal. Perform a similar analysis for \alg{F2}. Can you find algorithm
+that are more efficient?
+
+\prob{6.} Describe representations for the sequence $S$ such tat \alg P\ runs
+in $O(M)$ expected time or in $O(M\log M)$ worst-case time. Your structures should
+use $O(M)$ worst-case space.
+
+\prob{7.} Implement Floyd's algorithms in your favorite programming language.
+
+\prob{8.} \alg{F2} is an iterative version of the recursive \alg{F1}. There are
+many general methods for transforming recursive functions to equivalent iterative
+programs; one method is often illustrated on a recursive factorial fucntion.
+Consider a recursive function with this form
+
+\medskip
+|function A(M)|\parbreak
+|    if M = 0 then|\parbreak
+|        return X|\parbreak
+|    else|\parbreak
+|        S := A(M-1)|\parbreak
+|        return G(S, M)|\parbreak
+
+\more where $M$ is an integer, $S$ and $X$ have the same type $T,$ and
+function~$G$ maps a $T$ and an integer to a $T.$ Show how the function can be
+transformded to this iterative form
+
+\medskip
+|function B(M)|\parbreak
+|    S := X|\parbreak
+|    for J := 1 to M do|\parbreak
+|        S := G(S, J)|\parbreak
+|    return S|\parbreak
+
+\prob{9.} Study other algorithms for generating random samples.
+
+\section 13.6 Further Reading
+
+Robert~W. Floyd received the ACM Turing Award in 1978. In his Turing lecture on
+``The Paradigms of Programming,'' Floyd writes, ``In my own experience of
+designing difficult algorithms, I find a certain technique most helpful in
+expanding my own capabilities. After solving a challenging problem, I solve it
+again from scratch, retracing only the {\it insight\/} of the earlier solution.
+I repeat this until the solution is as clear as and direct as I can hope for.
+Then I look for a general rule for attacking similiar problems, that
+{\it would\/} have led me to approach the given problem in the most efficient
+way the first time. Often, such a rule is of permanent value.''
+
+Floyd's key rule in this problem was, in his own words, to ``look for a
+mathematical characterization of the solution before you think about an
+algorithm to obtain it.'' His key insight dealt with the probability of the
+algorithm generating any particular subset. When Floyd calculated the
+probabilities of key events in \alg S, he noticed that the denominators were
+powers of $N$, while the denominators in the solution were falling factorials.
+His algorithms use a simple structure to generate the correct probabilities.
+When Floyd finally conceived \alg P, he recalls, ``I knew it was right even
+before I proved it.''
+
+Floyd's 1978 Turing lecture was published originally in the August 1979
+{\sl Communications of the ACM\/.} It also appears in the {\sl ACM Turing Award
+Lectures: The First Twenty Years: 1966--1985\/}, which was published in 1987 by
+the ACM Press.
+ 
+\bye
