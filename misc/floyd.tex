@@ -1,0 +1,154 @@
+\magnification\magstep1
+\hsize=.8\hsize
+
+The first problem is one that Bob Floyd posed to the first-year students in
+our Ph.D. program at Stanford during the fall of 1972:
+\smallskip
+{\narrower\noindent\llap{``}%
+The numbers $\sqrt1$, $\sqrt2$, $\ldots$, $\sqrt{50}$ are to be partitioned
+into two parts whose sum is nearly equal; find the best such partition you
+can, using less than 10 seconds of computer time.''\bigskip}
+
+\noindent{\sl[Readers should now work on Floyd's problem, and wait one month,
+before reading on.]\bigskip}
+
+\leftline{\bf An Approach to Floyd's Problem}
+\bigskip
+\noindent Last month I discussed some of the virtues of Floyd's problem, which
+is to divide the numbers
+$$\hbox{$\sqrt1$,\ $\sqrt2$,\ $\ldots,$\ $\sqrt{50}$}$$
+into two parts whose
+sums are as equal as you can make them after ten seconds of computer time. Here
+is the way I decided to approach the subject; perhaps some reader will have a
+much better idea.
+
+Since $(\sqrt1+\sqrt2+\cdots+\sqrt{50})/2$ is equal to
+$$119.51790\,03017\,60392\,24702\,02231\ldots,$$ we seek the subset of
+$\{\sqrt1,\sqrt2,\ldots,\sqrt{50}\}$ whose sum least exceeds this value.
+
+In the first place it is helpful to estimate the kind of results that might be
+expected. Most subsets of the given set have about 25 elements, and in fact the
+number of subsets with exactly 25 elements is $50!/25!\,25!$; this is about
+$$2^{50}\over\sqrt{25\pi},$$ according to Stirling's approximation. [The exact
+number is 126,410,\allowbreak606,437,752, compared to
+$2^{50}=1{,}125{,}899{,}906{,}842{,}624.$]~ All of these subsets have
+a sum that lies between $\sqrt1+\sqrt2+\cdots+\sqrt{25}\approx85.6$ and
+$\sqrt{26}+\sqrt{27}+\cdots+\sqrt{50}\approx153.4,$ and they tend to cluster
+about the average value 119.5. So we have more than $10^{14}$ numbers packed
+into an interval of length less than 70; therefore $70/10^{14}$ appears to be
+a conservative estimate for the amount by which the best partitioning exceeds
+$(\sqrt1+\sqrt2+\cdots+\sqrt{50})/2.$
+
+But not all of these subsets will give different sums. In the first place, the
+seven numbers $$\hbox{$\sqrt1$, $\sqrt4$, $\ldots,$ $\sqrt{49}$}\quad=\quad
+\hbox{1, 2, $\ldots,$ 7}$$ will
+yield only integer values (and it is easy to verify that each integer from 0 to
+28 can be represented.) Our problem therefore reduces to finding a subset of
+the 43 numbers $$\hbox{$\{\sqrt2$, $\sqrt3$, $\sqrt5$, $\sqrt6$, $\ldots,$
+$\sqrt{48}$, $\sqrt{50}\,\}$}$$
+whose sum have a {\it fraction part\/} least exceeding
+$$0.51790\,03017\,60392\,24702.$$
+Unless the integer part of the sum is unusually large or small, we will be able
+to adjust it by adding a suitable subset of $\{1,2,\ldots,7\},$ bringing the
+integer part up to 119.
+
+We now have $2^{43}$ possibilities to try; but {\it they\/} aren't all distinct,
+either. The values $$\{\hbox{$\sqrt2$, $\sqrt8$, $\sqrt{18}$, $\sqrt{32}$,
+$\sqrt{50}$}\,\}\ =\ \{\hbox{$\sqrt2$, $2\sqrt2$, $3\sqrt2$, $4\sqrt2$,
+$5\sqrt2$}\,\}$$ leads to subset whose sum
+is restricted to sixteen values $$\hbox{0, $\sqrt2$, $2\sqrt2$, $\ldots,$
+$15\sqrt2$};$$ so only 32
+subsets are different. Similiarly, there are only eleven essentially different
+subset of $$\{\hbox{$\sqrt3$, $\sqrt{12}$, $\sqrt{27}$, $\sqrt{48}$}\,\}$$
+to try. By means of these observation out program can do in 10 seconds what it
+would take $10\cdot32\cdot16/(16\cdot11)\approx29$ seconds to do otherwise.
+
+But there are still more than $2^{41}>10^{12}$ possibilities remaining, and this
+is far too large; if it takes 100 microseconds for me to test one subset, I
+have time to test only $10^5$ subsets.
+
+One way to gain speed is to divide
+$$\{\hbox{$\sqrt2$, $\sqrt3$, $\sqrt5$, $\sqrt6$, $\ldots,$ $\sqrt{48}$,
+$\sqrt{50}$}\,\}$$
+into two parts $A$ and $B,$ and to form a table containing all sums of the
+subsets of $A.$ Then for each subset of $B$ we can look in the table to see if
+there is an entry with the appropriate leading bits.
+
+That is what I eventually did. Let
+$$
+\displaylines{\quad
+  A=\{\hbox{$\sqrt2$, $\sqrt8$, $\sqrt{18}$, $\sqrt{32}$, $\sqrt{50}$, $\sqrt3$,
+  $\sqrt{12}$, $\sqrt{27}$, $\sqrt{48}$,}\hfill\cr
+  \hfill{}\hbox{$\sqrt5$, $\sqrt6$, $\sqrt7$, $\sqrt{10}$, $\sqrt{11}$,
+  $\sqrt{13}$, $\sqrt{14}$, $\sqrt{15}$}\,\},\quad\cr}
+$$ %$
+so that the subsets of $A$ take on ${11\over16}\cdot2^{16}$ different values. I
+stored the 32 leading bits of these fraction parts into a hash table of size
+$2^{16},$ and in another table of size $2^{16},$ I stored a bit pattern
+identifying the corresponding subset. (The hash code was the low order 16 bits
+of each 32-bit key.) Let $B=\{\sqrt{17},\sqrt{19},\sqrt{20},\ldots,\sqrt{47}\}$
+be the remaining set of 26 elements; in the machine I used only the 32 leading
+bits of the fraction parts of each number $\sqrt k.$ Since my hash table
+contained ${11\over16}\cdot2^{16}$ more-or-less random 32-bits numbers, I
+expected to get a match once out of every $2^{32}/({11\over16}\cdot2^{16})=
+{11\over16}\cdot2^{16}$ times I looked up another 32-bit value. Therefore I
+wanted to have a program that generate $2^{17}$ or so subsets $S$ of $B,$ looking
+up the 32 bits corresponding to $(.51700\cdots-\sum S)\bmod1$ in the hash table.
+I figured that such a sampling would probably give partition. But I would have
+only about 75 to 80 microseconds to spend per subset, so I needed a fast way to
+probe the hash table and to generate the subset sums.
+
+The solution was to use {\it ordered\/} hash tables with linear probing; this is
+a variant of hashing Ole Amble and I had discovered a few years ago. Such hash
+tables are especially well suited to cases when searches are unsuccessful,
+requiring only 2.1 probes per search in this case. For the subset generating,
+I used Gray code, since this meant that only one subset elements changed state
+each time and the subset sum was therefore easy to update. It took about 1.5
+seconds to build the hash table. I started the subset generation of $B$ in a
+random part of its cycle, since I knew that I would be able to look at only a
+small fraction of it subsets.
+
+The best of the three results I got before 10 seconds expired was actually
+typed out after only 6 seconds, namely,
+$$
+\displaylines{\quad
+\sqrt2+\sqrt3+\sqrt4+\sqrt5+\sqrt8+\sqrt{12}+\sqrt{17}+\sqrt{18}\hfill\cr
+\qquad+\sqrt{19}+\sqrt{22}+\sqrt{27}+\sqrt{28}
++\sqrt{29}+\sqrt{33}+\sqrt{34}+\sqrt{35}\hfill\cr
+\qquad+\sqrt{37}+\sqrt{38}+\sqrt{40}+\sqrt{42}
++\sqrt{45}+\sqrt{46}+\sqrt{49}+\sqrt{50}\hfill\cr
+\hfill{}\approx119.51790\,03021\,65123\,39726\,54768.\quad\cr}
+$$
+This sum differs from its complementary sum by approximately $8\cdot10^{-10}.$
+(This optimum partition might well be a thousand times better, as mentioned
+above; my program could have found it if 10 thousand seconds were available
+instead of ten!)
+\bigskip
+\bigskip
+\leftline{\bf Addendum}
+\bigskip
+\noindent While preparing this book for publication, I decided to try Floyd's
+problem on the computer I now have at home, a vintage 1992 workstation
+(SPARC~2), in spite of the fact that I claim to be uninterested in the answer.
+Using a slight improvement of the method sketched avobe, I found the exact
+solution after 26 seconds of computation:
+$$
+\displaylines{\quad
+\sqrt2+\sqrt3+\sqrt6+\sqrt{10}+\sqrt{11}+\sqrt{14}+\sqrt{17}
++\sqrt{18}+\sqrt{19}\hfill\cr
+\qquad+\sqrt{21}+\sqrt{22}+\sqrt{23}+\sqrt{24}
++\sqrt{26}+\sqrt{28}+\sqrt{29}+\sqrt{32}\hfill\cr
+\qquad+\sqrt{34}+\sqrt{35}+\sqrt{36}+\sqrt{39}
++\sqrt{40}+\sqrt{42}+\sqrt{45}+\sqrt{50}\hfill\cr
+\hfill{}\approx119.51790\,03017\,60463\,73981.\quad\cr}
+$$
+This sum differs from its complement by approximately $1.4\times10^{-13},$ so it
+is more than 5000 times better than 10-second solution that I found in 1976.
+The improved procedure avoids storing the two files of $\approx2^{21}$ numbers
+in memory; instead, one can use $x_i$ and $y_i$ ``on the fly'' as they are
+generated, since the top-level algorithm merely needs to increase $i$ by 1 or
+decrease $j$ by 1 as it examines each $x_i$ and $y_i$ only once, and since the
+files can be generated in sorted order by a multiway merge of shifts of shorter
+files using the ``tree of losers'' technique.
+
+\bye
