@@ -1,0 +1,41 @@
+\newbox\linebox \newbox\snapbox
+\def\eatlines{
+  \setbox\linebox\lastbox
+  \ifvoid\linebox
+  \else
+  \unskip\unpenalty
+      {\eatlines}
+      \setbox\snapbox\hbox{\unhcopy\linebox}
+
+      \ifdim\wd\snapbox<.98\wd\linebox
+      \box\snapbox
+      \else \box\linebox \fi
+      \fi}
+
+\nopagenumbers
+
+\vbox{\hsize 4in
+  This is a handbook about \TeX, a new typesetting system intended
+  for the creation
+of beautiful books---and especially for books that contain a lot of
+mathematics. By preparing a manuscript in \TeX\ format, you will be
+telling a computer exactly how the manuscript is to be transformed into
+pages whose typographic quality is comparable to that of the world's
+finest printers; yet you won't need to do much more work than would be
+involved if you were simply typing the manuscript on an ordinary
+typewriter. In fact, your total work will probably be significantly less,
+if you consider the time it ordinarily takes to revise a typewritten manuscript,
+since computer text files are so easy to change and to reprocess.
+This manual is intended for people who have never used \TeX\ before, as
+well as for experienced \TeX\ hackers. In other words, it's supposed to
+be a panacea that satisfies everybody, at the risk of satisfying nobody.
+Everything you need to know about \TeX\ is explained
+here somewhere, and so are a lot of things that most users don't care about.
+If you are preparing a simple manuscript, you won't need to
+learn much about \TeX\ at all; on the other hand, some
+things that go into the printing of technical books are inherently
+difficult, and if you wish to achieve more complex effects you
+will want to penetrate some of \TeX's darker corners.\par\eatlines}
+
+\bye
+

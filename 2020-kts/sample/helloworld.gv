@@ -1,0 +1,46 @@
+digraph g {
+graph [
+rankdir = "LR"
+];
+node [ shape = "record"]
+"n349" [ label = "<title> name: vlist (id n349) | <sub> type: 0  |  { <prev> prev |<next> next }|<width> width 24.1945pt|<height> height 18.9444pt|<head> head"]
+"n349":head -> "n279":title
+"n279" [ label = "<title> name: hlist (id n279) | <sub> type: box  |  { <prev> prev |<next> next }|<width> width 22.5pt|<height> height 6.94444pt|<head> head"]
+"n279":next -> "n342":title
+"n279":head -> "n244":title
+"n244" [ label = "<title> name: glyph (id n244) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"H\"|<lang> lang: 0|<font> font: 1|<width> width: 7.50002pt"]
+"n244":next -> "n251":title
+"n251" [ label = "<title> name: glyph (id n251) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"e\"|<lang> lang: 0|<font> font: 1|<width> width: 4.44444pt"]
+"n251":next -> "n258":title
+"n251":prev:w -> "n244":title
+"n258" [ label = "<title> name: glyph (id n258) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"l\"|<lang> lang: 0|<font> font: 1|<width> width: 2.77779pt"]
+"n258":next -> "n265":title
+"n258":prev:w -> "n251":title
+"n265" [ label = "<title> name: glyph (id n265) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"l\"|<lang> lang: 0|<font> font: 1|<width> width: 2.77779pt"]
+"n265":next -> "n272":title
+"n265":prev:w -> "n258":title
+"n272" [ label = "<title> name: glyph (id n272) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"o\"|<lang> lang: 0|<font> font: 1|<width> width: 5.00002pt"]
+"n272":prev:w -> "n265":title
+"n342" [ label = "<title> name: glue (id n342) | <sub> type: baselineskip  |  { <prev> prev |<next> next }|<subtype> baselineskip|<spec> 5.05556pt"]
+"n342":next -> "n328":title
+"n342":prev:w -> "n279":title
+"n328" [ label = "<title> name: hlist (id n328) | <sub> type: box  |  { <prev> prev |<next> next }|<width> width 24.1945pt|<height> height 6.94444pt|<head> head"]
+"n328":prev:w -> "n342":title
+"n328":head -> "n293":title
+"n293" [ label = "<title> name: glyph (id n293) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"w\"|<lang> lang: 0|<font> font: 1|<width> width: 7.22223pt"]
+"n293":next -> "n288":title
+"n288" [ label = "<title> name: kern (id n288) | <sub> type: 0  |  { <prev> prev |<next> next }|<kern> kern: -0.277786pt"]
+"n288":next -> "n300":title
+"n288":prev:w -> "n293":title
+"n300" [ label = "<title> name: glyph (id n300) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"o\"|<lang> lang: 0|<font> font: 1|<width> width: 5.00002pt"]
+"n300":next -> "n307":title
+"n300":prev:w -> "n288":title
+"n307" [ label = "<title> name: glyph (id n307) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"r\"|<lang> lang: 0|<font> font: 1|<width> width: 3.91667pt"]
+"n307":next -> "n314":title
+"n307":prev:w -> "n300":title
+"n314" [ label = "<title> name: glyph (id n314) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"l\"|<lang> lang: 0|<font> font: 1|<width> width: 2.77779pt"]
+"n314":next -> "n321":title
+"n314":prev:w -> "n307":title
+"n321" [ label = "<title> name: glyph (id n321) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"d\"|<lang> lang: 0|<font> font: 1|<width> width: 5.55557pt"]
+"n321":prev:w -> "n314":title
+}

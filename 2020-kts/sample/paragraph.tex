@@ -1,0 +1,150 @@
+\nopagenumbers
+
+\hsize 5in
+
+\let\lua\directlua % Don't change this.
+\catcode`\~=12
+\lua{%
+local HLIST = node.id("hlist")
+local GLUE = node.id("glue")
+local GLYPH = node.id("glyph")
+local WHAT = node.id("whatsit")
+
+function lineparse(line)
+
+      local box_order=line.glue_order
+      local box_ratio=line.glue_set
+      local box_sign=line.glue_sign %0 = normal, 1 = stretching, 2 = shrinking
+    % This loop uses a function to look for all lines of the typeset paragraph
+    % This function scans all the items in a typeset line of the paragraph
+	for n in node.traverse(line.head) do
+       % We have seen some glue: calculate its size, draw a box
+	   if n.id == GLUE then
+            % glue parameters
+			local gwidth=n.width %horizontal or vertical displacement
+			local gstr=n.stretch %extra (+ve) displacement or stretch amount
+			local gstrord=n.stretch_order %factor applied to stretch amount
+			local gshr=n.shrink %extra (-ve) displacement or shrink amount
+			local gshrord=n.shrink_order %factor applied to shrink amount
+            local width=0
+    		% This section is how TeX calculates glue settings
+            if box_sign==0 then %(normal)
+              	width = gwidth
+             elseif box_sign==1 then %(stretch)
+             	if gstrord == box_order then
+               		width = gwidth + (box_ratio * gstr)
+             	else 
+             		width = gwidth
+             	end
+             elseif box_sign == 2 then %(shrink)
+              	if gshrord == box_order then
+            	  	width = gwidth - (box_ratio * gshr)
+            	else
+            	   	width = gwidth
+            	end
+             end %if box_sign
+            % now calculate the glue's width in bp + draw a box.
+            if width > 0 then % don't bother with zero width glues
+            	local pdfn=node.new(WHAT, "pdf_literal")
+           	 	local wp = (width/65536)*(72/72.27)
+	  			pdfn.data=" 0.2 w 0 0 "..wp.." 5 re q 0 0 0.55 rg f  Q "
+	            pdfn.mode=0
+    			% insert into the typeset paragraph
+				local np = n.prev
+            	np.next=pdfn
+            	pdfn.prev=np
+            	pdfn.next=n
+            	n.prev=pdfn
+            end 
+    	end % if n.id == GLUE
+        
+        % Within the typeset line we've seen another hbox
+         if n.id == HLIST then
+        	local nw = n.width
+            local nd= n.depth
+            local nh = n.height
+            local ns = n.shift
+            
+         	local hw = ((nw/65536)*(72/72.27))
+          	local hd = ((nd/65536)*(72/72.27))
+          	local hh = ((nh/65536)*(72/72.27))
+            local hs=  ((ns/65536)*(72/72.27))
+        
+ 	        local pdfn=node.new(WHAT, "pdf_literal")
+            local tot=hd+hh %total height + depth
+            local ts = hd + hs %total height + any shift
+
+            %pdfn.data=" 0.2 w 0 -"..ts.." "..hw.. " "..tot.." re q 0.9 0.0 0.0 rg f  Q"            
+            pdfn.data=" 0.2 w 0 -"..ts.." "..hw.. " "..tot.." re q 0.8 g f  Q"
+       		pdfn.mode=0
+     		% insert into the typeset paragraph
+ 			local np = n.prev
+             np.next=pdfn
+             pdfn.prev=np
+             pdfn.next=n
+             n.prev=pdfn
+                
+         end % if n.id == HLIST then
+         
+         if n.id == GLYPH then
+         
+            local nw = n.width
+            local nd=  n.depth
+            local nh = n.height
+            
+         	local hw = ((nw/65536)*(72/72.27))
+          	local hd = ((nd/65536)*(72/72.27))
+          	local hh = ((nh/65536)*(72/72.27))
+            local tot=hd+hh %total height + depth           
+            local pdfn=node.new(WHAT, "pdf_literal")
+            pdfn.data=" 0.2 w 0 -"..hd.." "..hw.. " "..tot.." re q 0.0 0.0 0.0 RG S  Q"
+            pdfn.mode=0
+      		% insert into the typeset paragraph
+  			local np = n.prev
+            if np ~= nil then
+            	np.next=pdfn
+            	pdfn.prev=np
+           		pdfn.next=n
+            	n.prev=pdfn
+            elseif np == nil then
+            %First glyph at start of the list: special steps needed... May not always work...?
+                
+                n.prev=pdfno
+                pdfn.next=n 					
+                line.head=pdfn  
+                end
+         end % if n.id == GLYPH then
+         
+         % Insert the line bounding box
+    	 local lw = line.width
+            local ld = line.depth
+            local lh = line.height
+            local lhw = ((lw/65536)*(72/72.27))
+          	local lhd = ((ld/65536)*(72/72.27))
+          	local lhh = ((lh/65536)*(72/72.27))
+            local ltot=lhd+lhh
+            local pdfn=node.new(WHAT, "pdf_literal")
+            pdfn.data=" 0.1 w 0 -"..lhd.." "..lhw.. " "..ltot.." re q 0.9 g f  Q"
+      		pdfn.mode=0
+            %local ln=line.head.next
+            pdfn.next=line.head
+            line.head=pdfn
+         
+	end % for n in node.traverse
+end % end of function
+
+parsepara = function (head)
+for line in node.traverse_id(HLIST, head) do
+    lineparse(line)
+end
+return head
+end
+}
+
+\lua{callback.register("post_linebreak_filter", parsepara)}
+
+\nopagenumbers
+
+\hsize 4in
+For example, when \TeX{} typesets a paragraph of text and breaks it into a series of lines, it considers the paragraph's text as a sequence of boxes and uses the dimensions of those character boxes to find the best linebreaks. Each line of the paragraph is itself a box (containing other boxes---e.g., characters) and the typeset paragraph lines (boxes) are stacked (vertically) to produce the paragraph. Eventually, the largest box of all is produced: the typeset page. Clearly, this is a very simplified picture because you also need the ability to arbitrarily position those boxes and \TeX{} does this using so-called glue. Knuth commented (page 70 of The \TeX book) that ``glue'' probably should have been referred to as ``spring'' but the term glue was adopted early on and, to use Knuth's pun, it stuck.
+\bye

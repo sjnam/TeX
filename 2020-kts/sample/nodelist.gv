@@ -1,0 +1,201 @@
+digraph g {
+graph [
+rankdir = "LR"
+];
+node [style=rounded]
+node [ shape = "record"]
+"n769" [ label = "<title> name: vlist (id n769) | <sub> type: 0  |  { <prev> prev |<next> next }|<width> width 90pt|<height> height 30.9444pt|<depth> depth 1.94444pt|<head> head"]
+"n769":head -> "n651":title
+"n651" [ label = "<title> name: hlist (id n651) | <sub> type: line  |  { <prev> prev |<next> next }|<width> width 90pt|<height> height 6.94444pt|<depth> depth 1.94444pt|<glue_set> glue_set 0.083349|<glue_sign> glue_sign 2|<head> head"]
+"n651":next -> "n597":title
+"n651":head -> "n239":title
+"n239" [ label = "<title> name: local_par (id n239) | <sub> type: nil  |  { <prev> prev |<next> next }"]
+"n239":next -> "n245":title
+"n245" [ label = "<title> name: hlist (id n245) | <sub> type: indent  |  { <prev> prev |<next> next }|<width> width 20pt|<head> head"]
+"n245":next -> "n254":title
+"n245":prev:w -> "n239":title
+"n254" [ label = "<title> name: glyph (id n254) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"A\"|<lang> lang: 0|<font> font: 1|<width> width: 7.50002pt|<height> height: 6.83331pt|<depth> depth: 0pt"]
+"n254":next -> "n261":title
+"n254":prev:w -> "n245":title
+"n261" [ label = "<title> name: glue (id n261) | <sub> type: spaceskip  |  { <prev> prev |<next> next }|<subtype> spaceskip|<spec> 3.33333pt + 1.66498pt - 1.11221pt"]
+"n261":next -> "n268":title
+"n261":prev:w -> "n254":title
+"n268" [ label = "<title> name: glyph (id n268) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"l\"|<lang> lang: 0|<font> font: 1|<width> width: 2.77779pt|<height> height: 6.94444pt|<depth> depth: 0pt"]
+"n268":next -> "n275":title
+"n268":prev:w -> "n261":title
+"n275" [ label = "<title> name: glyph (id n275) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"o\"|<lang> lang: 0|<font> font: 1|<width> width: 5.00002pt|<height> height: 4.30554pt|<depth> depth: 0pt"]
+"n275":next -> "n282":title
+"n275":prev:w -> "n268":title
+"n282" [ label = "<title> name: glyph (id n282) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"n\"|<lang> lang: 0|<font> font: 1|<width> width: 5.55557pt|<height> height: 4.30554pt|<depth> depth: 0pt"]
+"n282":next -> "n289":title
+"n282":prev:w -> "n275":title
+"n289" [ label = "<title> name: glyph (id n289) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"g\"|<lang> lang: 0|<font> font: 1|<width> width: 5.00002pt|<height> height: 4.30554pt|<depth> depth: 1.94444pt"]
+"n289":next -> "n296":title
+"n289":prev:w -> "n282":title
+"n296" [ label = "<title> name: glue (id n296) | <sub> type: spaceskip  |  { <prev> prev |<next> next }|<subtype> spaceskip|<spec> 3.33333pt + 1.66666pt - 1.11111pt"]
+"n296":next -> "n303":title
+"n296":prev:w -> "n289":title
+"n303" [ label = "<title> name: glyph (id n303) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"t\"|<lang> lang: 0|<font> font: 1|<width> width: 3.8889pt|<height> height: 6.15079pt|<depth> depth: 0pt"]
+"n303":next -> "n310":title
+"n303":prev:w -> "n296":title
+"n310" [ label = "<title> name: glyph (id n310) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"i\"|<lang> lang: 0|<font> font: 1|<width> width: 2.77779pt|<height> height: 6.67859pt|<depth> depth: 0pt"]
+"n310":next -> "n317":title
+"n310":prev:w -> "n303":title
+"n317" [ label = "<title> name: glyph (id n317) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"m\"|<lang> lang: 0|<font> font: 1|<width> width: 8.33336pt|<height> height: 4.30554pt|<depth> depth: 0pt"]
+"n317":next -> "n324":title
+"n317":prev:w -> "n310":title
+"n324" [ label = "<title> name: glyph (id n324) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"e\"|<lang> lang: 0|<font> font: 1|<width> width: 4.44444pt|<height> height: 4.30554pt|<depth> depth: 0pt"]
+"n324":next -> "n331":title
+"n324":prev:w -> "n317":title
+"n331" [ label = "<title> name: glue (id n331) | <sub> type: spaceskip  |  { <prev> prev |<next> next }|<subtype> spaceskip|<spec> 3.33333pt + 1.66666pt - 1.11111pt"]
+"n331":next -> "n338":title
+"n331":prev:w -> "n324":title
+"n338" [ label = "<title> name: glyph (id n338) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"a\"|<lang> lang: 0|<font> font: 1|<width> width: 5.00002pt|<height> height: 4.30554pt|<depth> depth: 0pt"]
+"n338":next -> "n345":title
+"n338":prev:w -> "n331":title
+"n345" [ label = "<title> name: glyph (id n345) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"g\"|<lang> lang: 0|<font> font: 1|<width> width: 5.00002pt|<height> height: 4.30554pt|<depth> depth: 1.94444pt"]
+"n345":next -> "n352":title
+"n345":prev:w -> "n338":title
+"n352" [ label = "<title> name: glyph (id n352) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"o\"|<lang> lang: 0|<font> font: 1|<width> width: 5.00002pt|<height> height: 4.30554pt|<depth> depth: 0pt"]
+"n352":next -> "n359":title
+"n352":prev:w -> "n345":title
+"n359" [ label = "<title> name: glue (id n359) | <sub> type: rightskip  |  { <prev> prev |<next> next }|<subtype> rightskip|<spec> 0pt"]
+"n359":prev:w -> "n352":title
+"n597" [ label = "<title> name: penalty (id n597) | <sub> type: 1  |  { <prev> prev |<next> next }|<penalty> 150"]
+"n597":next -> "n739":title
+"n597":prev:w -> "n651":title
+"n739" [ label = "<title> name: glue (id n739) | <sub> type: baselineskip  |  { <prev> prev |<next> next }|<subtype> baselineskip|<spec> 3.11111pt"]
+"n739":next -> "n730":title
+"n739":prev:w -> "n597":title
+"n730" [ label = "<title> name: hlist (id n730) | <sub> type: line  |  { <prev> prev |<next> next }|<width> width 90pt|<height> height 6.94444pt|<depth> depth 1.94444pt|<glue_set> glue_set 1.168607|<glue_sign> glue_sign 1|<head> head"]
+"n730":next -> "n586":title
+"n730":prev:w -> "n739":title
+"n730":head -> "n366":title
+"n366" [ label = "<title> name: glyph (id n366) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"i\"|<lang> lang: 0|<font> font: 1|<width> width: 2.77779pt|<height> height: 6.67859pt|<depth> depth: 0pt"]
+"n366":next -> "n373":title
+"n373" [ label = "<title> name: glyph (id n373) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"n\"|<lang> lang: 0|<font> font: 1|<width> width: 5.55557pt|<height> height: 4.30554pt|<depth> depth: 0pt"]
+"n373":next -> "n380":title
+"n373":prev:w -> "n366":title
+"n380" [ label = "<title> name: glue (id n380) | <sub> type: spaceskip  |  { <prev> prev |<next> next }|<subtype> spaceskip|<spec> 3.33333pt + 1.66666pt - 1.11111pt"]
+"n380":next -> "n387":title
+"n380":prev:w -> "n373":title
+"n387" [ label = "<title> name: glyph (id n387) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"a\"|<lang> lang: 0|<font> font: 1|<width> width: 5.00002pt|<height> height: 4.30554pt|<depth> depth: 0pt"]
+"n387":next -> "n394":title
+"n387":prev:w -> "n380":title
+"n394" [ label = "<title> name: glue (id n394) | <sub> type: spaceskip  |  { <prev> prev |<next> next }|<subtype> spaceskip|<spec> 3.33333pt + 1.66666pt - 1.11111pt"]
+"n394":next -> "n401":title
+"n394":prev:w -> "n387":title
+"n401" [ label = "<title> name: glyph (id n401) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"g\"|<lang> lang: 0|<font> font: 1|<width> width: 5.00002pt|<height> height: 4.30554pt|<depth> depth: 1.94444pt"]
+"n401":next -> "n408":title
+"n401":prev:w -> "n394":title
+"n408" [ label = "<title> name: glyph (id n408) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"a\"|<lang> lang: 0|<font> font: 1|<width> width: 5.00002pt|<height> height: 4.30554pt|<depth> depth: 0pt"]
+"n408":next -> "n415":title
+"n408":prev:w -> "n401":title
+"n415" [ label = "<title> name: glyph (id n415) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"l\"|<lang> lang: 0|<font> font: 1|<width> width: 2.77779pt|<height> height: 6.94444pt|<depth> depth: 0pt"]
+"n415":next -> "n422":title
+"n415":prev:w -> "n408":title
+"n422" [ label = "<title> name: glyph (id n422) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"a\"|<lang> lang: 0|<font> font: 1|<width> width: 5.00002pt|<height> height: 4.30554pt|<depth> depth: 0pt"]
+"n422":next -> "n429":title
+"n422":prev:w -> "n415":title
+"n429" [ label = "<title> name: glyph (id n429) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"x\"|<lang> lang: 0|<font> font: 1|<width> width: 5.2778pt|<height> height: 4.30554pt|<depth> depth: 0pt"]
+"n429":next -> "n436":title
+"n429":prev:w -> "n422":title
+"n436" [ label = "<title> name: glyph (id n436) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"y\"|<lang> lang: 0|<font> font: 1|<width> width: 5.2778pt|<height> height: 4.30554pt|<depth> depth: 1.94444pt"]
+"n436":next -> "n443":title
+"n436":prev:w -> "n429":title
+"n443" [ label = "<title> name: glue (id n443) | <sub> type: spaceskip  |  { <prev> prev |<next> next }|<subtype> spaceskip|<spec> 3.33333pt + 1.66666pt - 1.11111pt"]
+"n443":next -> "n450":title
+"n443":prev:w -> "n436":title
+"n450" [ label = "<title> name: glyph (id n450) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"f\"|<lang> lang: 0|<font> font: 1|<width> width: 3.05557pt|<height> height: 6.94444pt|<depth> depth: 0pt"]
+"n450":next -> "n457":title
+"n450":prev:w -> "n443":title
+"n457" [ label = "<title> name: glyph (id n457) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"a\"|<lang> lang: 0|<font> font: 1|<width> width: 5.00002pt|<height> height: 4.30554pt|<depth> depth: 0pt"]
+"n457":next -> "n464":title
+"n457":prev:w -> "n450":title
+"n464" [ label = "<title> name: glyph (id n464) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"r\"|<lang> lang: 0|<font> font: 1|<width> width: 3.91667pt|<height> height: 4.30554pt|<depth> depth: 0pt"]
+"n464":next -> "n471":title
+"n464":prev:w -> "n457":title
+"n471" [ label = "<title> name: glyph (id n471) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \",\"|<lang> lang: 0|<font> font: 1|<width> width: 2.77779pt|<height> height: 1.05554pt|<depth> depth: 1.94444pt"]
+"n471":next -> "n478":title
+"n471":prev:w -> "n464":title
+"n478" [ label = "<title> name: glue (id n478) | <sub> type: spaceskip  |  { <prev> prev |<next> next }|<subtype> spaceskip|<spec> 3.33333pt + 2.08331pt - 0.888885pt"]
+"n478":next -> "n485":title
+"n478":prev:w -> "n471":title
+"n485" [ label = "<title> name: glyph (id n485) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"f\"|<lang> lang: 0|<font> font: 1|<width> width: 3.05557pt|<height> height: 6.94444pt|<depth> depth: 0pt"]
+"n485":next -> "n492":title
+"n485":prev:w -> "n478":title
+"n492" [ label = "<title> name: glyph (id n492) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"a\"|<lang> lang: 0|<font> font: 1|<width> width: 5.00002pt|<height> height: 4.30554pt|<depth> depth: 0pt"]
+"n492":next -> "n500":title
+"n492":prev:w -> "n485":title
+"n500" [ label = "<title> name: glyph (id n500) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"r\"|<lang> lang: 0|<font> font: 1|<width> width: 3.91667pt|<height> height: 4.30554pt|<depth> depth: 0pt"]
+"n500":next -> "n507":title
+"n500":prev:w -> "n492":title
+"n507" [ label = "<title> name: glue (id n507) | <sub> type: rightskip  |  { <prev> prev |<next> next }|<subtype> rightskip|<spec> 0pt"]
+"n507":prev:w -> "n500":title
+"n586" [ label = "<title> name: penalty (id n586) | <sub> type: 1  |  { <prev> prev |<next> next }|<penalty> 150"]
+"n586":next -> "n762":title
+"n586":prev:w -> "n730":title
+"n762" [ label = "<title> name: glue (id n762) | <sub> type: baselineskip  |  { <prev> prev |<next> next }|<subtype> baselineskip|<spec> 5.75002pt"]
+"n762":next -> "n753":title
+"n762":prev:w -> "n586":title
+"n753" [ label = "<title> name: hlist (id n753) | <sub> type: line  |  { <prev> prev |<next> next }|<width> width 90pt|<height> height 4.30554pt|<depth> depth 1.94444pt|<glue_set> glue_set 50.555573|<glue_sign> glue_sign 1|<glue_order> glue_order 2|<head> head"]
+"n753":prev:w -> "n762":title
+"n753":head -> "n514":title
+"n514" [ label = "<title> name: glyph (id n514) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"a\"|<lang> lang: 0|<font> font: 1|<width> width: 5.00002pt|<height> height: 4.30554pt|<depth> depth: 0pt"]
+"n514":next -> "n549":title
+"n549" [ label = "<title> name: kern (id n549) | <sub> type: 0  |  { <prev> prev |<next> next }|<kern> kern: -0.277786pt"]
+"n549":next -> "n521":title
+"n549":prev:w -> "n514":title
+"n521" [ label = "<title> name: glyph (id n521) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"w\"|<lang> lang: 0|<font> font: 1|<width> width: 7.22223pt|<height> height: 4.30554pt|<depth> depth: 0pt"]
+"n521":next -> "n562":title
+"n521":prev:w -> "n549":title
+"n562" [ label = "<title> name: kern (id n562) | <sub> type: 0  |  { <prev> prev |<next> next }|<kern> kern: -0.277786pt"]
+"n562":next -> "n528":title
+"n562":prev:w -> "n521":title
+"n528" [ label = "<title> name: glyph (id n528) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"a\"|<lang> lang: 0|<font> font: 1|<width> width: 5.00002pt|<height> height: 4.30554pt|<depth> depth: 0pt"]
+"n528":next -> "n674":title
+"n528":prev:w -> "n562":title
+"n674" [ label = "<title> name: kern (id n674) | <sub> type: 0  |  { <prev> prev |<next> next }|<kern> kern: -0.277786pt"]
+"n674":next -> "n535":title
+"n674":prev:w -> "n528":title
+"n535" [ label = "<title> name: glyph (id n535) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"y\"|<lang> lang: 0|<font> font: 1|<width> width: 5.2778pt|<height> height: 4.30554pt|<depth> depth: 1.94444pt"]
+"n535":next -> "n542":title
+"n535":prev:w -> "n674":title
+"n542" [ label = "<title> name: glue (id n542) | <sub> type: spaceskip  |  { <prev> prev |<next> next }|<subtype> spaceskip|<spec> 3.33333pt + 1.66666pt - 1.11111pt"]
+"n542":next -> "n600":title
+"n542":prev:w -> "n535":title
+"n600" [ label = "<title> name: math (id n600) | <sub> type: 0  |  { <prev> prev |<next> next }"]
+"n600":next -> "n614":title
+"n600":prev:w -> "n542":title
+"n614" [ label = "<title> name: hlist (id n614) | <sub> type: unknown  |  { <prev> prev |<next> next }|<width> width 11.6666pt|<height> height 1.05554pt|<head> head"]
+"n614":next -> "n660":title
+"n614":prev:w -> "n600":title
+"n614":head -> "n607":title
+"n607" [ label = "<title> name: glyph (id n607) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \":\"|<lang> lang: 0|<font> font: 7|<width> width: 2.77779pt|<height> height: 1.05554pt|<depth> depth: 0pt"]
+"n607":next -> "n637":title
+"n637" [ label = "<title> name: glue (id n637) | <sub> type: thinmuskip  |  { <prev> prev |<next> next }|<subtype> thinmuskip|<spec> 1.66663pt"]
+"n637":next -> "n623":title
+"n637":prev:w -> "n607":title
+"n623" [ label = "<title> name: glyph (id n623) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \":\"|<lang> lang: 0|<font> font: 7|<width> width: 2.77779pt|<height> height: 1.05554pt|<depth> depth: 0pt"]
+"n623":next -> "n644":title
+"n623":prev:w -> "n637":title
+"n644" [ label = "<title> name: glue (id n644) | <sub> type: thinmuskip  |  { <prev> prev |<next> next }|<subtype> thinmuskip|<spec> 1.66663pt"]
+"n644":next -> "n630":title
+"n644":prev:w -> "n623":title
+"n630" [ label = "<title> name: glyph (id n630) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \":\"|<lang> lang: 0|<font> font: 7|<width> width: 2.77779pt|<height> height: 1.05554pt|<depth> depth: 0pt"]
+"n630":prev:w -> "n644":title
+"n660" [ label = "<title> name: math (id n660) | <sub> type: 1  |  { <prev> prev |<next> next }"]
+"n660":next -> "n667":title
+"n660":prev:w -> "n614":title
+"n667" [ label = "<title> name: glyph (id n667) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \".\"|<lang> lang: 0|<font> font: 1|<width> width: 2.77779pt|<height> height: 1.05554pt|<depth> depth: 0pt"]
+"n667":next -> "n82":title
+"n667":prev:w -> "n660":title
+"n82" [ label = "<title> name: penalty (id n82) | <sub> type: 2  |  { <prev> prev |<next> next }|<penalty> 10000"]
+"n82":next -> "n679":title
+"n82":prev:w -> "n667":title
+"n679" [ label = "<title> name: glue (id n679) | <sub> type: parfillskip  |  { <prev> prev |<next> next }|<subtype> parfillskip|<spec> 0pt + 1 fil"]
+"n679":next -> "n746":title
+"n679":prev:w -> "n82":title
+"n746" [ label = "<title> name: glue (id n746) | <sub> type: rightskip  |  { <prev> prev |<next> next }|<subtype> rightskip|<spec> 0pt"]
+"n746":prev:w -> "n679":title
+}

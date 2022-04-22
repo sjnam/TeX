@@ -1,0 +1,68 @@
+\input luatexbase.sty
+
+\directlua{%
+  local color_push = node.new("whatsit", "pdf_colorstack")
+  color_push.stack = 0
+  color_push.command = 1
+  local color_pop  = node.new("whatsit", "pdf_colorstack")
+  color_pop.stack  = 0
+  color_pop.command = 2
+
+  textcolor = function (head)
+     for line in node.traverse_id(node.id("hlist"),head) do
+        local glue_ratio = 0
+        if line.glue_order == 0 then
+           if line.glue_sign == 1 then
+              glue_ratio = .5 * math.min(line.glue_set, 1)
+           else
+              glue_ratio = -.5 * line.glue_set
+           end
+        else
+           if line.glue_sign == 1 then
+              glue_ratio = line.glue_set / (line.width/65536)
+           end
+        end
+        color_push.data = .5 + math.min(0.5, glue_ratio) .. " g"
+
+        local rule = node.new("rule")
+        rule.width = line.width
+        local p = line.list
+        line.list = node.copy(color_push)
+        node.flush_list(p)
+        node.insert_after(line.list, line.list, rule)
+        node.insert_after(line.list, node.tail(line.list), node.copy(color_pop))
+     end
+     luatexbase.remove_from_callback("post_linebreak_filter", "textcolor")
+     return head
+  end
+}
+
+\def\parabox#1{%
+  \vbox{\hsize #1
+    \noindent This is a handbook about
+    \TeX, a new typesetting system intended for the creation
+    of beautiful books---and especially for books that contain a lot of
+    mathematics. By preparing a manuscript in \TeX\ format, you will be
+    telling a computer exactly how the manuscript is to be transformed into
+    pages whose typographic quality is comparable to that of the world's
+    finest printers; yet you won't need to do much more work than would be
+    involved if you were simply typing the manuscript on an ordinary
+    typewriter. In fact, your total work will probably be significantly less,
+    if you consider the time it ordinarily takes to revise a typewritten manuscript,
+    since computer text files are so easy to change and to reprocess.}}
+
+\def\textcolors#1{%
+  \noindent {\tt\string\hsize=#1}\medskip
+  \centerline{%
+    \parabox{#1} \quad
+    \directlua{luatexbase.add_to_callback("post_linebreak_filter",
+                                           textcolor, "textcolor")}
+    \parabox{#1}}}
+
+\nopagenumbers
+
+\textcolors{7cm}
+\bigskip\bigskip
+\textcolors{6cm}
+
+\bye

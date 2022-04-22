@@ -1,0 +1,35 @@
+digraph g {
+graph [
+rankdir = "LR"
+];
+node [style=rounded]
+node [ shape = "record"]
+"n323" [ label = "<title> name: vlist (id n323) | <sub> type: 0  |  { <prev> prev |<next> next }|<width> width 22.25pt|<height> height 18.8333pt|<head> head"]
+"n323":head -> "n258":title
+"n258" [ label = "<title> name: hlist (id n258) | <sub> type: box  |  { <prev> prev |<next> next }|<width> width 10.2778pt|<height> height 6.83331pt|<head> head"]
+"n258":next -> "n316":title
+"n258":head -> "n244":title
+"n244" [ label = "<title> name: glyph (id n244) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"H\"|<lang> lang: 0|<font> font: 1|<width> width: 7.50002pt"]
+"n244":next -> "n251":title
+"n251" [ label = "<title> name: glyph (id n251) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"i\"|<lang> lang: 0|<font> font: 1|<width> width: 2.77779pt"]
+"n251":prev:w -> "n244":title
+"n316" [ label = "<title> name: glue (id n316) | <sub> type: baselineskip  |  { <prev> prev |<next> next }|<subtype> baselineskip|<spec> 5.05556pt"]
+"n316":next -> "n307":title
+"n316":prev:w -> "n258":title
+"n307" [ label = "<title> name: hlist (id n307) | <sub> type: box  |  { <prev> prev |<next> next }|<width> width 22.25pt|<height> height 6.94444pt|<head> head"]
+"n307":prev:w -> "n316":title
+"n307":head -> "n272":title
+"n272" [ label = "<title> name: glyph (id n272) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"t\"|<lang> lang: 0|<font> font: 1|<width> width: 3.8889pt"]
+"n272":next -> "n279":title
+"n279" [ label = "<title> name: glyph (id n279) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"h\"|<lang> lang: 0|<font> font: 1|<width> width: 5.55557pt"]
+"n279":next -> "n286":title
+"n279":prev:w -> "n272":title
+"n286" [ label = "<title> name: glyph (id n286) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"e\"|<lang> lang: 0|<font> font: 1|<width> width: 4.44444pt"]
+"n286":next -> "n293":title
+"n286":prev:w -> "n279":title
+"n293" [ label = "<title> name: glyph (id n293) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"r\"|<lang> lang: 0|<font> font: 1|<width> width: 3.91667pt"]
+"n293":next -> "n300":title
+"n293":prev:w -> "n286":title
+"n300" [ label = "<title> name: glyph (id n300) | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"e\"|<lang> lang: 0|<font> font: 1|<width> width: 4.44444pt"]
+"n300":prev:w -> "n293":title
+}

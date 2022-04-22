@@ -1,0 +1,8 @@
+digraph g {
+graph [
+rankdir = "LR"
+];
+node [style=rounded]
+node [ shape = "record"]
+"n239" [ label = "<title> name: glyph | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"g\"|<lang> lang: 0|<font> font: 1|<width> width: 5.00002pt|<height> height: 4.30554pt|<depth> depth: 1.94444pt"]
+}

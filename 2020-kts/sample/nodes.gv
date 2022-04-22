@@ -1,0 +1,12 @@
+digraph g {
+graph [
+rankdir = "LR"
+];
+node [style=rounded]
+node [ shape = "record"]
+"n651" [ label = "<title> name: hlist | <sub> type: line  |  { <prev> prev |<next> next }|<width> width 88.2035pt|<height> height 6.94444pt|<depth> depth 1.94444pt|<glue_set> glue_set 0.622109|<glue_sign> glue_sign 2|<head> head"]
+"n254" [ label = "<title> name: glyph | <sub> type: character  |  { <prev> prev |<next> next }|<char> char: \"A\"|<lang> lang: 0|<font> font: 1|<width> width: 7.50002pt"]
+"n261" [ label = "<title> name: glue | <sub> type: spaceskip  |  { <prev> prev |<next> next }|<subtype> spaceskip|<spec> 3.33333pt + 1.66498pt - 1.11221pt"]
+"n651":title -> "n254":title[color="white"]
+"n254":title -> "n261":title[color="white"]
+}
