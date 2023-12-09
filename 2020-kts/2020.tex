@@ -69,8 +69,9 @@
 \setbeamercolor{normal text}{fg=black,bg=white}
 \setbeamercolor{alerted text}{fg=DarkBlue}
 \setbeamertemplate{footline}{\hfill\raisebox{5pt}{\raisebox{4.4mm}{%
-      \fontspec{Fira Sans Bold}[Color=DarkBlue]
-      \hangulfontspec{Noto sans KR Bold}[Color=DarkBlue]\secname}%
+      \fontspec{Fira Sans Bold}[Color=DarkBlue,Scale=1.7]
+      \hangulfontspec{Noto sans KR Bold}[Color=DarkBlue,Scale=1.5]
+      \secname~~\insertframenumber}%
     \quad\lualogo{6}}}
 
 \title{\hangulfontspec{Noto Sans KR Bold}루아텍 노드와 콜백}
@@ -80,7 +81,7 @@
 \institute{\hangulfontspec{Noto sans KR}[Scale=.95]
   2020 한국텍학회 학술대회 및 정기총회 \\
   고려대학교}
-\titlegraphic{\hfill\vbox{\vskip-5mm\lualogo{30}}}
+\titlegraphic{\hfill\vbox{\vskip15mm\lualogo{14}}}
 
 \begin{document}
 
@@ -92,16 +93,16 @@
   \maketitle
 }
 
-\begin{frame}{오늘 이야기할 내용}
+\begin{frame}{목차}
   \fontspec{Fira Sans}[Color=DarkBlue]
   \hangulfontspec{Noto sans KR}[Color=DarkBlue]
   \setbeamertemplate{section in toc}[sections]
   \tableofcontents
 \end{frame}
 
-\section{루아텍 다시 보기}
+\section{루아텍}
 
-\begin{frame}[fragile]{루아텍 다시 보기}
+\begin{frame}[fragile]{루아텍}
   2016년 학술대회, \href{run:images/2016.pdf}%
   {\textcolor{DarkBlue}{Lua\TeX\ 활용, 프로그래밍 언어와 조판 시스템의 콜라보}}
 
@@ -120,7 +121,7 @@
   루아텍을 통하여 텍의 진수를 맛볼 수 있다.
 \end{frame}
 
-\section{노드 Nodes}
+\section{노드}
 
 {
   \setbeamercolor{normal text}{fg=DarkBlue}
@@ -379,15 +380,11 @@ end
 \end{Verbatim}
 \end{frame}
 
-\section{콜백 Callbacks}
+\section{콜백}
 
 \begin{frame}[fragile]{콜백: 프로그래밍 관점에서}
   콜백은 함수인데 주로 다른 함수의 인수로 사용된다. 콜백을 넘겨받는 함수는
   특정 이벤트가 발생하거나 어떤 조건을 만족하면 콜백을 호출하여 실행한다.
-
-  \textit{A nice way of imagining how a callback function works is that it is a
-  function that is \alert{called at the back} of the function it is
-  passed into.}
 
   \alert{훅(Hooks)}: 프로그램의 실행 흐름에서 특정 단계의 전, 후에 추가되거나
   그 단계를 대체하여 실행하는 코드(함수)에 관한 프로그래밍 기법이다.
@@ -421,7 +418,7 @@ callback.register("some_callback", nil)
   \end{Verbatim}
 \end{frame}
 
-\section{노드와 콜백 사용 예제}
+\section{노드와 콜백 예제}
 
 \begin{frame}{Centred last lines}
   \begin{center}
