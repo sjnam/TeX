@@ -2,8 +2,29 @@
 
 \def\tangref{3} % where the main explanation of CTANGLing is given
 \input cwebmac
-\input kotexcweb
-\acrofalse\pdffalse\pdftexfalse
+\input kotex.sty
+% 기본 폰트를 한글을 포함하도록 다시 정의합니다.
+\expandafter\def\expandafter\tt\expandafter{\tt\hfontname{nnmbrgtm}}
+\expandafter\def\expandafter\sl\expandafter{\sl\hfontname{nanumgtm}}
+\expandafter\def\expandafter\it\expandafter{\it\hfontname{nanumgtm}}
+\expandafter\def\expandafter\bf\expandafter{\bf\hfontname{nanummjb}}
+
+% 각종 폰트를 한글을 포함하도록 재정의
+\let\otitlefont=\titlefont \def\titlefont{\hfont{nanummjm}{at 13pt}\otitlefont}
+\let\ottitlefont=\ttitlefont \def\ttitlefont{\hfont{nnmbrgtb}{at 13pt}\ottitlefont}
+\let\orgninerm=\ninerm \def\ninerm{\hfont{nanummjm}{at 9pt}\orgninerm}
+\let\orgeightrm=\eightrm \def\eightrm{\hfont{nanummjm}{at 8pt}\orgeightrm}
+\let\orgsc=\sc \def\sc{\hfont{nnmbrgtm}{at 8pt}\orgsc}
+\let\orgtentex=\tentex \def\tentex{\hfont{nanumgtm}{at 9pt}\orgtentex}
+\let\orguppercase=\uppercase \def\uppercase{\sc\orguppercase}
+
+\expandafter\edef\csname AT(@):catcode\endcsname
+  {\noexpand\catcode`@\the\catcode`@}
+\catcode`\@=11
+
+\def\CEE/{{C\spacefactor1000}}
+\def\CPLUSPLUS/{{\CEE/\PP\spacefactor1000}}
+
 \def\page{\box255 } \normalbottom
 \parskip 0pt plus 1pt
 \def\RA{\char'31 } % right arrow
@@ -149,7 +170,7 @@ Acrobat Reader는 어도비 시스템즈사의 상표이다.
 설명한다. \.{CWEB} 시스템이 만들어진 1987년 이래로, 크누스와 레비는 다양한
 방법으로 시스템을 수정하고 보완하여왔다. 우리는 현재의 시스템이 진화를 거듭한
 끝에 거의 막바지에 다다랐다고 믿지만, 여전히 오류 신고, 제안 사항, 도움말들이
-있으면, 주저하지 말고 레비(\.{levy@math.berkeley.edu})에게 연락하기 바란다.
+있으면, 주저하지 말고 \TEX/ 관련 메일링 리스트 (\.{tex-k@tug.org})에게 연락하기 바란다.
 
 %Readers who are familiar with Knuth's memo ``The \.{WEB} System of Structured
 %Documentation'' will be able
