@@ -12,7 +12,8 @@
 \font\eighttt=cmtt8
 \font\eightsl=cmsl8
 \font\eightit=cmti8
-\let\sc=\eightrm
+\font\sc=cmcsc10
+\font\ninerm=cmr9
 \font\tenrm=cmr10
 
 \def\eightpoint{\def\rm{\fam0\eightrm}%
@@ -54,14 +55,14 @@
 \def\ltdot{\mathinner{\ldotp\ldotp}}
 \def\parbreak{\hfil\break\indent\strut}
 
-\def\colname{A SAMPLE OF BRILLIANCE}
-\def\colnum{column 13}
+\def\colname{a sample of brilliance}
+\def\colnum{column {\eightrm13}}
 
 \newif\iftitle
 \headline={\iftitle\hfil\else\ifodd\pageno\rheader\else\lheader\fi\fi}
 \footline={\iftitle\global\titlefalse\hfil\the\pageno\hfil\else\hfil\fi}
-\def\lheader{\sc{\tenrm\the\pageno}\quad MORE PROGRAMMING PEARLS\hfill\colnum}
-\def\rheader{\sc\colnum\hfill\colname\quad{\tenrm\the\pageno}}
+\def\lheader{\sc{\ninerm\the\pageno}\quad more programming pearls\hfill\colnum}
+\def\rheader{\sc\colnum\hfill\colname\quad{\ninerm\the\pageno}}
 
 \titletrue
 
@@ -74,7 +75,8 @@
 \pageno=139
 
 \topglue 1.5in
-\rightline{{\mysc column} {\twelverm13}:\quad{\columnfont\colname}}
+\rightline{{\mysc column} {\twelverm13}:\quad{\columnfont A SAMPLE OF
+BRILLIANCE}}
 \vskip.7in
 How can a computer deal a poker hand? If we assign each card in the deck its own
 integer between $1$ and $52,$ then we can make a hand from a ``random sample''
