@@ -29,6 +29,12 @@
   \normalbaselineskip=9pt
   \normalbaselines\rm}
 
+% macros for non-centered displays
+\outer\def\begindisplay{\obeylines\startdisplay}
+{\obeylines\gdef\startdisplay#1
+  {\catcode`\^^M=5$$#1\halign\bgroup\indent##\hfil&&\qquad##\hfil\cr}}
+\outer\def\enddisplay{\crcr\egroup$$}
+
 % verbatim scanning
 \def\ttverbatim{\begingroup
   \def\do##1{\catcode`##1=12 } \dospecials
@@ -101,10 +107,10 @@ your own, be careful that $RandInt$ returns a value in the range $L\ltdot U$
 
 It is easy to generate a random sequence of $M$ integers in the range
 $1\ltdot N,$ so long as we don't mind duplicates:
-$$\vbox{
-|for I := 1 to M do|\parbreak
-|    print RandInt(1, N)|
-}$$
+\begindisplay
+\vbox{\+\bf for $i := 1$ to $M$ do\cr
+\+\quad print $RandInt(1, N)$\cr}
+\enddisplay
 When I invoked that program with $M$ set to $12$ and $N$ set to $3$, the code
 produced the sequence
 $$\vbox{
@@ -123,15 +129,16 @@ in Section~5.2 describes an application of a program like this.
 
 Many sampling algorithms are based on this pseudocode, which we'll call
 {\bf\alg S}:
-$$\vbox{
-|initialize set S to empty|\parbreak
-|Size := 0|\parbreak
-|while Size < M do|\parbreak
-|    T := RandInt(1, N)|\parbreak
-|    if T is not in S then|\parbreak
-|        insert T in S|\parbreak
-|        Size := Size + 1|
-}$$
+\begindisplay
+\vbox{
+\+ initialize set $S$ to empty\cr
+\+ $size := 0$\cr
+\+\bf while $size < M$ do\cr
+\+\quad& $T := RandInt(1, N)$\cr
+\+&\bf if $T \not\in S$ then\cr
+\+&\quad insert $T$ in $S$\cr
+\+&\quad $size := size + 1$\cr}
+\enddisplay
 The algorithm stores the sample in the set $S$. If $S$ is implemented correctly
 and if {\tt RandInt} produces random integers, then the algorithm produces a
 random sample. That is, each $M$-element subset is produced with probability
@@ -164,19 +171,20 @@ each random number in $S$. The structure of Floyd's algorithm is easy to
 understand recursively: to generate $5$-element sample from $1\ltdot10$, we
 first generate a $4$-element sample from $1\ltdot9$, and then add the fifth
 element. The recursive algorithm is sketched as {\bf\alg{F1}}:
-$$\vbox{
-|function Sample(M, N)|\parbreak
-|    if M = 0 then|\parbreak
-|        return the empty set|\parbreak
-|    else|\parbreak
-|        S := Sample(M-1, N-1)|\parbreak
-|        T := RandInt(1, N)|\parbreak
-|        if T is not in S then|\parbreak
-|            insert T in S|\parbreak
-|        else|\parbreak
-|            insert N in S|\parbreak
-|        return S|
-}$$
+\begindisplay
+\vbox{
+\+\bf function $Sample(M, N)$\cr
+\+\quad\bf if $M = 0$ then\cr
+\+\qquad {\bf return} the empty set\cr
+\+\quad\bf else\cr
+\+\qquad $S := Sample(M-1, N-1)$\cr
+\+\qquad $T := RandInt(1, N)$\cr
+\+\qquad\bf if $T \not\in S$ then\cr
+\+\qquad\quad insert $T$ in $S$\cr
+\+\qquad\bf else\cr
+\+\qquad\quad insert $N$ in $S$\cr
+\+\qquad\bf return $S$\cr}
+\enddisplay
 
 We can appreciate the correctness of \alg{F1} anecdotally. When $M=5$ and~$N=10$,
 the algorithm first recursively computes in $S$ a $4$-element random sample from
@@ -192,15 +200,16 @@ it to an iterative form by introducing a new variable $J$. (Problem 8 and~%
 Section 3.2 discuss the problem of recursion removal in more general terms.) The
 result is {\bf\alg{F2}}, witch is more efficient than \alg S\ yet almost as
 succinct:
-$$\vbox{
-|initialize set S to empty|\parbreak
-|for J := N - M + 1 to N do|\parbreak
-|    T := RandInt(1, J)|\parbreak
-|    if T is not in S then|\parbreak
-|        insert T in S|\parbreak
-|    else|\parbreak
-|        insert J in S|
-}$$
+\begindisplay
+\vbox{
+\+ initialize set $S$ to empty\cr
+\+\bf for $j := N - M + 1$ to $N$ do\cr
+\+\quad $T := RandInt(1, j)$\cr
+\+\quad\bf if $T\not\in S$ then\cr
+\+\qquad insert $T$ in $S$\cr
+\+\quad\bf else\cr
+\+\qquad insert $j$ in $S$\cr}
+\enddisplay
 Problem 2 and~3 address the data structures that mgith be used to implement the
 set $S$.
 
@@ -233,24 +242,26 @@ the test mgith not fully exercise the sort code.
 We could use Floyd's \alg{F2} to generated a random sample, then copy it to an
 array, and finally shuffle the elements of the array. This code randomly
 scrambles the array $X[1\ltdot M]$:
-$$\vbox{
-|for I := M downto 2 do|\parbreak
-|    J := RandInt(1, I)|\parbreak
-|    Swap(X[J], X[I])|
-}$$
+\begindisplay
+\vbox{
+\+\bf for $i := M$ downto $2$ do\cr
+\+\quad $j := RandInt(1, i)$\cr
+\+\quad $Swap(X[j], X[i])$\cr}
+\enddisplay
 This three-step method uses $2M$ calls to {\tt RandInt}.
 
 After this column originally appeared in {\sl Communications fo the ACM,\/}
 sevral readers observed that a slight modification of the above code places a
 random $M$-element permutation from the integers in $1\ltdot N$ in
 $X[1\ltdot M]$
-$$\vbox{
-|for I := 1 to N do|\parbreak
-|    X[I] := I|\parbreak
-|for I := 1 to M do|\parbreak
-|    J := RandInt(I, N)|\parbreak
-|    Swap(X[J], X[I])|
-}$$
+\begindisplay
+\vbox{
+\+\bf for $i := 1$ to $N$ do\cr
+\+\quad $X[i] := i$\cr
+\+\bf for $i := 1$ to $M$ do\cr
+\+\quad $j := RandInt(i, N)$\cr
+\+\quad $Swap(X[j], X[i])$\cr}
+\enddisplay
 This algorithm is easy to code, but it requires $O(N)$ run time and $O(N)$ words
 of memory. Floyd's algorithms, which we'll soon see, are more efficient when $N$
 is large compared to $M$.
@@ -260,15 +271,16 @@ $M$-element permutation from $1\ltdot N,$ it first computes an $(M-1)$-element
 permutation from $1\ltdot N-1.$ (A recursive version of the algorithm does not
 have the variable $J.$) The primary data structure of the permutation generator,
 though, is a sequence rather than a set. Here is Floyd's {\bf\alg P}:
-$$\vbox{
-|initialize sequence S to empty|\parbreak
-|for J := N - M + 1 to N do|\parbreak
-|    T := RandInt(1, J)|\parbreak
-|    if T is not in S then|\parbreak
-|        prefix T to S|\parbreak
-|    else|\parbreak
-|        insert J in S after T|
-}$$
+\begindisplay
+\vbox{
+\+ initialize set $S$ to empty\cr
+\+\bf for $j := N - M + 1$ to $N$ do\cr
+\+\quad $T := RandInt(1, j)$\cr
+\+\qquad\bf if $T\not\in S$ then\cr
+\+\qquad\quad prefix $T$ to $S$\cr
+\+\qquad\bf else\cr
+\+\qquad\quad insert $j$ in $S$ after $T$\cr}
+\enddisplay
 Problem~5 shows that \alg P\ is remarkably efficient in terms of the number of
 random bits it uses. Problem~6 deals with efficient implementations of the
 sequence $S.$
@@ -350,25 +362,26 @@ use $O(M)$ worst-case space.
 many general methods for transforming recursive functions to equivalent iterative
 programs; one method is often illustrated on a recursive factorial fucntion.
 Consider a recursive function with this form
-
-\medskip
-|function A(M)|\parbreak
-|    if M = 0 then|\parbreak
-|        return X|\parbreak
-|    else|\parbreak
-|        S := A(M-1)|\parbreak
-|        return G(S, M)|\parbreak
-
+\begindisplay
+\vbox{
+\+\bf function $A(M)$\cr
+\+\quad\bf if $M = 0$ then\cr
+\+\qquad\bf return $X$\cr
+\+\quad\bf else\cr
+\+\qquad $S := A(M-1)$\cr
+\+\qquad\bf return $G(S, M)$\cr}
+\enddisplay
 \more where $M$ is an integer, $S$ and $X$ have the same type $T,$ and
 function~$G$ maps a $T$ and an integer to a $T.$ Show how the function can be
 transformded to this iterative form
-
-\medskip
-|function B(M)|\parbreak
-|    S := X|\parbreak
-|    for J := 1 to M do|\parbreak
-|        S := G(S, J)|\parbreak
-|    return S|\parbreak
+\begindisplay
+\vbox{
+\+\bf function $B(M)$\cr
+\+\quad $S := X$\cr
+\+\quad\bf for $j := 1$ to $M$ do\cr
+\+\qquad $S := G(S,j)$\cr
+\+\quad\bf return $S$\cr}
+\enddisplay
 
 \prob{9.} Study other algorithms for generating random samples.
 
