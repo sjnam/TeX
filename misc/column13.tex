@@ -49,7 +49,7 @@
 % section
 \outer\def\section#1\par{\vskip0pt plus.3\vsize%\penalty-250
   \vskip0pt plus-.3\vsize\bigskip\vskip\parskip
-  \message{#1}\leftline{\bf#1}\nobreak\smallskip\noindent}
+  \message{#1}\leftline{\bf#1}\nobreak\smallskip}
 
 \def\alg#1{{Algorithm~\hbox{#1}}}
 \def\ltdot{\mathinner{\ldotp\ldotp}}
@@ -77,7 +77,7 @@
 \topglue 1.5in
 \rightline{{\mysc column} {\twelverm13}:\quad{\columnfont A SAMPLE OF
 BRILLIANCE}}
-\vskip.7in
+\vskip 1in
 How can a computer deal a poker hand? If we assign each card in the deck its own
 integer between $1$ and $52,$ then we can make a hand from a ``random sample''%
 \thinspace of $5$ integers in the range $1\ltdot52,$ for instance,
@@ -102,17 +102,17 @@ Before we can generate a random sample, we have to be able to generate a single
 random number. We will therefore assume that we have a function ${\it
 rand\_int}(l,u)$ that returns an integer uniformly distributed over $l\ltdot
 u.$\footnote\dag{\eightpoint If you don't have a {\it rand\_int\/} function,
-you can make one using a function $Rand$ that returns a random real distributed
-uniformly in $[\,0,1)$ by the expression $l+{\bf int}(rand\times(u+1-l)).$ In
-the unlikely event that your system doesn't even have that routine, consult
-Knuth's {\sl Seminumerical Algorithms.\/} But whether you use a system routine
-or make your own, be careful that {\it rand\_int\/} returns a value in the
-range $l\ltdot u$ --- a value out of range is nasty bug.}
+you can make one using a function {\it rand\/} that returns a random real
+distributed uniformly in $[\,0,1)$ by the expression $l+{\bf int}(rand\times
+(u+1-l)).$ In the unlikely event that your system doesn't even have that
+routine, consult Knuth's {\sl Seminumerical Algorithms.\/} But whether you use
+a system routine or make your own, be careful that {\it rand\_int\/} returns
+a value in the range $l\ltdot u$ --- a value out of range is nasty bug.}
 
 It is easy to generate a random sequence of $m$ integers in the range
 $1\ltdot n,$ so long as we don't mind duplicates:
 \begindisplay
-\vbox{\+\bf for $i := 1$ to $m$ do\cr
+\vbox{\+\bf for $i:=1$ to $m$ do\cr
 \+\quad {\it print} ${\it rand\_int}(1, n)$\cr}
 \enddisplay
 When I invoked that program with $m$ set to $12$ and $n$ set to $3$, the code
@@ -132,27 +132,27 @@ the word ``sample'' will denote a random sample with no duplicates. Solution~3
 in Section~5.2 describes an application of a program like this.
 
 Many sampling algorithms are based on this pseudocode, which we'll call
-{\bf\alg S}:
+\alg S:
 \begindisplay
 \vbox{
-\+ initialize set $s$ to empty\cr
+\+ $S:=\{\}$\cr
 \+ $size := 0$\cr
-\+\bf while $size < m$ do\cr
-\+\quad& $t := {\it rand\_int}(1, n)$\cr
-\+&\bf if $t \not\in s$ then\cr
-\+&\quad insert $t$ in $s$\cr
+\+\bf while $size<m$ do\cr
+\+\quad& $t:={\it rand\_int}(1,n)$\cr
+\+&\bf if $t\not\in S$ then\cr
+\+&\quad insert $t$ in $S$\cr
 \+&\quad $size := size + 1$\cr}
 \enddisplay
-The algorithm stores the sample in the set $s$. If $s$ is implemented correctly
+The algorithm stores the sample in the set $S$. If $S$ is implemented correctly
 and if {\it rand\_int\/} produces random integers, then the algorithm produces a
 random sample. That is, each $m$-element subset is produced with probability
-$1/{n\choose m}.$ The loop invariant is that $s$ always contains a random sample
+$1/{n\choose m}.$ The loop invariant is that $S$ always contains a random sample
 of $size$ integers in the range $1\ltdot n.$
 
-There are four operations on the set $s$: initializing it to empty, testing an
+There are four operations on the set $S$: initializing it to empty, testing an
 integer for membership, inserting a new integer, and printing all the members.
-{\sc column~11} of my 1986 book {\sl Programming Pearls\/} sketches the
-algorithm and five data structures that can be used to implement the set $s$:
+{\sc column 11} of my 1986 book {\sl Programming Pearls\/} sketches the
+algorithm and five data structures that can be used to implement the set $S$:
 bit vectors, unsorted arrays, sorted arrays, binary search tree, and bins. It
 also sketches several other algorithms for sampling; see Problem~9.
 
@@ -164,74 +164,74 @@ better. I therefore charged ahead and described it in detail in a column.
 
 Unfortunately, I was wrong; fourtunately, Bob Floyd caught me sleeping. When he
 studied \alg S, he was bothered by a flaw that is displayed clearly when
-$m=n=100.$ When $size=99,$ the set $s$ contains all but one of the desired
+$m=n=100.$ When $size=99,$ the set $S$ contains all but one of the desired
 integers. The algorithm closes its eyes and blindly guesses integers until it
 stumbles over the right one, which requires $100$ random numbers on the average.
 That analysis assumes that the random nubmer generator is truly random. For some
 nonrandom sequences, the algorithm won't even terminate.
 
 Floyd set out to find an algorithm that uses exactly one call {\it rand\_int\/}
-for each random number in $s$. The structure of Floyd's algorithm is easy to
+for each random number in $S$. The structure of Floyd's algorithm is easy to
 understand recursively: to generate $5$-element sample from $1\ltdot10$, we
 first generate a $4$-element sample from $1\ltdot9$, and then add the fifth
-element. The recursive algorithm is sketched as {\bf\alg{F1}}:
+element. The recursive algorithm is sketched as \alg{F1}:
 \begindisplay
 \vbox{
 \+\bf function ${\it sample}(m,n)$\cr
-\+\quad\bf if $m = 0$ then\cr
-\+\qquad {\bf return} the empty set\cr
+\+\quad\bf if $m=0$ then\cr
+\+\qquad {\bf return} $\{\}$\cr
 \+\quad\bf else\cr
 \+\qquad $s := {\it sample}(m-1,n-1)$\cr
-\+\qquad $t := {\it rand\_int}(1, n)$\cr
-\+\qquad\bf if $t \not\in s$ then\cr
-\+\qquad\quad insert $t$ in $s$\cr
+\+\qquad $t := {\it rand\_int}(1,n)$\cr
+\+\qquad\bf if $t \not\in S$ then\cr
+\+\qquad\quad insert $t$ in $S$\cr
 \+\qquad\bf else\cr
-\+\qquad\quad insert $n$ in $s$\cr
-\+\qquad\bf return $s$\cr}
+\+\qquad\quad insert $n$ in $S$\cr
+\+\qquad\bf return $S$\cr}
 \enddisplay
 
 We can appreciate the correctness of \alg{F1} anecdotally. When $m=5$
-and~$n=10$, the algorithm first recursively computes in $s$ a $4$-element
+and~$n=10$, the algorithm first recursively computes in $S$ a $4$-element
 random sample from $1\ltdot9$. Next it assigns to $t$ a random integer in the
 range $1\ltdot10.$ Of the $10$ values that $t$ can assume, exactly $5$ result
-in inserting $10$ into $s$: the four values already in $s$, and the value $10$
+in inserting $10$ into $S$: the four values already in $S$, and the value $10$
 itself. Thus element $10$ is inserted into the set with the correct probability
 of $5/10$. The next section proves that \alg{F1} produces each $m$-element
 sample of an $n$-set with equal probability.
 
-Because \alg{F1} uses a restricted form of recursion, Floyd was able to translate
-it to an iterative form by introducing a new variable $j$. (Problem 8 and~%
-Section 3.2 discuss the problem of recursion removal in more general terms.) The
-result is {\bf\alg{F2}}, witch is more efficient than \alg S\ yet almost as
-succinct:
+Because \alg{F1} uses a restricted form of recursion, Floyd was able to
+translate it to an iterative form by introducing a new variable $j$.
+(Problem 8 and~Section 3.2 discuss the problem of recursion removal in more
+general terms.) The result is \alg{F2}, witch is more efficient than \alg S\
+yet almost as succinct:
 \begindisplay
 \vbox{
-\+ initialize set $s$ to empty\cr
-\+\bf for $j :=n-m+1$ to $n$ do\cr
-\+\quad $t := {\it rand\_int}(1, j)$\cr
-\+\quad\bf if $t\not\in s$ then\cr
-\+\qquad insert $t$ in $s$\cr
+\+ $S:=\{\}$\cr
+\+\bf for $j:=n-m+1$ to $n$ do\cr
+\+\quad $t := {\it rand\_int}(1,j)$\cr
+\+\quad\bf if $t\not\in S$ then\cr
+\+\qquad insert $t$ in $S$\cr
 \+\quad\bf else\cr
-\+\qquad insert $j$ in $s$\cr}
+\+\qquad insert $j$ in $S$\cr}
 \enddisplay
 Problem 2 and~3 address the data structures that mgith be used to implement the
-set $s$.
+set $S$.
 
 For thoes who might scoff that \alg{F2} is ``just pseudocode'', the next program
 implements Floyd's algorithm in the Awk language. The associative array
-described in Column~2 provide a clean implementation of the set $S$. Awk's
+described in {\sc column 2} provide a clean implementation of the set $S$. Awk's
 {\tt ARGV} array allows the program to access command line arguments, so a
 sample of $200$ elements in the range $1\ltdot1000$ can be generated by typing
 \hbox{\tt sample 200 1000}. Complete with input and output, the Awk program
 requires only eight lines:
 $$\vbox{
 |BEGIN { m = ARGV[1]; n = ARGV[2]|\parbreak
-|        for (j = n-m+1; j <= n; j++) {|\parbreak
-|            t = 1 + int(j * rand())|\parbreak
-|            if (t in s) s[j] = 1|\parbreak
-|            else s[t] = 1|\parbreak
-|        }|\parbreak
-|        for (i in s) print i|\parbreak
+|       for (j = n-m+1; j <= n; j++) {|\parbreak
+|           t = 1 + int(j * rand())|\parbreak
+|           if (t in s) s[j] = 1|\parbreak
+|           else s[t] = 1|\parbreak
+|       }|\parbreak
+|       for (i in s) print i|\parbreak
 |}|
 }$$
 
@@ -243,14 +243,14 @@ replacement. In testing a sorting program, for instance, it is important that
 randomly generated input occur in random order; if the input were always sorted,
 the test mgith not fully exercise the sort code.
 
-We could use Floyd's \alg{F2} to generated a random sample, then copy it to an
-array, and finally shuffle the elements of the array. This code randomly
+We could use Floyd's \alg{F2} to generated a random sample, then copy it
+to an array, and finally shuffle the elements of the array. This code randomly
 scrambles the array $x[1\ltdot m]$:
 \begindisplay
 \vbox{
-\+\bf for $i := m$ downto $2$ do\cr
-\+\quad $j := {\it rand\_int}(1, j)$\cr
-\+\quad ${\it swap}(x[j], x[i])$\cr}
+\+\bf for $i:=m$ downto $2$ do\cr
+\+\quad $j:={\it rand\_int}(1,i)$\cr
+\+\quad ${\it swap}(x[j],x[i])$\cr}
 \enddisplay
 This three-step method uses $2m$ calls to {\it rand\_int\/}.
 
@@ -260,48 +260,49 @@ random $m$-element permutation from the integers in $1\ltdot n$ in
 $x[1\ltdot m]$
 \begindisplay
 \vbox{
-\+\bf for $i := 1$ to $n$ do\cr
-\+\quad $x[i] := i$\cr
-\+\bf for $i := 1$ to $m$ do\cr
-\+\quad $j := {\it rand\_int}(i, n)$\cr
-\+\quad ${\it swap}(x[j], x[i])$\cr}
+\+\bf for $i:=1$ to $n$ do\cr
+\+\quad $x[i]:=i$\cr
+\+\bf for $i:=1$ to $m$ do\cr
+\+\quad $j:={\it rand\_int}(i,n)$\cr
+\+\quad ${\it swap}(x[j],x[i])$\cr}
 \enddisplay
 This algorithm is easy to code, but it requires $O(n)$ run time and $O(n)$ words
 of memory. Floyd's algorithms, which we'll soon see, are more efficient when $n$
 is large compared to $m$.
 
-Floyd's random permutation generator is similar to his \alg{F2}. To compute an
-$m$-element permutation from $1\ltdot n,$ it first computes an $(m-1)$-element
-permutation from $1\ltdot n-1.$ (A recursive version of the algorithm does not
-have the variable $j.$) The primary data structure of the permutation generator,
-though, is a sequence rather than a set. Here is Floyd's {\bf\alg P}:
+Floyd's random permutation generator is similar to his \alg{F2}. To
+compute an $m$-element permutation from $1\ltdot n,$ it first computes an
+$(m-1)$-element permutation from $1\ltdot n-1.$ (A recursive version of the
+algorithm does not have the variable $j.$) The primary data structure of the
+permutation generator, though, is a sequence rather than a set. Here is Floyd's
+\alg P:
 \begindisplay
 \vbox{
-\+ initialize set $s$ to empty\cr
-\+\bf for $j := n-m+1$ to $n$ do\cr
-\+\quad $t := {\it rand\_int}(1,j)$\cr
-\+\qquad\bf if $t\not\in s$ then\cr
-\+\qquad\quad prefix $t$ to $s$\cr
+\+ $S:=\{\}$\cr
+\+\bf for $j:=n-m+1$ to $n$ do\cr
+\+\quad $t:={\it rand\_int}(1,j)$\cr
+\+\qquad\bf if $t\not\in S$ then\cr
+\+\qquad\quad prefix $t$ to $S$\cr
 \+\qquad\bf else\cr
-\+\qquad\quad insert $j$ in $s$ after $t$\cr}
+\+\qquad\quad insert $j$ in $S$ after $t$\cr}
 \enddisplay
-Problem~5 shows that \alg P\ is remarkably efficient in terms of the number of
-random bits it uses. Problem~6 deals with efficient implementations of the
-sequence $s.$
+Problem~5 shows that \alg P\ is remarkably efficient in terms of the number
+of random bits it uses. Problem~6 deals with efficient implementations of the
+sequence $S.$
 
 We can get an intuitive feeling for \alg P\ by considering its behavior when
 $m=n$, in which case it generates a random permutation of $n$ elements. It
-iterates $j$ from 1 to $n$. Before execution of the loop body, $s$ is a random
+iterates $j$ from 1 to $n$. Before execution of the loop body, $S$ is a random
 permutation of the integers in $1\ltdot j-1$. The loop body maintains the
 invariant by inserting $j$ into the sequence; $j$ is the first element when
 $t=j$, otherwise $j$ is placed after one of the $j-1$ existing elements at
 random.
 
-In general, \alg P\ generates every $m$-element permutation of $1\ltdot n$ with
-equal probability. Floyd's proof of correctness uses the loop invariant that
-after $i$ times through the iteration, $j=n-m+i$ and $s$ can be any permutation
-of $i$ distinct integers in $1\ltdot j,$ and that there is a single way that
-permutation can be generated.
+In general, \alg P\ generates every $m$-element permutation of $1\ltdot n$
+with equal probability. Floyd's proof of correctness uses the loop invariant
+that after $i$ times through the iteration, $j=n-m+i$ and $S$ can be any
+permutation of $i$ distinct integers in $1\ltdot j,$ and that there is a single
+way that permutation can be generated.
 
 Doug McIlroy found an elegant way to phrase Floyd's proof: there is one and only
 one way to produce each permutation, because the algorithm can be run backward.
@@ -309,21 +310,21 @@ Suppose, for instance, that $m=5,$ that $n=10,$ and that the final sequence is
 $$\vbox{
 |7 2 9 1 5|
 }$$
-Because $10$ (the final value of $j$) does not occur in $s$, the previous
+Because $10$ (the final value of $j$) does not occur in $S$, the previous
 sequence must have been
 $$\vbox{
 |2 9 1 5|
 }$$
 and {\it rand\_int\/} returned $t=7.$ Because $9$ (the relevant value of $j$)
-occurs in the $4$-element sequence after $2$, the previous $t$ was $s$.
+occurs in the $4$-element sequence after $2$, the previous $t$ was $S$.
 Problem~4 shows that one can similarly recover the entire sequence of random
 values. Because all random sequences are supposedly equally likely, all
 permutations are also.
 
-We can now prove the correctness of \alg{F2} by its similarity to \alg P. At all
-times, the set $s$ in \alg{F2} contains exactly the elements in the sequence $s$
-in \alg P. Thus each final $m$-element subset of $1\ltdot n$ is generated by
-$m!$ random sequences, so all occur equiprobably.
+We can now prove the correctness of \alg{F2} by its similarity to \alg P. At
+all times, the set $S$ in \alg{F2} contains exactly the elements in the
+sequence $S$ in \alg P. Thus each final $m$-element subset of $1\ltdot n$ is
+generated by $m!$ random sequences, so all occur equiprobably.
 
 \section 13.4 Principles
 
