@@ -13,12 +13,15 @@
 \font\eightit=cmti8
 \font\sc=cmcsc10
 \font\ninerm=cmr9
+\font\ninesy=cmsy9
 \font\tenrm=cmr10
 
+\newskip\ttglue
 \def\eightpoint{\def\rm{\fam0\eightrm}%
   \textfont0=\eightrm
   \textfont1=\eighti
   \textfont2=\eightsy
+  \textfont3=\tenex \scriptfont3=\tenex \scriptscriptfont3=\tenex
   \def\it{\fam\itfam\eightit}%
   \textfont\itfam=\eightit
   \def\sl{\fam\slfam\eightsl}%
@@ -27,9 +30,14 @@
   \textfont\bffam=\eightbf
   \def\tt{\fam\ttfam\eighttt}%
   \textfont\ttfam=\eighttt
-  \tt
+  \tt \ttglue=.5em plus.25em minus.15em
   \normalbaselineskip=9pt
+  \let\big=\eightbig
+  \setbox\strutbox=\hbox{\vrule height7pt depth2pt width0pt}%
   \normalbaselines\rm}
+
+\def\eightbig#1{{\hbox{$\textfont0=\ninerm\textfont2=\ninesy
+  \left#1\vbox to6.5pt{}\right.\nulldelimiterspace0pt$}}}
 
 \newbox\PPbox % symbol for ++
 \setbox\PPbox=\hbox{\kern.5pt\raise1pt\hbox{\sevenrm+\kern-1pt+}\kern.5pt}
@@ -97,11 +105,11 @@ integers.
 Before we can generate a random sample, we have to be able to generate a single
 random number. We will therefore assume that we have a function ${\it
 rand\_int}(l,u)$ that returns an integer uniformly distributed over $l\ltdot
-u.${\parindent=10pt\footnote\dag{\eightpoint If you don't have a {\it
+u.$ {\eightpoint\parindent=8pt\footnote\dag{If you don't have a {\it
 rand\_int\/} function, you can make one using a function {\it rand\/} that
 returns a random real distributed uniformly in $[\,0,1)$ by the expression
-$l+{\bf int}(rand\times (u+1-l)).$ In the unlikely event that your system
-doesn't even have that routine, consult Knuth's {\sl Seminumerical
+$l+{\bf int}\,\bigl(rand\times(u+1-l)\bigr).$ In the unlikely event that your
+system doesn't even have that routine, consult Knuth's {\sl Seminumerical
 Algorithms.\/} But whether you use a system routine or make your own, be
 careful that {\it rand\_int\/} returns a value in the range $l\ltdot u$ ---
 a value out of range is nasty bug.}}
