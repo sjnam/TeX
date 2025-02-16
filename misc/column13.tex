@@ -5,13 +5,11 @@
 % Part IV: Algorithms
 % Column 13: A Sample of Brilliance
 
-
-\font\twelverm=cmr12
-\font\mysc=cmcsc10 scaled \magstep2 % caps and small caps
-\font\columnfont=cminch at 15pt
 \font\sc=cmcsc10
 \font\ninerm=cmr9
 \font\ninesy=cmsy9
+\font\twelverm=cmr10 scaled 1200
+\font\columnfont=cminch at 16pt
 
 \font\eightrm=cmr8
 \font\eighti=cmmi8
@@ -31,10 +29,6 @@
 \def\eightbig#1{{\hbox{$\textfont0=\ninerm\textfont2=\ninesy
   \left#1\vbox to6.5pt{}\right.\nulldelimiterspace0pt$}}}
 
-\newbox\PPbox % symbol for ++
-\setbox\PPbox=\hbox{\kern.5pt\raise1pt\hbox{\sevenrm+\kern-1pt+}\kern.5pt}
-\def\PP{\copy\PPbox}
-
 % macros for non-centered displays
 \outer\def\begindisplay{\obeylines\startdisplay}
 {\obeylines\gdef\startdisplay#1
@@ -46,9 +40,9 @@
   \vskip0pt plus-.3\vsize\bigskip\vskip\parskip
   \message{#1}\leftline{\bf#1}\nobreak\smallskip}
 
+\def\PP{\hbox{\kern.5pt\raise1pt\hbox{\sevenrm+\kern-1pt+}\kern.5pt}}
 \def\alg#1{{Algorithm\kern1pt\hbox{#1}}}
 \def\ltdot{\mathinner{\ldotp\ldotp}}
-\def\parbreak{\hfil\break\indent\strut}
 \def\colnum{column {\eightrm13}}
 
 \newif\iftitle
@@ -67,8 +61,7 @@
 
 \topglue 1.5in
 
-\rightline{{\mysc column} {\twelverm13}:\quad{\columnfont A SAMPLE OF
-BRILLIANCE}}
+\rightline{\twelverm COLUMN 13:\quad{\columnfont A SAMPLE OF BRILLIANCE}}
 \vskip 1in
 How can a computer deal a poker hand? If we assign each card in the deck its own
 integer between $1$ and $52,$ then we can make a hand from a ``random sample''%
