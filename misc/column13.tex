@@ -1,41 +1,33 @@
+% More Programming Pearls
+% Confessions of a Coder
+% Jon Bentley
+%
+% Part IV: Algorithms
+% Column 13: A Sample of Brilliance
+
+
 \font\twelverm=cmr12
 \font\mysc=cmcsc10 scaled \magstep2 % caps and small caps
 \font\columnfont=cminch at 15pt
+\font\sc=cmcsc10
+\font\ninerm=cmr9
+\font\ninesy=cmsy9
 
 \font\eightrm=cmr8
 \font\eighti=cmmi8
 \font\eightsy=cmsy8
 \font\eightss=cmssq8
-\font\eightssi=cmssqi8
 \font\eightbf=cmbx8
-\font\eighttt=cmtt8
 \font\eightsl=cmsl8
 \font\eightit=cmti8
-\font\sc=cmcsc10
-\font\ninerm=cmr9
-\font\ninesy=cmsy9
-\font\tenrm=cmr10
-
-\newskip\ttglue
 \def\eightpoint{\def\rm{\fam0\eightrm}%
-  \textfont0=\eightrm
-  \textfont1=\eighti
-  \textfont2=\eightsy
-  \textfont3=\tenex \scriptfont3=\tenex \scriptscriptfont3=\tenex
-  \def\it{\fam\itfam\eightit}%
-  \textfont\itfam=\eightit
-  \def\sl{\fam\slfam\eightsl}%
-  \textfont\slfam=\eightsl
-  \def\bf{\fam\bffam\eightbf}%
-  \textfont\bffam=\eightbf
-  \def\tt{\fam\ttfam\eighttt}%
-  \textfont\ttfam=\eighttt
-  \tt \ttglue=.5em plus.25em minus.15em
-  \normalbaselineskip=9pt
+  \textfont0=\eightrm \textfont1=\eighti \textfont2=\eightsy
+  \def\it{\fam\itfam\eightit}\textfont\itfam=\eightit
+  \def\sl{\fam\slfam\eightsl}\textfont\slfam=\eightsl
+  \def\bf{\fam\bffam\eightbf}\textfont\bffam=\eightbf
   \let\big=\eightbig
   \setbox\strutbox=\hbox{\vrule height7pt depth2pt width0pt}%
-  \normalbaselines\rm}
-
+  \normalbaselineskip=9pt\normalbaselines\rm}
 \def\eightbig#1{{\hbox{$\textfont0=\ninerm\textfont2=\ninesy
   \left#1\vbox to6.5pt{}\right.\nulldelimiterspace0pt$}}}
 
@@ -50,27 +42,23 @@
 \outer\def\enddisplay{\crcr\egroup$$}
 
 % section
-\outer\def\section#1\par{\vskip0pt plus.3\vsize%\penalty-250
+\outer\def\section#1\par{\vskip0pt plus.3\vsize
   \vskip0pt plus-.3\vsize\bigskip\vskip\parskip
   \message{#1}\leftline{\bf#1}\nobreak\smallskip}
 
-\def\alg#1{{Algorithm~\hbox{#1}}}
+\def\alg#1{{Algorithm\kern1pt\hbox{#1}}}
 \def\ltdot{\mathinner{\ldotp\ldotp}}
 \def\parbreak{\hfil\break\indent\strut}
-
-\def\colname{a sample of brilliance}
 \def\colnum{column {\eightrm13}}
 
 \newif\iftitle
 \headline={\iftitle\hfil\else\ifodd\pageno\rheader\else\lheader\fi\fi}
 \footline={\iftitle\global\titlefalse\hfil\the\pageno\hfil\else\hfil\fi}
 \def\lheader{\sc{\ninerm\the\pageno}\quad more programming pearls\hfill\colnum}
-\def\rheader{\sc\colnum\hfill\colname\quad{\ninerm\the\pageno}}
-
+\def\rheader{\sc\colnum\hfill a sample of brilliance\quad{\ninerm\the\pageno}}
 \titletrue
 
 \magnification=\magstep1
-
 \voffset=2\baselineskip
 \topskip6mm
 \hsize 28.5pc
