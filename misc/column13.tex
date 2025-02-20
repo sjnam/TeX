@@ -321,37 +321,44 @@ simplicity, and elegance. Section~13.6 sketches some of the methods that Floyd
 uses to achieve such programs.
 
 \newcount\pno
-\outer\def\prob{\penalty-50\bigskip\hangindent 1.5em
+\def\prob{\penalty-50\medskip\hangindent 1.5em
   \advance\pno by1 \noindent\hbox to 1.5em{\the\pno.\hss}}
 \def\more{\hangindent 1.5em \hangafter0\noindent}
 
 \section 13.5 Problems
 
-\vskip-\bigskipamount
+\vskip-\medskipamount
 
 \prob
 How do the various algorithms behave when the {\it rand\_int\/}
 procedure is nonrandom? Consider, for instance, generators that always return
 0, or that cycle over a range that is much smaller than or much greater than
 $m$ or $n$.
+
 \prob
 Describe efficient representations for the set $S$ in \alg{F2}.
+
 \prob
 \alg S\ and~F2 both use a set $S$. Is a data structure that is
 efficient in one algorithm necessarily efficient in the other?
+
 \prob
 Complete the proof of correctness of \alg P\ by showing how to compute
 from a final permutation the sequence of random integer values that produce it.
+
 \prob
 How many random bits does \alg P\ consume? Show that this number is
 close to optimal. Perform a similar analysis for \alg{F2}. Can you find
 algorithm that are more efficient?
+
 \prob
 Describe representations for the sequence $S$ such tat \alg P\ runs
 in $O(m)$ expected time or in $O(m\log m)$ worst-case time. Your structures
 should use $O(m)$ worst-case space.
+
 \prob
 Implement Floyd's algorithms in your favorite programming language.
+
 \prob
 \alg{F2} is an iterative version of the recursive \alg{F1}. There are many
 general methods for transforming recursive functions to equivalent iterative
@@ -409,4 +416,3 @@ Lectures: The First Twenty Years: 1966--1985\/}, which was published in 1987 by
 the ACM Press.
  
 \bye
-
