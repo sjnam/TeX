@@ -320,39 +320,41 @@ random samples and random permutations. His programs are a model of efficiency,
 simplicity, and elegance. Section~13.6 sketches some of the methods that Floyd
 uses to achieve such programs.
 
-\def\prob#1 {\penalty-50\bigskip\hangindent 1.5em
-  \noindent\hbox to 1.5em{#1\hss}}
+\newcount\pno
+\outer\def\prob{\penalty-50\bigskip\hangindent 1.5em
+  \advance\pno by1 \noindent\hbox to 1.5em{\the\pno.\hss}}
 \def\more{\hangindent 1.5em \hangafter0\noindent}
 
 \section 13.5 Problems
 
 \vskip-\bigskipamount
 
-\prob{1.} How do the various algorithms behave when the {\it rand\_int\/}
+\prob
+How do the various algorithms behave when the {\it rand\_int\/}
 procedure is nonrandom? Consider, for instance, generators that always return
 0, or that cycle over a range that is much smaller than or much greater than
 $m$ or $n$.
-
-\prob{2.} Describe efficient representations for the set $S$ in \alg{F2}.
-
-\prob{3.} \alg S\ and~F2 both use a set $S$. Is a data structure that is
+\prob
+Describe efficient representations for the set $S$ in \alg{F2}.
+\prob
+\alg S\ and~F2 both use a set $S$. Is a data structure that is
 efficient in one algorithm necessarily efficient in the other?
-
-\prob{4.} Complete the proof of correctness of \alg P\ by showing how to compute
+\prob
+Complete the proof of correctness of \alg P\ by showing how to compute
 from a final permutation the sequence of random integer values that produce it.
-
-\prob{5.} How many random bits does \alg P\ consume? Show that this number is
+\prob
+How many random bits does \alg P\ consume? Show that this number is
 close to optimal. Perform a similar analysis for \alg{F2}. Can you find
 algorithm that are more efficient?
-
-\prob{6.} Describe representations for the sequence $S$ such tat \alg P\ runs
+\prob
+Describe representations for the sequence $S$ such tat \alg P\ runs
 in $O(m)$ expected time or in $O(m\log m)$ worst-case time. Your structures
 should use $O(m)$ worst-case space.
-
-\prob{7.} Implement Floyd's algorithms in your favorite programming language.
-
-\prob{8.} \alg{F2} is an iterative version of the recursive \alg{F1}. There are
-many general methods for transforming recursive functions to equivalent iterative
+\prob
+Implement Floyd's algorithms in your favorite programming language.
+\prob
+\alg{F2} is an iterative version of the recursive \alg{F1}. There are many
+general methods for transforming recursive functions to equivalent iterative
 programs; one method is often illustrated on a recursive factorial fucntion.
 Consider a recursive function with this form
 \begindisplay
@@ -376,7 +378,8 @@ transformded to this iterative form
 \+&\bf return $S$\cr}
 \enddisplay
 
-\prob{9.} Study other algorithms for generating random samples.
+\prob
+Study other algorithms for generating random samples.
 
 \section 13.6 Further Reading
 
