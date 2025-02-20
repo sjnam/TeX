@@ -38,7 +38,7 @@
 % section
 \outer\def\section#1\par{\vskip0pt plus.3\vsize
   \vskip0pt plus-.3\vsize\bigskip\vskip\parskip
-  \message{#1}\leftline{\bf#1}\nobreak\smallskip}
+  \message{#1}\leftline{\bf#1}\nobreak\medskip}
 
 \def\PP{\hbox{\kern.5pt\raise1pt\hbox{\sevenrm+\kern-1pt+}\kern.5pt}}
 \def\alg#1{{Algorithm\kern1pt\hbox{#1}}}
@@ -175,7 +175,6 @@ element. The recursive algorithm is sketched as \alg{F1}:
 \+&&& insert $n$ in $S$\cr
 \+&&\bf return $S$\cr}
 \enddisplay
-
 We can appreciate the correctness of \alg{F1} anecdotally. When $m=5$
 and~$n=10$, the algorithm first recursively computes in $S$ a $4$-element
 random sample from $1\ltdot9$. Next it assigns to $t$ a random integer in the
@@ -327,7 +326,7 @@ uses to achieve such programs.
 
 \section 13.5 Problems
 
-\unskip
+\vskip-\bigskipamount
 
 \prob{1.} How do the various algorithms behave when the {\it rand\_int\/}
 procedure is nonrandom? Consider, for instance, generators that always return
@@ -407,3 +406,4 @@ Lectures: The First Twenty Years: 1966--1985\/}, which was published in 1987 by
 the ACM Press.
  
 \bye
+
