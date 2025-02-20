@@ -67,7 +67,7 @@ How can a computer deal a poker hand? If we assign each card in the deck its own
 integer between $1$ and $52,$ then we can make a hand from a ``random sample''%
 \thinspace of $5$ integers in the range $1\ltdot52,$ for instance,
 \begindisplay
-\tt 4 8 31 46 47
+$4\ \;8\ \;31\ \;46\ \;47$
 \enddisplay
 (It is important that no number appear twice; I understand that holding more
 than one ace of spades can seriously jeopardize a card player's health.) Random
@@ -104,7 +104,7 @@ $1\ltdot n,$ so long as we don't mind duplicates:
 When I invoked that program with $m$ set to $12$ and $n$ set to $3$, the code
 produced the sequence
 \begindisplay
-\tt 3 1 3 3 1 1 1 2 1 1 3 1
+$3\ \;1 \ \;3\ \;3\ \;1\ \;1\ \;1\ \;2\ \;1\ \;1\ \;3\ \;1$
 \enddisplay
 This very sequence might come in handy for your next tough game of
 rock-paper-scissors. More serious applications include testing finite state
@@ -294,12 +294,12 @@ Doug McIlroy found an elegant way to phrase Floyd's proof: there is one and only
 one way to produce each permutation, because the algorithm can be run backward.
 Suppose, for instance, that $m=5,$ that $n=10,$ and that the final sequence is
 \begindisplay
-\tt 7 2 9 1 5
+$7\ \;2\ \;9\ \;1\ \;5$
 \enddisplay
 Because $10$ (the final value of $j$) does not occur in $S$, the previous
 sequence must have been
 \begindisplay
-\tt 2 9 1 5
+$2\ \;9\ \;1\ \;5$
 \enddisplay
 and {\it rand\_int\/} returned $t=7.$ Because $9$ (the relevant value of $j$)
 occurs in the $4$-element sequence after $2$, the previous $t$ was $S$.
