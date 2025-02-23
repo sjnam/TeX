@@ -61,7 +61,7 @@ width0pt height2pt&\omit&&\omit&\omit\cr
 \omit&Maryland&&\hfill428.7&\omit\cr
 \omit&Connecticut&&\hfill637.8&\omit\cr
 \omit&New Jersey&&\hfill986.2&\omit\cr
-\omit&District of Columbia&&\hfill10,132.3&\omit\cr
+\omit&District of Columbia&&\hfill10{,}132.3&\omit\cr
 width0pt height2pt&\omit&&\omit&\omit\cr
 \multispan5\hrulefill\cr}}$$
 If you had to choose a single number to characterize the ``typical'' density in
@@ -81,13 +81,13 @@ comparison algorithms; Problem 9 presents two other representative problems.
 
 Let's turn now from the abstract world sets to the concrete world of programs.
 The input to our selection routine will be the positive integer $n,$ the array
-$x[1\ltdot n],$ and the positive integer $k\le n.$ The program must permute the
-array so that $x[1\ltdot k-1]\le x[k]\le x[k+1\ltdot n].$ At that point, the
-$k^{\rm th}$-smallest element in the set resides in its proper position, $x[k].$
+$X[1\ltdot n],$ and the positive integer $k\le n.$ The program must permute the
+array so that $X[1\ltdot k-1]\le X[k]\le X[k+1\ltdot n].$ At that point, the
+$k^{\rm th}$-smallest element in the set resides in its proper position, $X[k].$
 
 \section The Program
 
-A simple selection program merely sorts the array $x.$ Unfortunately, this
+A simple selection program merely sorts the array $X.$ Unfortunately, this
 straightforward solution requires $O(n\log n)$ time. In this section we'll study
 a faster algorithm due to \hbox{C. A. R. Hoare}. His method selects the $k^{\rm
 th}$-smallest element in just $O(n)$ average time. Hoare called his program {\it
@@ -102,19 +102,19 @@ divide-and-conquer algorithm can be sketched as
 \+&\quad&{\bf return} the element in $S$\cr
 \+&\bf else\cr
 \+&&partition $S$ around a random slement\cr
-\+&&\quad&$t$ into subsets $a$ and $b$ such that\cr
-\+&&&elements in $a$ are less than $t$ and\cr
-\+&&&elements in $b$ are greater than $t$\cr
-\+&&{\bf return} ${\it qsort}(a)$ followed by $t$\cr
-\+&&&followed by ${\it qsort}(b)$\cr}
+\+&&\quad&$t$ into subsets $A$ and $B$ such that\cr
+\+&&&elements in $A$ are less than $t$ and\cr
+\+&&&elements in $B$ are greater than $t$\cr
+\+&&{\bf return} ${\it qsort}(A)$ followed by $t$\cr
+\+&&&followed by ${\it qsort}(B)$\cr}
 \enddisplay
 The procedure's input in a set and its output is the sequences of elements in
 sorted order. Both input and output structures can be efficiently implemented
-in a single array: the sequence is the subvector $x[l\ltdot u]$ is rpresented
+in a single array: the sequence is the subvector $X[l\ltdot u]$ is rpresented
 by the two integers $l$ and $u.$
 
 The {\it select} algorithm has the same structure as Quicksort. Given $l\le
-k\le u,$ its first step in finding the proper occupant of $x[k]$ is to
+k\le u,$ its first step in finding the proper occupant of $X[k]$ is to
 partition the array around a random element. While Quicksort then recursively
 operate on both subsequences, {\it select} saves time by recurring only on the
 side that contains $k.$ Here is Slect as it finds the medians of a 21-element
@@ -144,10 +144,10 @@ An iterative selection algorithm can be sketched as follows.
 \+\quad partition range\cr
 \+\quad repeat on proper subrange\cr}
 \enddisplay
-We'll first study the partitioning code, and then turn to the complete the
+We'll first study the partitioning code, and then turn to the complete
 algorithm.
 
-The routine partitions the array $x[l\ltdot u]$ around the value $t=x[l].$
+The routine partitions the array $X[l\ltdot u]$ around the value $t=X[l].$
 After the $i-1^{st}$ step of the iteration, the loop invariant is depicted as
 $$
 \mplibcode
@@ -175,10 +175,10 @@ drawarrow U -- (d.sw+(21mm,0));
 endfig;
 \endmplibcode
 $$
-The iterative step inspects the $i^{\rm th}$ element. If $x[i]\ge t$ then the
-invariant remains true. When $x[i]<t,$ we regain the invariant by incrementing
-$m$ to index the new location of the small element, and then swapping $x[m]$
-with $x[i].$ The loop terminates with $i=u+1,$ leaving
+The iterative step inspects the $i^{\rm th}$ element. If $X[i]\ge t$ then the
+invariant remains true. When $X[i]<t,$ we regain the invariant by incrementing
+$m$ to index the new location of the small element, and then swapping $X[m]$
+with $X[i].$ The loop terminates with $i=u+1,$ leaving
 $$
 \mplibcode
 input boxes
@@ -201,7 +201,7 @@ drawarrow U -- (c.sw+(36mm,0));
 endfig;
 \endmplibcode
 $$
-We then swap $x[l]$ with $x[m]$ to give
+We then swap $X[l]$ with $X[m]$ to give
 $$
 \mplibcode
 input boxes
@@ -225,31 +225,31 @@ endfig;
 \endmplibcode
 $$
 That final swap ensures that we can operate next on $l\ltdot m-1$ or $m+1\ltdot
-u.$ In both cases, we exclude $x[m],$ and thereby avoid an infinite loop.
+u.$ In both cases, we exclude $X[m],$ and thereby avoid an infinite loop.
 
 Partitioning around the first element in the array can require excessive time
 for some common inputs --- for instance, arrays that are already sorted. We do
 better to choose a partitioning element at random. We'll accomplish this by
-swapping $x[l]$ with a random entry in $x[l\ltdot u],$ using the function
+swapping $X[l]$ with a random entry in $X[l\ltdot u],$ using the function
 ${\it rand\_int}(l,u)$ described in Section 13.1 which returns a random integer
 in the range $l\ltdot u.$ The complete partioning code is
 \begindisplay
 \vbox{
-\+${\it swap}(x[l], x[{\it rand\_int}(l,u)])$\cr
+\+${\it swap}(X[l], X[{\it rand\_int}(l,u)])$\cr
 \+$m\leftarrow l$\cr
 \+\bf for $i\leftarrow l+1$ {\rm to} $u$ do\cr
-\+\quad\bf if $x[i]<x[l]$ then\cr
+\+\quad\bf if $X[i]<X[l]$ then\cr
 \+\qquad$m\leftarrow m+1$\cr
-\+\qquad${\it swap}(x[m],x[i])$\cr
-\+${\it swap}(x[l],x[m])$\cr}
+\+\qquad${\it swap}(X[m],X[i])$\cr
+\+${\it swap}(X[l],X[m])$\cr}
 \enddisplay
-Upon termination, we know that $x[l\ltdot m-1]<x[m]\le x[m+1\ltdot u].$
+Upon termination, we know that $X[l\ltdot m-1]<X[m]\le X[m+1\ltdot u].$
 
 With this partitioning code in hand, we can turn our attention to the complete
 selection subroutine. Our first version is recursive: $select(l,u,k)$ partitions
-the array $x[l\ltdot u]$ so $x[l\ltdot k-1]<x[k]\le x[k+1\ltdot u].$ If $l\ge
+the array $X[l\ltdot u]$ so $X[l\ltdot k-1]<X[k]\le X[k+1\ltdot u].$ If $l\ge
 u$ then the subarray contains at most one element, so we can halt. Otherwise, we
-partition the array around the element $t,$ which is placed in $x[m].$ The
+partition the array around the element $t,$ which is placed in $X[m].$ The
 position of $k$ relative to $m$ gives three cases:
 $$
 \mplibcode
@@ -271,36 +271,36 @@ U=c.w+(36mm,-7mm);
 label.bot(btex $u$ etex, U);
 drawarrow U -- (c.sw+(36mm,0));
 CI=b.n+(0,4mm);
-label.top(btex Case 1 etex, CI);
+label.top(btex \eightrm Case 1 etex, CI);
 drawarrow CI -- b.n;
 CII=a.n+(0,4mm);
-label.top(btex Case 2 etex,CII);
+label.top(btex \eightrm Case 2 etex,CII);
 drawarrow CII -- a.n;
 CIII=c.n+(0,4mm);
-label.top(btex Case 3 etex,CIII);
+label.top(btex \eightrm Case 3 etex,CIII);
 drawarrow CIII -- c.n;
 endfig;
 \endmplibcode
 $$
 Case 2 is the easist. When $k=m,$ the $k^{\rm th}$-smallest element is in its
 final place and the program is finished. When $k<m$ we have Case 1: the $k^
-{\rm th}$-smallest element can't be in $x[m\ltdot u],$ so we exclude that range
+{\rm th}$-smallest element can't be in $X[m\ltdot u],$ so we exclude that range
 by recursively operation on the range $l\ltdot m-1.$ Case 3 is similar, and
 the recursive routine can be sketched as
 \begindisplay
 \vbox{
 \+\bf procedure ${\it select}(l,u,k)$\cr
 \+\qquad\hbox to 10mm{{\bf pre}:\hfil}$l\le k\le u$\cr
-\+\qquad\hbox to 10mm{{\bf post}:\hfil}$x[l\ltdot k-1]<x[k]\le x[k+1\ltdot u]$
+\+\qquad\hbox to 10mm{{\bf post}:\hfil}$X[l\ltdot k-1]<X[k]\le X[k+1\ltdot u]$
 \cr
 \+\quad\bf if $l<u$ then\cr
-\+\qquad\tt /* Partition x[l..u] so that \cr
-\+\qquad\quad\tt\ x[l..m-1] <= x[m] <= x[m+1..u] */\cr
+\+\qquad\tt /* Partition X[l..u] so that \cr
+\+\qquad\quad\tt\ X[l..m-1] <= X[m] <= X[m+1..u] */\cr
 \+\qquad\hbox to 12mm{\bf if\hfil}$k<m$ \bf then ${\it select}(l,m-1,k)$\cr
 \+\qquad\hbox to 12mm{\bf else if\hfil}$k>m$ \bf then ${\it select}(m+1,u,k)$\cr
 \+\qquad\tt /* else k = m so finished */\cr}
 \enddisplay
-Since $x[m]$ is excluded by each recursive cll, the program can't have an
+Since $X[m]$ is excluded by each recursive cll, the program can't have an
 infinite loop.
 
 The recursive calls in the above precedure are of a special form called {\it
@@ -309,28 +309,28 @@ recursive procedure can always be transformed into an equivalent precedure with
 a {\bf while} loop. We'll now study an iterative selection subroutine, which we
 saw earlier in Section 3.2. It uses $l$ and $u$ as local variables, maintaining
 the relation that $l\le k\le u$ until the final step. After partitioning around
-$x[m],$ the code adjusts $l$ or $u$ (and sometimes both) to narrow thr range
+$X[m],$ the code adjusts $l$ or $u$ (and sometimes both) to narrow thr range
 $l\ltdot u.$ Here is the final version of {\it select\/} program:
 \begindisplay
 \vbox{
 \+\bf procedure ${\it select}(k)$\cr
 \+\qquad\hbox to 10mm{{\bf pre}:\hfil}$1\le k\le n$\cr
-\+\qquad\hbox to 10mm{{\bf post}:\hfil}$x[1\ltdot k-1]<x[k]\le x[k+1\ltdot n]$
+\+\qquad\hbox to 10mm{{\bf post}:\hfil}$X[1\ltdot k-1]<X[k]\le X[k+1\ltdot n]$
 \cr
 \+\quad$l\leftarrow1;\ u\leftarrow n$\cr
 \+\quad\bf while $l<u$ do\cr
-\+\qquad\tt /* Invariant:$\;$x[1..l-1] <= x[l..u] <= x[u+1..n] */\cr
-\+\qquad${\it swap}(x[l],x[{\it rand\_int}(l,u)])$\cr
+\+\qquad\tt /* Invariant:$\;$X[1..l-1] <= X[l..u] <= X[u+1..n] */\cr
+\+\qquad${\it swap}(X[l],X[{\it rand\_int}(l,u)])$\cr
 \+\qquad$m\leftarrow l$\cr
 \+\qquad\bf for $i\leftarrow l+1$ {\rm to} $u$ do\cr
-\+\qquad\quad\tt /* Invariant:$\;$&\tt x[l+1..m] < x[l] and\cr
-\+&\tt x[m+1..i-1] >= x[l] */\cr
-\+\qquad\quad\bf if $x[i]<x[l]$ then\cr
+\+\qquad\quad\tt /* Invariant:$\;$&\tt X[l+1..m] < X[l] and\cr
+\+&\tt X[m+1..i-1] >= X[l] */\cr
+\+\qquad\quad\bf if $X[i]<X[l]$ then\cr
 \+\qquad\qquad$m\leftarrow m+1$\cr
-\+\qquad\qquad${\it swap}(x[m],x[i])$\cr
-\+\qquad${\it swap}(x[l],x[m])$\cr
-\+\qquad\tt /* \cleartabs&\tt x[1..l-1] <= x[l..u] <= x[u+1..n]\cr
-\+&\tt and x[l..m-1] <= x[m] <= x[m+1..u] */\cr
+\+\qquad\qquad${\it swap}(X[m],X[i])$\cr
+\+\qquad${\it swap}(X[l],X[m])$\cr
+\+\qquad\tt /* \cleartabs&\tt X[1..l-1] <= X[l..u] <= X[u+1..n]\cr
+\+&\tt and X[l..m-1] <= X[m] <= X[m+1..u] */\cr
 \+\qquad\bf if $k\le m$ then $u\leftarrow m-1$\cr
 \+\qquad\bf if $k\ge m$ then $l\leftarrow m+1$\cr}
 \enddisplay
@@ -345,7 +345,7 @@ In the previous section we derived a selection routine and informally analyzed
 its correctness: it halts on all inputs, and always computes the correct answer.
 We'll turn now to its allegedly linear run time. The intuitive idea behind the
 $O(n)$ average time is that typical iterations remove a substantial fraction
-of the range $L\ltdot U.$ If each step were to remove half the elements, then
+of the range $l\ltdot u.$ If each step were to remove half the elements, then
 an identity like
 $$
 n+n/2+n/4+n/8+\cdots\le 2n
@@ -440,7 +440,7 @@ grasp of most programmers.
 \vskip-\medskipamount
 
 \prob
-{\it select} partitions about a random element in the subrange. Study the
+The {\it select} partitions about a random element in the subrange. Study the
 effectiveness of using other partitioning elements (such as the median of the
 first, middle and last elements in the array or an appropriate representative
 of a large sample).
@@ -473,7 +473,7 @@ program. How does the average run time change? Describe an input that achieves
 the worst possible run time.
 
 \pitm{c.} The first graph in Section 15.3 held $k$ fixed at $(n+1)/2$ and varied
-$n,$ and the next graph held $n$ fixed at 1,000,001 and varied $k.$ Describe
+$n,$ and the next graph held $n$ fixed at 1{,}000{,}001 and varied $k.$ Describe
 the function of two variables that tells the average number of comparisons
 needed to find the $k^{\rm th}$-smallest element in a set of $n$ distinct
 elements. In particular, what is the shape of the curve induced by varying $k$
@@ -524,31 +524,31 @@ analytically.
 
 \prob
 [J. M. Chambers] The {\it select} algorithm ensures that for a single value of
-$k$, $x[1\ltdot k-1]\le x[k]\le x[k+1\ltdot n],$ while Quicksort establishes
-that condition for all variable of $K.$ The problem of ``Partial Sorting''
+$k$, $X[1\ltdot k-1]\le X[k]\le X[k+1\ltdot n],$ while Quicksort establishes
+that condition for all variable of $k.$ The problem of ``Partial Sorting''
 calls for establishing the condition for a set of integers in the range $1
 \ltdot n.$ For instance, in drawing box plots of 101 values we were intersted
 in the $\{6,26,51,76,96\}.$ Show how to modify the Quicksort/Select idea to
 compute partial sorts. Given the input arrays $1\le k[1]\le k[2]\le\cdots\le
-k[m]\le n$ and $x[1\ltdot n],$ the program should establish
+k[m]\le n$ and $X[1\ltdot n],$ the program should establish
 $$
 \eqalign{
-x[1\ltdot k[1]-1]&\le x[k[1]]\le \cr
-x[k[1]+1\ltdot k[2]-1]&\le x[k[2]]\le \cr
-x[k[2]+1\ltdot k[3]-1]&\le x[k[3]]\le\cdots \cr}
+X[1\ltdot k[1]-1]&\le X[k[1]]\le \cr
+X[k[1]+1\ltdot k[2]-1]&\le X[k[2]]\le \cr
+X[k[2]+1\ltdot k[3]-1]&\le X[k[3]]\le\cdots \cr}
 $$
 
 \prob
-For this problem, assume that every element of the array $x$ has two fields:
-$x[i].{\it key}$ is the key of the $i^{\rm th}$ element, and $x[i].{\it wt}$ is
-its weight (a positive real number). Let $x$ denote $\sum_{1\le i\le n}x[i].wt.$
+For this problem, assume that every element of the array $X$ has two fields:
+$X[i].{\it key}$ is the key of the $i^{\rm th}$ element, and $X[i].{\it wt}$ is
+its weight (a positive real number). Let $X$ denote $\sum_{1\le i\le n}X[i].wt.$
 The ``weighted median'' problem calls for computing the integer $k$ and
 partitioning the array such that these conditions hold:
 $$
 \eqalign{
-x[1\ltdot k-1].{\it key}\le&x[k].{\it key}\le x[k+1\ltdot n].{\it key}\cr
-\sum_{1\le i<k}&x[i].wt < s/2\cr
-\sum_{k<i\le n}&x[i].wt < s/2\cr}
+X[1\ltdot k-1].{\it key}\le&X[k].{\it key}\le X[k+1\ltdot n].{\it key}\cr
+\sum_{1\le i<k}&X[i].wt < s/2\cr
+\sum_{k<i\le n}&X[i].wt < s/2\cr}
 $$
 Modify {\it select} to perform this task in linear expected time. Show how to
 use a solution to Problem 4 as a subroutine to solve this problem in linear
