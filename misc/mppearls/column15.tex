@@ -484,6 +484,19 @@ X[1\ltdot K[1]-1]&\le X[K[1]]\le \cr
 X[K[1]+1\ltdot K[2]-1]&\le X[K[2]]\le \cr
 X[K[2]+1\ltdot K[3]-1]&\le X[K[3]]\le\cdots \cr}
 $$
+
+\prob
+For this problem, assume that every element of the array $X$ has two fields:
+$X[I].{\it key}$ is the key of the $I^{\rm th}$ element, and $X[I].{\it wt}$ is
+its weight (a positive real number). Let $S$ denote $\sum_{1\le i\le N}X[i].wt.$
+The ``weighted median'' problem calls for computing the integer $K$ and
+partitioning the array such that these conditions hold:
+$$
+\displaylines{
+X[1\ltdot K-1].{\it key}\le X[K].{\it key}\le X[K+1\ltdot N].{\it key}\cr
+\sum_{1\le i<K}X[i].wt < S/2\cr
+\sum_{K<i\le N}X[i].wt < S/2\cr}
+$$
 Modify Select fo perform this task in linear expected time. Show how to use a
 solution to Problem 4 as a subroutine to solve this problem in linear worst-%
 case time. Modify both algorithms to find other ``weighted quantiles'': given
