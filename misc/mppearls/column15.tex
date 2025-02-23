@@ -319,11 +319,11 @@ $l\ltdot u.$ Here is the final version of {\it select\/} program:
 \cr
 \+\quad$l\leftarrow1;\ u\leftarrow n$\cr
 \+\quad\bf while $l<u$ do\cr
-\+\qquad\tt /* Invariant: x[1..l-1] <= x[l..u] <= x[u+1..n] */\cr
-\+\qquad${\it swap}(x[l],x[{\it randint}(l,u)])$\cr
+\+\qquad\tt /* Invariant:$\;$x[1..l-1] <= x[l..u] <= x[u+1..n] */\cr
+\+\qquad${\it swap}(x[l],x[{\it rand\_int}(l,u)])$\cr
 \+\qquad$m\leftarrow l$\cr
 \+\qquad\bf for $i\leftarrow l+1$ {\rm to} $u$ do\cr
-\+\qquad\quad\tt /* Invariant: &\tt x[l+1..m] < x[l] and\cr
+\+\qquad\quad\tt /* Invariant:$\;$&\tt x[l+1..m] < x[l] and\cr
 \+&\tt x[m+1..i-1] >= x[l] */\cr
 \+\qquad\quad\bf if $x[i]<x[l]$ then\cr
 \+\qquad\qquad$m\leftarrow m+1$\cr
@@ -545,10 +545,10 @@ its weight (a positive real number). Let $x$ denote $\sum_{1\le i\le n}x[i].wt.$
 The ``weighted median'' problem calls for computing the integer $k$ and
 partitioning the array such that these conditions hold:
 $$
-\displaylines{
-x[1\ltdot k-1].{\it key}\le x[k].{\it key}\le x[k+1\ltdot n].{\it key}\cr
-\sum_{1\le i<k}x[i].wt < s/2\cr
-\sum_{k<i\le n}x[i].wt < s/2\cr}
+\eqalign{
+x[1\ltdot k-1].{\it key}\le&x[k].{\it key}\le x[k+1\ltdot n].{\it key}\cr
+\sum_{1\le i<k}&x[i].wt < s/2\cr
+\sum_{k<i\le n}&x[i].wt < s/2\cr}
 $$
 Modify {\it select} to perform this task in linear expected time. Show how to
 use a solution to Problem 4 as a subroutine to solve this problem in linear
