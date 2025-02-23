@@ -119,28 +119,17 @@ array around a random element. While Quicksort then recursively operate on both
 subsequences, Select saves time by recurring only on the side that contains $K.$
 Here is Slect as it finds the medians of a 21-element array:
 $$
-\vbox{
-\centerline{\vbox{\halign{&\strut\hbox to15pt{\hfil#}\cr
-21&5&15&7&19&7&{\red\bf22}&75&65&39&25&73&98&95&53&39&27&63&46&58&82\cr
-\noalign{\vskip-7pt}
-\multispan{21}\hrulefill\cr
-&&&&&&&27&25&{\red\bf39}&65&73&98&95&53&75&39&63&46&58&82\cr
-\noalign{\vskip-7pt}
-&&&&&&&\multispan{14}\hrulefill\cr
-&&&&&&&&&&58&73&53&65&39&63&46&{\red\bf75}&98&95&82\cr
-\noalign{\vskip-7pt}
-&&&&&&&&&&\multispan{11}\hrulefill\cr
-&&&&&&&&&&46&39&{\red\bf53}&65&73&63&58&&&&\cr
-\noalign{\vskip-7pt}
-&&&&&&&&&&\multispan{7}\hrulefill&&&&\cr
-&&&&&&&&&&39&{\red\bf46}&&&&&&&&&\cr
-\noalign{\vskip-7pt}
-&&&&&&&&&&\multispan{2}\hrulefill&&&&&&&&&\cr
-21&5&15&7&19&7&22&27&25&39&{\red\bf39}&46&53&65&73&63&58&75&98&95&82\cr
-\noalign{\vskip-7pt}
-\multispan{21}\hrulefill\cr}}}}
+\centerline{\vbox{\baselineskip=16pt
+\halign{&\hbox to15pt{\hfil\strut#}\cr
+[21&5&15&7&19&7&{\red\bf22}&75&65&39&25&73&98&95&53&39&27&63&46&58&82\rlap{]}\cr
+&&&&&&&[27&25&{\red\bf39}&65&73&98&95&53&75&39&63&46&58&82\rlap{]}\cr
+&&&&&&&&&&[58&73&53&65&39&63&46&{\red\bf75}&98&95&82\rlap{]}\cr
+&&&&&&&&&&[46&39&{\red\bf53}&65&73&63&58\rlap{]}&&&&\cr
+&&&&&&&&&&[39&{\red\bf46}\rlap{]}&&&&&&&&&\cr
+\noalign{\medskip}
+[21&5&15&7&19&7&22&27&25&39&{\red\bf39}&46&53&65&73&63&58&75&98&95&82\rlap{]}\cr
+}}}
 $$
-
 Each level in the picture represents a stage of the algorithm, and the array's
 final configuration is described in the last level. The partitioning element
 is red colored. Elements to its left have lesser values, while elements to its
