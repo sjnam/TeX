@@ -1,0 +1,457 @@
+% More Programming Pearls
+% Confessions of a Coder
+% Jon Bentley
+%
+% Part IV: Algorithms
+% Column 15: Selection
+
+\input luamplib.sty
+\input mppearls
+
+\pageno=159
+\columntitle 15:selection
+
+Suppose you have a list of heights of 101 people. It isn't too hard to find the
+tallest or the shortest on the list, but how would you identify the most
+mediocre person (speaking only heightwise, of course)? That is, how would you
+find the person on the list who is taller than the fifty shortest people and
+shorter than the fifty tallest?
+
+The next section describes the problem around which this is built: selecting the
+$K^{\rm th}$-smallest member in the set of $N$ elements. A program for the taks
+is derived in the following section, and the subsequent section analyzes its
+rapid running time.
+
+\section The Problem
+
+This excerpt from the entitled ``Density of Population by States'' gives the
+1980 figures in persons per square mile.
+$$
+\vbox{\offinterlineskip
+\halign{&\vrule#&\strut#\hfil\quad\cr
+\multispan5\hrulefill\cr
+\noalign{\vskip1pt}
+\multispan5\hrulefill\cr
+width0pt height3pt&\omit&&\omit&\omit\cr
+\omit&\hfil\vbox to6mm{\vfil\hbox to.8in{\hfil\sc Name\hfil}\vfil}&&
+\hskip16pt\vbox to6mm{\vss\hbox to14mm{\hss\sc Population\hss}\par\vskip4pt
+  \hbox to14mm{\hfil\sc Density\hfil}\vss}&\omit\cr
+width0pt height2pt&\omit&&\omit&\omit\cr
+\multispan5\hrulefill\cr
+width0pt height2pt&\omit&&\omit&\omit\cr
+\omit&West Virginia&&\hfill80.8&\omit\cr
+\omit&North Carolina&&\hfill120.4&\omit\cr
+\omit&Virginia&&\hfill134.7&\omit\cr
+\omit&Pennsylvania&&\hfill264.3&\omit\cr
+\omit&New York&&\hfill370.6&\omit\cr
+\omit&Maryland&&\hfill428.7&\omit\cr
+\omit&Connecticut&&\hfill637.8&\omit\cr
+\omit&New Jersey&&\hfill986.2&\omit\cr
+\omit&District of Columbia&&\hfill10,132.3&\omit\cr
+width0pt height2pt&\omit&&\omit&\omit\cr
+\multispan5\hrulefill\cr}}$$
+If you had to choose a single number to characterize the ``typical'' density in
+these nine contiguous areas, what would it be? The average or arithmetic mean
+value is 1461.8, but that seems to high: it is greater than eight of the nine
+values. New York's ``middle'' value of 370.6 seems more representative; it is
+the fifth largest of the nine. Statisticians refer to the $M+1^{\rm st}$-smallest
+element is a set of $2M+1$ elements as the {\it median\/}, or its $50^{\rm th}$
+percentile. We'll use medians and other percentiles later in this column to
+analyze data on the run time of the selection algorithm.
+
+Computer scientists use medians in many ``divide-and-conquer'' algorithms. The
+median partitions a set into two subsets which an algorithm then processes
+recursively; Problem 8 uses an algorithm with this structure. Furthermore, the
+selection problem is a practical introduction to the theoretical field of
+comparison algorithms; Problem 9 presents two other representative problems.
+
+Let's turn now from the abstract world sets to the concrete world of programs.
+The input to our selection routine will be the positive integer $N,$ the array
+$X[1\ltdot N],$ and the positive integer $K\le N.$ The program must permute the
+array so that $X[1\ltdot K-1]\le X[K]\le X[K+1\ltdot N].$ At that point, the
+$K^{\rm th}$-smallest element in the set resides in its proper position, $X[K].$
+
+\section The Program
+
+A simple selection program merely sorts the array $X.$ Unfortunately, this
+straightforward solution requires $O(N\log N)$ time. In this section we'll study
+a faster algorithm due to \hbox{C. A. R. Hoare}. His method selects the $K^{\rm
+th}$-smallest element in just $O(N)$ average time. Hoare called his program {\it
+Find\/}; I'll refer to this implementation in this column as {\it Select.}
+
+Hoare's selection algorithm is closely related to his Quicksort program. That
+divide-and-conquer algorithm can be sketched as
+\begindisplay
+\vbox{
+\+\bf procedure ${\it QSort}({\bf set}\ S):$ sequence\cr
+\+\quad&\bf if $size(S) \le1$ then\cr
+\+&\quad&{\bf return} the element in $S$\cr
+\+&\bf else\cr
+\+&&partition $S$ around a random slement\cr
+\+&&\quad&$T$ into subsets $A$ and $B$ such that\cr
+\+&&&elements in $A$ are less than $T$ and\cr
+\+&&&elements in $B$ are greater than $T$\cr
+\+&&{\bf return} ${\it QSort}(A)$ followed by $T$\cr
+\+&&&followed by ${\it QSort}(B)$\cr}
+\enddisplay
+The procedure's input in a set and its output is the sequences of elements in
+sorted order. Both input and output structures can be efficiently implemented
+in a single array: the sequence is the subvector $X[L\ltdot U]$ is rpresented
+by the two integers $L$ and $U.$
+
+The Select algorithm has the same structure as Quicksort. Given $L\le K\le U,$
+its first step in finding the proper occupant of $X[K]$ is to partition the
+array around a random element. While Quicksort then recursively operate on both
+subsequences, Select saves time by recurring only on the side that contains $K.$
+Here is Slect as it finds the medians of a 21-element array:
+$$
+\vbox{
+\centerline{\vbox{
+\halign{&\strut\hbox to15pt{\hfil#}\cr
+21&5&15&7&19&7&{\bf22}&75&65&39&25&73&98&95&53&39&27&63&46&58&82\cr
+\noalign{\vskip-7pt}
+\multispan{21}\hrulefill\cr}}}
+\smallskip
+\centerline{\vbox{
+\halign{&\strut\hbox to15pt{\hfil#}\cr
+&&&&&&&27&25&{\bf39}&65&73&98&95&53&75&39&63&46&58&82\cr
+\noalign{\vskip-7pt}
+&&&&&&&\multispan{14}\hrulefill\cr}}}
+
+\centerline{\vbox{
+\halign{&\strut\hbox to15pt{\hfil#}\cr
+&&&&&&&&&&58&73&53&65&39&63&46&{\bf75}&98&95&82\cr
+\noalign{\vskip-7pt}
+&&&&&&&&&&\multispan{11}\hrulefill\cr}}}
+
+\centerline{\vbox{
+\halign{&\strut\hbox to15pt{\hfil#}\cr
+&&&&&&&&&&46&39&{\bf53}&65&73&63&58&&&&\cr
+\noalign{\vskip-7pt}
+&&&&&&&&&&\multispan{7}\hrulefill&&&&\cr}}}
+
+\centerline{\vbox{
+\halign{&\strut\hbox to15pt{\hfil#}\cr
+&&&&&&&&&&39&{\bf46}&&&&&&&&&\cr
+\noalign{\vskip-7pt}
+&&&&&&&&&&\multispan{2}\hrulefill&&&&&&&&&\cr}}}
+
+\centerline{\vbox{
+\halign{&\strut\hbox to15pt{\hfil#}\cr
+21&5&15&7&19&7&22&27&25&{\bf39}&39&46&53&65&73&63&58&75&98&95&82\cr
+\noalign{\vskip-7pt}
+\multispan{21}\hrulefill\cr}}}}
+$$
+
+Each level in the picture represents a stage of the algorithm, and the array's
+final configuration is described in the last level. The partitioning element
+is circled. Elements to its left have lesser values, while elements to its right
+are greater than or equal to the partitioning value.
+
+An iterative selection algorithm can be sketched as follows.
+\begindisplay
+\vbox{
+\+set range to entire array\cr
+\+{\bf while} range is large {\bf do}\cr
+\+\quad partition range\cr
+\+\quad repeat on proper subrange\cr}
+\enddisplay
+We'll first study the partitioning code, and then turn to the complete the
+algorithm.
+
+The routine partitions the array $X[L\ltdot U]$ around the value $T=X[L].$
+After the $I-1^{st}$ step of the iteration, the loop invariant is depicted as
+$$
+\mplibcode
+input boxes
+beginfig(0);
+boxjoin(a.se=b.sw; a.ne=b.nw);
+boxit.a(btex\strut$T$etex);
+boxit.b(btex\strut\hbox to1in{\strut\hfil${}<T$\hfil}etex);
+boxit.c(btex\strut\hbox to1in{\strut\hfil${}\ge T$\hfil}etex);
+boxit.d(btex\strut\hbox to.8in{\strut\hfil?\hfil}etex);
+drawboxed(a,b,c,d);
+pair L,M,I,U;
+L=a.c-(1mm,7mm);
+label.bot(btex $X$ etex, L);
+drawarrow L -- (a.s-(1mm,0));
+M=b.e-(2mm,7mm);
+label.bot(btex $M$ etex, M);
+drawarrow M -- (b.se-(2mm,0));
+I=d.w+(2mm,-7mm);
+label.bot(btex $I$ etex, I);
+drawarrow I -- (d.sw+(2mm,0));
+U=d.w+(21mm,-7mm);
+label.bot(btex $U$ etex, U);
+drawarrow U -- (d.sw+(21mm,0));
+endfig;
+\endmplibcode
+$$
+The iterative step inspects the $I^{\rm th}$ element. If $X[I]\ge T$ then the
+invariant remains true. When $X[I]<T,$ we regain the invariant by incrementing
+$M$ to index the new location of the small element, and then swapping $X[M]$
+with $X[I].$ The loop terminates with $I=U+1,$ leaving
+$$
+\mplibcode
+input boxes
+beginfig(0);
+boxjoin(a.se=b.sw; a.ne=b.nw);
+boxit.a(btex\strut$T$etex);
+boxit.b(btex\strut\hbox to 1.4in{\strut\hfil${}<T$\hfil}etex);
+boxit.c(btex\strut\hbox to 1.4in{\strut\hfil${}\ge T$\hfil}etex);
+drawboxed(a,b,c);
+pair L,M,U;
+L=a.c-(1mm,7mm);
+label.bot(btex $L$ etex, L);
+drawarrow L -- (a.s-(1mm,0));
+M=b.e-(2mm,7mm);
+label.bot(btex $M$ etex, M);
+drawarrow M -- (b.se-(2mm,0));
+U=c.w+(36mm,-7mm);
+label.bot(btex $U$ etex, U);
+drawarrow U -- (c.sw+(36mm,0));
+endfig;
+\endmplibcode
+$$
+We then swap $X[L]$ with $X[M]$ to give
+$$
+\mplibcode
+input boxes
+beginfig(0);
+boxjoin(a.se=b.sw; a.ne=b.nw);
+boxit.b(btex\strut\hbox to 1.4in{\strut\hfil${}<T$\hfil}etex);
+boxit.a(btex\strut$T$etex);
+boxit.c(btex\strut\hbox to 1.4in{\strut\hfil${}\ge T$\hfil}etex);
+drawboxed(b,a,c);
+pair L,M,U;
+L=b.c-(17mm,7mm);
+label.bot(btex $L$ etex, L);
+drawarrow L -- (b.s-(17mm,0));
+M=a.e-(2mm,7mm);
+label.bot(btex $M$ etex, M);
+drawarrow M -- (a.se-(2mm,0));
+U=c.w+(36mm,-7mm);
+label.bot(btex $U$ etex, U);
+drawarrow U -- (c.sw+(36mm,0));
+endfig;
+\endmplibcode
+$$
+That final swap ensures that we can operate next on $L\ltdot M-1$ or $M+1\ltdot
+U.$ In both cases, we exclude $X[M],$ and thereby avoid an infinite loop.
+
+Partitioning around the first element in the array can require excessive time
+for some common inputs --- for instance, arrays that are already sorted. We do
+better to choose a partitioning element at random. We'll accomplish this by
+swapping $X[L]$ with a random entry in $X[L\ltdot U],$ using the function
+$RandInd(L,U)$ described in Section 13.1 which returns a random integer in the
+range $L\ltdot U.$ The complete partioning code is
+\begindisplay
+\vbox{
+\+${\it Swap}(X[L], X[{\it RandInt}(L,U)])$\cr
+\+$M\leftarrow L$\cr
+\+\bf for $I\leftarrow L+1$ {\rm to} $U$ do\cr
+\+\quad\bf if $X[I]<X[L]$ then\cr
+\+\qquad$M\leftarrow M+1$\cr
+\+\qquad${\it Swap}(X[M],X[I])$\cr
+\+${\it Swap}(X[L],X[M])$\cr}
+\enddisplay
+Upon termination, we know that $X[L\ltdot M-1]<X[M]\le X[M+1\ltdot U].$
+
+With this partitioning code in hand, we can turn our attention to the complete
+selection subroutine. Our first version is recursive: $Select(L,U,K)$ partitions
+the array $X[L\ltdot U]$ so $X[L\ltdot K-1]<X[K]\le X[K+1\ltdot U].$ If $L\ge
+U$ then the subarray contains at most one element, so we can halt. Otherwise, we
+partition the array around the element $T,$ which is placed in $X[M].$ The
+position of $K$ relative to $M$ gives three cases:
+$$
+\mplibcode
+input boxes
+beginfig(0);
+boxjoin(a.se=b.sw; a.ne=b.nw);
+boxit.b(btex\strut\hbox to 1.4in{\strut\hfil${}<T$\hfil}etex);
+boxit.a(btex\strut$T$etex);
+boxit.c(btex\strut\hbox to 1.4in{\strut\hfil${}\ge T$\hfil}etex);
+drawboxed(b,a,c);
+pair L,M,U,CI,CII,CIII;
+L=b.c-(17mm,7mm);
+label.bot(btex $L$ etex, L);
+drawarrow L -- (b.s-(17mm,0));
+M=a.e-(2mm,7mm);
+label.bot(btex $M$ etex, M);
+drawarrow M -- (a.se-(2mm,0));
+U=c.w+(36mm,-7mm);
+label.bot(btex $U$ etex, U);
+drawarrow U -- (c.sw+(36mm,0));
+CI=b.n+(0,4mm);
+label.top(btex Case 1 etex, CI);
+drawarrow CI -- b.n;
+CII=a.n+(0,4mm);
+label.top(btex Case 2 etex,CII);
+drawarrow CII -- a.n;
+CIII=c.n+(0,4mm);
+label.top(btex Case 3 etex,CIII);
+drawarrow CIII -- c.n;
+endfig;
+\endmplibcode
+$$
+Case 2 is the easist. When $K=M,$ the $K^{\rm th}$-smallest element is in its
+final place and the program is finished. When $K<M$ we have Case 1: the $K^
+{\rm th}$-smallest element can't be in $X[M\ltdot U],$ so we exclude that range
+by recursively operation on the range $L\ltdot M-1.$ Case 3 is similar, and
+the recursive routine can be sketched as
+\begindisplay
+\vbox{
+\+\bf procedure ${\it Select}(L,U,K)$\cr
+\+\qquad\hbox to 10mm{{\bf pre}:\hfil}$L\le K\le U$\cr
+\+\qquad\hbox to 10mm{{\bf post}:\hfil}$X[L\ltdot K-1]<X[K]\le X[K+1\ltdot U]$
+\cr
+\+\quad\bf if $L<U$ then\cr
+\+\qquad\tt /* Partition X[L..U] so that \cr
+\+\qquad\quad\tt\ X[L..M-1] <= X[M] <= X[M+1..U] */\cr
+\+\qquad\hbox to 12mm{\bf if\hfil}$K<M$ \bf then ${\it Select}(L,M-1,K)$\cr
+\+\qquad\hbox to 12mm{\bf else if\hfil}$K>M$ \bf then ${\it Select}(M+1,U,K)$\cr
+\+\qquad\tt /* else K = M so finished */\cr}
+\enddisplay
+Since $X[M]$ is excluded by each recursive cll, the program can't have an
+infinite loop.
+
+The recursive calls in the above precedure are of a special form called {\it
+tail recursion\/}: the call is always the last action in a precedure. A tail-%
+recursive procedure can always be transformed into an equivalent precedure with
+a {\bf while} loop. We'll now study an iterative selection subroutine, which we
+saw earlier in Section 3.2. It uses $L$ and $U$ as local variables, maintaining
+the relation that $L\le K\le U$ until the final step. After partitioning around
+$X[M],$ the code adjusts $L$ or $U$ (and sometimes both) to narrow thr range
+$L\ltdot U.$ Here is the final version of {\it Select\/} program:
+\begindisplay
+\vbox{
+\+\bf procedure ${\it Select}(K)$\cr
+\+\qquad\hbox to 10mm{{\bf pre}:\hfil}$1\le K\le N$\cr
+\+\qquad\hbox to 10mm{{\bf post}:\hfil}$X[1\ltdot K-1]<X[K]\le X[K+1\ltdot N]$
+\cr
+\+\quad$L\leftarrow1;\ U\leftarrow N$\cr
+\+\quad\bf while $L<U$ do\cr
+\+\qquad\tt /* Invariant: X[1..L-1] <= X[L..U] <= X[U+1..N] */\cr
+\+\qquad${\it Swap}(X[L],X[{\it RandInt}(L,U)])$\cr
+\+\qquad$M\leftarrow L$\cr
+\+\qquad\bf for $I\leftarrow L+1$ {\rm to} $U$ do\cr
+\+\qquad\quad\tt /* Invariant: &\tt X[L+1..M] < X[L] and\cr
+\+&\tt X[M+1..I-1] >= X[L] */\cr
+\+\qquad\quad\bf if $X[I]<X[L]$ then\cr
+\+\qquad\qquad$M\leftarrow M+1$\cr
+\+\qquad\qquad${\it Swap}(X[M],X[I])$\cr
+\+\qquad${\it Swap}(X[L],X[M])$\cr
+\+\qquad\tt /* \cleartabs&\tt X[1..L-1] <= X[L..U] <= X[U+1..N]\cr
+\+&\tt and X[L..M-1] <= X[M] <= X[M+1..U]\cr
+\+\qquad\bf if $K\le M$ then $U\leftarrow M-1$\cr
+\+\qquad\bf if $K\ge M$ then $L\leftarrow M+1$\cr}
+\enddisplay
+This is the {\it Select\/} algorithm we'll study in the rest of this column, and
+it is fine for typical day-to-day use. There are, however, several improvements
+that one should incorporate into an industrial-strength selection routine.
+Speedups to the partitioning code are described in Problem 1, 2, 4 and 5.
+
+\section Problems
+
+\vskip-\medskipamount
+
+\prob
+Select partitions about a random element in the subrange. Study the
+effectiveness of using other partitioning elements (such as the median of the
+first, middle and last elements in the array or an appropriate representative
+of a large sample).
+
+\prob
+The Select algorithm and its derivatives aren't always the best way to
+implement selection. How would you select the second-smallest element in a
+three-element array? What if $K=6$ and $N=11?$ What if $K=1000$ and the $N=
+1000{,}000$ input values were stored on a reel of magnetic tape?
+
+\prob
+How would you find the median of one millian values stored on magnetic tape if
+your computer had only one tape drive and about a dozen words of main memory?
+How would you use a second tape drive?
+
+\prob
+Although Select runs in $O(N)$ average time, it requires $O(N^2)$ time in the
+worst case. Describe a selection algorithm with $O(N)$ worst-case time.
+
+\prob
+Perform experiments and display data for the following problems.
+
+\pitm{a.} The discussion of run time concentrated on the number of comparisons
+used; that is a good but sometimes imperfect indicator of cost on a real
+machine. Implement a selection algorithm and measure its run time. Any
+surprises?
+
+\pitm{b.} Delete randomizing {\it Swap\/} statement from the Select program.
+How does the average run time change? Describe an input that achieves the worst
+possible run time.
+
+\pitm{c.} The first graph in Section 15.3 held $K$ fixed at $(N+1)/2$ and varied
+$N,$ and the next graph held $N$ fixed at 1,000,001 and varied $K.$ Describe
+the function of two variables that tells the average number of comparisons
+needed to find the $K^{\rm th}$-smallest element in a set of $N$ distinct
+elements. In particular, what is the shape of the curve induced by varying $K$
+when $N$ is fixed? When $K$ is fixed at a constant fraction of $N,$ how does
+that curve behave?
+
+\pitm{d.} Our analyses assumed that the input array contained no duplicated
+elements. How does Select perform if some array elements appear many times? How
+can that performance be improved?
+
+\prob
+This problem mathematically investicates the performance of Select when it is
+called with $K=1,$ that is, when it selects the least element in the array.
+The skeleton program that counts comparisons (without actually selecting the
+least element) simplifies to
+\begindisplay
+\vbox{
+\+$U\leftarrow N$\cr
+\+\bf while $U>1$ do\cr
+\+\quad$CCount\leftarrow CCount+U+1$\cr
+\+\quad$U\leftarrow {\it RandInt}(1,U)-1$\cr}
+\enddisplay
+
+\more
+Show that this recursive program computes the same function
+\begindisplay
+\vbox{
+\+\bf function ${\it CCount}(N)$\cr
+\+\quad\bf if $N\le1$ then\cr
+\+\qquad\bf return $0$\cr
+\+\quad\bf else\cr
+\+\qquad\bf return $N+1+{\it CCount}({\it RandInt}(0,N-1))$\cr}
+\enddisplay
+
+\more
+If $C_N$ denote the average value of ${\it CCount}(N)$ after the code is
+executed, show that it satisfies the recurrence relation
+$$\displaylines{
+C_0=C_1=0\cr
+C_N=N+1+1/N\sum_{0\le i\le N-1}C_i\cr}
+$$
+Write a program that computes $C_0,C_1,\ldots,C_M.$ (Hint: first use a table
+$C[0\ltdot M]$ and $O(M^2)$ time, then make your algorithm run in $O(M)$ time,
+and finally remove table.) Use that program to characterize the behavior of
+$C_N.$ One possible use is to run the program to gather data, while another
+approach studies its structure to see how to ``telescope'' the recurrence
+analytically.
+
+\prob
+[J. M. Chambers] The Select algorithm ensures that for a single value of $K$,
+$X[1\ltdot K-1]\le X[K]\le X[K+1\ltdot N],$ while Quicksort establishes that
+condition for all variable of $K.$ The problem of ``Partial Sorting'' calls for
+establishing the condition for a set of integers in the range $1\ltdot N.$ For
+instance, in drawing box plots of 101 values we were intersted in the $\{6, 26,
+51,76,96\}.$ Show how to modify the Quicksort/Select idea to compute partial
+sorts. Given the input arrays $1\le K[1]\le K[2]\le\cdots\le K[M]\le N$ and $
+X[1\ltdot N],$ the program should establish
+$$
+\displaylines{
+X[1\ltdot K[1]-1]\le X[K[1]]\le \cr
+X[K[1]+1\ltdot K[2]-1]\le X[K[2]]\le \cr
+X[K[2]+1\ltdot K[3]-1]\le X[K[3]]\le\cdots \cr}
+$$
+
+\bye

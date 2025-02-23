@@ -36,8 +36,15 @@
 % section
 \newcount\secno
 \outer\def\section#1\par{\vskip0pt plus.3\vsize
-  \vskip0pt plus-.3\vsize\bigskip\vskip\parskip\advance\secno by1
+  \vskip0pt plus-.3\vsize\medskip\bigskip\vskip\parskip\advance\secno by1
   \leftline{\bf\colno.\the\secno\ #1}\nobreak\medskip}
+
+% problem
+\newcount\pno
+\def\prob{\penalty-50\medskip\hangindent 1.5em
+  \advance\pno by1 \noindent\hbox to 1.5em{\the\pno.\hss}}
+\def\more{\hangindent 1.5em \hangafter0\noindent}
+\def\pitm#1{\hangindent 3em \hangafter0\noindent\llap{#1\enspace}\ignorespaces}
 
 \def\PP{\hbox{\kern.5pt\raise1pt\hbox{\sevenrm+\kern-1pt+}\kern.5pt}}
 \def\alg#1{{Algorithm\kern1pt\hbox{#1}}}
@@ -57,6 +64,5 @@
 \magnification=\magstep1
 \voffset=2\baselineskip
 \topskip6mm
-\hsize 28.5pc
+\hsize 28.6pc
 \vsize 46pc
-\pageno=139
