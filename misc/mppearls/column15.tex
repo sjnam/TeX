@@ -339,6 +339,58 @@ it is fine for typical day-to-day use. There are, however, several improvements
 that one should incorporate into an industrial-strength selection routine.
 Speedups to the partitioning code are described in Problem 1, 2, 4 and 5.
 
+\section Analysis of Run Time
+
+In the previous section we derived a selection routine and informally analyzed
+its correctness: it halts on all inputs, and always computes the correct answer.
+We'll turn now to its allegedly linear run time. The intuitive idea behind the
+$O(n)$ average time is that typical iterations remove a substantial fraction
+of the range $L\ltdot U.$ If each step were to remove half the elements, then
+an identity like
+$$
+n+n/2+n/4+n/8+\cdots\le 2n
+$$
+would describe the total run time.
+
+This section supports our intuition with observations of the algorithm at work.
+In addition to insight about {\it select\/}, this exercise illustrates general
+techniques for the empirical analysis of algorithms. (Problem 6 introduces the
+mathematical analysis of section algorithms.)
+
+The first figure in Section 15.2 illustrates the algorithm's behavior on an
+array of 21 elements. That figure is useful as one first studies the algorithm,
+but it is too detailed to give much insight into the algorithm's performance.
+Here is a similar picture of an array, and a ``stick diagram'' representation of
+the computation:
+
+To estimate the constant $C_{\rm median}$, we'll gather data on the number of
+comparisons used by the algorithm. Instead of running the complete algorithm
+on real data, we'll use this ``skeleton'' program to count comparisons.
+\begindisplay
+\vbox{
+\+$ccount\leftarrow0$\cr
+\+$l\leftarrow1;\ u\leftarrow n$\cr
+\+\bf while $l<u$ do\cr
+\+\quad$ccount\leftarrow ccount+u-l$\cr
+\+\quad$m\leftarrow {\it rand\_int}(l,u)$\cr
+\+\quad\bf if $k\le m$ then $u\leftarrow m-1$\cr
+\+\quad\bf if $k\ge m$ then $l\leftarrow m+1$\cr}
+\enddisplay
+The {\it select\/} program uses $u-l$ comparisons to partition the $u-l+1$
+elements in the range $l\ltdot u.$ The above program can simulate the
+computation on a set of size $n=10^6$ in a few dozen steps rather than a few
+million steps.
+
+So far our analysis of {\it select\/} has concentrated on the fact that it uses
+$O(n)$ comparisons. Because it does only some constant number of other
+operations alone with each comparison, its total running time is also linear. To
+gain further insight I implemented {\it select\/} in C on VAX-11/750 and
+compared it to the C library subroutine {\it qsort\/}. The system sort required
+about $100n\log_2n$ microseconds to sort an array of $n$ elements, while {\it
+select\/} found the median in about $100n$ microseconds. For $n=100{,}000$, this
+translates into ten seconds for {\it select\/} versus almost three minutes for
+the sort.
+
 \section Principles
 
 We have analyzed two aspects of Hoare's selection algorithm: its answer is {\it
