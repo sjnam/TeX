@@ -319,18 +319,18 @@ $l\ltdot u.$ Here is the final version of {\it select\/} program:
 \cr
 \+\quad$l\leftarrow1;\ u\leftarrow n$\cr
 \+\quad\bf while $l<u$ do\cr
-\+\qquad\tt /* invariant: x[1..l-1] <= x[l..u] <= x[u+1..n] */\cr
+\+\qquad\tt /* Invariant: x[1..l-1] <= x[l..u] <= x[u+1..n] */\cr
 \+\qquad${\it swap}(x[l],x[{\it randint}(l,u)])$\cr
 \+\qquad$m\leftarrow l$\cr
 \+\qquad\bf for $i\leftarrow l+1$ {\rm to} $u$ do\cr
-\+\qquad\quad\tt /* invariant: &\tt x[l+1..m] < x[l] and\cr
+\+\qquad\quad\tt /* Invariant: &\tt x[l+1..m] < x[l] and\cr
 \+&\tt x[m+1..i-1] >= x[l] */\cr
 \+\qquad\quad\bf if $x[i]<x[l]$ then\cr
 \+\qquad\qquad$m\leftarrow m+1$\cr
 \+\qquad\qquad${\it swap}(x[m],x[i])$\cr
 \+\qquad${\it swap}(x[l],x[m])$\cr
 \+\qquad\tt /* \cleartabs&\tt x[1..l-1] <= x[l..u] <= x[u+1..n]\cr
-\+&\tt and x[l..m-1] <= x[m] <= x[m+1..u]\cr
+\+&\tt and x[l..m-1] <= x[m] <= x[m+1..u] */\cr
 \+\qquad\bf if $k\le m$ then $u\leftarrow m-1$\cr
 \+\qquad\bf if $k\ge m$ then $l\leftarrow m+1$\cr}
 \enddisplay
@@ -341,8 +341,8 @@ Speedups to the partitioning code are described in Problem 1, 2, 4 and 5.
 
 \section Principles
 
-We have analyzed two aspects of Hoare's selection algorithm: its answer is {\sl
-correct}, and it computes that answer {\sl efficiently}. This exercise
+We have analyzed two aspects of Hoare's selection algorithm: its answer is {\it
+correct\/}, and it computes that answer {\it efficiently\/}. This exercise
 illustrates two important points about analysis of programs.
 
 {\it A Spectrum of Analyses}. There are sevral reasons why I believe that the
