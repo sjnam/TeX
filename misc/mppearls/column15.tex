@@ -117,8 +117,8 @@ The {\it select} algorithm has the same structure as Quicksort. Given $l\le
 k\le u,$ its first step in finding the proper occupant of $X[k]$ is to
 partition the array around a random element. While Quicksort then recursively
 operate on both subsequences, {\it select} saves time by recurring only on the
-side that contains $k.$ Here is Slect as it finds the medians of a 21-element
-array:
+side that contains $k.$ Here is {\it select} as it finds the medians of a
+21-element array:
 $$
 \centerline{\vbox{\baselineskip=16pt
 \halign{&\hbox to15pt{\hfil\strut#}\cr
@@ -128,7 +128,7 @@ $$
 &&&&&&&&&&[46&39&{\red\bf53}&65&73&63&58\rlap{]}&&&&\cr
 &&&&&&&&&&[39&{\red\bf46}\rlap{]}&&&&&&&&&\cr
 \noalign{\medskip}
-[21&5&15&7&19&7&22&27&25&39&{\red\bf39}&46&53&65&73&63&58&75&98&95&82\rlap{]}\cr
+[21&5&15&7&19&7&22&27&25&{\red\bf39}&39&46&53&65&73&63&58&75&98&95&82\rlap{]}\cr
 }}}
 $$
 Each level in the picture represents a stage of the algorithm, and the array's
@@ -161,7 +161,7 @@ boxit.d(btex\strut\hbox to.8in{\strut\hfil?\hfil}etex);
 drawboxed(a,b,c,d);
 pair L,M,I,U;
 L=a.c-(1mm,7mm);
-label.bot(btex $x$ etex, L);
+label.bot(btex $l$ etex, L);
 drawarrow L -- (a.s-(1mm,0));
 M=b.e-(2mm,7mm);
 label.bot(btex $m$ etex, M);
@@ -237,7 +237,7 @@ in the range $l\ltdot u.$ The complete partioning code is
 \vbox{
 \+${\it swap}(X[l], X[{\it rand\_int}(l,u)])$\cr
 \+$m\leftarrow l$\cr
-\+\bf for $i\leftarrow l+1$ {\rm to} $u$ do\cr
+\+\bf for $i\leftarrow l+1$ to $u$ do\cr
 \+\quad\bf if $X[i]<X[l]$ then\cr
 \+\qquad$m\leftarrow m+1$\cr
 \+\qquad${\it swap}(X[m],X[i])$\cr
@@ -291,7 +291,7 @@ the recursive routine can be sketched as
 \vbox{
 \+\bf procedure ${\it select}(l,u,k)$\cr
 \+\qquad\hbox to 10mm{{\bf pre}:\hfil}$l\le k\le u$\cr
-\+\qquad\hbox to 10mm{{\bf post}:\hfil}$X[l\ltdot k-1]<X[k]\le X[k+1\ltdot u]$
+\+\qquad\hbox to 10mm{{\bf post}:\hfil}$X[l\ltdot k-1]\le X[k]\le X[k+1\ltdot u]$
 \cr
 \+\quad\bf if $l<u$ then\cr
 \+\qquad\tt /* Partition X[l..u] so that \cr
@@ -315,14 +315,14 @@ $l\ltdot u.$ Here is the final version of {\it select\/} program:
 \vbox{
 \+\bf procedure ${\it select}(k)$\cr
 \+\qquad\hbox to 10mm{{\bf pre}:\hfil}$1\le k\le n$\cr
-\+\qquad\hbox to 10mm{{\bf post}:\hfil}$X[1\ltdot k-1]<X[k]\le X[k+1\ltdot n]$
+\+\qquad\hbox to 10mm{{\bf post}:\hfil}$X[1\ltdot k-1]\le X[k]\le X[k+1\ltdot n]$
 \cr
 \+\quad$l\leftarrow1;\ u\leftarrow n$\cr
 \+\quad\bf while $l<u$ do\cr
 \+\qquad\tt /* Invariant:$\;$X[1..l-1] <= X[l..u] <= X[u+1..n] */\cr
 \+\qquad${\it swap}(X[l],X[{\it rand\_int}(l,u)])$\cr
 \+\qquad$m\leftarrow l$\cr
-\+\qquad\bf for $i\leftarrow l+1$ {\rm to} $u$ do\cr
+\+\qquad\bf for $i\leftarrow l+1$ to $u$ do\cr
 \+\qquad\quad\tt /* Invariant:$\;$&\tt X[l+1..m] < X[l] and\cr
 \+&\tt X[m+1..i-1] >= X[l] */\cr
 \+\qquad\quad\bf if $X[i]<X[l]$ then\cr
@@ -348,7 +348,7 @@ $O(n)$ average time is that typical iterations remove a substantial fraction
 of the range $l\ltdot u.$ If each step were to remove half the elements, then
 an identity like
 $$
-n+n/2+n/4+n/8+\cdots\le 2n
+n+{n\over2}+{n\over4}+{n\over8}+\cdots\le 2n
 $$
 would describe the total run time.
 
@@ -547,8 +547,8 @@ partitioning the array such that these conditions hold:
 $$
 \eqalign{
 X[1\ltdot k-1].{\it key}\le&X[k].{\it key}\le X[k+1\ltdot n].{\it key}\cr
-\sum_{1\le i<k}&X[i].wt < s/2\cr
-\sum_{k<i\le n}&X[i].wt < s/2\cr}
+\sum_{1\le i<k}&X[i].wt < {s\over2}\cr
+\sum_{k<i\le n}&X[i].wt < {s\over2}\cr}
 $$
 Modify {\it select} to perform this task in linear expected time. Show how to
 use a solution to Problem 4 as a subroutine to solve this problem in linear
