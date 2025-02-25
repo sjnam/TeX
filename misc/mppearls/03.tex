@@ -1,0 +1,110 @@
+% More Programming Pearls
+% Confessions of a Coder
+% Jon Bentley
+%
+% Part I: Algorithms
+% Column 3: Confessions of a Coder
+
+\input mppearls
+
+\pageno=27
+\columntitle 3:confessions of a coder
+
+\noindent
+Most programmers spend a lot of time testing and debugging, but those activities
+don't often get much attention in writing. This column describes how I tested
+and debugged a few hard subroutines, with an emphasis of the {\it scaffolding\/}
+I used in the process. The scaffolding around a building provides access to
+components that workers couldn't otherwise reach. Software scaffolding consiste
+of temporary programs and data that give programmers access to system
+components. The scaffolding isn't delivered to the customer, but it is indispensible during testing and debugging.
+
+Enough background, and on to two painful stories.
+
+{\medskip\more
+{\it Confession 1\/}. Several years ago I needed a selection routine in the
+middle of a 500-line program. Because I knew the program was hard, I copied
+a 20-line subroutine from an excellent algorithm text. The program usally
+ran correctly, but failed every now and then. After two days I debugging, I
+tracked the bug down to the selection routine. During most of the debugging,
+that routine was above supicion: I was convinced by the book's informal proof
+of the routine's correctness, and I had checked my code several times to make
+sure it matched the book. Unfortunately, a ``$<$'' in the book should have been
+a ``$\le$''. I was a little upset with the authors, but a lot madder at myself:
+fifteen minutes worth of scaffolding around the selection routine would have
+displayed the bug, yet I wasted two days on it.
+\smallskip\more
+{\it Confession 2\/}. Several weeks before I firs wrote this column I was
+working on a book of my own, which included a selection routine. I used
+techniques of a program verification to derive the code, so I was sure it
+was correct. After I placed the routine in the text, I wondered it was even
+worth my time to test it. I hemmed and hawed, trying to decide......
+\medskip}
+  
+\noindent The conclusion and another confession come later in this column.
+
+This column is about the testing and debugging tools I use on subtle
+algorithms. We'll start by scrutinizing two subroutines, complete with several
+common bugs to make our study more interesting. As a reward for plowing through
+all the code, this column concludes by describing a little subroutine library
+and some tests of its correctness; I hope that the library will make it easy
+for you to use correct version of these routine in your programs.
+$$
+\frame{.5}{4}{56mm}{\hfil\bf Warning --- Buggy Code Ahead\hfil}
+$$
+
+\vskip-\medskipamount
+
+\section Binary Search
+
+The ``black box'' approach is at one extreme of testing: without knowing the
+structure of the program, hence viewing it as a black box, the tester presents
+a series of inputs and analyzes the out for correctness. This section is about
+a testing approach at the opposite extreme: the code is in a white box,%
+{\eightpoint\parindent=8pt\footnote\dag{Logic dictates that the boxes should be
+``opaque'' and ``transparent'' (``painted'' and ``glass''?), but I'll stick
+with the traditional and illogical black and white.}} and we watch it as it
+works.
+
+The code we'll study is a binary search. Here is the routine, together with a
+simple testbed:
+\begindisplay
+\vbox{
+\+\bf function ${\it bsearch}(t,l,u,m)\ \{$\cr
+\+\quad$l\leftarrow1;\ u\leftarrow n$\cr
+\+\quad\bf while $(l\le u)\ \{$\cr
+\+\qquad{\it print} |" "|$,l,m,u$\cr
+\+\qquad\bf if \phantom{else} &$(x[m]<t)\ l=m$\cr
+\+\qquad\bf else if &$(x[m]>t)\ u=m$\cr
+\+\qquad\bf else return $m$\cr
+\+\quad$\}$\cr
+\+\quad\bf return $0$\cr
+\+$\}$\cr}
+\enddisplay
+\vbox{
+|$1=="fill"   { n = $2; for (i = 1; i <= n; i++) x[i] = 10*i }|\par
+|$1=="n"      { n = $2 }|\par
+|$1=="x"      { x[$2] = $3 }|\par
+|$1=="print"  { for (i = 1; i <= n; i++) print i ":\t" x[i] }|\par
+|$1=="search" { t = bsearch($2); print "result:", t }|}
+\smallskip\noindent
+The Awk binary search function has the single argument $t$; later elements in
+the parameter list are the local variables. It should return an index of $t$ in
+$x[1\ltdot n]$ if $t$ is present in the array, and zero otherwise. The {\it
+print\/} statement traces the values of $l$, $m$ and $u$ throughout the search
+(the lower end, middle, and upper end of the current range.) I indicate that it
+is scaffolding by placing it in the left margin. Can you spot any problems with
+the code?
+
+The bottom five lines of the program are Awk ``pattern-action'' pairs. If the
+input typed by the user matches the pattern on the left, then the code within
+brackets on the right is executed. The pattern in the first pair is ture if the
+first field of the input line typed by the user ({\tt\$1}) is |fill|. On such
+lines, the number in the second field ({\tt\$2}) is assigned to the variable
+$n,$ and the {\bf for} loop fills $n$ values of the array $x.$
+
+Here's a transcript of a run of the program. I first typed {\tt fill 5}, and the
+program created a sorted array of five elements. When I typed {\tt print}, the
+program printed the contents of the array.
+
+\bye
