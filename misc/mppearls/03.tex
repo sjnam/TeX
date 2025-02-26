@@ -73,7 +73,7 @@ simple testbed:
 \+\bf function ${\it bsearch}(t,l,u,m)\ \{$\cr
 \+\quad$l\leftarrow1;\ u\leftarrow n$\cr
 \+\quad\bf while $(l\le u)\ \{$\cr
-\+\qquad{\it print} |" "|$,l,m,u$\cr
+\+\.{print " ", l, m, u}\cr
 \+\qquad\bf if \phantom{else} &$(x[m]<t)\ l=m$\cr
 \+\qquad\bf else if &$(x[m]>t)\ u=m$\cr
 \+\qquad\bf else return $m$\cr
@@ -81,13 +81,18 @@ simple testbed:
 \+\quad\bf return $0$\cr
 \+$\}$\cr}
 \enddisplay
-\vbox{
-|$1=="fill"   { n = $2; for (i = 1; i <= n; i++) x[i] = 10*i }|\par
-|$1=="n"      { n = $2 }|\par
-|$1=="x"      { x[$2] = $3 }|\par
-|$1=="print"  { for (i = 1; i <= n; i++) print i ":\t" x[i] }|\par
-|$1=="search" { t = bsearch($2); print "result:", t }|}
-\smallskip\noindent
+\vskip-2\bigskipamount
+\begindisplay
+\vbox{\begingroup
+\verbatim
+$1=="fill"   { n = $2; for (i = 1; i <= n; i++) x[i] = 10*i }
+$1=="n"      { n = $2 }
+$1=="x"      { x[$2] = $3 }
+$1=="print"  { for (i = 1; i <= n; i++) print i ":\t" x[i] }
+$1=="search" { t = bsearch($2); print "result:", t }
+!endgroup
+\endgroup}
+\enddisplay
 The Awk binary search function has the single argument $t$; later elements in
 the parameter list are the local variables. It should return an index of $t$ in
 $x[1\ltdot n]$ if $t$ is present in the array, and zero otherwise. The {\it
@@ -103,8 +108,474 @@ first field of the input line typed by the user ({\tt\$1}) is |fill|. On such
 lines, the number in the second field ({\tt\$2}) is assigned to the variable
 $n,$ and the {\bf for} loop fills $n$ values of the array $x.$
 
-Here's a transcript of a run of the program. I first typed {\tt fill 5}, and the
-program created a sorted array of five elements. When I typed {\tt print}, the
+Here's a transcript of a run of the program. I first typed \.{fill 5}, and the
+program created a sorted array of five elements. When I typed \.{print}, the
 program printed the contents of the array.
+\begindisplay
+\vbox{\begingroup
+\verbatim
+fill 5
+print
+1:      10
+2:      20
+3:      30
+4:      40
+5:      50
+!endgroup
+\endgroup}
+\enddisplay
+ Now come a few searches in that array. I typed \.{search 10}, and
+the next three lines show the range narrowing to find that 10 is in position 1
+in $x.$ The searches for 40 and 30 are also correct.
+\begindisplay
+\vbox{\begingroup
+\verbatim
+search  10
+    1 3 5
+    1 2 3
+    1 1 2
+result   1
+search  40
+    1 3 5
+    3 4 5
+result   4
+search  30
+    1 3 5
+result   3
+!endgroup
+\endgroup}
+\enddisplay
+Unfortunately, the next search runs into trouble.
+\begindisplay
+\vbox{\begingroup
+\verbatim
+search  10
+    1 3 5
+    3 4 5
+    4 4 5
+    4 4 5
+    4 4 5
+    4 4 5
+    4 4 5
+    4 4 5
+     ...
+!endgroup
+\endgroup}
+\enddisplay
+With this clue, can you find  the bug in the program?
+
+Binary search is supposed to narrow the range $l\ltdot u$ until termination. The
+assignment $l\leftarrow m$ usually does so, but when $l$ and $m$ are equal it
+loop endlessly. The assignment should instead be $l\leftarrow m+1,$ which
+excludes $m$ from the range. (The techniques of program verification help one
+derive this code systematically; excluding $m$ is the key point in the proof of
+termination.) The assignment $u\leftarrow m$ should similarly be changed to
+$u\leftarrow m-1.$ The resulting correct binary search is in Appendix 2.
+
+The \.{n} and \.{x} commands allow us to alter the arrays produced by
+\.{fill}. To find how the correct code behaves on a two-element array with
+equal elements, the command \.{x 2 10} sets $x[2]$ to 10, and the next
+command set $n$ to 2.
+\begindisplay
+\vbox{\begingroup
+\verbatim
+fill 5
+x 2 10
+n 2
+print
+1:      10
+2:      10
+search 20
+   1 1 2
+   2 2 2
+result: 0
+!endgroup
+\endgroup}
+\enddisplay
+The search for 20 then correctly reports that it is not in the array.
+
+I'd be {\it really\/} surprised if someone shows me a bug in the final binary
+search program. I used program verification techniques to prove the code
+correct, and then I beat on it with the black-box test reproduced in Appendix 2.
+Simple observation like thos described in this section reassure me that the code
+indeed behaves as I thought. That reassurance cost just six lines of Awk
+scaffolding beyond the binary search code.
+
+The techniques of this section are simple and well known. Unfortunately,
+scaffolding is too often neglected by programmers. A few minutes spent testing
+a prototype of a subtle algorithm like binary search can save hours of debugging
+after it is incorporated in a large system. If a hard routine fails in a big
+program, construct scaffolding so you can access it directly, or better yet,
+build a small version in a supportive language like Awk.
+
+\section Selection
+
+The next program uses Hoare's algorithm to {\it select\/} the $k^{\rm th}$-%
+smallest element of the array $x[1\ltdot n].$ Its job is to permute the elements
+of $x$ so that $x[1\ltdot k-1]\le x[k]\le x[k+1\le n].$ We will study this
+routine in detail in Column 15:
+\begindisplay
+\vbox{
+\+\bf function ${\it select}(l,u,k,i,m)\ \{$\cr
+\+\quad\bf if $(l<u)\ \{$\cr
+\+\qquad${\it swap}(l,{\it rand\_int}(l,u))$\cr
+\+\qquad$m\leftarrow l$\cr
+\+\qquad\bf for $(i\leftarrow l+1;\ i\le u;\ i\PP)$\cr
+\+\qquad\quad\bf if $(x[i]<x[l])$\cr
+\+\qquad\qquad${\it swap}(\PP m,i)$\cr
+\+\qquad${\it swap}(l,m)$\cr
+\+\qquad\bf if \phantom{else} &$(m<k)$ ${\it select}(m+1,u,k)$\cr
+\+\qquad\bf else if &$(m>k)$ ${\it select}(l, m-1, k)$\cr
+\+\quad$\}$\cr
+\+$\}$\cr}
+\enddisplay
+The code was easy to prove correct; it passed all tests on the first try.
+
+That program uses ``tail recursion'': the recursive call is last statement in
+the procedure. Tail recursion can always be transformed to iteration by
+replacing subroutine call by assignment and loop statements. The next version
+replaces the recursive routine with a {\bf while} loop, and this returns us to
+my next confession. My first mistake, of course, was in debugging whether to
+test the code. Any author who errs as often as I do should either test the
+program or label it with ``WARNING --- UNTESTED CODE''. The second mistake is in
+the selection routine itself; any ideas?
+\begindisplay
+\vbox{
+\+\bf function ${\it swap}(i,j,t)\ \{\ t\leftarrow x[i];\ x[i]\leftarrow x[i];\ x[j]\leftarrow t\ \}$\cr
+\+\bf function ${\it select}(k,l,u,i,m)\ \{$\cr
+\+\quad$l\leftarrow1;\ u\leftarrow n$\cr
+\+\quad\bf while $(l\le u)\ \{$\cr
+\+\.{print l, u}\cr
+\+\qquad${\it swap}(l,{\it rand\_int}(l,u))$\cr
+\+\qquad$m\leftarrow l$\cr
+\+\.{comps = comps + u-1}\cr
+\+\qquad\bf for $(i\leftarrow l+1;\ i\le u;\ i\PP)$\cr
+\+\qquad\quad\bf if $(x[i]<x[l])$\cr
+\+\qquad\qquad${\it swap}(\PP m,i)$\cr
+\+\qquad${\it swap}(l,m)$\cr
+\+\qquad\bf if \phantom{else} &$(m<k)$ ${\it select}(m+1,u,k)$\cr
+\+\qquad\bf else if &$(m>k)$ ${\it select}(l, m-1, k)$\cr
+\+\quad$\}$\cr
+\+$\}$\cr}
+\enddisplay
+\vskip-2\bigskipamount
+\begindisplay
+\vbox{\begingroup
+\verbatim
+$1=="fill"  { n = $2; for (i = 1; i <= n; i++) x[i] = rand() }
+$1=="n"     { n = $2 }
+$1=="x"     { x[$2] = $3 }
+$1=="print" { for (i = 1; i <= n; i++) print "   ", x[i] }
+$1=="sel"   { comps = 0; select($2); print "  compares:", comps
+              print "  compares/n:", comps/n
+              for (i=1;   i < k;  i++) if (x[i] > x[k]) print i
+              for (i=k+1; i <= n; i++) if (x[i] < x[k]) print i
+            }
+!endgroup
+\endgroup}
+\enddisplay
+We'll first watch the program at work. The \.{fill} command sprinkles random
+numbers in the range $[0,1]$ into the array, and \.{print} is like that in the
+previous program.
+\begindisplay
+\vbox{\begingroup
+\verbatim
+fill 5
+print
+    0.93941
+    0.532356
+    0.392797
+    0.446203
+    0.535331
+!endgroup
+\endgroup}
+\enddisplay
+The command \.{sel 3} partitions the array so that the third-smallest element is
+in $x[3]$. It displays the computation as it progresses, and also checks the
+correctness of the final answer. The subsequent \.{print} command then displays
+the partitioned array.
+\begindisplay
+\vbox{\begingroup
+\verbatim
+sel 3
+1 5
+3 5
+3 5
+3 5
+3 4
+  compares: 11
+  compares/n: 2.2
+print
+    0.446203
+    0.392797
+    0.532356
+    0.535331
+    0.93941
+!endgroup
+\endgroup}
+\enddisplay
+Although the code produces the correct answer, the trace is supicious. Can you
+find the hint of the bug in that history?
+
+We'll corner the bug in a more perverse array, built and displayed as follows.
+\begindisplay
+\vbox{\begingroup
+\verbatim
+fill 2
+x 1 5
+x 2 5
+print
+    5
+    5
+!endgroup
+\endgroup}
+\enddisplay
+Selecting the second-smallest element works just fine, but there are problems in
+finding the smallest.
+\begindisplay
+\vbox{\begingroup
+\verbatim
+sel 2
+1 2
+  compares: 1
+  compares/n: 0.5
+sel 1
+1 2
+1 2
+1 2
+1 2
+ ...
+!endgroup
+\endgroup}
+\enddisplay
+With this information, it was easy for me to spot the bug and to handle the tail
+recursion more carefully; the final code is in Section 15.2 and Appendix 2. (The
+program computed many correct answers only because the bug was often hidden by
+the randomizing {\it swap\/} statement. Randomization, for better or worse,
+often compensates for bugs.)
+
+Apart from its correctness problem, the origianl code ahs a ``performance bug'':
+even when it gives the right answer, it takes too logn. We'll see in Column 15
+that a correct selection program requires roughly $3.4n$ comparisions to find
+the median of an $n$-element array. These test (and a dozen more like them) show
+that the performance of the correct selection routine from Appendix 2 is in the
+right ballpark:
+\begindisplay
+\vbox{\begingroup
+\verbatim
+fill 50
+sel 25
+  compares: 134
+  compares/n: 2.68
+fill 100
+sel 50
+  compares: 363
+  compares/n: 3.63
+!endgroup
+\endgroup}
+\enddisplay
+I have removed the output of the \.{print} statements that traced the value of
+$l$ and $u$ to save space in this column; it was a pleasure to watch them
+behave properly as I conducted the real tests.
+
+\section A Subroutine Library
+
+Before this column was originally published in {\it Communications of the
+ACM\/}, many programmers had mentioned that they used pseudocode published in
+previous columns as a basic for implementing an algorithm i their favorite
+language. For some time I had wanted to collect the algorithms into a little
+library, but the code was always too long. When the Awk language acquired
+functions in early 1985, I realized that it was the ideal vehicle for
+communicating a set of useful subroutines in clean, succinct, and tested code.
+
+The designer of a industrial-strength subroutine library must face the difficult
+problems of portability, efficiency, and general interfaces. The designer must
+also choose an implementation language, which gives programmers in that language
+easy access to the routine. Unfortuantely, that choice useally denies the
+routine to users of other language.
+
+Appendix 2 is a set of ``language-independent'' subroutines, suitable for
+copying into various implementation laguages. Since no sane programmer would
+code a serious application of this nature in Awk,{\eightpoint\parindent=8pt
+\footnote\dag{Apart from sequential search and insertion sort, all subroutines
+in the library use designed for efficient asymptotic running times --- usually
+$O(n\log n).$ For problems on arrays, the overhead of Awk's interpretation and
+associative arrays renders it orders of magnitude slower than conventional
+compiled languages.}} the code is equally useful to a programmer using an
+Algol-like language. The routines are short. Tradeoffs were made for brevity and
+against twenty- and thirty-percent improvements in efficiency. There are no
+interfaces; all routines operate on the array $x[1\ltdot n].$ There shot, clean,
+correct routines provide a useful starting point for programmers without a
+better library.
+
+The routines themselves are less than half the program text; the remainder is a
+black-box correctness test. (Scaffolding is often this big. In Chapter 13 of
+{\it The Mythical Man Month}, Fred Brooks states that there might be ``half as
+much code in scaffolding as there is in product''; in Section 1.4.1 of {\it
+Fundamental Algorithms\/} Knuth raised that to as much scaffolding as delivered
+code.) The tests all have the same structure: an input is constructed, the
+routine is called, and the answer is then checked for correctness. The progress
+of the tests is reported as they are run. This is helpful for locating any
+error, and encouraging for the runs that report no errors --- at least you know
+they did something. Most tests are run for all values of $n$ in $0\ltdot{\it
+bign}$, where ${\it bign}=12;$ at most $O(n^3)$ work is performed at each value
+of $n$. The sorting test examines $n!$ random permutations for $n$ in $0\ltdot
+{\it smalln},$, where ${\it smalln}=5.$ That gives a high probability of
+uncovering any permutation on which the algorithm fails. (Most random tests
+aren't so through.) The complete program required seven minutes of CPU time on
+a VAX-11/750.
+
+With the exception of the selection routine discussed earlier (and described in
+detail in Column 15), I wrote the Awk routines by transliterating psedocode
+published in previous columns. Those columns give informal correctness
+arguemtns using techniques of program verification. Ihad tested all the routines
+before publication, using a combination of watching, measuring and black-box
+testing; some columns report bugs I found during that process. I therefore
+wasn't suprised when testing uncovered no logical errors in the routines; I
+fixed a few syntax errors in less than a minute each.
+
+Testing did, however, uncover two interesting bugs in Awk. The first manifested
+itself as an infinite loop in the binary search routine {\it bsearch}. When I
+extracted from Appendix 2 a tiny scaffolding program like the one in Section
+3.1, the infinite loop was obvious. I presented the resulting fifteen linee to
+Brian Kernighan, who was adding several new features to Awk at that time. I was
+unsure of whether the bug was in my program or his, but hopeful enough that it
+might be Kernighan's fault to risk certain ridicule if the fault were mine.
+Changing the line
+\begindisplay
+\.{else return m}
+\enddisplay
+to
+\begindisplay
+\.{else \{ print "returning"; return m \}}
+\enddisplay
+showed that th Awk interpreter's new functions had the common bug of not
+properly executing a \.{return} from within a loop. After the bug was
+identified, Kernighan fixed Awk within ten minutes.
+
+I then ran back to my terminal to watch with glee as the test of binary search
+ran successfully for all $n$ in the range $1\ltdot9.$ I was heartbroken to see
+the test fail for $n=10.$ At that time, ${\it bign}=10.$ Because I couldn't
+think of any good reason why should fail at $n=10,$ I re-ran the test ${\it
+bign}=9$ and ${\it bign}=11,$ hoping that the problem was in the last test.
+Unfortunately, the code consistently worked properly up through 9 and failed at
+10 and 11. What changes between 9 and 10?
+
+Awk variables can be either numbers or strings. The Awk manual states that if
+the two operands in a comparison are both numeric then they are compared as
+numbers, otherwise they are compared as strings. Becasuse of unusaly
+circumstances in this program involving functins calls, the interpreter
+inappropriately observed that the string ``\.{10}'' precedes the string
+``\.{5}''. I created a six-line program that tickled this bug, and Kernighan
+had the problem fixed the next day.
+
+\section Principles
+
+This column has touched on several tasks common in the programmer's day-to-day
+life. None is particularly glamorous, but all are important.
+
+{\it Scaffolding.}\quad This column illustrates prototype routines, print
+routines to observe program behavior, measurement code, and component tests.
+Other scaffolding includes test data (dummy files and data structures) and
+program ``stubs'' that facilitate top-down testing by simulating unfinished
+routines.
+
+{\it Special-Purpose Language.}\quad The right language can make a program an
+order of magnitude shorter and cleaner. Exploit the strengths of the languages
+available to you. Awk is a fine language for prototyping algorithms; its
+associative arrays let you simulate many common data structure; its fields,
+implicit loop, and pattern-action pairs simplify input/output; implicit
+declaration and initialization of vaiables lead to succint programs. Chapter 7
+of {\sl The AWK Programming Language\/} (cited in Section 2.6) present more
+information on using Awk to experiment with algorithms. Section 13.2 and
+Solution 14.6 give Awk scaffolding for two subtle algorithms.
+
+{\it Testing and Debugging.}\quad This column concentrated on testing and
+debugging small components. White-box views of the computation initially show
+that the code behaves as we expected. Black-box tests are later used to
+increase our confidence in the correctness of the routine.
+
+{\it Bug Reports.}\quad The component test of the subroutine library
+inadvertently turned into a system test for Awk's recently added functions.
+Kernighan call this the ``new user phenomenon'': each new user of a fresh
+system uncovers a new class of bugs. I pushed harder on functions that previous
+users. On the two occasions when the 300-line program tickled an Awk bug, I
+reproduced the bizarre behavior in a short program before reporting the problem
+(fifteen lines in one case, sis in the other). Stu Feldman of Bell
+Communications Research speaks from years of experience maintaining a Fortran
+compiler:
+
+{\medskip\more
+The program author, support organization, and your friends will all ignore you
+if you send a bug report and a 25{,}000 line program listing. It took me several
+years to teach [name changed to protect the guilty] this fact and get him to
+work on it. Techniques involve staring at code, intuition, bisection (try
+throwing out the last half of the subroutine), etc.
+\medskip}
+
+\noindent If you find a bug, report it with the smallest possible test case.
+
+{\it The Role of Program Verification.}\quad I need all the help I can get in
+making a correct program. Informal verification techniques help me write the
+code and check it before I ever implement it, and testing is crucial after I
+have the code in hand. Because I'm getting better at verification, I'm no longer
+astounded when a small but complex routine works the first tiem. If it doesn't
+work, I use testing and debugging to help me locate the invalid assertions and
+fix them along with the code (I'm usually able to resist those urges to ``just
+change it until it works'' --- I try to write only programs that I understand).
+Appendix 2 illustrates two uses of assertions: the pre- and postconditions of a
+routine provide a precise and concise specification of it behavior, and
+assertion comments in the code (especially loop invariants) explain the
+algorithms. For a more direct application of verification ideas to testing, see
+Proglem 3.
+
+\section Problems
+
+\vskip-\medskipamount
+
+\prob
+Build scaffolding that allows you to observe the behavior of routines in
+Appendix 2. Heaps are particularly intersting to watch.
+
+\prob
+Improve the {\it assert\/} routine of Appendix 2 so that it tell more about the
+location of error.
+
+\prob
+The {\it assert\/} routine can also be used in white-box testing: change the
+assertion that are presently comments into calls to the assert routine. Rewrite
+assertions in that form for one of the routines in Appendix 2. Does that
+strengthen the tests in the sense of Problem 4?
+
+\prob
+Evaluate the quality of the black-box test in Appendix 2 by introducing bugs
+into the various routines. Which bugs are caught by which tests?
+
+\prob
+Rewrite the programs in this column in another language. How long are they
+compared to the Awk code?
+
+\prob
+Write scaffolding that allows you to tiem the performance of various algorithms
+in Appendix 2. How can you present the results graphically?
+
+\prob
+Build a subroutine library like that in Appendix 2 for a different problem
+domain, such as graph algorithms. Strive for short, correct algorithms that are
+also reasonabley efficient.
+
+\prob
+By teh literal specifications in Appendix 2, thsi is a correct sorting
+algorithm:
+\begindisplay
+\vbox{
+\+\bf for $(i=1;\ i\le n;\ i\PP)$\cr
+\+\quad$x[i]=i;$\cr}
+\enddisplay
+A sorting algorithm must, of course, also guarantee that the output array is a
+permutation of the input. The sorting, heap, and selection algorithms in
+Appendix 2 guarantee this property by altering the array only by using the
+{\it swap\/} routine. How would you test a less structured program for the
+permutation property?
 
 \bye
