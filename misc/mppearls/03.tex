@@ -15,7 +15,7 @@ Most programmers spend a lot of time testing and debugging, but those activities
 don't often get much attention in writing. This column describes how I tested
 and debugged a few hard subroutines, with an emphasis of the {\it scaffolding\/}
 I used in the process. The scaffolding around a building provides access to
-components that workers couldn't otherwise reach. Software scaffolding consiste
+components that workers couldn't otherwise reach. Software scaffolding consists
 of temporary programs and data that give programmers access to system
 components. The scaffolding isn't delivered to the customer, but it is indispensible during testing and debugging.
 
@@ -24,10 +24,10 @@ Enough background, and on to two painful stories.
 {\medskip\more
 {\it Confession 1\/}. Several years ago I needed a selection routine in the
 middle of a 500-line program. Because I knew the program was hard, I copied
-a 20-line subroutine from an excellent algorithm text. The program usally
-ran correctly, but failed every now and then. After two days I debugging, I
+a 20-line subroutine from an excellent algorithm text. The program usually
+ran correctly, but failed every now and then. After two days of debugging, I
 tracked the bug down to the selection routine. During most of the debugging,
-that routine was above supicion: I was convinced by the book's informal proof
+that routine was above suspicion: I was convinced by the book's informal proof
 of the routine's correctness, and I had checked my code several times to make
 sure it matched the book. Unfortunately, a ``$<$'' in the book should have been
 a ``$\le$''. I was a little upset with the authors, but a lot madder at myself:
@@ -36,9 +36,9 @@ displayed the bug, yet I wasted two days on it.
 \smallskip\more
 {\it Confession 2\/}. Several weeks before I firs wrote this column I was
 working on a book of my own, which included a selection routine. I used
-techniques of a program verification to derive the code, so I was sure it
-was correct. After I placed the routine in the text, I wondered it was even
-worth my time to test it. I hemmed and hawed, trying to decide......
+techniques of program verification to derive the code, so I was sure it
+was correct. After I placed the routine in the text, I wondered whether it was
+even worth my time to test it. I hemmed and hawed, trying to decide......
 \medskip}
   
 \noindent The conclusion and another confession come later in this column.
@@ -62,7 +62,7 @@ structure of the program, hence viewing it as a black box, the tester presents
 a series of inputs and analyzes the out for correctness. This section is about
 a testing approach at the opposite extreme: the code is in a white box,%
 {\eightpoint\parindent=8pt\footnote\dag{Logic dictates that the boxes should be
-``opaque'' and ``transparent'' (``painted'' and ``glass''?), but I'll stick
+``opaque'' and ``transparent'' (``painted'' and ``glass'' ?), but I'll stick
 with the traditional and illogical black and white.}} and we watch it as it
 works.
 
@@ -95,8 +95,8 @@ $1=="search" { t = bsearch($2); print "result:", t }
 \enddisplay
 The Awk binary search function has the single argument $t$; later elements in
 the parameter list are the local variables. It should return an index of $t$ in
-$x[1\ltdot n]$ if $t$ is present in the array, and zero otherwise. The {\it
-print\/} statement traces the values of $l$, $m$ and $u$ throughout the search
+$x[1\ltdot n]$ if $t$ is present in the array, and zero otherwise. The
+\.{print} statement traces the values of $l$, $m$ and $u$ throughout the search
 (the lower end, middle, and upper end of the current range.) I indicate that it
 is scaffolding by placing it in the left margin. Can you spot any problems with
 the code?
@@ -104,8 +104,8 @@ the code?
 The bottom five lines of the program are Awk ``pattern-action'' pairs. If the
 input typed by the user matches the pattern on the left, then the code within
 brackets on the right is executed. The pattern in the first pair is ture if the
-first field of the input line typed by the user ({\tt\$1}) is |fill|. On such
-lines, the number in the second field ({\tt\$2}) is assigned to the variable
+first field of the input line typed by the user (\.{\$1}) is \.{fill}. On such
+lines, the number in the second field (\.{\$2}) is assigned to the variable
 $n,$ and the {\bf for} loop fills $n$ values of the array $x.$
 
 Here's a transcript of a run of the program. I first typed \.{fill 5}, and the
@@ -197,8 +197,8 @@ The search for 20 then correctly reports that it is not in the array.
 I'd be {\it really\/} surprised if someone shows me a bug in the final binary
 search program. I used program verification techniques to prove the code
 correct, and then I beat on it with the black-box test reproduced in Appendix 2.
-Simple observation like thos described in this section reassure me that the code
-indeed behaves as I thought. That reassurance cost just six lines of Awk
+Simple observation like those described in this section reassure me that the
+code indeed behaves as I thought. That reassurance cost just six lines of Awk
 scaffolding beyond the binary search code.
 
 The techniques of this section are simple and well known. Unfortunately,
@@ -212,7 +212,7 @@ build a small version in a supportive language like Awk.
 
 The next program uses Hoare's algorithm to {\it select\/} the $k^{\rm th}$-%
 smallest element of the array $x[1\ltdot n].$ Its job is to permute the elements
-of $x$ so that $x[1\ltdot k-1]\le x[k]\le x[k+1\le n].$ We will study this
+of $x$ so that $x[1\ltdot k-1]\le x[k]\le x[k+1\ltdot n].$ We will study this
 routine in detail in Column 15:
 \begindisplay
 \vbox{
@@ -231,8 +231,8 @@ routine in detail in Column 15:
 \enddisplay
 The code was easy to prove correct; it passed all tests on the first try.
 
-That program uses ``tail recursion'': the recursive call is last statement in
-the procedure. Tail recursion can always be transformed to iteration by
+That program uses ``tail recursion'': the recursive call is the last statement
+in the procedure. Tail recursion can always be transformed to iteration by
 replacing subroutine call by assignment and loop statements. The next version
 replaces the recursive routine with a {\bf while} loop, and this returns us to
 my next confession. My first mistake, of course, was in debugging whether to
@@ -241,7 +241,7 @@ program or label it with ``WARNING --- UNTESTED CODE''. The second mistake is in
 the selection routine itself; any ideas?
 \begindisplay
 \vbox{
-\+\bf function ${\it swap}(i,j,t)\ \{\ t\leftarrow x[i];\ x[i]\leftarrow x[i];\ x[j]\leftarrow t\ \}$\cr
+\+\bf function ${\it swap}(i,j,t)\ \{\ t\leftarrow x[i];\ x[i]\leftarrow x[j];\ x[j]\leftarrow t\ \}$\cr
 \+\bf function ${\it select}(k,l,u,i,m)\ \{$\cr
 \+\quad$l\leftarrow1;\ u\leftarrow n$\cr
 \+\quad\bf while $(l\le u)\ \{$\cr
@@ -253,8 +253,8 @@ the selection routine itself; any ideas?
 \+\qquad\quad\bf if $(x[i]<x[l])$\cr
 \+\qquad\qquad${\it swap}(\PP m,i)$\cr
 \+\qquad${\it swap}(l,m)$\cr
-\+\qquad\bf if \phantom{else} &$(m<k)$ ${\it select}(m+1,u,k)$\cr
-\+\qquad\bf else if &$(m>k)$ ${\it select}(l, m-1, k)$\cr
+\+\qquad\bf if \phantom{else} &$(m<k)$ $l=m+1$\cr
+\+\qquad\bf else if &$(m>k)$ $u=m-1$\cr
 \+\quad$\}$\cr
 \+$\}$\cr}
 \enddisplay
@@ -314,7 +314,7 @@ print
 !endgroup
 \endgroup}
 \enddisplay
-Although the code produces the correct answer, the trace is supicious. Can you
+Although the code produces the correct answer, the trace is suspicious. Can you
 find the hint of the bug in that history?
 
 We'll corner the bug in a more perverse array, built and displayed as follows.
@@ -354,7 +354,7 @@ program computed many correct answers only because the bug was often hidden by
 the randomizing {\it swap\/} statement. Randomization, for better or worse,
 often compensates for bugs.)
 
-Apart from its correctness problem, the origianl code ahs a ``performance bug'':
+Apart from its correctness problem, the origianl code has a ``performance bug'':
 even when it gives the right answer, it takes too logn. We'll see in Column 15
 that a correct selection program requires roughly $3.4n$ comparisions to find
 the median of an $n$-element array. These test (and a dozen more like them) show
@@ -380,9 +380,9 @@ behave properly as I conducted the real tests.
 
 \section A Subroutine Library
 
-Before this column was originally published in {\it Communications of the
+Before this column was originally published in {\sl Communications of the
 ACM\/}, many programmers had mentioned that they used pseudocode published in
-previous columns as a basic for implementing an algorithm i their favorite
+previous columns as a basic for implementing an algorithm in their favorite
 language. For some time I had wanted to collect the algorithms into a little
 library, but the code was always too long. When the Awk language acquired
 functions in early 1985, I realized that it was the ideal vehicle for
@@ -404,14 +404,14 @@ associative arrays renders it orders of magnitude slower than conventional
 compiled languages.}} the code is equally useful to a programmer using an
 Algol-like language. The routines are short. Tradeoffs were made for brevity and
 against twenty- and thirty-percent improvements in efficiency. There are no
-interfaces; all routines operate on the array $x[1\ltdot n].$ There shot, clean,
-correct routines provide a useful starting point for programmers without a
-better library.
+interfaces; all routines operate on the array $x[1\ltdot n].$ These short,
+clean, correct routines provide a useful starting point for programmers without
+a better library.
 
 The routines themselves are less than half the program text; the remainder is a
 black-box correctness test. (Scaffolding is often this big. In Chapter 13 of
-{\it The Mythical Man Month}, Fred Brooks states that there might be ``half as
-much code in scaffolding as there is in product''; in Section 1.4.1 of {\it
+{\sl The Mythical Man Month}, Fred Brooks states that there might be ``half as
+much code in scaffolding as there is in product''; in Section 1.4.1 of {\sl
 Fundamental Algorithms\/} Knuth raised that to as much scaffolding as delivered
 code.) The tests all have the same structure: an input is constructed, the
 routine is called, and the answer is then checked for correctness. The progress
@@ -420,7 +420,7 @@ error, and encouraging for the runs that report no errors --- at least you know
 they did something. Most tests are run for all values of $n$ in $0\ltdot{\it
 bign}$, where ${\it bign}=12;$ at most $O(n^3)$ work is performed at each value
 of $n$. The sorting test examines $n!$ random permutations for $n$ in $0\ltdot
-{\it smalln},$, where ${\it smalln}=5.$ That gives a high probability of
+{\it smalln},$ where ${\it smalln}=5.$ That gives a high probability of
 uncovering any permutation on which the algorithm fails. (Most random tests
 aren't so through.) The complete program required seven minutes of CPU time on
 a VAX-11/750.
@@ -428,16 +428,16 @@ a VAX-11/750.
 With the exception of the selection routine discussed earlier (and described in
 detail in Column 15), I wrote the Awk routines by transliterating psedocode
 published in previous columns. Those columns give informal correctness
-arguemtns using techniques of program verification. Ihad tested all the routines
-before publication, using a combination of watching, measuring and black-box
-testing; some columns report bugs I found during that process. I therefore
-wasn't suprised when testing uncovered no logical errors in the routines; I
-fixed a few syntax errors in less than a minute each.
+arguements using techniques of program verification. I had tested all the
+routines before publication, using a combination of watching, measuring and
+black-box testing; some columns report bugs I found during that process. I
+therefore wasn't suprised when testing uncovered no logical errors in the
+routines; I fixed a few syntax errors in less than a minute each.
 
 Testing did, however, uncover two interesting bugs in Awk. The first manifested
 itself as an infinite loop in the binary search routine {\it bsearch}. When I
 extracted from Appendix 2 a tiny scaffolding program like the one in Section
-3.1, the infinite loop was obvious. I presented the resulting fifteen linee to
+3.1, the infinite loop was obvious. I presented the resulting fifteen lines to
 Brian Kernighan, who was adding several new features to Awk at that time. I was
 unsure of whether the bug was in my program or his, but hopeful enough that it
 might be Kernighan's fault to risk certain ridicule if the fault were mine.
@@ -463,7 +463,7 @@ Unfortunately, the code consistently worked properly up through 9 and failed at
 
 Awk variables can be either numbers or strings. The Awk manual states that if
 the two operands in a comparison are both numeric then they are compared as
-numbers, otherwise they are compared as strings. Becasuse of unusaly
+numbers, otherwise they are compared as strings. Becasuse of unusal
 circumstances in this program involving functins calls, the interpreter
 inappropriately observed that the string ``\.{10}'' precedes the string
 ``\.{5}''. I created a six-line program that tickled this bug, and Kernighan
@@ -519,7 +519,7 @@ throwing out the last half of the subroutine), etc.
 making a correct program. Informal verification techniques help me write the
 code and check it before I ever implement it, and testing is crucial after I
 have the code in hand. Because I'm getting better at verification, I'm no longer
-astounded when a small but complex routine works the first tiem. If it doesn't
+astounded when a small but complex routine works the first time. If it doesn't
 work, I use testing and debugging to help me locate the invalid assertions and
 fix them along with the code (I'm usually able to resist those urges to ``just
 change it until it works'' --- I try to write only programs that I understand).
@@ -527,7 +527,7 @@ Appendix 2 illustrates two uses of assertions: the pre- and postconditions of a
 routine provide a precise and concise specification of it behavior, and
 assertion comments in the code (especially loop invariants) explain the
 algorithms. For a more direct application of verification ideas to testing, see
-Proglem 3.
+Problem 3.
 
 \section Problems
 
@@ -556,7 +556,7 @@ Rewrite the programs in this column in another language. How long are they
 compared to the Awk code?
 
 \prob
-Write scaffolding that allows you to tiem the performance of various algorithms
+Write scaffolding that allows you to time the performance of various algorithms
 in Appendix 2. How can you present the results graphically?
 
 \prob
@@ -565,7 +565,7 @@ domain, such as graph algorithms. Strive for short, correct algorithms that are
 also reasonabley efficient.
 
 \prob
-By teh literal specifications in Appendix 2, thsi is a correct sorting
+By the literal specifications in Appendix 2, thsi is a correct sorting
 algorithm:
 \begindisplay
 \vbox{
