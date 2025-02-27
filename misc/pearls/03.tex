@@ -2,13 +2,13 @@
 % Confessions of a Coder
 % Jon Bentley
 %
-% Part I: Algorithms
+% Part I: Programming Technigues
 % Column 3: Confessions of a Coder
 
-\input mppearls
+\input pearls
 
 \pageno=27
-\columntitle 3:confessions of a coder
+\column 3:Confessions of a Coder
 
 \noindent
 Most programmers spend a lot of time testing and debugging, but those activities
@@ -17,13 +17,15 @@ and debugged a few hard subroutines, with an emphasis of the {\it scaffolding\/}
 I used in the process. The scaffolding around a building provides access to
 components that workers couldn't otherwise reach. Software scaffolding consists
 of temporary programs and data that give programmers access to system
-components. The scaffolding isn't delivered to the customer, but it is indispensible during testing and debugging.
+components. The scaffolding isn't delivered to the customer, but it is
+indispensible during testing and debugging.
 
 Enough background, and on to two painful stories.
 
-{\medskip\more
-{\it Confession 1\/}. Several years ago I needed a selection routine in the
-middle of a 500-line program. Because I knew the program was hard, I copied
+\medskip
+\more
+{\it Confession 1\/}.\enspace Several years ago I needed a selection routine in
+the middle of a 500-line program. Because I knew the program was hard, I copied
 a 20-line subroutine from an excellent algorithm text. The program usually
 ran correctly, but failed every now and then. After two days of debugging, I
 tracked the bug down to the selection routine. During most of the debugging,
@@ -34,12 +36,12 @@ a ``$\le$''. I was a little upset with the authors, but a lot madder at myself:
 fifteen minutes worth of scaffolding around the selection routine would have
 displayed the bug, yet I wasted two days on it.
 \smallskip\more
-{\it Confession 2\/}. Several weeks before I firs wrote this column I was
-working on a book of my own, which included a selection routine. I used
+{\it Confession 2\/}.\enspace Several weeks before I firs wrote this column I
+was working on a book of my own, which included a selection routine. I used
 techniques of program verification to derive the code, so I was sure it
 was correct. After I placed the routine in the text, I wondered whether it was
 even worth my time to test it. I hemmed and hawed, trying to decide......
-\medskip}
+\medskip
   
 \noindent The conclusion and another confession come later in this column.
 
@@ -241,7 +243,8 @@ program or label it with ``WARNING --- UNTESTED CODE''. The second mistake is in
 the selection routine itself; any ideas?
 \begindisplay
 \vbox{
-\+\bf function ${\it swap}(i,j,t)\ \{\ t\leftarrow x[i];\ x[i]\leftarrow x[j];\ x[j]\leftarrow t\ \}$\cr
+\+\bf function ${\it swap}(i,j,t)\ \{\ t\leftarrow x[i];\ x[i]\leftarrow x[j];
+  \ x[j]\leftarrow t\ \}$\cr
 \smallskip
 \+\bf function ${\it select}(k,l,u,i,m)\ \{$\cr
 \+\quad$l\leftarrow1;\ u\leftarrow n$\cr
@@ -291,8 +294,8 @@ print
 !endgroup
 \endgroup}
 \enddisplay
-The command \.{sel 3} partitions the array so that the third-smallest element is
-in $x[3]$. It displays the computation as it progresses, and also checks the
+The command \.{sel 3} partitions the array so that the third-smallest element
+is in $x[3]$. It displays the computation as it progresses, and also checks the
 correctness of the final answer. The subsequent \.{print} command then displays
 the partitioned array.
 \begindisplay
@@ -315,8 +318,8 @@ print
 !endgroup
 \endgroup}
 \enddisplay
-Although the code produces the correct answer, the trace is suspicious. Can you
-find the hint of the bug in that history?
+Although the code produces the correct answer, the trace is suspicious.
+Can you find the hint of the bug in that history?
 
 We'll corner the bug in a more perverse array, built and displayed as follows.
 \begindisplay
