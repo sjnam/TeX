@@ -8,20 +8,6 @@
 \input luamplib.sty
 \input pearls
 
-% Token for \aftergroup to reset color
-\def\colorstackpop{\pdfextension colorstack 0 pop}
-%\def\setcmykcolor#1{%
-%  \pdfextension colorstack 0 push {#1 k #1 K}%
-%  \aftergroup\colorstackpop
-%}
-\def\setrgbcolor#1{%
-  \pdfextension colorstack 0 push {#1 rg #1 RG}%
-  \aftergroup\colorstackpop
-}
-%\def\black{\setcmykcolor{0 0 0 1}}
-%\def\blue{\setcmykcolor{1 1 0 0}}
-\def\red{\setrgbcolor{0.8 0 0}}
-
 \pageno=159
 \column 15:Selection
 
@@ -439,53 +425,46 @@ grasp of most programmers.
 
 \section Problems
 
-\vskip-\medskipamount
-
 \prob
 The {\it select} partitions about a random element in the subrange. Study the
 effectiveness of using other partitioning elements (such as the median of the
 first, middle and last elements in the array or an appropriate representative
 of a large sample).
-
 \prob
 The {\it select} algorithm and its derivatives aren't always the best way to
 implement selection. How would you select the second-smallest element in a
 three-element array? What if $k=6$ and $n=11?$ What if $k=1000$ and the $n=
 1000{,}000$ input values were stored on a reel of magnetic tape?
-
 \prob
 How would you find the median of one millian values stored on magnetic tape if
 your computer had only one tape drive and about a dozen words of main memory?
 How would you use a second tape drive?
-
 \prob
 Although {\it select} runs in $O(n)$ average time, it requires $O(n^2)$ time in
 the worst case. Describe a selection algorithm with $O(n)$ worst-case time.
-
 \prob
 Perform experiments and display data for the following problems.
 
-\pitm{a.} The discussion of run time concentrated on the number of comparisons
-used; that is a good but sometimes imperfect indicator of cost on a real
-machine. Implement a selection algorithm and measure its run time. Any
+\moreitem{a.} The discussion of run time concentrated on the number of
+comparisons used; that is a good but sometimes imperfect indicator of cost on a
+real machine. Implement a selection algorithm and measure its run time. Any
 surprises?
 
-\pitm{b.} Delete randomizing {\it swap\/} statement from the {\it select}
+\moreitem{b.} Delete randomizing {\it swap\/} statement from the {\it select}
 program. How does the average run time change? Describe an input that achieves
 the worst possible run time.
 
-\pitm{c.} The first graph in Section 15.3 held $k$ fixed at $(n+1)/2$ and varied
-$n,$ and the next graph held $n$ fixed at 1{,}000{,}001 and varied $k.$ Describe
-the function of two variables that tells the average number of comparisons
-needed to find the $k^{\rm th}$-smallest element in a set of $n$ distinct
-elements. In particular, what is the shape of the curve induced by varying $k$
-when $n$ is fixed? When $k$ is fixed at a constant fraction of $n,$ how does
-that curve behave?
+\moreitem{c.} The first graph in Section 15.3 held $k$ fixed at $(n+1)/2$ and
+varied $n,$ and the next graph held $n$ fixed at 1{,}000{,}001 and varied $k.$
+Describe the function of two variables that tells the average number of
+comparisons needed to find the $k^{\rm th}$-smallest element in a set of $n$
+distinct elements. In particular, what is the shape of the curve induced by
+varying $k$ when $n$ is fixed? When $k$ is fixed at a constant fraction of $n,$
+how does that curve behave?
 
-\pitm{d.} Our analyses assumed that the input array contained no duplicated
+\moreitem{d.} Our analyses assumed that the input array contained no duplicated
 elements. How does {\it select} perform if some array elements appear many
 times? How can that performance be improved?
-
 \prob
 This problem mathematically investicates the performance of {\it select} when
 it is called with $k=1,$ that is, when it selects the least element in the

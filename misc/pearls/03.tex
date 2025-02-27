@@ -22,7 +22,7 @@ indispensible during testing and debugging.
 
 Enough background, and on to two painful stories.
 
-\medskip
+\smallskip
 \more
 {\it Confession 1\/}.\enspace Several years ago I needed a selection routine in
 the middle of a 500-line program. Because I knew the program was hard, I copied
@@ -507,13 +507,12 @@ reproduced the bizarre behavior in a short program before reporting the problem
 Communications Research speaks from years of experience maintaining a Fortran
 compiler:
 
-{\medskip\more
+{\narrower
 The program author, support organization, and your friends will all ignore you
 if you send a bug report and a 25{,}000 line program listing. It took me several
 years to teach [name changed to protect the guilty] this fact and get him to
 work on it. Techniques involve staring at code, intuition, bisection (try
-throwing out the last half of the subroutine), etc.
-\medskip}
+throwing out the last half of the subroutine), etc.\par}
 
 \noindent If you find a bug, report it with the smallest possible test case.
 
@@ -533,39 +532,30 @@ Problem 3.
 
 \section Problems
 
-\vskip-\medskipamount
-
 \prob
 Build scaffolding that allows you to observe the behavior of routines in
 Appendix 2. Heaps are particularly intersting to watch.
-
 \prob
 Improve the {\it assert\/} routine of Appendix 2 so that it tell more about the
 location of error.
-
 \prob
 The {\it assert\/} routine can also be used in white-box testing: change the
 assertion that are presently comments into calls to the assert routine. Rewrite
 assertions in that form for one of the routines in Appendix 2. Does that
 strengthen the tests in the sense of Problem 4?
-
 \prob
 Evaluate the quality of the black-box test in Appendix 2 by introducing bugs
 into the various routines. Which bugs are caught by which tests?
-
 \prob
 Rewrite the programs in this column in another language. How long are they
 compared to the Awk code?
-
 \prob
 Write scaffolding that allows you to time the performance of various algorithms
 in Appendix 2. How can you present the results graphically?
-
 \prob
 Build a subroutine library like that in Appendix 2 for a different problem
 domain, such as graph algorithms. Strive for short, correct algorithms that are
 also reasonabley efficient.
-
 \prob
 By the literal specifications in Appendix 2, thsi is a correct sorting
 algorithm:
