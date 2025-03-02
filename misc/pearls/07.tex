@@ -1,0 +1,484 @@
+% Programming Pearls
+% Jon Bentley
+%
+% Part II : Performance
+% Column 7: Algorithm Design Techniques
+
+\input luamplib.sty
+\input pearls
+
+\def\lhead{\eightrm PROGRAMMING PEARLS\hfill COLUMN \colno}
+\pageno=69
+\column 7:Algorithm Design Techniques
+
+\noindent
+Column 2 describes the ``everyday'' impact that algorithm design can have on
+programmers: an algorithmic view of a problem gives insights that can make a
+program simpler to understand and to write. In this column we'll study a
+contribution of the field that is less frequent but more impressive:
+sophisticated algorithmic methods sometimes lead to dramatic performance
+improvements.
+
+This column is built around one small problem, with an emphasis on the algorithms
+that sovle it and the techniques used to design the algorithms. Some of the
+algorithms are a little complicated, but with justification. While the first
+program we'll study takes thirty-nine days to solve a problem of size ten
+thousand, the final one solves the same problem in less than a second.
+
+\section The Problem and a Simple Algorithm
+
+The problem arose in one-dimensional pattern recognition; I'll describe its
+history later. The input is a vector $x$ of $n$ real numbers; the output is the
+maximum sum found in any {\sl contiguous\/} subvector of the input. For
+instance, if the input vector is
+$$
+\mplibcode
+input boxes
+beginfig(0);
+boxjoin(a.se=b.sw; a.ne=b.nw);
+boxit.a(btex \strut$31$ etex);
+boxit.b(btex $-41$ etex);
+boxit.c(btex 59 etex);
+boxit.d(btex 26 etex);
+boxit.e(btex $-53$ etex);
+boxit.f(btex 58 etex);
+boxit.g(btex 97 etex);
+boxit.h(btex $-93$ etex);
+boxit.i(btex $-23$ etex);
+boxit.j(btex 84 etex);
+drawboxed(a,b,c,d,e,f,g,h,i,j);
+pair A,B;
+A=c.c-(0,6mm);
+label.bot(btex $3$ etex, A);
+drawarrow A -- c.s;
+B=g.c-(0,6mm);
+label.bot(btex $7$ etex, B);
+drawarrow B -- g.s;
+endfig;
+\endmplibcode
+$$
+then the program returns the sum of $x[3\ltdot7],$ or 187. The problem is easy
+when all the numbers are positive -- the maximum subvector is the entire input
+vector. The rub comes when some of the numbers are negative: should we include a
+negative number in hopes that the positive numbers to its sides will compensate
+for its negavie contribution? To complete the definition of the probelm, we'll
+say that when all input are negative the maximum sum subvector is the empty
+vector, which has sum zero.
+
+The obvious program for this task iterates over all pairs of integers $l$ and $u$
+satisfying $1\le l\le u\le n;$ for each pair it computes the sum of
+$x[l\ltdot u]$ and checks whether that sum is than the maximum sum so far. The
+pseudocode for Algorithm 1 is
+\begindisplay
+\vbox{
+\+${\it MaxSoFar}\leftarrow 0.0$\cr
+\+\bf for $l\leftarrow1$ to $n$ do\cr
+\+\quad\bf for $u\leftarrow1$ to $n$ do\cr
+\+\qquad${\it Sum}\leftarrow 0.0$\cr
+\+\qquad\bf for $i\leftarrow l$ to $u$ do\cr
+\+\qquad\quad${\it Sum}\leftarrow {\it Sum}+x[i]$\cr
+\+\qquad\tt /* {\it Sum} now contains the sum of $x[l\ltdot u]$ */\cr
+\+\qquad${\it MaxSoFar}\leftarrow {\it max}({\it MaxSoFar}, {\it Sum})$\cr}
+\enddisplay
+This code is short, straightforward, and easy to understand. Unfortunately, it
+has the several disadvantage of beging slow. On the computer I typically use, for
+instance, the code takes about an hour if $n$ is 1000 and thirty-nine days if $n$
+is 10{,}000; we'll get to timing details in Section 7.5.
+
+Those times are anecdotal; we get a different kind of feeling for the algorithm's
+efficiency using the ``big-oh'' notation described in Section 5.1. The statements
+in the outermost loop are executed exactly $n$ times, and those in the middle
+loop are executed at most $n$ times in each execution of the outer loop.
+Multiflying those two factors of $n$ shows that the four lines contains in the
+middle loop are executed $O(n^2)$ times. The loop in those four lines is never
+executed more than $n$ times, so its cost is $O(n).$ Multiplying the cost per
+inner loop times its number of executions shows that the cost of the entire
+program is proportional to $n$ cubed, so we'll refer to this as a cubic
+algorithm.
+
+This example illustrates the technique of big-oh analysis of run time and many
+of its strengths and weaknesses. Its primary weakness is that we still don't
+really know the amount of time the program will take for any particular input;
+we just know that the number of steps it executes is $O(n^3).$ Thas weakness is
+often compensated for by two strong points of the method. Big-oh analyses are
+usually easy to perform (as above), and the asymptotic run time is often
+sufficient for a back-of-the-envelope calculation to decide whether or not a
+program is efficient enough for a given application.
+
+The next several sections use asymptotic run time as the only measure of program
+efficiency. If that makes you uncomfortable, peek ahead to Section 7.5, which
+shows that for this program such analyses are extremely informative. Before you
+read further, though, take a minute to try to find a faster algorithm.
+
+\section Two Quadratic Algorithms
+
+Most programmers have same response to Algorithm 1: ``There's an obvious way to
+make it a lot faster.'' There are two obvious ways, however, and if one is
+obvious to a given programmer tehn the other often isn't. Both algorithms are
+quadratic --- they take $O(n^2)$ steps on an input size of $n$ --- and both
+archieve their run time by computing the sum of $s[l\ltdot u]$ in a constant
+number of steps rather than in the $u-l+1$ steps of Algorithm 1. But the two
+quadratic algorithms use very different methods to compute the sum is constant
+time.
+
+The first quadratic algorithm computes the sum quickly by noticing that the sum
+of $x[l\ltdot u]$ has an intimate relationship to the sum previously computed,
+that of $x[l\ltdot u-1].$ Exploiting that relationship leads to Algorithm 2.
+\begindisplay
+\vbox{
+\+${\it MaxSoFar}\leftarrow 0.0$\cr
+\+\bf for $l\leftarrow1$ to $n$ do\cr
+\+\qquad${\it Sum}\leftarrow 0.0$\cr
+\+\qquad\bf for $u\leftarrow l$ to $n$ do\cr
+\+\qquad\quad${\it Sum}\leftarrow {\it Sum}+x[u]$\cr
+\+\qquad\quad\tt /* {\it Sum} now contains the sum of $x[l\ltdot u]$ */\cr
+\+\qquad\quad${\it MaxSoFar}\leftarrow {\it max}({\it MaxSoFar}, {\it Sum})$\cr}
+\enddisplay
+The statements inside the first loop are executed $n$ times, and those inside
+the second loop are executed at most $n$ times on each execution of the outer
+loop, so the total run time is $O(n^2).$
+
+An alternative quadratic algorithm computes the sum in the inner loop by
+accessing a data structure built before the outer loop is ever executed. The $I^
+{\rm th}$ element of {\it CumArray\/} contains the cumulative sum of the values
+in $x[1\ltdot l],$ so the sum of the values in $x[\l\ltdot u]$ can be found by
+computing ${\it CumArray}[u]-{\it CumArray}[l-1].$ This results in the following
+code for Algorithm 2b.
+\begindisplay
+\vbox{
+\+${\it CumArray}[0]\leftarrow 0.0$\cr
+\+\bf for $i\leftarrow1$ to $n$ do\cr
+\+\qquad${\it CumArray}[i]-{\it CumArray}[i-1]+x[i]$\cr
+\+${\it MaxSoFar}\leftarrow 0.0$\cr
+\+\bf for $l\leftarrow1$ to $n$ do\cr
+\+\quad\bf for $u\leftarrow l$ to $n$ do\cr
+\+\qquad\quad${\it Sum}\leftarrow{\it CumArray}[u]-{\it CumArray}[l-1]$\cr
+\+\qquad\quad\tt /* {\it Sum} now contains the sum of $x[l\ltdot u]$ */\cr
+\+\qquad\quad${\it MaxSoFar}\leftarrow {\it max}({\it MaxSoFar}, {\it Sum})$\cr}
+\enddisplay
+This cod takes $O(n^2)$ times; the analysis is exactly the same as the analysis
+of Algorithm 2.
+
+The algorithm we've seen so far inspect all possible pairs of starting and ending
+values of subvectors and consider the sum of the numbers in that subvector.
+Because there are $O(n^2)$ subvectors, any algorithm that inspects all such
+values must take at least quadratic time. Can you think of a way to sidestep this
+problem and achieve an algorithm that runs in less time?
+
+\section A Divide-and-Conquer Algorithm
+
+Our first subquadratic altorithm is complicated; if you get bogged down in its
+details, you won't lose much by skipping to the next section. It is based on the
+following divide-and-conquer schema:
+\smallskip
+{ \narrower\noindent\sl To solve a problem size $n,$ recursively solve two
+  subproblems of size approximately $n/2,$ and combine their solutions to yield
+  a solution to the complete problem.\par}
+\smallskip
+\noindent In this case the original problem deals with a vector of size $n,$
+so the most natural way to divide it into subproblems is to create two
+subvectors of approximately equal size, which we'll call $A$ and $B.$
+$$
+\mplibcode
+input boxes
+beginfig(0);
+boxjoin(a.se=b.sw; a.ne=b.nw);
+boxit.a(btex\strut\hbox to 1.6in{\strut\hfil$A$\hfil}etex); a.dx=0;
+boxit.b(btex\strut\hbox to 1.6in{\strut\hfil$B$\hfil}etex); b.dx=0;
+drawboxed(a,b);
+endfig;
+\endmplibcode
+$$
+We then recursively find the maximum subvectors in $A$ and $B,$ which we'll call
+$M_A$ and $M_B.$
+$$
+\mplibcode
+input boxes
+beginfig(0);
+boxjoin(a.se=b.sw; a.ne=b.nw);
+boxit.a(btex\strut\hbox to 0.2in{\strut\hfil}etex); a.dx=0;
+boxit.b(btex\strut\hbox to 0.7in{\strut\hfil$M_A$\hfil}etex); b.dx=0;
+boxit.c(btex\strut\hbox to 0.7in{\strut\hfil}etex); c.dx=0;
+boxit.d(btex\strut\hbox to 0.3in{\strut\hfil}etex); d.dx=0;
+boxit.e(btex\strut\hbox to 0.5in{\strut\hfil$M_B$\hfil}etex); e.dx=0;
+boxit.f(btex\strut\hbox to 0.8in{\strut\hfil}etex); f.dx=0;
+drawboxed(a,b,c,d,e,f);
+endfig;
+\endmplibcode
+$$
+It is tempting to think that we have solved the problem because the maximum sum
+bsubvector of the entire vector must be either $M_A$ or $M_B,$ and that is almost
+right. In fact, the maximum is either entirely in $A,$ entirely in $B,$ or it
+corsses the border between $A$ and $B;$ we'll call that $M_C$ for the maximum
+{\it crossing\/} the border.
+$$
+\mplibcode
+input boxes
+beginfig(0);
+boxjoin(a.se=b.sw; a.ne=b.nw);
+boxit.a(btex\strut\hbox to 0.8in{\strut\hfil}etex); a.dx=0;
+boxit.b(btex\strut\hbox to 1in{\strut\hfil$M_C$\hfil}etex); b.dx=0;
+boxit.c(btex\strut\hbox to 1.4in{\strut\hfil}etex); c.dx=0;
+drawboxed(a,b,c);
+endfig;
+\endmplibcode
+$$
+Thus our divide-and-conquer algorithm will compute $M_A$ and $M_B$ recursively,
+compute $M_C$ by some other means, and then return the maximum of the three.
+
+That description is almost enouth to write code. All we have left to describe
+is how we'll handle small vectors and how we'll compute $M_C.$ The former is
+easy: the maximum of a one-element vector is the only value in the vector or zero
+if that number is negative, and the maximum of a zero-element vector as
+previously defined to be zero. To compute $M_C$ we observe that its component in
+$A$ is the largest subvector starting at the boundary and reaching into $A,$ and
+similarly for its component in $B.$ Putting these facts together leads to the
+following code for Algorithm 3, which is originally invoked by the procedure call
+\begindisplay
+\vbox{
+\+${\it Answer}[0]\leftarrow {\it MaxSum}(1,n)$\cr
+\+\bf recursive function ${\it MaxSum}(l,u)$\cr
+\+\quad\bf if $l>u$ then\qquad {\tt /* Zero-element vector */}\cr
+\+\qquad\bf return $0.0$\cr
+\+\quad\bf if $l=u$ then\qquad {\tt /* One-element vector */}\cr
+\+\qquad\bf return ${\it max}(0.0,x[l])$\cr
+\+\cr
+\+\quad$M\leftarrow (l+u)/2$\qquad\tt /* $A$ is $x[l\ltdot m]$, $B$ is
+$x[m+1\ltdot u]$ */\cr
+\+\quad\tt /* Find max crossing to left */\cr
+\+\qquad${\it Sum}\leftarrow0.0;\ {\it MaxToLeft}\leftarrow0.0$\cr
+\+\qquad\bf for $i\leftarrow m$ downto $l$ do\cr
+\+\qquad\quad${\it Sum}\leftarrow{\it Sum}+x[i]$\cr
+\+\qquad\quad${\it MaxToLeft}\leftarrow{\it max}({\it MaxToLeft},{\it Sum})$\cr
+\+\quad\tt /* Find max crossing to right */\cr
+\+\qquad${\it Sum}\leftarrow0.0;\ {\it MaxToRight}\leftarrow0.0$\cr
+\+\qquad\bf for $i\leftarrow m+1$ downto $u$ do\cr
+\+\qquad\quad${\it Sum}\leftarrow{\it Sum}+x[i]$\cr
+\+\qquad\quad${\it MaxToRight}\leftarrow{\it max}({\it MaxToRight},{\it Sum})$\cr
+\+\quad${\it MaxCrossing}\leftarrow{\it MaxToLeft}+{\it MaxToRight}$\cr}
+\enddisplay
+\begindisplay
+\vbox{
+%\+\cr
+\+\quad${\it MaxInA}\leftarrow {\it MaxSum}(l,m)$\cr
+\+\quad${\it MaxInB}\leftarrow {\it MaxSum}(m+1,u)$\cr
+\+\quad\bf return ${\it max}({\it MaxCrossing},{\it MaxInA},{\it MaxSum})$\cr}
+\enddisplay
+The code is complicated and easy to get wrong, but it solves the problem in $O(n
+\log n)$ time. There are a number of ways to prove this fact. An informal
+argument observes that the algorithm does $O(n)$ work on each of $O(\log n)$
+levels of recursion. The argument can be made more precise by the use of
+recurrence relations. If $T(n)$ denotes the time to solve a problem of size $n,$
+then $T(1)=O(1)$ and
+\begindisplay
+$T(n) = 2T(n/2)+O(n).$
+\enddisplay
+Problem 11 shows that this recurrence has the solution $T(n)=O(n\log n).$
+
+\section A Scanning Algorithm
+
+We'll now use the simplest kind of algorithm that operates on arrays: it starts
+at the left end (element $x[1]$) and scans through to the right end (element
+$x[n]$), keeping track of the maximum sum subvector seen so far. The maximum is
+initially zero. Suppose that we've solved the problem for $x[1\ltdot l-1];$ how
+can we extend that to a solution for the first $i$ elements? We use reasoning
+similiar to that of the divide-and-conquer algorithm: the maximum sum in the
+first $i$ elements is either the maximum sum in the first $i-1$ elements (which
+we'll call {\it MaxSoFor\/}), or it is that of a subvector that ends in position
+$i$ (which we'll call {\it MaxEndingHere\/}).
+$$
+\mplibcode
+input boxes
+beginfig(0);
+boxjoin(a.se=b.sw; a.ne=b.nw);
+boxit.a(btex\hbox to 0.4in{\strut\hfil}etex); a.dx=0;
+boxit.b(btex\hbox to 0.8in{\strut\hfil\it MaxSoFar\hfil}etex); b.dx=0;
+boxit.c(btex\hbox to 0.7in{\strut\hfil}etex); c.dx=0;
+boxit.d(btex\hbox to 1.3in{\strut\hfil\it MaxEndingHere\hfil}etex); d.dx=0;
+drawboxed(a,b,c,d);
+label.bot(btex $i$ etex, d.se-(1mm,0));
+endfig;
+\endmplibcode
+$$
+Recomputing {\it MaxEndingHere\/} from scratch using code like that in Algorithm
+3 yields yet another quadratic algorithm. We can get around this by using the
+technique that led to Algorithm 2: instead of computing the maximum subvector
+ending in position $i$ from scratch, we'll use the maximum subvector that ends
+in position $i-1.$ This results in Algorithm 4.
+\begindisplay
+\vbox{
+\+${\it MaxSoFar}\leftarrow0.0$\cr
+\+${\it MaxEndingHere}\leftarrow0.0$\cr
+\+\bf for $i\leftarrow1$ to $n$ do\cr
+\+\quad\tt /* \cleartabs&\tt Invariant:$\ {\it MaxEndingHere}$ and {\it MaxSoFar}
+  \cr
+\+\quad&\tt are accurate for $x[1\ltdot i-1]$ */\cr
+\+\quad${\it MaxEndingHere}\leftarrow{\it max}({\it MaxendingHere}+x[i],0.0)$\cr
+\+\quad${\it MaxSoFar}\leftarrow{\it max}({\it MaxSoFar},
+  {\it MaxEndingHere})$\cr}
+\enddisplay
+The key to understanding this program is the variable {\it MaxEndingHere\/}.
+Before the first assignment statement in the loop, {\it MaxEndingHere\/} contains
+the value of the maximum subvector ending in position $i-1;$ the assignment
+statement modifies it to contain the value of the maximum subvector ending in
+position $i.$ The statement increases it by the value $x[i]$ so long as doing so
+keeps it positive; when it goes negative, it is reset to zero because the maximum
+subvector ending at $i$ is the empty vector. Although the code is subtle, it is
+short and fast: its run time is $O(n),$ so we'll refer to it as a linear
+algorithm. David Gries systematically derives and verifies this algorithm in his
+paper ``A Note on the Standard Strategy for Developing Loop Invariants and
+Loops'' in the journal {\sl Science of Computer Programming 2,} pp. 207-214.
+
+\section What Does It Matter?
+
+So far I've played fast and loose with ``big-ohs''; it's time for me to come
+clean and tell about the run times of the programs. I implemented the four
+primary algorithms (all except Algorithm 2b) in the C language on a VAX-11/750,
+timed them, and extrapolated the observed run times to achieve the following
+table.
+
+\section Principles
+
+The history of the problem sheds light on the algorithm design techniques. The
+problem arose in a pattern-matching procedure designed by Ulf Grenander of Brown
+University in the two-dimensioanl form described in Problem 7. In that form, the
+maximum sum subarray was the maximum likelihood estimator of a certain kind of
+pattern in a digitized picture. Because teh two-dimentional problem required
+too much time to solve, Grenander simplified ti to one dimension to gain insight
+into its structure.
+
+Grenander observed that the cubin time of Algorith 1 was prohibitively slow, and
+derived Algorithm 2. In 1977 he described the problem to Michael Shamos of UNILOGIC, Ltd. (then of Carnegie-Mellon University) who overnight designed Algorithm 3.
+When Shamos showed me the problem shortly thereafter, we thought that it was
+probably the best possible; researchers had just shown that several similar
+problems require time propotional to $n\log n.$ A few days later Shamos
+described the problem and its history at a Catnegie-Mellon seminar attended by
+statistician Jay Kadane, who designed Algorithm 4 within a minute. Fortunately,
+we know that there is no faster algorithm: any correct algorithm must take $O(n)$
+time.
+
+Even though the one-dimensional problem is completely solved, Grenander's
+original two-dimensional problem remained open eight years after it was posed, as
+this book went press. Because of the computational expense of all known
+algorithm, Grenander had to abandon that approach to the pattern-matching
+problem. Readers who feel that the linear-time algorithm for the one-dimensional
+problem is ``obvious'' are therefore urged to find an ``obvious'' algorithm for
+Problem 7!
+
+The algorithms in this story were never incorporated into a system, but they
+illustrate important algorithm design techniques that have had substantial
+impact on many systems (see Section 7.9).
+\smallskip
+\more
+{\it Save state to avoid recomputations.}\enspace This simple form of dynamic
+programming arose in Algorithm 2 and 4. By using space to store results, we avoid
+using time to recompute them.
+\smallskip
+\more
+{\it Preprocess information into data structures.}\enspace The {\it CumArray\/}
+sutructure in Algorithm 2b allowed the sum of a subvector to be computed in just
+a couple of operations.
+\smallskip
+\more
+{\it Divide-and-conquer algorithms.}\enspace Algorithm 3 uses a simple form of
+divide-and-conquer; textbooks on algorithm design describe more advanced forms.
+\smallskip
+\more
+{\it Scanning algorithms.}\enspace Problems on arrays can often be solved by
+asking ``how can I extend a solution for $x[1\ltdot i-1]$ to a solution for $x[1
+\ltdot i]$?'' Algorithm 4 stores both the old snaswer and some auxsiliary data to
+compute the new answer.
+\smallskip
+\more
+{\it Cumulatives.}\enspace Algorithm 2b uses a cumulative table in which the $i^
+{\rm th}$ element contains the sum of the first $i$ values of $x$; such tables
+are common when dealing with ranges. In business data processing applications,
+for instance, one find s the sales from March to October by substracting the
+February year-to-date sales from the Octover year-to-date sales.
+\smallskip
+\more
+{\it Lower bounds.}\enspace Algorithm designers sleep peacefully only when they
+know their algorithms are the best possible; for this assurance, they must prove
+a matching lower bound. The linear lower bound for this problem is the subject
+of Problem 9; more complex lower bounds can be quite difficult.
+
+\section Problems
+
+\prob
+Algorithm 3 and 4 use subtle code that is easy to get wrong. Use the program
+verification techniques of Column 4 to argue the correctness of the code; specify
+the loop invariants carefully.
+
+\prob
+Our analysis of the four algorithms was done only at the ``big-oh'' level of
+detail. Analyze the number of {\it max} functions used by each algorithm as
+exactly as possible; does this exercise give any insight into the running times
+of the programs? How much space does each algorithm require?
+
+\prob
+We defined the maximum subvector of an array of negative numbers to be zero, the
+sum of the empty subvector. Suppose that we had instead defined the maximum
+subvector to be the value of the largest element; how would you change the
+programs?
+
+\prob
+Suppose that we wished to find the subvector with the sum closest to zero rather
+than that with maximum sum. What is the most efficient algorithm you can design
+for this task? What algorithm design techinques are applicable? What if we
+whished to find the subvector with the sum closest to a given real number $t$?
+
+\prob
+A turnpike consists of $n-1$ stretches of road between $n$ toll stations; each
+stretch has an associated cost of travel. It is trivial to tell the cost of going
+between any to station in $O(n)$ time using only an array of the costs or in
+constant time using a table with $O(n^2)$ entries. Describe a data structure that
+requires $O(n)$ space but allows the cost of any route to be computed in constant
+time.
+
+\prob
+After the array $x[1\ltdot n]$ is initialized to zero, $n$ of the following
+operations are performed
+\begindisplay
+\vbox{
+\+\bf for $i\leftarrow l$ do $u$ do\cr
+\+\quad $x[i]\leftarrow x[i]+v$\cr}
+\enddisplay
+where $l$, $u$ and $v$ are parameters of each operation ($l$ and $u$ are integers
+satisfying $1\le l\le u\le n$ and $v$ is real). After the $n$ operations, the
+values of $x[1]$ through $x[n]$ are reported in order .The method just sketched
+requires $O(n^2)$ time. Can you find a faster algorithm?
+
+\prob
+In the maximum subarray problem we are given an $n\times n$ array of reals, and
+we must find the maximum sum contained in any rectangular subarray. What is the
+complexity of this problem?
+
+\prob
+Modify Algorithm 3 (the divide-and-conquer algorithm) to run in linear worst-case
+tiem.
+
+\prob
+Prove that any correct algorithm for computing maximum subvectors must inspect
+all $n$ inputs. (Algorithms for some problems may correctly ignore some inputs;
+consider Saxe's algorithm in Solution 2.2 and Boyer and Moore's substring
+searching algorithm in the October 1977 {\sl CACM\/}.)
+
+\prob
+Given integers $m$ and $n$ and the real vector $x[1\ltdot n],$ find the integer
+$i(1\le l\le n-m)$ such that the sum $x[i]+\ldots+x[i+m]$ is nearest zero.
+
+\prob
+What is the solution of the recurrence $T(n)=2T(n/2)+CN$ when $T(1)=0$ and $n$ is
+a power of two? Prove your result by mathematical induction. What if $T(1)=C$?
+
+\section Further Reading
+
+Only extensive study can put algorithm design techniques at your fingertips; most
+programmers will get this only from a textbook on algorithms. {\sl Data
+Structures and Algorithms\/} by Aho, Hopcroft and Ullman (published by Addison-%
+Wesley in 1983) is an excellent undergraduate text. Chapter 10 on ``Algorithm
+Design Techniques'' is especially relevant to this column.
+
+\bye
+
+
