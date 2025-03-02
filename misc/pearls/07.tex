@@ -336,6 +336,63 @@ clean and tell about the run times of the programs. I implemented the four
 primary algorithms (all except Algorithm 2b) in the C language on a VAX-11/750,
 timed them, and extrapolated the observed run times to achieve the following
 table.
+$$
+\vbox to 5cm{\vfill
+  \centerline{big table here}
+  \vfill}
+$$
+This table makes a number of points. The most important is that proper algorithm
+design can make a big difference in run time; that point is underscored by the
+middle rows. The last two rows show how increases in problem size are related
+to increases in run time.
+
+Another important point is that when we're comparing cubic, quadratic, and linear
+algorithms with one another, the constant factors of the programs don't matter
+much. (The discussion of the $O(n!)$) algorithm in Section 2.4 shows that
+constant factors matter even less in functions that grow faster than
+polynomially.) To underscore this point, I conducted an experiment in which I
+tried to make the constant factors of two algorithms differ by as much as
+possible. To achieve a huge constant factor I implemented Algorithm 4 on a BASIC
+interpreter on a Radio Shack TRS-80 Model III microcomputer. For the other end of
+the spectrum, Eric Grosse and I implemented Algorithm 1 in fine-tuned FORTRAN on
+a Cray-1 supercomputer. We got the disparity we wanted: the run time of the cubic
+algorithm was measured as $3.0n^3$ nanoseconds, while the run time of the linear
+algorithm was $19.5n$ milliseconds, or $19{,}500{,}000n$ nanoseconds. This table
+shows how those expressions translate to times for various problem sizes.
+\font\sc=cmcsc10
+$$
+\vbox{\offinterlineskip
+\hrule
+\vskip 1pt
+\halign{&\vrule#&
+  \strut\quad\hfil#\hfil\quad\cr
+\multispan7\hrulefill\cr
+\omit&\omit&height2pt&\omit&height2pt&\omit\cr
+\omit&\omit&&\sc Cray-1,&&\sc Trs-80,&\omit\cr
+\omit&$N$&&\sc Fortran,&&\sc Basic,&\omit\cr
+\omit&\omit&&\sc Cubic Algorithm&&\sc Linear Algorithm&\omit\cr
+\omit&\omit&height2pt&\omit&height2pt&\omit\cr
+\multispan7\hrulefill\cr
+\omit&\omit&height2pt&\omit&height2pt&\omit\cr
+\omit&10&&3.0 microsecs&&200 millisecs& \omit\cr
+\omit&100&&3.0 millisecs&&2.0 secs& \omit\cr
+\omit&1000&&3.0 secs&&20 secs&\omit\cr
+\omit&10{,}000&&49 mins&&3.2 mins& \omit\cr
+\omit&100{,}000&&35 days&&32 mins&\omit\cr
+\omit&1{,}000{,}000&&95 yrs&&5.4 hrs&\omit\cr
+\omit&\omit&height2pt&\omit&height2pt&\omit\cr
+\multispan7\hrulefill\cr}}
+$$
+The difference in constant factors of six and a half millian allowed the cubic
+algorithm to start off faster, but the linear algorithm was bound to catch up.
+The break-even point for the two algorithms is around 2{,}500, where each takes
+about fifty seconds.
+$$
+\vbox to 4cm{\vfill
+  \centerline{a graph here}
+  \vfill}
+$$
+
 
 \section Principles
 
@@ -347,11 +404,12 @@ pattern in a digitized picture. Because teh two-dimentional problem required
 too much time to solve, Grenander simplified ti to one dimension to gain insight
 into its structure.
 
-Grenander observed that the cubin time of Algorith 1 was prohibitively slow, and
-derived Algorithm 2. In 1977 he described the problem to Michael Shamos of UNILOGIC, Ltd. (then of Carnegie-Mellon University) who overnight designed Algorithm 3.
-When Shamos showed me the problem shortly thereafter, we thought that it was
-probably the best possible; researchers had just shown that several similar
-problems require time propotional to $n\log n.$ A few days later Shamos
+Grenander observed that the cubic time of Algorithm 1 was prohibitively slow, and
+derived Algorithm 2. In 1977 he described the problem to Michael Shamos of
+UNILOGIC, Ltd. (then of Carnegie-Mellon University) who overnight designed
+Algorithm 3. When Shamos showed me the problem shortly thereafter, we thought
+that it was probably the best possible; researchers had just shown that several
+similar problems require time propotional to $n\log n.$ A few days later Shamos
 described the problem and its history at a Catnegie-Mellon seminar attended by
 statistician Jay Kadane, who designed Algorithm 4 within a minute. Fortunately,
 we know that there is no faster algorithm: any correct algorithm must take $O(n)$
@@ -480,5 +538,3 @@ Wesley in 1983) is an excellent undergraduate text. Chapter 10 on ``Algorithm
 Design Techniques'' is especially relevant to this column.
 
 \bye
-
-
