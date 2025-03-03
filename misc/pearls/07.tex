@@ -280,7 +280,7 @@ Problem 11 shows that this recurrence has the solution $T(N)=O(N\log N).$
 We'll now use the simplest kind of algorithm that operates on arrays: it starts
 at the left end (element $X[1]$) and scans through to the right end (element
 $X[N]$), keeping track of the maximum sum subvector seen so far. The maximum is
-initially zero. Suppose that we've solved the problem for $X[1\ltdot L-1];$ how
+initially zero. Suppose that we've solved the problem for $X[1\ltdot I-1];$ how
 can we extend that to a solution for the first $I$ elements? We use reasoning
 similiar to that of the divide-and-conquer algorithm: the maximum sum in the
 first $I$ elements is either the maximum sum in the first $I-1$ elements (which
@@ -309,7 +309,7 @@ in position $I-1.$ This results in Algorithm 4.
 \vbox{
 \+${\it MaxSoFar}\leftarrow0.0$\cr
 \+${\it MaxEndingHere}\leftarrow0.0$\cr
-\+\bf for $i\leftarrow1$ to $N$ do\cr
+\+\bf for $I\leftarrow1$ to $N$ do\cr
 \+\quad\tt /* \cleartabs&\tt Invariant:$\ {\it MaxEndingHere}$ and {\it MaxSoFar}
   \cr
 \+\quad&\tt are accurate for $X[1\ltdot I-1]$ */\cr
@@ -336,10 +336,42 @@ clean and tell about the run times of the programs. I implemented the four
 primary algorithms (all except Algorithm 2b) in the C language on a VAX-11/750,
 timed them, and extrapolated the observed run times to achieve the following
 table.
+\def\vcc#1{\vbox to24pt{\vss#1\vss}}
+\def\vc#1{\vbox to24pt{\vss\hbox{#1}\vss}}
 $$
-\vbox to 5cm{\vfill
-  \centerline{big table here}
-  \vfill}
+\hbox to 0pt{\hss
+\vbox{\tabskip=0pt\offinterlineskip
+\def\tablerule{\multispan{13}\hrulefill\cr}%\noalign{\hrule}}
+\halign{\strut#&\vrule#\tabskip=.5em&
+\strut#\hfil&\vrule#&\hfil#\hfil&\vrule#&
+\hfil#\hfil&\vrule#&\hfil#\hfil&\vrule#&\hfil#\hfil&\vrule#&
+\hfil#\hfil&\vrule#\tabskip=0pt\cr
+\tablerule\noalign{\vskip 1pt}\tablerule
+&\omit&\multispan3\hfil\bf Algorithm\hfil&&
+\omit\hidewidth\bf1\hidewidth&&
+\omit\hidewidth\bf2\hidewidth&&
+\omit\hidewidth\bf3\hidewidth&&
+\omit\hidewidth\bf4\hidewidth&\omit\cr\tablerule
+&\omit&\multispan3Lines of C Code\hfill&&8&&7&&14&&7&\omit\cr\tablerule
+&\omit&\multispan3\vcc{\hbox{Run time in}\vskip4pt\hbox{microseconds}}\hfill&&
+  \vc{$3.4N^3$}&&\vc{$13N^2$}&&\vc{$46N\log_2N$}&&\vc{$33N$}&\omit\cr\tablerule
+%&\omit&\omit&height2pt&\omit&height2pt&\omit&height2pt&\omit&height2pt&\omit&height2pt&\omit\cr %%
+&\omit&Time to&&$10^2$&&3.4 secs&&.13 secs&&.03 secs&&.003 secs&\omit\cr
+&\omit&solve a&&$10^3$&&.94 hrs&&13 secs&&.45 secs&&.033 secs&\omit\cr
+&\omit&problem&&$10^4$&&39 days&&22 mins&&6.1 secs&&.33 secs&\omit\cr
+&\omit&of size&&$10^5$&&108 yrs&&1.5 days&&1.3 mins&&3.3 secs&\omit\cr
+&\omit&&&$10^6$&&108 mill&&5 mos&&15 mins&&33 secs&\omit\cr\tablerule
+&\omit&Max size&&sec&&67&&280&&2000&&30{,}000&\omit\cr
+&\omit&problem&&min&&260&&2200&&82{,}00&&2{,}000{,}000&\omit\cr
+&\omit&solved in&&hr&&1000&&17{,}000&&3{,}500{,}000&&120{,}000{,}000&\omit\cr
+&\omit&one&&day&&3000&&81{,}000&&73{,}000{,}000&&1{,}800{,}000{,}000&\omit\cr
+  \tablerule
+&\omit&\multispan3\vcc{\hbox{If $N$ multiplies by 10,}\vskip3pt\hbox{time
+  multiplies by}}\hfill&&\vc{1000}&&\vc{100}&&\vc{$10+$}&&\vc{10}&\omit\cr
+  \tablerule
+&\omit&\multispan3\vcc{\hbox{If time multiplies by}\vskip3pt\hbox{10, $N$
+  multiplies by}}\hfill&&\vc{2.15}&&\vc{3.16}&&\vc{$10-$}&&\vc{10}&\omit\cr
+  \tablerule}}\hss}
 $$
 This table makes a number of points. The most important is that proper algorithm
 design can make a big difference in run time; that point is underscored by the
@@ -387,12 +419,6 @@ The difference in constant factors of six and a half millian allowed the cubic
 algorithm to start off faster, but the linear algorithm was bound to catch up.
 The break-even point for the two algorithms is around 2{,}500, where each takes
 about fifty seconds.
-$$
-\vbox to 4cm{\vfill
-  \centerline{a graph here}
-  \vfill}
-$$
-
 
 \section Principles
 
