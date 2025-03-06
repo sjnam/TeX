@@ -330,43 +330,73 @@
 % Chapter formatting
 % The preface and table of contents are formatted in place, not here
 
-\newcount\exno % for the number of exercises in the current chapter
-\newcount\subsecno % for the number of subsections in the current chapter
+\def\titlepage{\global\titletrue} % for pages without headlines
+\def\rhead{} % \rhead contains the running headline
 
-\def\beginchapter#1 #2#3. #4\par{\global\exno=0
-  \subsecno=0
-  \def\chapno{#2#3}
+\newif\iftitle
+\def\lhead{}
+\def\rhead{}
+
+\def\leftheadline{\hbox to \pagewidth{\spaceskip=0pt
+    \vbox to 10pt{}% strut to position the baseline
+    \llap{\tenbf\folio\kern1pc}% folio to left of text
+    \ninesn\lhead\hfil% running head flush left
+    }}
+\def\rightheadline{\hbox to \pagewidth{\spaceskip=0pt
+    \vbox to 10pt{}% strut to position the baseline
+    \hfil\ninesn\rhead\/% running head flush right
+    \rlap{\kern1pc\tenbf\folio}% folio to right of text
+    }}
+
+\def\onepageout#1{\shipout\vbox{ % here we define one page of output
+    \offinterlineskip % butt the boxes together
+    \vbox to 3pc{ % this part goes on top of the 44pc pages
+      \iftitle % the next is used for title pages
+        \global\titlefalse % reset the titlepage switch
+      \else\ifodd\pageno \rightheadline\else\leftheadline\fi\fi
+      \vfill} % this completes the \vbox to 3pc
+    \vbox to \pageheight{
+      \ifvoid\margin\else % marginal info is present
+        \rlap{\kern31pc\vbox to\z@{\kern4pt\box\margin \vss}}\fi
+      #1 % now insert the main information
+      \ifvoid\footins\else % footnote info is present
+        \vskip\skip\footins \kern-3pt
+        \hrule height\ruleht width\pagewidth \kern-\ruleht \kern3pt
+        \unvbox\footins\fi
+      \boxmaxdepth=\maxdepth
+      } % this completes the \vbox to \pageheight
+    }
+  \advancepageno}
+
+\output{\onepageout{\unvbox255}}
+
+% Chapter formatting
+% The preface and table of contents are formatted in place, not here
+
+\newcount\chapno \chapno=0
+
+\def\beginchapter#1\par{\advance\chapno by1
   \ifodd\pageno
     \errmessage{You had too much text on that last page; I'm backing up}
     \advance\pageno by-1 \fi
   \titlepage
   \def\\{ } % \\'s in the title will be treated as spaces
-  \message{#1 #2#3:} % show the chapter title on the terminal
-  \xdef\rhead{#1 #2#3: #4\unskip}
-  {\def\\{#3}
-    \ifx\empty\\ \rightline{\inchhigh #2\kern-.04em}
-    \else\rightline{\inchhigh #2\kern-.06em#3\kern-.04em}\fi
+  \message{\the\chapno #1:} % show the chapter title on the terminal
+  \xdef\lhead{#1\unskip}
+  {\rightline{\inchhigh \the\chapno\kern-.04em}
     \vskip 1.75pc
     \baselineskip 36pt \lineskiplimit \titlelsl \lineskip 12pt
     \let\\=\cr % now the \\'s are line dividers
-    \halign{\line{\titlefont\hfil##}\\#4\unskip\\}
-    \vfill\eject} % output the chapter title page
-  \tenpoint
-  \noindent\ignorespaces} % the first paragraph of a chapter is not indented
+    \halign{\line{\titlefont\hfil##}\\#1\unskip\\}
+    \vfill\eject}} % output the chapter title page
 \newdimen\titlelsl \titlelsl=1pt
 
-\outer\def\endchapter{\ifodd\pageno \else\vfill\eject\null\fi
-  \begingroup\bigskip\vfill % beginning of the quotes
-  \def\eject{\endgroup\eject}
-  \def\par{\ifhmode\/\endgraf\fi}\obeylines
-  \eightpoint \let\tt=\ninett
-  \baselineskip 14pt
-  \parfillskip \z@
-  \interlinepenalty 10000
-  \leftskip \z@ plus 40pc minus \parindent
-  \let\rm=\eightss \let\sl=\eightssi
-  \everypar{\sl}}
-\def\author#1(#2){\smallskip\noindent\rm--- #1\unskip\enspace(#2)}
+\newif\ifsection
+\def\section#1\par{\vfill\eject\sectiontrue\xdef\rhead{#1}
+  \vglue 1in
+  \centerline{\sectitlefont#1\unskip}
+  \vskip 1in
+  \noindent\ignorespaces}
 
 \def\.#1{\leavevmode\hbox{\tentex % typewriter type for strings
   \let\\=\BS % backslash in a string
@@ -483,6 +513,14 @@
   \ifsilent\ignorespaces\else\next\fi}
 % the \insert (which is done in proofmode only) suppresses hyphenation,
 % so the \kern\z@ is put in to give the same effect in non-proofmode.
+
+\def\beginemph{\begingroup
+  \bigskip\narrower\narrower\noindent\llap{``}}
+\def\endemph{\unskip''\bigskip\endgroup}
+
+\def\beginbf{\begingroup
+  \bigskip\narrower\narrower\noindent\bf}
+\def\endbf{\bigskip\endgroup}
 
 \catcode`\@=12
 \tenpoint
