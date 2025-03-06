@@ -1,0 +1,349 @@
+% Macros for My Book
+
+\input luatexko.sty
+
+% hangul font setting for plain tex
+%
+% borrowed from luatexko-doc.tex
+%
+\directlua{
+  fonts.protrusions.setups.notoserifcjk = {
+    [0x28]   = { 0.5, 0   }, % (
+    [0x29]   = { 0,   0.5 }, % )
+    [0x2C]   = { 0,   1   }, % ,
+    [0x2E]   = { 0,   1   }, % .
+    [0x3A]   = { 0,   0.5 }, % :
+    [0x3B]   = { 0,   0.5 }, % ;
+    [0xAB]   = { 0.5, 0   }, % «
+    [0xBB]   = { 0,   0.5 }, % »
+    [0x2018] = { 1,   0   }, % ‘
+    [0x2019] = { 0,   1   }, % ’
+    [0x201C] = { 0.5, 0   }, % “
+    [0x201D] = { 0,   0.5 }, % ”
+  }
+}
+
+\hangulfont="Noto Serif CJK KR Light:%
+  language=KOR,%
+  interlatinclj=.125em,%
+  +compresspunctuations,%
+  expansion=default,%
+  protrusion=notoserifcjk" at 9.8pt
+\hanjafont="Noto Serif CJK KR Light:%
+  language=KOR,%
+  interlatinclj=.125em,%
+  +compresspunctuations,%
+  expansion=default,%
+  protrusion=notoserifcjk" at 9.8pt
+\fallbackfont="Noto Serif CJK KR Light:%
+  language=KOR,%
+  interlatinclj=.125em,%
+  +compresspunctuations,%
+  expansion=default,%
+  protrusion=notoserifcjk" at 9.8pt
+
+\sethangulfont\tenmj="Noto Serif CJK KR Light:%
+  language=KOR,%
+  interhangul=-0.04em,%
+  interlatinclj=.125em,%
+  charraise=-0.06em,%
+  +compresspunctuations,%
+  expansion=default,%
+  protrusion=notoserifcjk" at 9.8pt
+\sethangulfont\tentz="Noto Sans Mono CJK KR" at 9.5pt
+\sethangulfont\tenbd="Noto Serif CJK KR Bold:%
+  language=KOR,%
+  interhangul=-0.04em,%
+  interlatinclj=.125em,%
+  charraise=-0.06em,%  
+  +compresspunctuations,%
+  expansion=default,%
+  protrusion=notoserifcjk" at 9.8pt
+\sethangulfont\tensn="Noto Sans CJK KR DemiLight:%
+  language=KOR,%
+  interlatinclj=.125em,%
+  +compresspunctuations" at 9.8pt
+
+\sethangulfont\ninemj="Noto Serif CJK KR Light:%
+  language=KOR,%
+  interhangul=-0.04em,%
+  interlatinclj=.125em,%  
+  charraise=-0.06em,%
+  +compresspunctuations,%
+  expansion=default" at 8.8pt
+\sethangulfont\ninetz="Noto Sans Mono CJK KR" at 8.5pt
+\sethangulfont\ninebd="Noto Serif CJK KR Bold:%
+  language=KOR,%
+  interhangul=-0.04em,%
+  interlatinclj=.125em,%
+  charraise=-0.06em,%    
+  +compresspunctuations,%
+  expansion=default" at 8.8pt
+\sethangulfont\ninesn="Noto Sans CJK KR DemiLight:%
+  language=KOR,%
+  +compresspunctuations" at 8.8pt
+
+\sethangulfont\eightmj="Noto Serif CJK KR Light:%
+  language=KOR,%
+  interhangul=-0.04em,%
+  interlatinclj=.125em,%  
+  charraise=-0.06em,%  
+  +compresspunctuations,%
+  expansion=default" at 7.8pt
+\sethangulfont\eighttz="Noto Sans Mono CJK KR" at 7.5pt
+\sethangulfont\eightbd="Noto Serif CJK KR Bold:%
+  language=KOR,%
+  interhangul=-0.04em,%
+  interlatinclj=.125em,%
+  charraise=-0.06em,%    
+  +compresspunctuations,%
+  expansion=default" at 7.8pt
+\sethangulfont\eightsn="Noto Sans CJK KR DemiLight:%
+  language=KOR,%
+  +compresspunctuations" at 7.8pt
+
+\sethangulfont\sevenmj="Noto Serif CJK KR Light:%
+  language=KOR,%
+  +compresspunctuations,%
+  expansion=default" at 6.8pt
+
+\font\texthangul="Noto Sans CJK KR DemiLight" at 9.8pt
+\font\texthangulnine="Noto Sans CJK KR DemiLight" at 8.8pt
+\font\texthanguleight="Noto Sans CJK KR DemiLight" at 7.8pt
+\font\scripthangul="Noto Sans CJK KR Regular" at 6.8pt
+\font\scripthangulsix="Noto Sans CJK KR Regular" at 5.8pt
+\font\scriptscripthangul="Noto Sans CJK KR Medium" at 4.8pt
+
+% borrowed from manmac.tex
+%
+\catcode`@=11 % borrow the private macros of PLAIN (with care)
+
+\font\tentex=cmtex10
+
+\font\inchhigh=cminch
+\font\titlefont="Noto Sans CJK KR Black" at 40pt
+\font\sectitlefont="Noto Sans CJK KR Bold" at 18pt
+
+\font\ninerm=cmr9
+\font\eightrm=cmr8
+\font\sixrm=cmr6
+
+\font\ninei=cmmi9
+\font\eighti=cmmi8
+\font\sixi=cmmi6
+\skewchar\ninei='177 \skewchar\eighti='177 \skewchar\sixi='177
+
+\font\ninesy=cmsy9
+\font\eightsy=cmsy8
+\font\sixsy=cmsy6
+\skewchar\ninesy='60 \skewchar\eightsy='60 \skewchar\sixsy='60
+
+\font\eightss=cmssq8
+
+\font\eightssi=cmssqi8
+
+\font\ninebf=cmbx9
+\font\eightbf=cmbx8
+\font\sixbf=cmbx6
+
+\font\ninett=cmtt9
+\font\eighttt=cmtt8
+
+\hyphenchar\tentt=-1 % inhibit hyphenation in typewriter type
+\hyphenchar\ninett=-1
+\hyphenchar\eighttt=-1
+
+\font\ninesl=cmsl9
+\font\eightsl=cmsl8
+
+\font\nineit=cmti9
+\font\eightit=cmti8
+
+\font\tenu=cmu10 % unslanted text italic
+\font\magnifiedfiverm=cmr5 at 10pt
+\font\cmman=cmman % font used for miscellaneous Computer Modern variations
+
+%
+\newskip\ttglue
+\def\tenpoint{\def\rm{\fam0\tenrm}%
+  \textfont0=\tenrm \scriptfont0=\sevenrm \scriptscriptfont0=\fiverm
+  \textfont1=\teni \scriptfont1=\seveni \scriptscriptfont1=\fivei
+  \textfont2=\tensy \scriptfont2=\sevensy \scriptscriptfont2=\fivesy
+  \textfont3=\tenex \scriptfont3=\tenex \scriptscriptfont3=\tenex
+  \setmathhangulfonts\texthangul\scripthangul\scriptscripthangul
+  \def\it{\fam\itfam\tenit}%
+  \textfont\itfam=\tenit
+  \def\sl{\fam\slfam\tensl}%
+  \textfont\slfam=\tensl
+  \def\bf{\fam\bffam\tenbf}%
+  \textfont\bffam=\tenbf \scriptfont\bffam=\sevenbf
+   \scriptscriptfont\bffam=\fivebf
+  \def\tt{\fam\ttfam\tentt}%
+  \textfont\ttfam=\tentt
+  \expandafter\def\expandafter\rm\expandafter{\rm\tenmj}
+  \expandafter\def\expandafter\tt\expandafter{\tt\tentz}
+  \expandafter\def\expandafter\bf\expandafter{\bf\tenbd}
+  \expandafter\def\expandafter\sl\expandafter{\sl\tensn}
+  \expandafter\def\expandafter\it\expandafter{\it\tensn}  
+  \tt \ttglue=.5em plus.25em minus.15em
+  \normalbaselineskip=15pt
+  \let\sc=\eightrm
+  \let\big=\tenbig
+  \setbox\strutbox=\hbox{\vrule height8.5pt depth3.5pt width\z@}%
+  \normalbaselines\rm}
+
+\def\ninepoint{\def\rm{\fam0\ninerm}%
+  \textfont0=\ninerm \scriptfont0=\sixrm \scriptscriptfont0=\fiverm
+  \textfont1=\ninei \scriptfont1=\sixi \scriptscriptfont1=\fivei
+  \textfont2=\ninesy \scriptfont2=\sixsy \scriptscriptfont2=\fivesy
+  \textfont3=\tenex \scriptfont3=\tenex \scriptscriptfont3=\tenex
+  \setmathhangulfonts\texthangulnine\scripthangulsix\scriptscripthangul
+  \def\it{\fam\itfam\nineit}%
+  \textfont\itfam=\nineit
+  \def\sl{\fam\slfam\ninesl}%
+  \textfont\slfam=\ninesl
+  \def\bf{\fam\bffam\ninebf}%
+  \textfont\bffam=\ninebf \scriptfont\bffam=\sixbf
+   \scriptscriptfont\bffam=\fivebf
+  \def\tt{\fam\ttfam\ninett}%
+  \textfont\ttfam=\ninett
+  \expandafter\def\expandafter\rm\expandafter{\rm\ninemj}  
+  \expandafter\def\expandafter\tt\expandafter{\tt\ninetz}
+  \expandafter\def\expandafter\bf\expandafter{\bf\ninebd}
+  \expandafter\def\expandafter\sl\expandafter{\sl\ninesn}
+  \expandafter\def\expandafter\it\expandafter{\it\ninesn}  
+  \tt \ttglue=.5em plus.25em minus.15em
+  \normalbaselineskip=13pt
+  \let\sc=\sevenrm
+  \let\big=\ninebig
+  \setbox\strutbox=\hbox{\vrule height8pt depth3pt width\z@}%
+  \normalbaselines\rm}
+
+\def\eightpoint{\def\rm{\fam0\eightrm}%
+  \textfont0=\eightrm \scriptfont0=\sixrm \scriptscriptfont0=\fiverm
+  \textfont1=\eighti \scriptfont1=\sixi \scriptscriptfont1=\fivei
+  \textfont2=\eightsy \scriptfont2=\sixsy \scriptscriptfont2=\fivesy
+  \textfont3=\tenex \scriptfont3=\tenex \scriptscriptfont3=\tenex
+  \setmathhangulfonts\texthanguleight\scripthangulsix\scriptscripthangul
+  \def\it{\fam\itfam\eightit}%
+  \textfont\itfam=\eightit
+  \def\sl{\fam\slfam\eightsl}%
+  \textfont\slfam=\eightsl
+  \def\bf{\fam\bffam\eightbf}%
+  \textfont\bffam=\eightbf \scriptfont\bffam=\sixbf
+   \scriptscriptfont\bffam=\fivebf
+  \def\tt{\fam\ttfam\eighttt}%
+  \textfont\ttfam=\eighttt
+  \expandafter\def\expandafter\rm\expandafter{\rm\eightmj}  
+  \expandafter\def\expandafter\tt\expandafter{\tt\eighttz}
+  \expandafter\def\expandafter\bf\expandafter{\bf\eightbd}
+  \expandafter\def\expandafter\sl\expandafter{\sl\eightsn}
+  \expandafter\def\expandafter\it\expandafter{\it\eightsn}  
+  \tt \ttglue=.5em plus.25em minus.15em
+  \normalbaselineskip=11pt
+  \let\sc=\sixrm
+  \let\big=\eightbig
+  \setbox\strutbox=\hbox{\vrule height7pt depth2pt width\z@}%
+  \normalbaselines\rm}
+
+\def\tenmath{\tenpoint\fam-1 } % use after $ in ninepoint sections
+\def\tenbig#1{{\hbox{$\left#1\vbox to8.5pt{}\right.\n@space$}}}
+\def\ninebig#1{{\hbox{$\textfont0=\tenrm\textfont2=\tensy
+  \left#1\vbox to7.25pt{}\right.\n@space$}}}
+\def\eightbig#1{{\hbox{$\textfont0=\ninerm\textfont2=\ninesy
+  \left#1\vbox to6.5pt{}\right.\n@space$}}}
+
+\def\.#1{\leavevmode\hbox{\tentex % typewriter type for strings
+  \let\\=\BS % backslash in a string
+  \let\{=\LB % left brace in a string
+  \let\}=\RB % right brace in a string
+  \let\~=\TL % tilde in a string
+  \let\ =\SP % space in a string
+  \let\_=\UL % underline in a string
+  \let\&=\AM % ampersand in a string
+  \let\^=\CF % circumflex in a string
+  #1\kern.05em}}
+\chardef\AM=`\& % ampersand character in a string
+\chardef\BS=`\\ % backslash in a string
+\chardef\LB=`\{ % left brace in a string
+\chardef\RB=`\} % right brace in a string
+\def\SP{{\tt\char`\ }} % (visible) space in a string
+\chardef\TL=`\~ % tilde in a string
+\chardef\UL=`\_ % underline character in a string
+\chardef\CF=`\^ % circumflex character in a string
+
+\def\PP{\hbox{\kern.5pt\raise1pt\hbox{\sevenrm+\kern-1pt+}\kern.5pt}}
+\def\alg#1{{Algorithm\kern1pt\hbox{#1}}}
+\def\ltdot{\mathinner{\ldotp\ldotp}}
+
+% framing
+\def\frame #1#2#3#4{\vbox{\hrule height #1pt%    TOP RULE
+ \hbox{\vrule width #1pt\kern #2pt%              RULE AND SPACE ON LEFT
+ \vbox{\kern #2pt%                               SPACE AT TOP
+ \vbox{\hsize #3\noindent #4}%                   MATERIAL THAT WILL BE BOXED
+ \kern #2pt}%                                    SPACE AT BOTTOM
+ \kern #2pt\vrule width #1pt}%                   SPACE AND RULE ON RIGHT
+ \hrule height0pt depth #1pt}}%,                 BOTTOM RULE
+\def\fitframe #1#2#3{\vbox{\hrule height#1pt%    TOP RULE
+ \hbox{\vrule width#1pt\kern #2pt%            RULE AND SPACE ON LEFT
+ \vbox{\kern #2pt\hbox{#3}\kern #2pt}%        TOP, MATERIAL, BOTTOM
+ \kern #2pt\vrule width#1pt}%                 SPACE AND RULE ON RIGHT
+ \hrule height0pt depth#1pt}}%                BOTTOM RULE
+
+% verbatim scanning
+\def\verbatim{\begingroup
+  \def\do##1{\catcode`##1=12 } \dospecials
+  \parskip 0pt \parindent 0pt \let\!=!
+  \catcode`\ =13 \catcode`\^^M=13
+  \tt \catcode`\!=0 \verbatimdefs \verbatimgobble}
+{\catcode`\^^M=13{\catcode`\ =13\gdef\verbatimdefs{\def^^M{\ \par}\let =\ }} %
+  \gdef\verbatimgobble#1^^M{}}
+
+% non-centered displays
+\outer\def\begindisplay{\obeylines\startdisplay}
+{\obeylines\gdef\startdisplay#1
+  {\catcode`\^^M=5$$#1\halign\bgroup\indent##\hfil&&\qquad##\hfil\cr}}
+\outer\def\enddisplay{\crcr\egroup$$}
+
+\def\beginemph{\begingroup
+  \bigskip\narrower\narrower\noindent\llap{``}}
+\def\endemph{\unskip''\bigskip\endgroup}
+
+\def\beginbf{\begingroup
+  \bigskip\narrower\narrower\noindent\bf}
+\def\endbf{\bigskip\endgroup}
+
+% Token for \aftergroup to reset color
+\def\colorstackpop{\pdfextension colorstack 0 pop}
+\def\setcmykcolor#1{%
+  \pdfextension colorstack 0 push {#1 k #1 K}%
+  \aftergroup\colorstackpop
+}
+\def\setrgbcolor#1{%
+  \pdfextension colorstack 0 push {#1 rg #1 RG}%
+  \aftergroup\colorstackpop
+}
+\def\black{\setcmykcolor{0 0 0 1}}
+\def\blue{\setcmykcolor{1 1 0 0}}
+\def\red{\setrgbcolor{0.8 0 0}}
+
+% include graphics
+% usage: \includegraphics width 3cm height 5cm {donknuth.png}
+\def\includegraphics#1#{%
+  \def\next{%
+    \unless\ifcsname PicKey #1 \the\toks0\endcsname
+      \immediate\saveimageresource #1 {\the\toks0}%
+      \expandafter\xdef\csname PicKey #1 \the\toks0\endcsname{\the\lastsavedimageresourceindex}%
+    \fi
+    \expandafter\useimageresource\csname PicKey #1 \the\toks0\endcsname\relax}%
+  \afterassignment\next\toks0= }
+
+% macros to demarcate lines quoted from TeX source files
+\def\beginlines{\par\begingroup\nobreak\medskip\parindent\z@ \obeylines
+  \hrule\kern1pt\nobreak \everypar{\strut}}
+\def\endlines{\kern1pt\hrule\endgroup\medbreak\noindent}
+\def\weakendlines{\kern1pt\hrule\endgroup\medskip\noindent}
+\def\finalendlines{\kern1pt\hrule\endgroup\medbreak}
+
+\catcode`\@=12
+\tenpoint
