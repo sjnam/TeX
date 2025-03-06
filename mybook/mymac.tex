@@ -6,105 +6,77 @@
 %
 % borrowed from luatexko-doc.tex
 %
-\directlua{
-  fonts.protrusions.setups.notoserifcjk = {
-    [0x28]   = { 0.5, 0   }, % (
-    [0x29]   = { 0,   0.5 }, % )
-    [0x2C]   = { 0,   1   }, % ,
-    [0x2E]   = { 0,   1   }, % .
-    [0x3A]   = { 0,   0.5 }, % :
-    [0x3B]   = { 0,   0.5 }, % ;
-    [0xAB]   = { 0.5, 0   }, % «
-    [0xBB]   = { 0,   0.5 }, % »
-    [0x2018] = { 1,   0   }, % ‘
-    [0x2019] = { 0,   1   }, % ’
-    [0x201C] = { 0.5, 0   }, % “
-    [0x201D] = { 0,   0.5 }, % ”
-  }
-}
-
-\hangulfont="Noto Serif CJK KR Light:%
-  language=KOR,%
-  interlatinclj=.125em,%
-  +compresspunctuations,%
-  expansion=default,%
-  protrusion=notoserifcjk" at 9.8pt
-\hanjafont="Noto Serif CJK KR Light:%
-  language=KOR,%
-  interlatinclj=.125em,%
-  +compresspunctuations,%
-  expansion=default,%
-  protrusion=notoserifcjk" at 9.8pt
-\fallbackfont="Noto Serif CJK KR Light:%
-  language=KOR,%
-  interlatinclj=.125em,%
-  +compresspunctuations,%
-  expansion=default,%
-  protrusion=notoserifcjk" at 9.8pt
-
 \sethangulfont\tenmj="Noto Serif CJK KR Light:%
-  language=KOR,%
-  interhangul=-0.04em,%
-  interlatinclj=.125em,%
-  charraise=-0.06em,%
-  +compresspunctuations,%
-  expansion=default,%
-  protrusion=notoserifcjk" at 9.8pt
+  language=KOR;%
+  script=hang;%
+  interhangul=-0.04em;%
+  interlatincjk=.125em;%
+  charraise=-0.06em;%
+  +compresspunctuations;%
+  expansion=default;" at 9.8pt
 \sethangulfont\tentz="Noto Sans Mono CJK KR" at 9.5pt
 \sethangulfont\tenbd="Noto Serif CJK KR Bold:%
-  language=KOR,%
-  interhangul=-0.04em,%
-  interlatinclj=.125em,%
-  charraise=-0.06em,%  
-  +compresspunctuations,%
-  expansion=default,%
-  protrusion=notoserifcjk" at 9.8pt
+  language=KOR;%
+  script=hang;%
+  interhangul=-0.04em;%
+  interlatincjk=.125em;%
+  charraise=-0.06em;%
+  +compresspunctuations;%
+  expansion=default;" at 9.8pt
 \sethangulfont\tensn="Noto Sans CJK KR DemiLight:%
-  language=KOR,%
-  interlatinclj=.125em,%
+  language=KOR;%
+  script=hang;%
+  interlatincjk=.125em;%
   +compresspunctuations" at 9.8pt
 
 \sethangulfont\ninemj="Noto Serif CJK KR Light:%
-  language=KOR,%
-  interhangul=-0.04em,%
-  interlatinclj=.125em,%  
-  charraise=-0.06em,%
-  +compresspunctuations,%
+  language=KOR;%
+  script=hang;%
+  interhangul=-0.04em;%
+  interlatincjk=.125em;%
+  charraise=-0.06em;%
+  +compresspunctuations;%
   expansion=default" at 8.8pt
 \sethangulfont\ninetz="Noto Sans Mono CJK KR" at 8.5pt
 \sethangulfont\ninebd="Noto Serif CJK KR Bold:%
-  language=KOR,%
-  interhangul=-0.04em,%
-  interlatinclj=.125em,%
-  charraise=-0.06em,%    
-  +compresspunctuations,%
+  language=KOR;%
+  script=hang;%
+  interhangul=-0.04em;%
+  interlatincjk=.125em;%
+  charraise=-0.06em;%
+  +compresspunctuations;%
   expansion=default" at 8.8pt
 \sethangulfont\ninesn="Noto Sans CJK KR DemiLight:%
-  language=KOR,%
+  language=KOR;%
+  script=hang;%
   +compresspunctuations" at 8.8pt
 
 \sethangulfont\eightmj="Noto Serif CJK KR Light:%
-  language=KOR,%
-  interhangul=-0.04em,%
-  interlatinclj=.125em,%  
-  charraise=-0.06em,%  
-  +compresspunctuations,%
+  language=KOR;%
+  script=hang;%
+  interhangul=-0.04em;%
+  interlatincjk=.125em;%
+  charraise=-0.06em;%
+  +compresspunctuations;%
   expansion=default" at 7.8pt
 \sethangulfont\eighttz="Noto Sans Mono CJK KR" at 7.5pt
 \sethangulfont\eightbd="Noto Serif CJK KR Bold:%
-  language=KOR,%
-  interhangul=-0.04em,%
-  interlatinclj=.125em,%
-  charraise=-0.06em,%    
-  +compresspunctuations,%
+  language=KOR;%
+  script=hang;%
+  interhangul=-0.04em;%
+  interlatincjk=.125em;%
+  charraise=-0.06em;%
+  +compresspunctuations;%
   expansion=default" at 7.8pt
 \sethangulfont\eightsn="Noto Sans CJK KR DemiLight:%
-  language=KOR,%
+  language=KOR;%
+  script=hang;%
   +compresspunctuations" at 7.8pt
 
 \sethangulfont\sevenmj="Noto Serif CJK KR Light:%
-  language=KOR,%
-  +compresspunctuations,%
+  language=KOR;%
+  script=hang;%
+  +compresspunctuations;%
   expansion=default" at 6.8pt
 
 \font\texthangul="Noto Sans CJK KR DemiLight" at 9.8pt
