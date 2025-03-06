@@ -3,7 +3,6 @@
 \input luatexko.sty
 
 % hangul font setting for plain tex
-%
 % borrowed from luatexko-doc.tex
 %
 \sethangulfont\tenmj="Noto Serif CJK KR Light:%
@@ -14,7 +13,14 @@
   charraise=-0.06em;%
   +compresspunctuations;%
   expansion=default;" at 9.8pt
-\sethangulfont\tentz="Noto Sans Mono CJK KR" at 9.5pt
+\sethangulfont\tentz="Noto Sans Mono CJK KR:%
+  language=KOR;%
+  script=hang;%
+  interhangul=-0.04em;%
+  interlatincjk=.125em;%
+  charraise=-0.06em;%
+  +compresspunctuations;%
+  expansion=default;" at 9.5pt
 \sethangulfont\tenbd="Noto Serif CJK KR Bold:%
   language=KOR;%
   script=hang;%
@@ -26,7 +32,10 @@
 \sethangulfont\tensn="Noto Sans CJK KR DemiLight:%
   language=KOR;%
   script=hang;%
+  interhangul=-0.04em;%
   interlatincjk=.125em;%
+  charraise=-0.06em;%
+  +compresspunctuations;%
   +compresspunctuations" at 9.8pt
 
 \sethangulfont\ninemj="Noto Serif CJK KR Light:%
@@ -37,7 +46,14 @@
   charraise=-0.06em;%
   +compresspunctuations;%
   expansion=default" at 8.8pt
-\sethangulfont\ninetz="Noto Sans Mono CJK KR" at 8.5pt
+\sethangulfont\ninetz="Noto Sans Mono CJK KR:
+  language=KOR;%
+  script=hang;%
+  interhangul=-0.04em;%
+  interlatincjk=.125em;%
+  charraise=-0.06em;%
+  +compresspunctuations;%
+  expansion=default;" at 8.5pt
 \sethangulfont\ninebd="Noto Serif CJK KR Bold:%
   language=KOR;%
   script=hang;%
@@ -49,7 +65,11 @@
 \sethangulfont\ninesn="Noto Sans CJK KR DemiLight:%
   language=KOR;%
   script=hang;%
-  +compresspunctuations" at 8.8pt
+  interhangul=-0.04em;%
+  interlatincjk=.125em;%
+  charraise=-0.06em;%
+  +compresspunctuations;%
+  expansion=default" at 8.8pt
 
 \sethangulfont\eightmj="Noto Serif CJK KR Light:%
   language=KOR;%
@@ -59,7 +79,14 @@
   charraise=-0.06em;%
   +compresspunctuations;%
   expansion=default" at 7.8pt
-\sethangulfont\eighttz="Noto Sans Mono CJK KR" at 7.5pt
+\sethangulfont\eighttz="Noto Sans Mono CJK KR:%
+  language=KOR;%
+  script=hang;%
+  interhangul=-0.04em;%
+  interlatincjk=.125em;%
+  charraise=-0.06em;%
+  +compresspunctuations;%
+  expansion=default" at 7.5pt
 \sethangulfont\eightbd="Noto Serif CJK KR Bold:%
   language=KOR;%
   script=hang;%
@@ -71,11 +98,18 @@
 \sethangulfont\eightsn="Noto Sans CJK KR DemiLight:%
   language=KOR;%
   script=hang;%
-  +compresspunctuations" at 7.8pt
+  interhangul=-0.04em;%
+  interlatincjk=.125em;%
+  charraise=-0.06em;%
+  +compresspunctuations;%
+  expansion=default" at 7.8pt
 
 \sethangulfont\sevenmj="Noto Serif CJK KR Light:%
   language=KOR;%
   script=hang;%
+  interhangul=-0.04em;%
+  interlatincjk=.125em;%
+  charraise=-0.06em;%
   +compresspunctuations;%
   expansion=default" at 6.8pt
 
