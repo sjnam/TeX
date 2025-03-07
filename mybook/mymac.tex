@@ -113,6 +113,7 @@
   +compresspunctuations;%
   expansion=default" at 6.8pt
 
+% hangul in math mode
 \font\texthangul="Noto Sans CJK KR DemiLight" at 9.8pt
 \font\texthangulnine="Noto Sans CJK KR DemiLight" at 8.8pt
 \font\texthanguleight="Noto Sans CJK KR DemiLight" at 7.8pt
@@ -128,7 +129,7 @@
 
 \font\inchhigh=cminch
 \font\titlefont="Noto Sans CJK KR Black" at 40pt
-\font\sectitlefont="Noto Sans CJK KR Bold" at 18pt
+\font\sectionfont="Noto Sans CJK KR Medium" at 18pt
 
 \font\ninerm=cmr9
 \font\eightrm=cmr8
@@ -171,26 +172,21 @@
 
 %
 \newskip\ttglue
-\def\tenpoint{\def\rm{\fam0\tenrm}%
+\def\tenpoint{\def\rm{\fam0\tenrm\tenmj}%
   \textfont0=\tenrm \scriptfont0=\sevenrm \scriptscriptfont0=\fiverm
   \textfont1=\teni \scriptfont1=\seveni \scriptscriptfont1=\fivei
   \textfont2=\tensy \scriptfont2=\sevensy \scriptscriptfont2=\fivesy
   \textfont3=\tenex \scriptfont3=\tenex \scriptscriptfont3=\tenex
   \setmathhangulfonts\texthangul\scripthangul\scriptscripthangul
-  \def\it{\fam\itfam\tenit}%
+  \def\it{\fam\itfam\tenit\tensn}%
   \textfont\itfam=\tenit
-  \def\sl{\fam\slfam\tensl}%
+  \def\sl{\fam\slfam\tensl\tensn}%
   \textfont\slfam=\tensl
-  \def\bf{\fam\bffam\tenbf}%
+  \def\bf{\fam\bffam\tenbf\tenbd}%
   \textfont\bffam=\tenbf \scriptfont\bffam=\sevenbf
-   \scriptscriptfont\bffam=\fivebf
-  \def\tt{\fam\ttfam\tentt}%
+  \scriptscriptfont\bffam=\fivebf
+  \def\tt{\fam\ttfam\tentt\tentz}%
   \textfont\ttfam=\tentt
-  \expandafter\def\expandafter\rm\expandafter{\rm\tenmj}
-  \expandafter\def\expandafter\tt\expandafter{\tt\tentz}
-  \expandafter\def\expandafter\bf\expandafter{\bf\tenbd}
-  \expandafter\def\expandafter\sl\expandafter{\sl\tensn}
-  \expandafter\def\expandafter\it\expandafter{\it\tensn}  
   \tt \ttglue=.5em plus.25em minus.15em
   \normalbaselineskip=15pt
   \let\sc=\eightrm
@@ -198,26 +194,21 @@
   \setbox\strutbox=\hbox{\vrule height8.5pt depth3.5pt width\z@}%
   \normalbaselines\rm}
 
-\def\ninepoint{\def\rm{\fam0\ninerm}%
+\def\ninepoint{\def\rm{\fam0\ninerm\ninemj}%
   \textfont0=\ninerm \scriptfont0=\sixrm \scriptscriptfont0=\fiverm
   \textfont1=\ninei \scriptfont1=\sixi \scriptscriptfont1=\fivei
   \textfont2=\ninesy \scriptfont2=\sixsy \scriptscriptfont2=\fivesy
   \textfont3=\tenex \scriptfont3=\tenex \scriptscriptfont3=\tenex
   \setmathhangulfonts\texthangulnine\scripthangulsix\scriptscripthangul
-  \def\it{\fam\itfam\nineit}%
+  \def\it{\fam\itfam\nineit\ninesn}%
   \textfont\itfam=\nineit
-  \def\sl{\fam\slfam\ninesl}%
+  \def\sl{\fam\slfam\ninesl\ninesn}%
   \textfont\slfam=\ninesl
-  \def\bf{\fam\bffam\ninebf}%
+  \def\bf{\fam\bffam\ninebf\ninebd}%
   \textfont\bffam=\ninebf \scriptfont\bffam=\sixbf
    \scriptscriptfont\bffam=\fivebf
-  \def\tt{\fam\ttfam\ninett}%
+  \def\tt{\fam\ttfam\ninett\ninetz}%
   \textfont\ttfam=\ninett
-  \expandafter\def\expandafter\rm\expandafter{\rm\ninemj}  
-  \expandafter\def\expandafter\tt\expandafter{\tt\ninetz}
-  \expandafter\def\expandafter\bf\expandafter{\bf\ninebd}
-  \expandafter\def\expandafter\sl\expandafter{\sl\ninesn}
-  \expandafter\def\expandafter\it\expandafter{\it\ninesn}  
   \tt \ttglue=.5em plus.25em minus.15em
   \normalbaselineskip=13pt
   \let\sc=\sevenrm
@@ -225,26 +216,21 @@
   \setbox\strutbox=\hbox{\vrule height8pt depth3pt width\z@}%
   \normalbaselines\rm}
 
-\def\eightpoint{\def\rm{\fam0\eightrm}%
+\def\eightpoint{\def\rm{\fam0\eightrm\eightmj}%
   \textfont0=\eightrm \scriptfont0=\sixrm \scriptscriptfont0=\fiverm
   \textfont1=\eighti \scriptfont1=\sixi \scriptscriptfont1=\fivei
   \textfont2=\eightsy \scriptfont2=\sixsy \scriptscriptfont2=\fivesy
   \textfont3=\tenex \scriptfont3=\tenex \scriptscriptfont3=\tenex
   \setmathhangulfonts\texthanguleight\scripthangulsix\scriptscripthangul
-  \def\it{\fam\itfam\eightit}%
+  \def\it{\fam\itfam\eightit\eightsn}%
   \textfont\itfam=\eightit
-  \def\sl{\fam\slfam\eightsl}%
+  \def\sl{\fam\slfam\eightsl\eightsn}%
   \textfont\slfam=\eightsl
-  \def\bf{\fam\bffam\eightbf}%
+  \def\bf{\fam\bffam\eightbf\eightbd}%
   \textfont\bffam=\eightbf \scriptfont\bffam=\sixbf
    \scriptscriptfont\bffam=\fivebf
-  \def\tt{\fam\ttfam\eighttt}%
+  \def\tt{\fam\ttfam\eighttt\eighttz}%
   \textfont\ttfam=\eighttt
-  \expandafter\def\expandafter\rm\expandafter{\rm\eightmj}  
-  \expandafter\def\expandafter\tt\expandafter{\tt\eighttz}
-  \expandafter\def\expandafter\bf\expandafter{\bf\eightbd}
-  \expandafter\def\expandafter\sl\expandafter{\sl\eightsn}
-  \expandafter\def\expandafter\it\expandafter{\it\eightsn}  
   \tt \ttglue=.5em plus.25em minus.15em
   \normalbaselineskip=11pt
   \let\sc=\sixrm
@@ -335,7 +321,6 @@
 
 \newif\iftitle
 \def\lhead{}
-\def\rhead{}
 
 \def\leftheadline{\hbox to \pagewidth{\spaceskip=0pt
     \vbox to 10pt{}% strut to position the baseline
@@ -344,6 +329,7 @@
     }}
 \def\rightheadline{\hbox to \pagewidth{\spaceskip=0pt
     \vbox to 10pt{}% strut to position the baseline
+    \ifsection\def\rhead{}\global\sectionfalse\fi
     \hfil\ninesn\rhead\/% running head flush right
     \rlap{\kern1pc\tenbf\folio}% folio to right of text
     }}
@@ -392,9 +378,9 @@
 \newdimen\titlelsl \titlelsl=1pt
 
 \newif\ifsection
-\def\section#1\par{\vfill\eject\sectiontrue\xdef\rhead{#1}
+\def\section#1\par{\vfill\eject\global\sectiontrue\xdef\rhead{#1}
   \vglue 1in
-  \centerline{\sectitlefont#1\unskip}
+  \centerline{\sectionfont#1\unskip}
   \vskip 1in
   \noindent\ignorespaces}
 
