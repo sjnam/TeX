@@ -2,20 +2,17 @@
 
 \def\tangref{3} % where the main explanation of CTANGLing is given
 \input cwebmac
-\input kotex.sty
-% 기본 폰트를 한글을 포함하도록 다시 정의합니다.
-\expandafter\def\expandafter\tt\expandafter{\tt\hfontname{nnmbrgtm}}
-\expandafter\def\expandafter\sl\expandafter{\sl\hfontname{nanumgtm}}
-\expandafter\def\expandafter\it\expandafter{\it\hfontname{nanumgtm}}
-\expandafter\def\expandafter\bf\expandafter{\bf\hfontname{nanummjb}}
+\input lmymac
 
 % 각종 폰트를 한글을 포함하도록 재정의
-\let\otitlefont=\titlefont \def\titlefont{\hfont{nanummjm}{at 13pt}\otitlefont}
-\let\ottitlefont=\ttitlefont \def\ttitlefont{\hfont{nnmbrgtb}{at 13pt}\ottitlefont}
-\let\orgninerm=\ninerm \def\ninerm{\hfont{nanummjm}{at 9pt}\orgninerm}
-\let\orgeightrm=\eightrm \def\eightrm{\hfont{nanummjm}{at 8pt}\orgeightrm}
-\let\orgsc=\sc \def\sc{\hfont{nnmbrgtm}{at 8pt}\orgsc}
-\let\orgtentex=\tentex \def\tentex{\hfont{nanumgtm}{at 9pt}\orgtentex}
+\font\hgtitlefont="Noto Serif CJK KR" at 13pt
+\font\hgttitlefont="Noto Sans CJK KR" at 13pt
+\let\otitlefont=\titlefont \def\titlefont{\otitlefont\hgtitlefont}
+\let\ottitlefont=\ttitlefont \def\ttitlefont{\ottitlefont}
+\let\orgninerm=\ninerm \def\ninerm{\ninemj\orgninerm}
+\let\orgeightrm=\eightrm \def\eightrm{\eightmj\orgeightrm}
+\let\orgsc=\sc \def\sc{\eightsn\orgsc}
+\let\orgtentex=\tentex \def\tentex{\ninesn\orgtentex}
 \let\orguppercase=\uppercase \def\uppercase{\sc\orguppercase}
 
 \expandafter\edef\csname AT(@):catcode\endcsname
@@ -39,6 +36,8 @@
 \font\authorfont=cmr12
 \font\sectionfont=cmbx12
 
+\font\hgsectionfont="Noto Serif CJK KR Bold" at 12pt
+
 \def\pb{\.{|...|}}
 \def\v{\.{\char'174}} % vertical (|) in typewriter font
 \def\lpile{\def\cr{\hfill\endline}\matrix} % I only use \lpile by itself
@@ -52,20 +51,20 @@
 \setpage
 
 \outer\def\section #1.{\penalty-500\bigskip
-        \centerline{\sectionfont\hfont{nanummjb}{at 12pt}%
+        \centerline{\sectionfont\hgsectionfont%
         \def\.##1{{\twelvett##1}} #1}\nobreak\vskip 6pt
         \everypar{\hskip-\parindent\everypar{}}}
 
 \def\lheader{\mainfont\the\pageno\hfill\runninghead\hfill}
 \def\rheader{\hfill\runninghead\hfill\mainfont\the\pageno}
-\def\runninghead{{\tt CWEB} \hfont{outgrm}{at 9pt}사용자 설명서 (버전 3.64)}
+\def\runninghead{{\tt CWEB} \ninesn 사용자 설명서 (버전 3.64)}
 
 % This verbatim mode assumes that ! marks are !! in the text being copied.
 \def\verbatim{\begingroup
   \def\do##1{\catcode`##1=12 } \dospecials
   \parskip 0pt \parindent 0pt \let\!=!
   \catcode`\ =13 \catcode`\^^M=13
-  \tt\hfontname{nanumgtm} \catcode`\!=0 \verbatimdefs \verbatimgobble}
+  \tt \catcode`\!=0 \verbatimdefs \verbatimgobble}
 {\catcode`\^^M=13{\catcode`\ =13\gdef\verbatimdefs{\def^^M{\ \par}\let =\ }} %
   \gdef\verbatimgobble#1^^M{}}
 
@@ -119,7 +118,7 @@ contains current info about \.{CWEB} and related topics.
 \centerline{\titlefont 구조적 문서화의 {\ttitlefont CWEB} 시스템}
 \vskip 18pt\centerline{(버전 3.64 --- 2002년 2월)}
 \vskip 24pt
-\centerline{\hfont{nanummjm}{at 11pt} 도널드 어빈 크누스와 실비오 레비}
+\centerline{\elevenmj 도널드 어빈 크누스와 실비오 레비}
 \vfill
 
 \noindent
@@ -156,7 +155,7 @@ Acrobat Reader는 어도비 시스템즈사의 상표이다.
 \centerline{\titlefont 구조적 문서화의 {\ttitlefont CWEB} 시스템}
 
 \vskip 15pt plus 3pt minus 3pt
-\centerline{\hfont{nanummjm}{at 11pt}도널드 어빈 크누스, 실비오 레비}
+\centerline{\elevenmj 도널드 어빈 크누스, 실비오 레비}
 
 \vskip 24pt plus 3pt minus 3pt
 \noindent
@@ -212,7 +211,7 @@ Acrobat Reader는 어도비 시스템즈사의 상표이다.
 사로 마하파트라, 그리고 이 문서 작성에 많은 도움을 준 카메론 스미스 에게 감사의 말을 전한다.
 램지는 그가 만든 \.{SPIDER} 시스템으로 [{\sl Communications of the ACM\/ \bf32}
 (1989), 1051--1055] 다른 프로그래밍 언어로 문학적 프로그래밍을 하도록 해주었다. 크누스의
-책인 {\sl\hfontsize{at 9pt}문학적 프로그래밍\/} (1992)은 문학적 프로그래밍과 관련된 많은
+책인 {\ninesn 문학적 프로그래밍\/} (1992)은 문학적 프로그래밍과 관련된 많은
 참고 문헌들과 초창기 작업의 풍부하고 흥미로운 내용을 담고 있다. 보데, 슈니터, 마하파트라는
 \.{CWEB}에서 \CPLUSPLUS/도 사용할 수 있도록 하여서, 독자들은 원하기만 하면, 이 글에서
 \CEE/를 \CPLUSPLUS/로 바꾸어 생각해도 된다.
@@ -345,7 +344,7 @@ Acrobat Reader는 어도비 시스템즈사의 상표이다.
 
 %A \.{CWEB} file is built up from units called {\sl sections\/} that are more
 %or less self-contained.  Each section has three parts:
-\.{CWEB} 파일은 {\sl\hfontsize{at 9pt}섹션}이라고 하는 하나의 온전한 의미가 있는 단위들로
+\.{CWEB} 파일은 {\ninesn 섹션}이라고 하는 하나의 온전한 의미가 있는 단위들로
 구성된다. 각 섹션은 다음과 같은 세 개의 파트를 가지고 있다.
 
 %\yskip\item{$\bullet$} A \TEX/ part, containing explanatory material about
@@ -765,9 +764,9 @@ $$
 %as explained earlier.
 \section 매크로.
 제어 코드, \.{@d} 뒤에는 다음과 같은 것들이 나오는데,
-$$\\{\hfontsize{at 9pt}식별자}\.{ }\hbox{\CEE/ 텍스트}\qquad\hbox{또는}\qquad
-\\{\hfontsize{at 9pt}식별자}\.(\\{par}_1,\ldots,\\{par}_n\.{) }\hbox{\CEE/ 텍스트}$$
-(위의 두 번째의 경우에서 \\{\hfontsize{at 9pt}식별자}와 괄호 사이에는 빈칸이 없다.)
+$$\\{\ninesn 식별자}\.{ }\hbox{\CEE/ 텍스트}\qquad\hbox{또는}\qquad
+\\{\ninesn 식별자}\.(\\{par}_1,\ldots,\\{par}_n\.{) }\hbox{\CEE/ 텍스트}$$
+(위의 두 번째의 경우에서 \\{\ninesn 식별자}와 괄호 사이에는 빈칸이 없다.)
 이때, \.{@d}는 \.{CTANGLE}에 의해서 \.{\#define}으로 시작하는 전처리기 명령어로 변환되고,
 앞서 설명한 대로, \.{CTANGLE}에 의해서 만들어지는 \CEE/ 파일의 맨 위에 출력된다.
 
@@ -830,7 +829,7 @@ $$\\{\hfontsize{at 9pt}식별자}\.{ }\hbox{\CEE/ 텍스트}\qquad\hbox{또는}\
 %We've already seen the meaning of several control codes; it's time to
 %list them more methodically.
 \section 제어 코드.
-\.{CWEB}의 {\sl\hfontsize{at 9pt}제어 코드}는 첫 번째 문자가 `\.@'인 두 글자의
+\.{CWEB}의 {\ninesn 제어 코드}는 첫 번째 문자가 `\.@'인 두 글자의
 결합체이다. 이미 앞에서 여러 제어 코드를 살펴봤는데, 이제 \.{CWEB}의 모든 제어 코드를
 좀 더 순차적으로 나열해 볼 시간이 됐다.
 
@@ -865,7 +864,7 @@ $T$는 \TEX/ 파트에서, $M$는 중간 파트에서, $C$는 \CEE/ 파트와 �
 %that the context from this control code to the matching \.{@>} is
 %restricted.
 대괄호 안에는 위에서 설명한 것들 외에 두 가지 다른 문자가 나올 수 있는데, 글자 $r$은
-{\it\hfontsize{at 9pt}제한된 환경}을 나타내는데, \CEE/ 주석문 안의 환경, 섹션 이름,
+{\ninesn 제한된 환경}을 나타내는데, \CEE/ 주석문 안의 환경, 섹션 이름,
 \CEE/ 문자열, 아래에서 설명될 명령 텍스트 등이 이 환경에 속한다. 글자 $c$는 내부 \CEE/
 환경({\it inner \CEE/ context})을 나타내는데, 이에 속하는 환경은 `\pb'안에 있는 \CEE/
 텍스트가 그것이다. 이때 `\pb'는 주석문 안에 사용된 `\pb'는 해당하지만, 다른 제한된 환경에서
@@ -2044,7 +2043,7 @@ Crusius, Julian Gilbey 에게 감사한다.) 위 방법 말고 더 쉬운 방법
 
 \vfil\eject\titletrue
 
-\def\headlinefont{\rm\hfont{outgrm}{at 9pt}}
+\def\headlinefont{\ninerm\ninesn}
 \def\runninghead{\headlinefont 부록 A --- {\tt CWEB} 파일 포멧}
 \section 부록 A: \.{CWEB} 프로그램에서 발췌한 예제.
 %This appendix consists
@@ -2073,14 +2072,12 @@ Crusius, Julian Gilbey 에게 감사한다.) 위 방법 말고 더 쉬운 방법
 \.{CWEAVE}가 만들어낸 \TEX/ 코드 출력물이다. 네 번째는 최종 출력 문서이다.
 
 \vskip 10pt
-\begingroup \def\tt{\eighttt} \baselineskip9pt \hfont{nanumgtm}{at 8pt}
+\eightpoint
 \verbatim
-@ 프로시저 |prime_the_change_buffer|는 계속되는 매칭 과정에서 다음
-매칭 동작을 위해서 |change_buffer|를 세팅한다. 수정 파일에 있는 빈 줄은 매칭에
-쓰이지 않기 때문에, |(change_limit==change_buffer && !!changing)|와
-같은 검사를 해야한다. 즉, 수정 파일을 다 읽어들였는지 확인해야
-한다. 이 프로시저는 |changing|이 1일 때만 호출된다. 따라서 에러
-메시지들은 정확하게 보고될 것이다.
+@ 프로시저 |prime_the_change_buffer|는 계속되는 매칭 과정에서 다음 매칭 동작을 위해서 |change_buffer|를
+세팅한다. 수정 파일에 있는 빈 줄은 매칭에 쓰이지 않기 때문에, |(change_limit==change_buffer && !!changing)|와
+같은 검사를 해야한다. 즉, 수정 파일을 다 읽어들였는지 확인해야 한다. 이 프로시저는 |changing|이 1일 때만
+호출된다. 따라서 에러 메시지들은 정확하게 보고될 것이다.
 
 @c
 void
@@ -2130,11 +2127,10 @@ do {
 }
 
 !endgroup
-\endgroup
 \vfill\eject
 
-\def\runninghead{\headlinefont 부록 
-A --- {\tt CTANGLE}의 변환 결과물 \CEE/ 코드}
+\tenpoint
+\def\runninghead{\headlinefont 부록 A --- {\tt CTANGLE}의 변환 결과물 \CEE/ 코드}
 
 %Here's the portion of the \CEE/ code generated by \.{CTANGLE} that corresponds
 %to the source on the preceding page.  Notice that sections~13, 14 and~15
@@ -2144,7 +2140,7 @@ A --- {\tt CTANGLE}의 변환 결과물 \CEE/ 코드}
 들어간 것(tangled)을 확인하라.
 
 \vskip10pt
-\begingroup \def\tt{\eighttt} \baselineskip9pt
+\eightpoint
 \verbatim
 /*:9*//*12:*/
 #line 247 "common.w"
@@ -2203,16 +2199,15 @@ strncpy(change_buffer,buffer,limit-buffer+1);
 
 /*:12*//*16:*/
 !endgroup
-\endgroup
 \vfill\eject
 
-\def\runninghead{\headlinefont 부록 
-A --- {\tt CWEAVE}의 변환 결과 \TEX/ 코드}
+\tenpoint
+\def\runninghead{\headlinefont 부록 A --- {\tt CWEAVE}의 변환 결과 \TEX/ 코드}
 
 \.{common.tex} 파일에서 앞의 페이지들에 해당하는 부분을 발췌한 것이다.
 
 \vskip8pt
-\begingroup \def\tt{\eighttt} \baselineskip9pt \hfont{nanumgtm}{at 8pt}
+\eightpoint
 \verbatim
 \M{12}프로시저 \PB{\\{prime\_the\_change\_buffer}}는 계속되는 매칭 과정에서 다음 
 매칭 동작을 위해서 \PB{\\{change\_buffer}}를 세팅한다. 수정 파일에 있는 빈 줄은
@@ -2284,11 +2279,11 @@ ${}\\{strncpy}(\\{change\_buffer},\39\\{buffer},\39\\{limit}-\\{buffer}+%
 \T{1});{}$\6
 \4${}\}{}$\2\par\U12.\fi
 !endgroup
-\endgroup
 \vfil\eject
 
+\tenpoint
 \def\inote#1#2#3.{\Y\noindent{\hangindent2em%
-  \baselineskip10pt\eightrm\hfont{nanummjm}{at 7pt}%
+  \baselineskip10pt\eightrm\eightmj%
     #1~\ifacro{\pdfnote#3.}\else#3\fi#2.\par}}
 \def\U{\inote{이 코드는}{번 섹션에서 사용됩니다}}
 
@@ -2296,8 +2291,6 @@ ${}\\{strncpy}(\\{change\_buffer},\39\\{buffer},\39\\{limit}-\\{buffer}+%
 
 앞 페이지에 해당하는 부분을 최종 문서로 만들어 낸 결과이다.
 
-{
-\baselineskip13pt \hfont{nanummjm}{at 9pt}
 \M{12}프로시저 \PB{\\{prime\_the\_change\_buffer}}는 계속되는 매칭 과정에서 다음 
 매칭 동작을 위해서 \PB{\\{change\_buffer}}를 세팅한다. 수정 파일에 있는 빈 줄은
 매칭에 쓰이지 않기 때문에, \PB{$(\\{change\_limit}\E\\{change\_buffer}\W\R\R%
@@ -2368,8 +2361,6 @@ ${}\\{change\_limit}\K\\{change\_buffer}-\\{buffer}+\\{limit};{}$\6
 ${}\\{strncpy}(\\{change\_buffer},\39\\{buffer},\39\\{limit}-\\{buffer}+%
 \T{1});{}$\6
 \4${}\}{}$\2\par\U12.\fi
-
-}
 
 \vfil\eject\titletrue
 \rightskip=0pt % get out of C mode (cf. \B)
@@ -2775,10 +2766,10 @@ $$\postdisplaypenalty=10000
 매크로는 \.{CWEB} 파일의 \TEX/ 파트 또는 \CEE/ 주석문의 어느 곳에서도 다음과
 같은 방법으로 사용할 수 있다.
 $$\vbox{\halign{\.{#}\hfil\cr
-\hfontsize{at 9pt}다음의 주소
+\ninemj 다음의 주소
  \\pdfURL\{the author\}\{mailto:andreas.scherer@@pobox.com\}로
 이메일을 보내거나,\cr
-\hfontsize{at 9pt}웹사이트 \\pdfURL\{his home page\}\{http://www.pobox.com/%
+\ninemj 웹사이트 \\pdfURL\{his home page\}\{http://www.pobox.com/%
        \\TILDE/scherer\}를 방문하길 바란다.\cr}}$$
 {\mc PDF} 문서에서, 이 매크로의 첫 번째 인자는 클릭할 수 있는 파란색 글씨로
 나타난다. 이 매크로를 올바르게 사용했다면, 아크로뱃 리더는 사용자의
