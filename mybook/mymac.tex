@@ -1,4 +1,4 @@
-% Macros for My Book
+% Macros for hangul
 
 \input luatexko.sty
 
@@ -245,145 +245,6 @@
 \def\eightbig#1{{\hbox{$\textfont0=\ninerm\textfont2=\ninesy
   \left#1\vbox to6.5pt{}\right.\n@space$}}}
 
-% Page layout
-\newdimen\pagewidth \newdimen\pageheight \newdimen\ruleht
-\hsize 29pc  \vsize 46pc  \maxdepth=2.2pt
-\pagewidth=\hsize \pageheight=\vsize \ruleht=.5pt
-\abovedisplayskip=6pt plus 3pt minus 1pt
-\belowdisplayskip=6pt plus 3pt minus 1pt
-\abovedisplayshortskip=0pt plus 3pt
-\belowdisplayshortskip=4pt plus 3pt
-
-%\newinsert\footins
-\def\footnote#1{\edef\@sf{\spacefactor\the\spacefactor}#1\@sf
-      \insert\footins\bgroup\eightpoint
-      \interlinepenalty100 \let\par=\endgraf
-        \leftskip=\z@skip \rightskip=\z@skip
-        \splittopskip=10pt plus 1pt minus 1pt \floatingpenalty=20000
-        \smallskip\item{#1}\bgroup\strut\aftergroup\@foot\let\next}
-\skip\footins=12pt plus 2pt minus 4pt % space added when footnote is present
-%\count\footins=1000 % footnote magnification factor (1 to 1)
-\dimen\footins=30pc % maximum footnotes per page
-
-\newinsert\margin
-\dimen\margin=\maxdimen
-\count\margin=0 \skip\margin=0pt % marginal inserts take up no space
-
-\newif\iftitle
-\def\titlepage{\global\titletrue} % for pages without headlines
-\def\rhead{} % \rhead contains the running headline
-
-\def\leftheadline{\hbox to \pagewidth{\spaceskip=0pt
-    \vbox to 10pt{}% strut to position the baseline
-    \llap{\tenbf\folio\kern1pc}% folio to left of text
-    \tenit\rhead\hfil% running head flush left
-    }}
-\def\rightheadline{\hbox to \pagewidth{\spaceskip=0pt
-    \vbox to 10pt{}% strut to position the baseline
-    \hfil\tenit\rhead\/% running head flush right
-    \rlap{\kern1pc\tenbf\folio}% folio to right of text
-    }}
-
-\def\onepageout#1{\shipout\vbox{ % here we define one page of output
-    \offinterlineskip % butt the boxes together
-    \vbox to 3pc{ % this part goes on top of the 44pc pages
-      \iftitle % the next is used for title pages
-        \global\titlefalse % reset the titlepage switch
-        \setcornerrules % for camera alignment
-      \else\ifodd\pageno \rightheadline\else\leftheadline\fi\fi
-      \vfill} % this completes the \vbox to 3pc
-    \vbox to \pageheight{
-      \ifvoid\margin\else % marginal info is present
-        \rlap{\kern31pc\vbox to\z@{\kern4pt\box\margin \vss}}\fi
-      #1 % now insert the main information
-      \ifvoid\footins\else % footnote info is present
-        \vskip\skip\footins \kern-3pt
-        \hrule height\ruleht width\pagewidth \kern-\ruleht \kern3pt
-        \unvbox\footins\fi
-      \boxmaxdepth=\maxdepth
-      } % this completes the \vbox to \pageheight
-    }
-  \advancepageno}
-
-\def\setcornerrules{\hbox to \pagewidth{\vrule width 1pc height\ruleht
-    \hfil \vrule width 1pc}
-  \hbox to \pagewidth{\llap{\sevenrm(page \folio)\kern1pc}%
-    \vrule height1pc width\ruleht depth\z@
-    \hfil \vrule width\ruleht depth\z@}}
-
-\output{\onepageout{\unvbox255}}
-
-% Chapter formatting
-% The preface and table of contents are formatted in place, not here
-
-\def\titlepage{\global\titletrue} % for pages without headlines
-\def\rhead{} % \rhead contains the running headline
-
-\newif\iftitle
-\def\lhead{}
-
-\def\leftheadline{\hbox to \pagewidth{\spaceskip=0pt
-    \vbox to 10pt{}% strut to position the baseline
-    \llap{\tenbf\folio\kern1pc}% folio to left of text
-    \ninesn\lhead\hfil% running head flush left
-    }}
-\def\rightheadline{\hbox to \pagewidth{\spaceskip=0pt
-    \vbox to 10pt{}% strut to position the baseline
-    \ifsection\def\rhead{}\global\sectionfalse\fi
-    \hfil\ninesn\rhead\/% running head flush right
-    \rlap{\kern1pc\tenbf\folio}% folio to right of text
-    }}
-
-\def\onepageout#1{\shipout\vbox{ % here we define one page of output
-    \offinterlineskip % butt the boxes together
-    \vbox to 3pc{ % this part goes on top of the 44pc pages
-      \iftitle % the next is used for title pages
-        \global\titlefalse % reset the titlepage switch
-      \else\ifodd\pageno \rightheadline\else\leftheadline\fi\fi
-      \vfill} % this completes the \vbox to 3pc
-    \vbox to \pageheight{
-      \ifvoid\margin\else % marginal info is present
-        \rlap{\kern31pc\vbox to\z@{\kern4pt\box\margin \vss}}\fi
-      #1 % now insert the main information
-      \ifvoid\footins\else % footnote info is present
-        \vskip\skip\footins \kern-3pt
-        \hrule height\ruleht width\pagewidth \kern-\ruleht \kern3pt
-        \unvbox\footins\fi
-      \boxmaxdepth=\maxdepth
-      } % this completes the \vbox to \pageheight
-    }
-  \advancepageno}
-
-\output{\onepageout{\unvbox255}}
-
-% Chapter formatting
-% The preface and table of contents are formatted in place, not here
-
-\newcount\chapno \chapno=0
-
-\def\beginchapter#1\par{\advance\chapno by1
-  \ifodd\pageno
-    \errmessage{You had too much text on that last page; I'm backing up}
-    \advance\pageno by-1 \fi
-  \titlepage
-  \def\\{ } % \\'s in the title will be treated as spaces
-  \message{\the\chapno #1:} % show the chapter title on the terminal
-  \xdef\lhead{#1\unskip}
-  {\rightline{\inchhigh \the\chapno\kern-.04em}
-    \vskip 1.75pc
-    \baselineskip 36pt \lineskiplimit \titlelsl \lineskip 12pt
-    \let\\=\cr % now the \\'s are line dividers
-    \halign{\line{\titlefont\hfil##}\\#1\unskip\\}
-    \vfill\eject}} % output the chapter title page
-\newdimen\titlelsl \titlelsl=1pt
-
-\newif\ifsection
-\def\section#1\par{\vfill\eject\global\sectiontrue\xdef\rhead{#1}
-  \vglue 1in
-  \centerline{\sectionfont#1\unskip}
-  \vskip 1in
-  \noindent\ignorespaces}
-
 \def\.#1{\leavevmode\hbox{\tentex % typewriter type for strings
   \let\\=\BS % backslash in a string
   \let\{=\LB % left brace in a string
@@ -408,11 +269,18 @@
 \def\ltdot{\mathinner{\ldotp\ldotp}}
 
 % framing
-\def\frame #1#2#3{\vbox{\hrule height#1pt%    TOP RULE
-  \hbox{\vrule width#1pt\kern #2pt%            RULE AND SPACE ON LEFT
-  \vbox{\kern #2pt\hbox{#3}\kern #2pt}%        TOP, MATERIAL, BOTTOM
-  \kern #2pt\vrule width#1pt}%                 SPACE AND RULE ON RIGHT
-  \hrule height0pt depth#1pt}}%                BOTTOM RULE
+\def\frame #1#2#3#4{\vbox{\hrule height #1pt%    TOP RULE
+ \hbox{\vrule width #1pt\kern #2pt%              RULE AND SPACE ON LEFT
+ \vbox{\kern #2pt%                               SPACE AT TOP
+ \vbox{\hsize #3\noindent #4}%                   MATERIAL THAT WILL BE BOXED
+ \kern #2pt}%                                    SPACE AT BOTTOM
+ \kern #2pt\vrule width #1pt}%                   SPACE AND RULE ON RIGHT
+ \hrule height0pt depth #1pt}}%,                 BOTTOM RULE
+\def\fitframe #1#2#3{\vbox{\hrule height#1pt%    TOP RULE
+  \hbox{\vrule width#1pt\kern #2pt%              RULE AND SPACE ON LEFT
+  \vbox{\kern #2pt\hbox{#3}\kern #2pt}%          TOP, MATERIAL, BOTTOM
+  \kern #2pt\vrule width#1pt}%                   SPACE AND RULE ON RIGHT
+  \hrule height0pt depth#1pt}}%                  BOTTOM RULE
 
 % macros for verbatim scanning
 \chardef\other=12
@@ -468,60 +336,6 @@
     \fi
     \expandafter\useimageresource\csname PicKey #1 \the\toks0\endcsname\relax}%
   \afterassignment\next\toks0= }
-
-% macros to demarcate lines quoted from TeX source files
-\def\beginlines{\par\begingroup\nobreak\medskip\parindent\z@ \obeylines
-  \hrule\kern1pt\nobreak \everypar{\strut}}
-\def\endlines{\kern1pt\hrule\endgroup\medbreak\noindent}
-\def\weakendlines{\kern1pt\hrule\endgroup\medskip\noindent}
-\def\finalendlines{\kern1pt\hrule\endgroup\medbreak}
-
-% Indexing macros
-\newif\ifproofmode
-\proofmodetrue % this should be false when making camera-ready copy
-\newwrite\inx
-\immediate\openout\inx=index % file for index reminders
-\newif\ifsilent
-\def\specialhat{\ifmmode\def\next{^}\else\let\next=\beginxref\fi\next}
-\def\beginxref{\futurelet\next\beginxrefswitch}
-\def\beginxrefswitch{\ifx\next\specialhat\let\next=\silentxref
-  \else\silentfalse\let\next=\xref\fi \next}
-\catcode`\^=\active \let ^=\specialhat
-\def\silentxref^{\silenttrue\xref}
-
-\def\marginstyle{\vrule height7pt depth2pt width\z@ \sevenrm\sevenmj}
-
-\chardef\bslash=`\\
-\def\xref{\futurelet\next\xrefswitch}
-\def\xrefswitch{\begingroup
-  \ifx\next|\aftergroup\vxref % case 1 or 2, |arg| or |\arg|
-  \else\ifx\next\<\aftergroup\anglexref % case 3, "\<arg>" means angle brackets
-    \else\aftergroup\normalxref \fi\fi\endgroup} % case 0, "{arg}"
-\def\vxref|{\catcode`\\=\active \futurelet\next\vxrefswitch}
-\def\vxrefswitch#1|{\catcode`\\=0
-  \ifx\next\empty\def\xreftype{2}%
-    \def\next{{\tt\bslash\text}}% type 2, |\arg|
-  \else\def\xreftype{1}\def\next{{\tt\text}}\fi % type 1, |arg|
-  \edef\text{#1}\makexref}
-{\catcode`\|=0 \catcode`\\=\active |gdef\{}}
-\def\anglexref\<#1>{\def\xreftype{3}\def\text{#1}%
-  \def\next{\<\text>}\makexref}
-\def\normalxref#1{\def\xreftype{0}\def\text{#1}\let\next=\text\makexref}
-\def\makexref{\ifproofmode\insert\margin{\hbox{\marginstyle\text}}%
-   \xdef\writeit{\write\inx{\text\space!\xreftype\space
-     \noexpand\number\pageno.}}\writeit
-   \else\ifhmode\kern\z@\fi\fi
-  \ifsilent\ignorespaces\else\next\fi}
-% the \insert (which is done in proofmode only) suppresses hyphenation,
-% so the \kern\z@ is put in to give the same effect in non-proofmode.
-
-\def\beginemph{\begingroup
-  \bigskip\narrower\narrower\noindent\llap{``}}
-\def\endemph{\unskip''\bigskip\endgroup}
-
-\def\beginbf{\begingroup
-  \bigskip\narrower\narrower\noindent\bf}
-\def\endbf{\bigskip\endgroup}
 
 \catcode`\@=12
 \tenpoint
