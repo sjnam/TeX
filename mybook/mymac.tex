@@ -141,6 +141,7 @@
 \font\sectionfont="Noto Sans CJK KR Medium" at 18pt
 
 \font\ninerm=cmr9
+\let\mc=\ninerm % medium caps
 \font\eightrm=cmr8
 \font\sixrm=cmr6
 
@@ -273,8 +274,19 @@
 \chardef\UL=`\_ % underline character in a string
 \chardef\CF=`\^ % circumflex character in a string
 
-\def\PP{\hbox{\kern.5pt\raise1pt\hbox{\sevenrm+\kern-1pt+}\kern.5pt}}
+\def\CEE/{{\mc C\spacefactor1000}}
+\def\UNIX/{{\mc U\kern-.05emNIX\spacefactor1000}}
+\def\TEX/{\TeX}
+\def\CPLUSPLUS/{{\mc C\PP\spacefactor1000}}
+\def\Cee{\CEE/} % for backward compatibility
+\def\Cpp{\CPLUSPLUS/} % for backward compatibility
 
+\newbox\PPbox % symbol for ++
+\setbox\PPbox=\hbox{\kern.5pt\raise1pt\hbox{\sevenrm+\kern-1pt+}\kern.5pt}
+\def\PP{\copy\PPbox}
+\newbox\MMbox \setbox\MMbox=\hbox{\kern.5pt\raise1pt\hbox{\sevensy\char0
+ \kern-1pt\char0}\kern.5pt}
+\def\MM{\copy\MMbox}
 
 % framing
 \def\frame #1#2#3#4{\vbox{\hrule height #1pt%     TOP RULE
@@ -312,8 +324,12 @@
   |obeylines % end of line is active
   |gdef|ttfinish#1^^M#2\endtt{#1|vbox{#2}|endgroup$$}}
 
-\catcode`\|=\active
-{\obeylines \gdef|{\ttverbatim \spaceskip\ttglue \let^^M=\  \let|=\endgroup}}
+% ignore
+\def\ignore {\count255=0 \begingroup
+      \loop \catcode\count255=14  % Make everything a comment character.
+         \advance\count255 by1 \ifnum\count255<127
+      \repeat \catcode`\!=0 }     % Makes ! an escape character.
+{\catcode`\!=0 !gdef!E{!endgroup}}% Defines the `stop ignoring' command.
 
 % non-centered displays
 \outer\def\begindisplay{\obeylines\startdisplay}
@@ -334,6 +350,7 @@
 \def\black{\setcmykcolor{0 0 0 1}}
 \def\blue{\setcmykcolor{1 1 0 0}}
 \def\red{\setrgbcolor{0.8 0 0}}
+\def\yellow{\setrgbcolor{0.5 0.5 0}}
 
 % include graphics
 % usage: \includegraphics width 3cm height 5cm {donknuth.png}
@@ -348,3 +365,4 @@
 
 \catcode`\@=12
 \tenpoint
+
