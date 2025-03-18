@@ -54,7 +54,7 @@
   BoldFont=*,
 ]
 
-\setsanshangulfont{Noto sans KR}[
+\setsanshangulfont{Noto sans CJK KR}[
   Scale=0.95,
   Script=Hangul,
   Language=Korean,
@@ -70,15 +70,15 @@
 \setbeamercolor{alerted text}{fg=DarkBlue}
 \setbeamertemplate{footline}{\hfill\raisebox{5pt}{\raisebox{4.4mm}{%
       \fontspec{Fira Sans}[Color=DarkBlue,Scale=1.7]
-      \hangulfontspec{Noto sans KR}[Color=DarkBlue,Scale=1.5]
+      \hangulfontspec{Noto sans CJK KR}[Color=DarkBlue,Scale=1.5]
       \secname~~\insertframenumber}%
     \quad\lualogo{6}}}
 
-\title{\hangulfontspec{Noto Sans KR Bold}루아텍 노드와 콜백}
+\title{\hangulfontspec{Noto Sans CJK KR Bold}루아텍 노드와 콜백}
 \subtitle{\fontspec{DejaVu Serif Bold}Lua\TeX\ Nodes and Callbacks}
-\date{\hangulfontspec{Noto sans KR}[Scale=.95]2020년 2월 15일 토요일}
-\author{\hangulfontspec{Noto sans KR}[Scale=.95]남수진}
-\institute{\hangulfontspec{Noto sans KR}[Scale=.95]
+\date{\hangulfontspec{Noto sans CJK KR}[Scale=.95]2020년 2월 15일 토요일}
+\author{\hangulfontspec{Noto sans CJK KR}[Scale=.95]남수진}
+\institute{\hangulfontspec{Noto sans CJK KR}[Scale=.95]
   2020 한국텍학회 학술대회 및 정기총회 \\
   고려대학교}
 \titlegraphic{\hfill\vbox{\vskip15mm\lualogo{14}}}
@@ -95,7 +95,7 @@
 
 \begin{frame}{목차}
   \fontspec{Fira Sans}[Color=DarkBlue]
-  \hangulfontspec{Noto sans KR}[Color=DarkBlue]
+  \hangulfontspec{Noto sans CJK KR}[Color=DarkBlue]
   \setbeamertemplate{section in toc}[sections]
   \tableofcontents
 \end{frame}
@@ -589,5 +589,13 @@ luatexbase.add_to_callback("post_linebreak_filter",
   \item 일반 (라)텍 사용자를 넘어 루아테크니션이 되자.
   \end{itemize}
 \end{frame}
+
+{
+  \setbeamertemplate{footline}{}
+  \metroset{background=dark}
+  \begin{frame}[standout]
+    \LARGE\textcolor{DarkBlue}{감사합니다}
+  \end{frame}
+}
 
 \end{document}
