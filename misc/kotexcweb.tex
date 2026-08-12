@@ -1,238 +1,596 @@
-%% File kotexcweb.tex
-%%
-%% (C) Copyright 2007-2013 Dohyun Kim <nomos at ktug org>
-%%                         Soojin Nam <sjnam at ktug org>
-%%
-%% This work may be distributed and/or modified under the
-%% conditions of the LaTeX Project Public License, either version 1.3c
-%% of this license or (at your option) any later version.
-%% The latest version of this license is in
-%%  http://www.latex-project.org/lppl.txt
-%% and version 1.3c or later is part of all distributions of LaTeX
-%% version 2006/05/20 or later.
-%%
-\input kotex.sty
+% kotexcweb.tex -- Korean localization and a LuaTeX PDF back end for CWEB.
+%
+% Put  \input kotexcweb  as the FIRST line of the limbo of a .w file and process
+% the woven output with luatex (not pdftex):  luatex foo.tex.  cweave emits
+% "\input cwebmac" as the very first line of foo.tex, so this file is read
+% afterwards and overrides cwebmac wherever Korean text or the LuaTeX engine
+% needs it.  It has to come first in limbo because it reads cwebmac a second
+% time (see the next paragraph), which would undo anything defined in limbo
+% before it -- \datethis, \def\title, \pageheight and the like all belong after
+% the \input, not before it.
+%
+% Requires luatexko and the Noto Serif/Sans CJK KR fonts.  The hangul font setup
+% is self-contained below; edit the \sethangulfont lines to change typefaces.
+%
+% What cweave does to Korean before TeX ever sees it.  It reads a line of a .w
+% file into a 100-byte buffer, and a Korean character is three bytes, so a
+% source line holds barely thirty characters before cweave stops with "Input
+% line too long" -- and a C string on a line that overruns the buffer comes out
+% garbled, half a character landing in the index.  The change files next to
+% this one, comm-ko.ch with ctang-ko.ch and cweav-ko.ch, raise the buffer to a
+% kilobyte and both symptoms go away:
+%
+%   make CCHANGES=comm-ko.ch TCHANGES=ctang-ko.ch WCHANGES=cweav-ko.ch
+%
+% Without them, keep Korean source lines short.  (cweave 4 reads longer lines
+% to begin with, and this file digests its output too, as long as the cwebmac
+% it finds is still the 3.70 one.)  What cweave does inside a string in any
+% case -- a discretionary break every twenty bytes, counted in bytes, which
+% cuts Korean characters in half -- is repaired below.
 
-\ifpdftex
-  \ifdefined\pdfgentounicode
-    \input glyphtounicode
-    \pdfgentounicode=1
-  \fi
-\fi
+\ifx\pdfextension\undefined
+  \errmessage{kotexcweb.tex needs LuaTeX; run luatex, not pdftex or tex}\fi
+% This file follows the cwebmac.tex that comes with CWEB 3 (version 3.70, the
+% one next to it in this directory).  CWEB 4's cwebmac is a different macro
+% file: it knows about LuaTeX already, and it renamed \ifacro to \ifacrohint,
+% so the overrides below would not fit it.  TeX looks in the current directory
+% first, so weave and typeset in the directory that holds this cwebmac.
+\ifx\cwebversion\undefined\else\ifnum\cwebversion>3
+  \errmessage{kotexcweb.tex expects cwebmac 3.x, but cwebmac
+    \number\cwebversion.\number\cwebrevision\space was loaded}\fi\fi
 
-\baselineskip 14pt
+% ---- pdfTeX's primitives, and a second reading of cwebmac -------------------
+% cwebmac decides once and for all, at the moment it is read, whether to emit
+% hyperlinks and bookmarks: it looks for \pdfoutput, and LuaTeX has no such
+% primitive (it became \outputmode in LuaTeX 0.85).  So \ifacro comes out false
+% and cwebmac skips its entire block of PDF macros -- \pdflink, \pdfnote,
+% \pdfURL and the ``sanitizer'' that turns a section name into a bookmark title.
+% Nothing can switch that block on afterwards, and we cannot get in ahead of
+% cwebmac either, since cweave writes the \input line itself.
+%
+% What we can do is make LuaTeX look like pdfTeX and read cwebmac again.  The
+% six primitives cwebmac uses are all spellings of LuaTeX's \pdfextension, and
+% \pdfoutput is just a counter to cwebmac (it tests it and sets it to 1).
+%
+% The second reading repeats cwebmac's assignments and allocates a few more
+% registers, which costs nothing.  Its last line, though, contributes a
+% \vbox to\vsize{} -- there so that the first \topmark will not be null -- and a
+% second one of those would be shipped out as an empty first page, since the
+% ``the first page is garbage'' output routine throws away one page, not two.
+% So \vbox is booby-trapped just long enough to catch that box in a register:
+% it is the only \vbox cwebmac executes while it is being read, and it puts
+% itself back as soon as it has caught it.
+\newcount\pdfoutput \pdfoutput=1
+\protected\def\pdfliteral{\pdfextension literal }
+\protected\def\pdfdest{\pdfextension dest }
+\protected\def\pdfoutline{\pdfextension outline }
+\protected\def\pdfcatalog{\pdfextension catalog }
+\protected\def\pdfannotlink{\pdfextension startlink }
+\protected\def\pdfendlink{\pdfextension endlink\relax} % \relax: no stray space
+% luatexko comes first, because it loads atbegshi and hence iftex, and iftex
+% declares an \ifpdftex of its own -- false under LuaTeX, quite correctly, but
+% it would shadow cwebmac's flag of the same name and switch the links and
+% bookmarks back off.  Reading cwebmac afterwards gives cwebmac the last word.
+\input luatexko.sty
+\newbox\spareframe
+\let\korealvbox=\vbox \def\vbox{\let\vbox=\korealvbox\setbox\spareframe=\vbox}
+\input cwebmac
 
-% 기본 폰트를 한글을 포함하도록 다시 정의합니다.
-\expandafter\def\expandafter\tt\expandafter{\tt\hfontname{nnmbrgtm}}
-\expandafter\def\expandafter\sl\expandafter{\sl\hfontname{nanumgtm}}
-\expandafter\def\expandafter\it\expandafter{\it\hfontname{nanumgtm}}
-\expandafter\def\expandafter\bf\expandafter{\bf\hfontname{nanummjb}}
+% ---- Korean fonts -----------------------------------------------------------
+% luatexko provides Hangul shaping (and automatic fallback, so Korean appears
+% even through cwebmac's CM fonts).  The plain-TeX hangul setup is borrowed from
+% luatexko-doc.tex: a serif body (Noto Serif), a sans running head (Noto Sans),
+% and a monospace face (Noto Sans Mono) paired with the matching CM fonts.
 
-% 각종 폰트를 한글을 포함하도록 재정의
-\let\otitlefont=\titlefont \def\titlefont{\hfont{nanummjm}{at 13pt}\otitlefont}
-\let\ottitlefont=\ttitlefont \def\ttitlefont{\hfont{nnmbrgtb}{at 13pt}\ottitlefont}
-\let\orgninerm=\ninerm \def\ninerm{\hfont{nanummjm}{at 9pt}\orgninerm}
-\let\orgeightrm=\eightrm \def\eightrm{\hfont{nanummjm}{at 8pt}\orgeightrm}
-\let\orgsc=\sc \def\sc{\hfont{nnmbrgtm}{at 8pt}\orgsc}
-\let\orgtentex=\tentex \def\tentex{\hfont{nanumgtm}{at 9pt}\orgtentex}
-\let\orguppercase=\uppercase \def\uppercase{\sc\orguppercase}
+\sethangulfont\tenmj="Noto Serif CJK KR Light:%
+  language=KOR;%
+  script=hang;%
+  interhangul=-0.04em;%
+  interlatincjk=.125em;%
+  charraise=-0.06em;%
+  +compresspunctuations;%
+  expansion=default;" at 9.8pt
+\sethangulfont\tentz="Noto Sans Mono CJK KR:%
+  language=KOR;%
+  script=hang;%
+  interhangul=-0.04em;%
+  interlatincjk=.125em;%
+  charraise=-0.03em;%
+  +compresspunctuations;%
+  expansion=default;" at 9.3pt
+\sethangulfont\tenbd="Noto Serif CJK KR Bold:%
+  language=KOR;%
+  script=hang;%
+  interhangul=-0.04em;%
+  interlatincjk=.125em;%
+  charraise=-0.06em;%
+  +compresspunctuations;%
+  expansion=default;" at 9.8pt
+\sethangulfont\tengt="Noto Sans CJK KR Light:%
+  language=KOR;%
+  script=hang;%
+  interhangul=-0.04em;%
+  interlatincjk=.125em;%
+  charraise=-0.06em;%
+  +compresspunctuations;%
+  expansion=default;" at 9.8pt
 
-\def\kotitle#1{\expandafter\uppercase\expandafter{#1}}
+\sethangulfont\ninemj="Noto Serif CJK KR Light:%
+  language=KOR;%
+  script=hang;%
+  interhangul=-0.04em;%
+  interlatincjk=.125em;%
+  charraise=-0.06em;%
+  +compresspunctuations;%
+  expansion=default;" at 8.8pt
+\sethangulfont\ninetz="Noto Sans Mono CJK KR:%
+  language=KOR;%
+  script=hang;%
+  interhangul=-0.04em;%
+  interlatincjk=.125em;%
+  charraise=-0.03em;%
+  +compresspunctuations;%
+  expansion=default;" at 8.3pt
+\sethangulfont\ninebd="Noto Serif CJK KR Bold:%
+  language=KOR;%
+  script=hang;%
+  interhangul=-0.04em;%
+  interlatincjk=.125em;%
+  charraise=-0.06em;%
+  +compresspunctuations;%
+  expansion=default;" at 8.8pt
+\sethangulfont\ninegt="Noto Sans CJK KR Light:%
+  language=KOR;%
+  script=hang;%
+  interhangul=-0.04em;%
+  interlatincjk=.125em;%
+  charraise=-0.06em;%
+  +compresspunctuations;%
+  expansion=default;" at 8.8pt
 
-\expandafter\edef\csname AT(@):catcode\endcsname
-  {\noexpand\catcode`@\the\catcode`@}
-\catcode`\@=11
+\sethangulfont\eightmj="Noto Serif CJK KR Light:%
+  language=KOR;%
+  script=hang;%
+  interhangul=-0.04em;%
+  interlatincjk=.125em;%
+  charraise=-0.06em;%
+  +compresspunctuations;%
+  expansion=default;" at 7.8pt
+\sethangulfont\eighttz="Noto Sans Mono CJK KR:%
+  language=KOR;%
+  script=hang;%
+  interhangul=-0.04em;%
+  interlatincjk=.125em;%
+  charraise=-0.03em;%
+  +compresspunctuations;%
+  expansion=default;" at 7.3pt
+\sethangulfont\eightbd="Noto Serif CJK KR Bold:%
+  language=KOR;%
+  script=hang;%
+  interhangul=-0.04em;%
+  interlatincjk=.125em;%
+  charraise=-0.06em;%
+  +compresspunctuations;%
+  expansion=default;" at 7.8pt
+\sethangulfont\eightgt="Noto Sans CJK KR Light:%
+  language=KOR;%
+  script=hang;%
+  interhangul=-0.04em;%
+  interlatincjk=.125em;%
+  charraise=-0.06em;%
+  +compresspunctuations;%
+  expansion=default;" at 7.8pt
 
-\def\CEE/{{C\spacefactor1000}}
-\def\CPLUSPLUS/{{\CEE/\PP\spacefactor1000}}
+\sethangulfont\sevenmj="Noto Serif CJK KR Light:%
+  language=KOR;%
+  script=hang;%
+  interhangul=-0.04em;%
+  interlatincjk=.125em;%
+  charraise=-0.06em;%
+  +compresspunctuations;%
+  expansion=default;" at 6.8pt
 
-% names of the sections
+% hangul in math mode (identifiers and section names inside |...| are set in
+% math mode, so a Korean section name needs these).
+\font\texthangul="Noto Serif CJK KR Regular" at 9.8pt
+\font\texthangulnine="Noto Serif CJK KR Regular" at 8.8pt
+\font\texthanguleight="Noto Serif CJK KR Regular" at 7.8pt
+\font\scripthangul="Noto Serif CJK KR Regular" at 6.8pt
+\font\scripthangulsix="Noto Serif CJK KR Regular" at 5.8pt
+\font\scriptscripthangul="Noto Serif CJK KR Medium" at 4.8pt
+
+% ---- size switches ----------------------------------------------------------
+% Size-switch macros (borrowed from manmac.tex) that bind each CM family to its
+% matching hangul font, so \rm/\it/\bf/\tt carry Korean as well as Latin.
+% cwebmac declares \ninerm and \eightrm as fonts and uses them as font switches
+% (in \mc, \sc, \note, \X, the running heads and the index); the fonts are kept
+% here under the names \ninermfont and \eightrmfont, and the switches are
+% redefined below to pull in the matching hangul.
+\catcode`@=11 % borrow the private macros of PLAIN (with care)
+
+\font\ninermfont=cmr9
+\font\eightrmfont=cmr8
+\font\sixrm=cmr6
+
+\font\ninei=cmmi9
+\font\eighti=cmmi8
+\font\sixi=cmmi6
+\skewchar\ninei='177 \skewchar\eighti='177 \skewchar\sixi='177
+
+\font\ninesy=cmsy9
+\font\eightsy=cmsy8
+\font\sixsy=cmsy6
+\skewchar\ninesy='60 \skewchar\eightsy='60 \skewchar\sixsy='60
+
+\font\ninebf=cmbx9
+\font\eightbf=cmbx8
+\font\sixbf=cmbx6
+
+\font\ninett=cmtt9
+\font\eighttt=cmtt8
+\hyphenchar\tentt=-1 % inhibit hyphenation in typewriter type
+\hyphenchar\ninett=-1
+\hyphenchar\eighttt=-1
+
+\font\ninesl=cmsl9
+\font\eightsl=cmsl8
+
+\font\nineit=cmti9
+\font\eightit=cmti8
+
+\newskip\ttglue
+\def\tenpoint{\def\rm{\fam0\tenrm\tenmj}%
+  \textfont0=\tenrm \scriptfont0=\sevenrm \scriptscriptfont0=\fiverm
+  \textfont1=\teni \scriptfont1=\seveni \scriptscriptfont1=\fivei
+  \textfont2=\tensy \scriptfont2=\sevensy \scriptscriptfont2=\fivesy
+  \textfont3=\tenex \scriptfont3=\tenex \scriptscriptfont3=\tenex
+  \setmathhangulfonts\texthangul\scripthangul\scriptscripthangul
+  \def\it{\fam\itfam\tenit\tengt}%
+  \textfont\itfam=\tenit
+  \def\sl{\fam\slfam\tensl\tengt}%
+  \textfont\slfam=\tensl
+  \def\bf{\fam\bffam\tenbf\tenbd}%
+  \textfont\bffam=\tenbf \scriptfont\bffam=\sevenbf
+  \scriptscriptfont\bffam=\fivebf
+  \def\tt{\fam\ttfam\tentt\tentz}%
+  \textfont\ttfam=\tentt
+  \tt \ttglue=.5em plus.25em minus.15em
+  \normalbaselineskip=14pt
+  \let\big=\tenbig
+  \setbox\strutbox=\hbox{\vrule height8.5pt depth3.5pt width\z@}%
+  \normalbaselines\rm}
+
+\def\ninepoint{\def\rm{\fam0\ninermfont\ninemj}%
+  \textfont0=\ninermfont \scriptfont0=\sixrm \scriptscriptfont0=\fiverm
+  \textfont1=\ninei \scriptfont1=\sixi \scriptscriptfont1=\fivei
+  \textfont2=\ninesy \scriptfont2=\sixsy \scriptscriptfont2=\fivesy
+  \textfont3=\tenex \scriptfont3=\tenex \scriptscriptfont3=\tenex
+  \setmathhangulfonts\texthangulnine\scripthangulsix\scriptscripthangul
+  \def\it{\fam\itfam\nineit\ninegt}%
+  \textfont\itfam=\nineit
+  \def\sl{\fam\slfam\ninesl\ninegt}%
+  \textfont\slfam=\ninesl
+  \def\bf{\fam\bffam\ninebf\ninebd}%
+  \textfont\bffam=\ninebf \scriptfont\bffam=\sixbf
+   \scriptscriptfont\bffam=\fivebf
+  \def\tt{\fam\ttfam\ninett\ninetz}%
+  \textfont\ttfam=\ninett
+  \tt \ttglue=.5em plus.25em minus.15em
+  \normalbaselineskip=13pt
+  \let\big=\ninebig
+  \setbox\strutbox=\hbox{\vrule height8pt depth3pt width\z@}%
+  \normalbaselines\rm}
+
+\def\eightpoint{\def\rm{\fam0\eightrmfont\eightmj}%
+  \textfont0=\eightrmfont \scriptfont0=\sixrm \scriptscriptfont0=\fiverm
+  \textfont1=\eighti \scriptfont1=\sixi \scriptscriptfont1=\fivei
+  \textfont2=\eightsy \scriptfont2=\sixsy \scriptscriptfont2=\fivesy
+  \textfont3=\tenex \scriptfont3=\tenex \scriptscriptfont3=\tenex
+  \setmathhangulfonts\texthanguleight\scripthangulsix\scriptscripthangul
+  \def\it{\fam\itfam\eightit\eightgt}%
+  \textfont\itfam=\eightit
+  \def\sl{\fam\slfam\eightsl\eightgt}%
+  \textfont\slfam=\eightsl
+  \def\bf{\fam\bffam\eightbf\eightbd}%
+  \textfont\bffam=\eightbf \scriptfont\bffam=\sixbf
+   \scriptscriptfont\bffam=\fivebf
+  \def\tt{\fam\ttfam\eighttt\eighttz}%
+  \textfont\ttfam=\eighttt
+  \tt \ttglue=.5em plus.25em minus.15em
+  \normalbaselineskip=11pt
+  \let\big=\eightbig
+  \setbox\strutbox=\hbox{\vrule height7pt depth2pt width\z@}%
+  \normalbaselines\rm}
+
+\def\tenmath{\tenpoint\fam-1 } % use after $ in ninepoint sections
+\def\tenbig#1{{\hbox{$\left#1\vbox to8.5pt{}\right.\n@space$}}}
+\def\ninebig#1{{\hbox{$\textfont0=\tenrm\textfont2=\tensy
+  \left#1\vbox to7.25pt{}\right.\n@space$}}}
+\def\eightbig#1{{\hbox{$\textfont0=\ninermfont\textfont2=\ninesy
+  \left#1\vbox to6.5pt{}\right.\n@space$}}}
+
+\catcode`\@=12
+\tenpoint
+
+% ---- cwebmac's font hooks ---------------------------------------------------
+% Each of these was \let to a bare CM font by cwebmac, which leaves Korean to
+% luatexko's fallback -- i.e. at whatever size and shape the fallback happens to
+% pick.  Make them switch the hangul companion too.
+\def\eightrm{\eightrmfont\eightmj} % notes, index, headers: cmr8 + 7.8pt serif
+\def\ninerm{\ninermfont\ninemj}
+\def\mc{\ninerm}                   % medium caps
+\def\sc{\eightrm}                  % smallish caps
+\def\mainfont{\tenrm\tenmj}        % page numbers and section numbers in headers
+\def\cmntfont{\tenrm\tenmj}        % comments in the C parts
+\def\smallfont{\eightrm}           % the small print, as a name of its own
+
+% The title fonts: keep cwebmac's Latin faces for Latin and punctuation and pair
+% a Hangul companion of the same size, so only Korean characters take the CJK
+% face.  cwebmac has \titlefont=cmr7 scaled\magstep4 (~14.5pt) for the contents
+% page and \ttitlefont=cmtt10 scaled\magstep2 (~14.4pt) for typewriter text in a
+% title; the companions match those sizes.
+\let\latintitlefont=\titlefont
+\sethangulfont\hangultitlefont="Noto Serif CJK KR Medium:%
+  language=KOR;script=hang;interhangul=-0.04em;interlatincjk=.125em;%
+  charraise=-0.06em;+compresspunctuations" at 14.5pt
+\def\titlefont{\latintitlefont\hangultitlefont}
+
+\let\latinttitlefont=\ttitlefont
+\sethangulfont\hangulttitlefont="Noto Sans Mono CJK KR:%
+  language=KOR;script=hang;interhangul=-0.04em;interlatincjk=.125em;%
+  charraise=-0.06em;+compresspunctuations" at 14pt
+\def\ttitlefont{\latinttitlefont\hangulttitlefont}
+
+% cwebmac sets strings, verbatim text and @d names in cmtex10, which has no
+% Hangul; bring the monospace hangul (\tentz) into scope so that Korean inside a
+% C string, inside \.{...} in a comment, or inside an @d name is typewriter as
+% well, instead of falling back to the serif body face.  The original \. then
+% sets cmtex10 for the Latin part as before.
+\let\ttdot=\.
+\def\.#1{{\tentz\ttdot{#1}}}
+
+% Running heads.  The group (chapter) title is upper-cased Latin, so Korean
+% beside it wants the sans face (\ninegt, Noto Sans) rather than the serif body
+% font; the document title is set as the author wrote it, in the same face.
+\def\headfont{\eightrmfont\ninegt}
+\def\lheader{\headertrue\mainfont\the\pageno\headfont\qquad\grouptitle
+  \hfill\title\qquad\mainfont\topsecno} % top line on left-hand pages
+\def\rheader{\headertrue\mainfont\topsecno\headfont\qquad\title\hfill
+  \grouptitle\qquad\mainfont\the\pageno} % top line on right-hand pages
+
+% Korean prose wants more leading than plain TeX's 12pt, and \tenpoint set it to
+% 14pt above.  Displayed C code is Latin, though, and 14pt spreads it out; give
+% the code parts (\B) a slightly tighter leading of their own.
+\newskip\codebaselineskip \codebaselineskip=12.5pt
+\let\Bnormal=\B
+\def\B{\Bnormal\baselineskip=\codebaselineskip\relax}
+
+% ---- repairing the discretionary breaks cweave puts inside strings ----------
+% Every twenty bytes of a C string cweave inserts "}\)\.{", a discretionary
+% backslash, counting bytes and not characters: a Korean character that straddles
+% the boundary comes out cut in half, and the two halves are no longer valid
+% UTF-8.  (Depending on where cweave then breaks its output line, the marker
+% itself may be split as "}%" + "\)\.{" or as "}\)%" + "\.{".)  Since the damage
+% is at the byte level, the repair has to happen before TeX decodes the line: a
+% process_input_buffer callback removes the marker -- which rejoins the two
+% halves -- but only when it really does sit inside a character, so that ordinary
+% long strings keep their break points.
+\begingroup
+\catcode`\%=12 \catcode`\#=12 \catcode`\_=12 \catcode`\&=12
+\catcode`\^=12 \catcode`\~=12 \catcode`\$=12
+\directlua{
+  local bs = string.char(92)
+  local lb, rb = string.char(123), string.char(125)
+  local mark = rb .. bs .. ")" .. bs .. "." .. lb
+  local markpat = bs .. "%)" .. bs .. "%." .. lb
+  local pending = nil
+  local function contbyte(b) return b and b >= 128 and b < 192 end
+  local function partial(s)
+    for k = 1, 3 do
+      local b = string.byte(s, -k)
+      if not b or b < 128 then return nil end
+      if b >= 192 then
+        local n = 2
+        if b >= 240 then n = 4 elseif b >= 224 then n = 3 end
+        if n > k then return -k end
+        return nil
+      end
+    end
+    return nil
+  end
+  local function join(buf)
+    local out, i = {}, 1
+    while true do
+      local a, b = string.find(buf, mark, i, true)
+      if not a then break end
+      if a > 1 and string.byte(buf, a - 1) >= 128
+         and contbyte(string.byte(buf, b + 1)) then
+        out[#out + 1] = string.sub(buf, i, a - 1)
+      else
+        out[#out + 1] = string.sub(buf, i, b)
+      end
+      i = b + 1
+    end
+    out[#out + 1] = string.sub(buf, i)
+    return table.concat(out)
+  end
+  function cweb_repair_utf8(buf)
+    if pending then
+      local rest = string.match(buf, "^" .. markpat .. "(.*)$")
+        or string.match(buf, "^" .. bs .. "%." .. lb .. "(.*)$")
+      if rest and contbyte(string.byte(rest, 1)) then
+        buf = pending .. rest
+      else
+        buf = pending .. rb .. buf
+      end
+      pending = nil
+    end
+    buf = join(buf)
+    local body = string.match(buf, "^(.*)" .. rb .. bs .. "%)%%$")
+      or string.match(buf, "^(.*)" .. rb .. "%%$")
+    if body then
+      local cut = partial(body)
+      if cut then
+        pending = string.sub(body, cut)
+        buf = string.sub(body, 1, cut - 1) .. "%"
+      end
+    end
+    return buf
+  end
+}
+\endgroup
+\directlua{
+  if luatexbase then
+    luatexbase.add_to_callback("process_input_buffer", cweb_repair_utf8,
+      "cweb utf8 string repair")
+  else
+    callback.register("process_input_buffer", cweb_repair_utf8)
+  end
+}
+
+% ---- Korean wording (cwebman's list of macros to redefine, point 14) --------
+% The cross-reference notes printed under a code definition.  cwebmac's \note
+% takes the wording first and the section numbers second; Korean puts the
+% numbers first and the verb last, so \konote takes the wording in two pieces
+% and sets  <before> <numbers> <after>.  Korean has no plural inflection, so the
+% "section"/"sections" pairs read the same.
+\def\konote#1#2#3.{\Y\noindent{\hangindent2em
+    \baselineskip10pt\smallfont#1\ifacro{\pdfnote#3.}\else#3\fi#2.\par}}
+\def\U{\konote{이 코드는 }{절에서 쓰인다}}
+\def\Us{\konote{이 코드는 }{절에서 쓰인다}}
+\def\A{\konote{이 코드는 }{절에도 정의되어 있다}}
+\def\As{\konote{이 코드는 }{절에도 정의되어 있다}}
+\def\Q{\konote{이 코드는 }{절에서 인용된다}}
+\def\Qs{\konote{이 코드는 }{절에서 인용된다}}
+\def\ch{\konote{변경 파일이 바꾼 절: }{}\let\*=\relax}
+% Between the last two of several section numbers.  Korean would need 와 or 과
+% depending on how the preceding numeral is pronounced, so a comma it is.
+\def\ET{,~}
+\def\ETs{,~}
+% The name CWEAVE gives to the section that holds the preprocessor definitions.
+\def\ATH{{\acrofalse\X\kern-.5em:전처리기 정의\X}}
+% What @l prints in limbo.
+\def\postATL#1 #2 {\bf 글자 \\{\uppercase{\char"#1}}는
+   \tentex "#2"\bf 로 엮인다\egroup\par}
+% The date, and the timestamp \datethis puts before the first section.
+\def\today{{\number\year}년 {\number\month}월 {\number\day}일}
+\def\datefont{\smallfont}
+\def\dateat{\ }
+\def\datethis{\def\startsection{\leftline{\datefont\today\dateat\hours}\bigskip
+  \let\startsection=\stsec\stsec}}
+\def\datecontentspage{\def\botofcontents{\vfill
+   \centerline{\covernote}
+   \bigskip
+   \leftline{\datefont\today\dateat\hours}}}
+% Headings: the list of section names, the table of contents, and its columns.
+\def\namesheading{절 이름 목록}
+\def\outsecname{절 이름 목록} % title of the section-names PDF bookmark
+\def\contentsheading{목차}
+\def\sectionword{절}
+\def\pageword{쪽}
+% The running head until the first starred section.  cwebmac has already put its
+% own \gtitle into the first \mark, so the mark has to be set again.
+\gtitle={\.{CWEB} 출력}
+\mark{\noexpand\nullsec0{\the\gtitle}}
+
+% ---- Korean PDF bookmarks ---------------------------------------------------
+% A PDF outline title must be a UTF-16BE string, so Korean titles are converted
+% by a small Lua helper, cweb_pdfutf16(s), which prints s as the body of a PDF
+% literal string: the byte-order mark followed by each code unit as a pair of
+% octal-escaped bytes (surrogate-paired above the BMP).  cwebmac's sanitizer has
+% already put a backslash in front of the characters that are special inside a
+% plain PDF string; octal escapes make that unnecessary, so the helper drops it.
+%
+% Two cautions about Lua inside \directlua: (1) the TeX-special characters
+% % # _ & ^ ~ $ are made catcode 12 below (% is Lua's modulo operator, not a TeX
+% comment; # is its length operator), and the backslash is produced as
+% string.char(92) so that none appears in the source; and (2) \directlua turns
+% the source's newlines into spaces, so a Lua "--" comment would swallow the
+% rest of the chunk -- hence there are none here.
+\begingroup
+\catcode`\%=12 \catcode`\#=12 \catcode`\_=12 \catcode`\&=12
+\catcode`\^=12 \catcode`\~=12 \catcode`\$=12
+\directlua{
+  local function oct(v)
+    local d1 = math.floor(v / 64); v = v % 64
+    local d2 = math.floor(v / 8); local d3 = v % 8
+    return tostring(d1) .. tostring(d2) .. tostring(d3)
+  end
+  function cweb_pdfutf16(s)
+    local bs = string.char(92)
+    s = string.gsub(s, bs .. "(%p)", "%1")
+    local t = { bs .. oct(254) .. bs .. oct(255) }
+    for _, c in utf8.codes(s) do
+      if c >= 65536 then
+        c = c - 65536
+        local w1 = 55296 + math.floor(c / 1024)
+        local w2 = 56320 + (c % 1024)
+        t[#t + 1] = bs .. oct(math.floor(w1 / 256)) .. bs .. oct(w1 % 256)
+        t[#t + 1] = bs .. oct(math.floor(w2 / 256)) .. bs .. oct(w2 % 256)
+      else
+        t[#t + 1] = bs .. oct(math.floor(c / 256)) .. bs .. oct(c % 256)
+      end
+    end
+    tex.sprint(-2, table.concat(t))
+  end
+}
+\endgroup
+% The sanitized title reaches us with \( \) \[ \] \/ standing for the characters
+% that pdfTeX would have had to escape; make them ordinary again for Lua.  This
+% has to happen before the title is handed to \pdfoutline, whose argument is
+% merely expanded -- a \def inside it would be copied, not obeyed -- so
+% \setbmtitle expands the title into \bmtitle first and \bmk does the rest.
+\def\setbmtitle#1{\begingroup
+  \def\({(}\def\){)}\def\[{[}\def\]{]}\def\/{/}%
+  \xdef\bmtitle{#1}\endgroup}
+\def\bmk{\directlua{cweb_pdfutf16("\luaescapestring{\bmtitle}")}}
+% The bookmark for each starred section, written from the .toc file by \fin.
+\def\writebookmarkline#1#2#3#4#5{\setbmtitle{#5}%
+  \pdfoutline goto num #3 count -\expnumber{chunk#2.#3} {\bmk}}
+% Open the bookmark (outline) pane when the document is first shown.
+\def\startpdf{\pdfcatalog{/PageMode /UseOutlines}}
+
+% ---- \fin and \con, localized ----------------------------------------------
+% These two are cwebmac's own, with the English wording replaced and the
+% bookmark titles passed through \setbmtitle.  cwebman (Appendix C, point 14)
+% names them among the macros a translation has to redefine.
 \def\fin{\par\vfill\eject % this is done when we are ending the index
   \ifpagesaved\null\vfill\eject\fi % output a null index column
   \if L\lr\else\null\vfill\eject\fi % finish the current page
+  \ifpdftex \makebookmarks \fi
   \parfillskip 0pt plus 1fil
-  \def\grouptitle{섹션 목차}
+  \def\grouptitle{\namesheading}
   \let\topsecno=\nullsec
   \message{Section names:}
   \output={\normaloutput\page\lheader\rheader}
   \setpage
-  \def\note##1##2.{\quad{\eightrm\ifacro{\pdfnote##2.}\else{##2}\fi##1.}}
-  \def\Q{\note{번 섹션에서 인용된다}} \let\Qs=\Q
-  \def\U{\note{번 섹션에서 사용된다}} \let\Us=\U
+  \def\note##1##2##3.{\quad{\smallfont##1\ifacro{\pdfnote##3.}%
+    \else{##3}\fi##2.}}
+  \def\Q{\note{}{절에서 인용됨}} % crossref for mention of a section
+  \def\Qs{\note{}{절에서 인용됨}}
+  \def\U{\note{}{절에서 쓰임}} % crossref for use of a section
+  \def\Us{\note{}{절에서 쓰임}}
   \def\I{\par\hangindent 2em}\let\*=*
-  \ifacro \def\outsecname{\bschar376\bschar377\bschar271\bschar310\bschar265\bschar024\bschar000 \bschar272\bschar251\bschar314\bschar050}% 섹션 목차
-    \let\Xpdf\X
-  \ifpdftex
-    \edef\0{\string\0}%
-    \edef\1{\string\1}%
-    \edef\2{\string\2}%
-    \edef\3{\string\3}%
-    \makebookmarks \pdfdest name {NOS} fitb
-    \pdfoutline goto name {NOS} count -\secno {\outsecname}
+  \ifacro \let\Xpdf\X
+  \ifpdftex \pdfdest name {NOS} fith
+    \setbmtitle{\outsecname}%
+    \pdfoutline goto name {NOS} count -\secno {\bmk}
     \def\X##1:##2\X{\Xpdf##1:##2\X \firstsecno##1.%
       {\toksF={}\makeoutlinetoks##2\outlinedone\outlinedone}%
-      \pdfoutline goto num \the\toksA \expandafter{\the\toksE}}
-  \else\ifpdf
-    \special{pdf: outline -1 << /Title (\outsecname)
-      /Dest [ @thispage /FitH @ypos ] >>}
-    \def\X##1:##2\X{\Xpdf##1:##2\X \firstsecno##1.%
-      {\toksF={}\makeoutlinetoks##2\outlinedone\outlinedone}%
-      \special{pdf: outline 0 << /Title (\the\toksE)
-        /A << /S /GoTo /D (\romannumeral\the\toksA) >> >>}}
-  \fi\fi\fi
+      \setbmtitle{\the\toksE}%
+      \pdfoutline goto num \the\toksA {\bmk}}
+  \fi\fi
   \readsections}
 
-% CWEB USER MANUAL의 부록C 14.에 해당하는 모든 매크로를 재정의 
-\def\inote#1#2#3.{\Y\noindent{\hangindent2em%
-  \baselineskip10pt\eightrm#1~\ifacro{\pdfnote#3.}\else#3\fi#2.\par}}
-\def\rnote#1#2.{\Y\noindent{\hangindent2em%
-  \baselineskip10pt\eightrm\ifacro{\pdfnote#2.}\else#2\fi#1.\par}}
-\def\A{\rnote{번 섹션도 살펴보라}} \let\As=\A
-\def\Q{\inote{이 코드는}{번 섹션에서 인용된다}} \let\Qs=\Q
-\def\U{\inote{이 코드는}{번 섹션에서 사용된다}} \let\Us=\U
-\def\ET{,~} \def\ETs{\ET} 
-\def\ATH{{\acrofalse\X\kern-.5em:전처리기 정의들\X}}
-\def\ch{\note{변경 파일에서 변경된 섹션들:}
-  \let\*=\relax}
-\def\today{\number\year 년 \number\month 월 \number\day 일}
-\def\datethis{\def\startsection{\leftline{\sc\today\ \ \hours}\bigskip
-  \let\startsection=\stsec\stsec}}
-\def\datecontentspage{% changed in version 3.66
-  \def\botofcontents{\vfill
-   \centerline{\covernote}
-   \bigskip
-   \leftline{\sc\today\ \hours}}} % timestamps the contents page
-
-% 단순한 한글화로 목차 재정의
 \def\con{\par\vfill\eject % finish the section names
-% \ifodd\pageno\else\titletrue\null\vfill\eject\fi % for duplex printers
   \rightskip 0pt \hyphenpenalty 50 \tolerance 200
   \setpage \output={\normaloutput\page\lheader\rheader}
   \titletrue % prepare to output the table of contents
   \pageno=\contentspagenumber
-  \def\grouptitle{목차}
+  \def\grouptitle{\contentsheading}
   \message{Table of contents:}
   \topofcontents \startpdf
-  \line{\hfil 섹션\hbox to3em{\hss 쪽}\hskip-.3mm}
+  \line{\hfil\sectionword\hbox to3em{\hss\pageword}}
   \let\ZZ=\contentsline
   \readcontents\relax % read the contents info
   \botofcontents \end} % print the contents page(s) and terminate
-
-\ifacro\else\expandafter\endinput\fi % pdf mode에서만...
-% ascii문자는 앞에 zero 붙여 ucs string으로 만든다.
-\def\addF#1{\addtokens\toksF{\bschar000#1}\tokprocessedtrue}
-\def\makeoutlinetoks{\Tnumfalse
-  % BOM(0xfeff)을 outline string 맨 앞에 첨가한다.
-  \addtokens\toksF{\bschar376\bschar377}%
-  % ucs 패키지의 \unichar 재정의; 그룹내이므로 안전.
-  \def\unihangulchar##1{\ucsoltooctal{##1}\makeolnexttok}%
-  \afterassignment\makeolproctok\let\nxt=
-}
-\def\makeolproctok{\tokprocessedfalse
-  \let\next\makeolnexttok % default
-  \ifx\nxt\outlinedone\let\next\outlinedone
-  \else\ifx{\nxt \else\ifx}\nxt \Tnumfalse \instrfalse % skip braces
-  \else\ifx$\nxt % or a $ sign
-  \else\ifx^\nxt \addF^\else\ifx_\nxt \addF_% sanitize ^ and _
-  \else\ifx\nxt\spacechar \addF\space
-  \else\if\noexpand\nxt\relax % we have a control sequence; is it one we know?
-    \ifx\nxt~\addF\space
-    \else\ifx\nxt\onespace\addF\space
-    \else\the\usersanitizer
-    \iftokprocessed\else\makeolproctokctli
-    \iftokprocessed\else\makeolproctokctlii
-    \iftokprocessed\else\makeolproctokctliii % if not recognised, skip it
-    %%%%% skip 하지 않고 한글 처리!!!
-    %\iftokprocessed\else\let\next\nxt\fi
-    \iftokprocessed\else\makeolproctokhangul\fi
-    %%%%%
-    \fi\fi\fi\fi\fi
-   \else  % we don't have a control sequence, it's an ordinary char
-    \ifx/\nxt \addF{\string\/}% quote chars special to PDF with backslash
-    \else\ifx(\nxt \addF{\string\(}\else\ifx)\nxt \addF{\string\)}%
-    \else\ifx[\nxt \addF{\string\[}\else\ifx]\nxt \addF{\string\]}%
-    \else\expandafter\makeolproctokchar\meaning\nxt
-   \fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi
-  \next
-}
-\def\makeolproctokhangul{%
-  % 음, 이렇게 단순무식하게 ifx 검사하는 것이 안전하긴 한데
-  % 더 좋은 방법은 없을까?
-  \ifx^^c2\nxt\let\next\nxt\else
-  \ifx^^c3\nxt\let\next\nxt\else
-  \ifx^^c4\nxt\let\next\nxt\else
-  \ifx^^c5\nxt\let\next\nxt\else
-  \ifx^^c6\nxt\let\next\nxt\else
-  \ifx^^c7\nxt\let\next\nxt\else
-  \ifx^^c8\nxt\let\next\nxt\else
-  \ifx^^c9\nxt\let\next\nxt\else
-  \ifx^^ca\nxt\let\next\nxt\else
-  \ifx^^cb\nxt\let\next\nxt\else
-  \ifx^^cc\nxt\let\next\nxt\else
-  \ifx^^cd\nxt\let\next\nxt\else
-  \ifx^^ce\nxt\let\next\nxt\else
-  \ifx^^cf\nxt\let\next\nxt\else
-  \ifx^^d0\nxt\let\next\nxt\else
-  \ifx^^d1\nxt\let\next\nxt\else
-  \ifx^^d2\nxt\let\next\nxt\else
-  \ifx^^d3\nxt\let\next\nxt\else
-  \ifx^^d4\nxt\let\next\nxt\else
-  \ifx^^d5\nxt\let\next\nxt\else
-  \ifx^^d6\nxt\let\next\nxt\else
-  \ifx^^d7\nxt\let\next\nxt\else
-  \ifx^^d8\nxt\let\next\nxt\else
-  \ifx^^d9\nxt\let\next\nxt\else
-  \ifx^^da\nxt\let\next\nxt\else
-  \ifx^^db\nxt\let\next\nxt\else
-  \ifx^^dc\nxt\let\next\nxt\else
-  \ifx^^dd\nxt\let\next\nxt\else
-  \ifx^^de\nxt\let\next\nxt\else
-  \ifx^^df\nxt\let\next\nxt\else
-  \ifx^^e0\nxt\let\next\nxt\else
-  \ifx^^e1\nxt\let\next\nxt\else
-  \ifx^^e2\nxt\let\next\nxt\else
-  \ifx^^e3\nxt\let\next\nxt\else
-  \ifx^^e4\nxt\let\next\nxt\else
-  \ifx^^e5\nxt\let\next\nxt\else
-  \ifx^^e6\nxt\let\next\nxt\else
-  \ifx^^e7\nxt\let\next\nxt\else
-  \ifx^^e8\nxt\let\next\nxt\else
-  \ifx^^e9\nxt\let\next\nxt\else
-  \ifx^^ea\nxt\let\next\nxt\else
-  \ifx^^eb\nxt\let\next\nxt\else
-  \ifx^^ec\nxt\let\next\nxt\else
-  \ifx^^ed\nxt\let\next\nxt\else
-  \ifx^^ee\nxt\let\next\nxt\else
-  \ifx^^ef\nxt\let\next\nxt\else
-  \ifx^^f0\nxt\let\next\nxt\else
-  \ifx^^f1\nxt\let\next\nxt\else
-  \ifx^^f2\nxt\let\next\nxt\else
-  \ifx^^f3\nxt\let\next\nxt\else
-  \ifx^^f4\nxt\let\next\nxt\else
-  %%% really skip it.
-\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi
-}
-\def\ucsoltooctal#1{%
-  \count@\dimexpr.00006103515625\dimexpr#1sp\relax\relax
-  \edef\ucsoltempa{\number\count@}%
-  \@tempcnta\numexpr#1-'40000*\count@\relax
-  \count@\dimexpr.00048828125\dimexpr\@tempcnta sp\relax\relax
-  \edef\ucsoltempa{\ucsoltempa\number\count@}%
-  \@tempcnta\numexpr\@tempcnta-'4000*\count@\relax
-  \count@\dimexpr.00390625\dimexpr\@tempcnta sp\relax\relax
-  \edef\ucsoltempa{\ucsoltempa\number\count@}%
-  \@tempcnta\numexpr\@tempcnta-'400*\count@\relax
-  \count@\dimexpr.015625\dimexpr\@tempcnta sp\relax\relax
-  \edef\ucsoltempb{\number\count@}%
-  \@tempcnta\numexpr\@tempcnta-'100*\count@\relax
-  \count@\dimexpr.125\dimexpr\@tempcnta sp\relax\relax
-  \edef\ucsoltempb{\ucsoltempb\number\count@}%
-  \edef\ucsoltempb{\ucsoltempb\number\numexpr\@tempcnta-'10*\count@\relax}%
-  \addtokens\toksF{\bschar\ucsoltempa\bschar\ucsoltempb}\tokprocessedtrue
-}
-
-\csname AT(@):catcode\endcsname
-
-\endinput
-
-%%% changes for ko.Tex 2.0, by Karnes.
