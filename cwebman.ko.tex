@@ -29,7 +29,7 @@
 \def\RA{\char'31 } % right arrow
 \def\hang{\hangindent 4em\ignorespaces}
 % A translator's note: a starred footnote, set one size down.
-\def\tnote#1{\footnote{$^*$}{\eightpoint 옮긴이 주: #1}}
+\def\tnote#1{\footnote{$^*$}{\ninepoint 옮긴이 주: #1}}
 % cwebmac's \eightrm and \ninerm are not re-declared here as bare CM fonts, the
 % way the original manual does it: kotexcweb has made them switch a Hangul
 % companion as well, and a \font would throw that away.
@@ -1422,9 +1422,9 @@ $$\postdisplaypenalty=10000
 \.{\\ET}, \.{\\ETs}, \.{\\Q}, \.{\\Qs}, \.{\\U}, \.{\\Us}, \.{\\ch}, \.{\\fin},
 \.{\\con}, \.{\\today}, \.{\\datethis}, \.{\\datecontentspage}를 다시 정의하라.
 \.{CWEAVE} 자체는 고칠 필요가 없다.\tnote{한국어를 위한 그런 다시 정의는 이
-번역본이 쓰고 있는 \.{kotexcweb.tex}에 들어 있다. 그 파일은 위의 매크로들과
+번역본이 쓰고 있는 {\tt kotexcweb.tex}에 들어 있다. 그 파일은 위의 매크로들과
 함께 한글 글꼴과 러닝 헤드, 목차와 절 이름 목록의 제목까지 손보며, luatex으로
-조판한다. \.{CWEB} 파일의 limbo 첫 줄에 \.{\\input} \.{kotexcweb}이라고 적으면
+조판한다. {\tt CWEB} 파일의 limbo 첫 줄에 {\tt \string\input} {\tt kotexcweb}이라고 적으면
 된다.}
 
 \point 15. 매크로 \.{\\noatl}, \.{\\noinx}, \.{\\nosecs}, \.{\\nocon}으로 출력의
