@@ -332,7 +332,7 @@
 \let\latintitlefont=\titlefont
 \sethangulfont\hangultitlefont="Noto Serif CJK KR Medium:%
   language=KOR;script=hang;interhangul=-0.04em;interlatincjk=.125em;%
-  charraise=-0.06em;+compresspunctuations" at 14.5pt
+  charraise=-0.06em;+compresspunctuations" at 13pt
 \def\titlefont{\latintitlefont\hangultitlefont}
 
 \let\latinttitlefont=\ttitlefont
@@ -346,8 +346,15 @@
 % C string, inside \.{...} in a comment, or inside an @d name is typewriter as
 % well, instead of falling back to the serif body face.  The original \. then
 % sets cmtex10 for the Latin part as before.
+% \leavevmode has to stay outside the group.  cwebmac's \. begins with it, so a
+% paragraph that starts with \.{...} starts before any group is opened; if the
+% group came first, \everypar would fire inside it and a hook that clears
+% itself -- \everypar{\hskip-\parindent\everypar{}}, the way cwebman's \section
+% macro unindents the paragraph after a heading -- would be restored when the
+% group closed, and would go on unindenting later paragraphs.
 \let\ttdot=\.
-\def\.#1{{\tentz\ttdot{#1}}}
+\def\.{\leavevmode\kottdot}
+\def\kottdot#1{{\tentz\ttdot{#1}}}
 
 % Running heads.  The group (chapter) title is upper-cased Latin, so Korean
 % beside it wants the sans face (\ninegt, Noto Sans) rather than the serif body
