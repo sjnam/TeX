@@ -14,10 +14,22 @@
 \input cwebmac
 \input kotexcweb
 \acrofalse\pdffalse\pdftexfalse
-\def\page{\box255 } \normalbottom
+% The original manual says \def\page{\box255 } here -- cwebmac's faster output
+% routine, and the one that, as cwebmac's own comment warns, loses plain TeX's
+% footnotes, since it never looks at \footins.  This translation puts a
+% translator's note in a footnote (Appendix C, point 14), so the routine is
+% spelled out here with the footnote insert spliced back in, the way plain
+% TeX's \pagecontents does it.  Handing the job to \pagebody instead would
+% work as well, but its \vbox to\vsize leaves an underfull box on every page
+% that \normalbottom does not fill exactly.
+\def\page{\ifvoid\footins \box255
+  \else \vbox{\unvbox255 \vskip\skip\footins \footnoterule\unvbox\footins}\fi}
+\normalbottom
 \parskip 0pt plus 1pt
 \def\RA{\char'31 } % right arrow
 \def\hang{\hangindent 4em\ignorespaces}
+% A translator's note: a starred footnote, set one size down.
+\def\tnote#1{\footnote{$^*$}{\eightpoint 옮긴이 주: #1}}
 % cwebmac's \eightrm and \ninerm are not re-declared here as bare CM fonts, the
 % way the original manual does it: kotexcweb has made them switch a Hangul
 % companion as well, and a \font would throw that away.
@@ -1408,12 +1420,11 @@ $$\postdisplaypenalty=10000
 \point 14. 영어가 아닌 언어로 출력을 얻으려면 매크로 \.{\\A}, \.{\\As}, \.{\\ATH},
 \.{\\ET}, \.{\\ETs}, \.{\\Q}, \.{\\Qs}, \.{\\U}, \.{\\Us}, \.{\\ch}, \.{\\fin},
 \.{\\con}, \.{\\today}, \.{\\datethis}, \.{\\datecontentspage}를 다시 정의하라.
-\.{CWEAVE} 자체는 고칠 필요가 없다.
-
-\yskip\noindent{\it 옮긴이 주\/}: 한국어를 위한 그런 다시 정의는 이 번역본이
-쓰고 있는 \.{kotexcweb.tex}에 들어 있다. 그 파일은 위의 매크로들과 함께 한글
-글꼴, 러닝 헤드, 목차와 절 이름 목록의 제목까지 손보며, luatex으로 조판한다.
-\.{CWEB} 파일의 limbo 첫 줄에 \.{\\input} \.{kotexcweb}이라고 적으면 된다.
+\.{CWEAVE} 자체는 고칠 필요가 없다.\tnote{한국어를 위한 그런 다시 정의는 이
+번역본이 쓰고 있는 \.{kotexcweb.tex}에 들어 있다. 그 파일은 위의 매크로들과
+함께 한글 글꼴과 러닝 헤드, 목차와 절 이름 목록의 제목까지 손보며, luatex으로
+조판한다. \.{CWEB} 파일의 limbo 첫 줄에 \.{\\input} \.{kotexcweb}이라고 적으면
+된다.}
 
 \point 15. 매크로 \.{\\noatl}, \.{\\noinx}, \.{\\nosecs}, \.{\\nocon}으로 출력의
 일부를 골라 지울 수 있다.
