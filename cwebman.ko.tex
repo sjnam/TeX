@@ -63,7 +63,8 @@
 \belowdisplayskip=.5\belowdisplayskip
 \abovedisplayshortskip=.5\abovedisplayshortskip
 \belowdisplayshortskip=.5\belowdisplayshortskip
-\advance\baselineskip by -.5pt
+% The original squeezes .5pt out of \baselineskip to save pages; Korean needs
+% the leading more than the manual needs the space, so we keep the full 14pt.
 \advance\pageheight by \baselineskip % the manual just got a bit longer
 \advance\fullpageheight by \baselineskip
 \setpage
