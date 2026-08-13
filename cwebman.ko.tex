@@ -73,8 +73,8 @@
         \centerline{\sectionfont\def\.##1{{\twelvett##1}} #1}\nobreak\vskip 6pt
         \everypar{\hskip-\parindent\everypar{}}}
 
-\def\lheader{\mainfont\the\pageno\hfill\sc\runninghead\hfill}
-\def\rheader{\hfill\sc\runninghead\hfill\mainfont\the\pageno}
+\def\lheader{\mainfont\the\pageno\hfill\sc\ninegt\runninghead\hfill}
+\def\rheader{\hfill\sc\ninegt\runninghead\hfill\mainfont\the\pageno}
 \def\runninghead{{\tentt CWEB} 사용 설명서 (버전 3.64)}
 
 % This verbatim mode assumes that ! marks are !! in the text being copied.
@@ -1277,7 +1277,11 @@ ${}\\{strncpy}(\\{change\_buffer},\39\\{buffer},\39\\{limit}-\\{buffer}+%
   \tt \verbatimdefs \input cwebmac \endgroup}
 \printmacs
 \endgroup
-\vfill\eject
+% \titletrue suppresses the running head on the page that follows, the way the
+% openings of appendices A and B do it.  The original leaves it out here, so
+% Appendix C alone starts with a head on its first page; this is that slip
+% mended, and the one place the translation departs from cwebman.tex.
+\vfill\eject\titletrue
 
 \def\runninghead{부록 C --- 조판에 대한 알림}
 \section 부록 C: \.{CWEB} 매크로 쓰는 법.
