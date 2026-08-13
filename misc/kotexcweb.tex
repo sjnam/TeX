@@ -382,9 +382,22 @@
 % Korean prose wants more leading than plain TeX's 12pt, and \tenpoint set it to
 % 14pt above.  Displayed C code is Latin, though, and 14pt spreads it out; give
 % the code parts (\B) a slightly tighter leading of their own.
+% \B opens no group -- cwebmac undoes it by hand in \stsec, "get out of C mode
+% (cf. \B)", which resets \rightskip, \sfcode, \pretolerance and the hyphen
+% penalties.  \baselineskip is not in that list, because the original \B never
+% touched it, so extending \B alone would leave every section after the first
+% code part set at the code leading.  \stsec has to be extended to match; and
+% \startsection, which cwebmac \let to \stsec when it was read, has to be
+% re-\let to see the new one.  Restoring before \stsecnormal, not after, also
+% keeps \stsec's own \raise\baselineskip (the PDF destination) on the prose
+% leading.  \datethis redefines \startsection but ends by calling \stsec, so it
+% picks the fix up too.
 \newskip\codebaselineskip \codebaselineskip=12.5pt
 \let\Bnormal=\B
 \def\B{\Bnormal\baselineskip=\codebaselineskip\relax}
+\let\stsecnormal=\stsec
+\def\stsec{\normalbaselines\stsecnormal}
+\let\startsection=\stsec
 
 % ---- repairing the discretionary breaks cweave puts inside strings ----------
 % Every twenty bytes of a C string cweave inserts "}\)\.{", a discretionary
